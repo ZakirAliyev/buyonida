@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    outline: none;
+    transition: all .4s ease;
+    font-family: "Space Grotesk", sans-serif;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+a, button {
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+.container1 {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
+@media screen and (max-width: 992px) {
+    #userForgotPasswordPage {
+
+        .row {
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .col {
+            display: none;
+        }
+
+        .col1 {
+            .formWrapper {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+        }
+    }
+
+    #userBackLogo {
+
+        .icon {
+            font-size: 40px;
+        }
+
+        .img {
+            img {
+                height: 40px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #userNavbar {
+        ul {
+            display: none;
+        }
+    }
+
+    #userHomeBanner {
+        h2 {
+            font-size: 40px;
+        }
+    }
+
+    #userHomeSectOne {
+        h2 {
+            font-size: 40px;
+        }
+    }
+
+    #userHomeSectThree {
+        padding: 50px 0;
+
+        .container {
+            padding: 40px 16px;
+            border-radius: 0;
+        }
+
+        .col {
+            h2 {
+                font-size: 40px;
+            }
+        }
+
+        .col1 {
+            margin-top: 30px;
+
+            h6 {
+                margin-bottom: 20px;
+            }
+        }
+    }
+
+    #userHomeSectFour {
+        padding: 0 16px;
+
+        .col1 {
+            border-radius: 55px;
+
+            .wrapper {
+                padding: 32px 16px;
+
+                .title {
+                    justify-content: center;
+                }
+            }
+
+            .wrapper1 {
+                border-radius: 55px;
+                padding: 32px 16px;
+            }
+        }
+
+        .col2 {
+            padding: 32px 16px;
+        }
+    }
+}

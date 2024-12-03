@@ -1,0 +1,43 @@
+#homeSectTwo {
+  margin: 100px 0 100px;
+  padding: 0 16px;
+
+  .row, .col0 {
+    margin-top: 30px;
+  }
+
+  h3 {
+    font-size: 40px;
+    font-weight: 400;
+  }
+
+  h4 {
+    max-width: 360px;
+    width: 100%;
+    line-height: 1.5;
+    margin: 15px 0 50px;
+  }
+
+  .success {
+    color: #FFE25E;
+  }
+
+  .link {
+    background-color: #FFE25E;
+    color: black;
+    padding: 10px 30px;
+    font-weight: 700;
+    border-radius: 25px;
+    font-size: 20px;
+  }
+
+  .col1 {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+  }
+
+  img {
+    width: 100px;
+  }
+}

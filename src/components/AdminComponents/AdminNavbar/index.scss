@@ -1,0 +1,71 @@
+#adminNavbar {
+  background-color: black;
+  width: 100%;
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+
+  .imageWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    .first {
+      height: 24px;
+      width: 21px;
+    }
+  }
+
+  .inputWrapper {
+    width: 100%;
+    max-width: 640px;
+
+    input {
+      height: 37px;
+      width: 100%;
+      border-radius: 15px;
+      background-color: #262626;
+      border: 1px solid #373737;
+      color: white;
+      padding: 0 16px;
+    }
+  }
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all .4s ease;
+
+    .icon {
+      color: white;
+      font-size: 16px;
+    }
+
+    .profilePhoto {
+      width: 28px;
+      height: 28px;
+      border-radius: 5px;
+      background-color: #25E82B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 500;
+      color: #333333;
+    }
+
+    p {
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
+}

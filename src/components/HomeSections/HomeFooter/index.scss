@@ -1,0 +1,157 @@
+#homeFooter {
+  background-color: #181818;
+  border-radius: 50px 50px 0 0;
+
+  .footer_content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+
+    .footer_content_top {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 0;
+
+      .footer_content_box {
+        width: 30%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        div {
+          p {
+            letter-spacing: 2px;
+            padding: 0.75rem 0;
+            font-size: 23px;
+            font-weight: 700;
+          }
+
+          ul {
+            li {
+              padding: 0.2rem 0;
+              font-size: 16px;
+              color: gray;
+            }
+          }
+        }
+      }
+    }
+
+    .footer_content_bottom {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem 0;
+
+      p {
+        font-weight: 700;
+        padding: 0.5rem 0;
+      }
+
+      ul {
+        display: flex;
+        gap: 20px;
+
+        li {
+          color: gray;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  #userFooter {
+    .footer_content {
+      .footer_content_top {
+        padding: 2.5rem 0 0;
+        align-items: start;
+
+        .footer_content_box {
+          div {
+            p {
+              letter-spacing: 1.5px;
+              font-size: 22px;
+            }
+
+            ul {
+              li {
+                font-size: 14px;
+              }
+            }
+          }
+        }
+      }
+
+      .footer_content_bottom {
+        padding: 1rem 2rem;
+
+        p {
+          font-size: 15px;
+          padding: 0.5rem 0 0.7rem 0;
+        }
+
+        ul {
+          display: flex;
+          gap: 30px;
+
+          li {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+@media only screen and (max-width: 400px) {
+  #userFooter {
+    .footer_content {
+      .footer_content_top {
+        padding: 1.2rem 0;
+
+        .footer_content_box {
+          div {
+            p {
+              letter-spacing: 1.5px;
+              font-size: 13px;
+            }
+
+            ul {
+              li {
+                font-size: 8px;
+              }
+            }
+          }
+        }
+      }
+
+      .footer_content_bottom {
+        padding: 0.5rem 1.4rem;
+        align-items: start;
+        width: 100%;
+
+        p {
+          font-size: 11px;
+          padding: 0.5rem 0 0.7rem 0;
+        }
+
+        ul {
+          flex-direction: column;
+          gap: 10px;
+
+          li {
+            font-size: 10px;
+          }
+        }
+      }
+    }
+  }
+}

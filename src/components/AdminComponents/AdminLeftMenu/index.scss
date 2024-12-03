@@ -1,0 +1,27 @@
+#adminLeftMenu {
+  background-color: #EBEBEB;
+  width: 290px;
+  height: calc(100vh - 53px);
+  padding: 10px 16px;
+  border-top-left-radius: 15px;
+  margin-top: 53px;
+
+  display: flex;
+  flex-direction: column;
+
+  .link {
+    padding: 4px 10px;
+    margin-top: 5px;
+    border-radius: 10px;
+    font-size: 15px;
+    color: #303030;
+    font-weight: 500;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .selected {
+    background-color: white;
+  }
+}

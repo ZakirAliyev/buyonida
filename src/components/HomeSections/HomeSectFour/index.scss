@@ -1,0 +1,94 @@
+#homeSectFour {
+  padding: 100px 16px;
+
+  .col, .col1 {
+    background-color: #181818;
+    border-radius: 55px;
+
+    .wrapper {
+      padding: 80px 80px 20px;
+      color: white;
+
+      .title {
+        display: flex;
+        gap: 24px;
+
+        .left {
+          .icon {
+            font-size: 32px;
+            color: #FFE25E;
+          }
+        }
+
+        .right {
+
+          h2, h3 {
+            font-family: "Poppins", sans-serif;
+          }
+
+          h2 {
+            font-size: 17px;
+          }
+
+          h3 {
+            font-size: 15px;
+            font-weight: 400;
+            margin-bottom: 30px;
+          }
+        }
+      }
+    }
+
+    .wrapper1 {
+      background-color: #FFE25E;
+      border-radius: 55px;
+      padding: 30px 80px;
+
+      .row1 {
+        justify-content: space-around;
+        text-align: center;
+
+        span, h4, h5, h6 {
+          font-family: "Poppins", sans-serif;
+        }
+
+        span {
+          font-size: 15px;
+        }
+
+        .price {
+          margin: 30px 0;
+
+          h4 {
+            font-size: 21px;
+            font-weight: 700;
+          }
+
+          h5 {
+            font-size: 17px;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+  }
+
+  .col2 {
+    padding: 40px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    .title1 {
+      margin-bottom: 30px;
+      h3 {
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      h4 {
+        font-weight: 400;
+      }
+    }
+  }
+}

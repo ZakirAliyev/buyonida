@@ -1,0 +1,88 @@
+#adminRegisterOptions {
+  background-image: url("https://i.hizliresim.com/rymcyu3.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .wrapper {
+    max-width: 450px;
+    width: calc(100% - 32px);
+    background-color: white;
+    padding: 32px;
+    border-radius: 25px;
+    position: relative;
+
+    .img {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px;
+
+      img {
+        height: 100%;
+      }
+    }
+
+    .title {
+      margin-top: 50px;
+
+      h3 {
+        font-size: 15px;
+        font-weight: 400;
+        font-family: "Poppins", sans-serif;
+      }
+    }
+
+    .options {
+      margin-top: 40px;
+
+      .option {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        background-color: #E6E6E6;
+        padding: 10px 0;
+        margin-top: 15px;
+        border-radius: 10px;
+        font-size: 17px;
+        font-weight: 900;
+
+        img {
+          height: 25px;
+        }
+      }
+    }
+
+    .title1 {
+      font-size: 13px;
+
+      h4, span {
+        font-family: "Poppins", sans-serif;
+        font-weight: 500;
+      }
+
+      .h4 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      h4 {
+        margin-top: 40px;
+      }
+
+      .link {
+        text-decoration: underline;
+        color: #0866FF;
+        margin: 0 5px;
+      }
+    }
+  }
+}

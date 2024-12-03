@@ -1,0 +1,149 @@
+#adminLoginForm {
+  background-image: url("https://i.hizliresim.com/rymcyu3.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .wrapper {
+    max-width: 450px;
+    width: calc(100% - 32px);
+    background-color: white;
+    padding: 32px;
+    border-radius: 25px;
+    position: relative;
+
+    .img {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px;
+
+      img {
+        height: 100%;
+      }
+    }
+
+    .title {
+      margin-top: 50px;
+
+      h3 {
+        font-size: 15px;
+        font-weight: 400;
+        font-family: "Poppins", sans-serif;
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      margin: 15px 0;
+
+      label {
+        font-size: 15px;
+        margin-top: 10px;
+      }
+
+      input {
+        padding: 13px 20px;
+        margin-top: 5px;
+        border-radius: 10px;
+        border: 1px solid #181818;
+      }
+
+      .forgotPass {
+        text-align: end;
+        margin-top: 13px;
+        font-size: 14px;
+        color: #0866FF;
+      }
+
+      button {
+        background: linear-gradient(84deg, rgba(74, 74, 74, 1) 0%, rgba(22, 22, 22, 1) 50%);
+        color: white;
+        margin-top: 20px;
+        font-size: 17px;
+        padding: 10px 20px;
+        font-weight: 700;
+        border: none;
+        border-radius: 10px;
+      }
+    }
+
+    .orWrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 50px 0 10px;
+
+      .line {
+        width: 100%;
+        border: 1px solid #dddddd;
+        margin-top: 3px;
+      }
+    }
+
+    .options {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+
+      .option {
+        background-color: #EDEDED;
+        border-radius: 10px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px 0;
+        cursor: pointer;
+
+        img {
+          height: 30px;
+        }
+      }
+
+      .option1 {
+        padding: 7px 0;
+
+        img {
+          height: 25px;
+        }
+      }
+    }
+
+    nav {
+      font-size: 13px;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 500;
+      margin: 25px 0 30px;
+
+      .link {
+        font-family: "Poppins", sans-serif;
+        color: #0866FF;
+      }
+    }
+
+    .links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0 0;
+      font-size: 13px;
+
+      .link {
+        color: #2F2F2F;
+      }
+    }
+  }
+}

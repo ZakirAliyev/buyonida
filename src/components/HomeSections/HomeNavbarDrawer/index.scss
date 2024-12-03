@@ -1,0 +1,13 @@
+@media screen and (max-width: 600px) {
+  #homeNavbarDrawer {
+    .drawerBtn {
+      display: flex !important;
+      background-color: black;
+      color: white;
+      align-items: center;
+      font-size: 30px;
+      border: 1px solid transparent;
+      padding: 0;
+    }
+  }
+}

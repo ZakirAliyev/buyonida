@@ -1,0 +1,35 @@
+#homeNavbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1A1A1A;
+  padding: 12px 24px;
+
+  img {
+    height: 40px;
+  }
+
+  ul {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    color: white;
+
+    .link {
+      color: white;
+    }
+
+    .logInBtn {
+      text-decoration: underline;
+      color: white;
+    }
+
+    .signUpBtn {
+      padding: 8px 34px;
+      background: linear-gradient(347deg, rgba(234, 220, 155, 1) 0%, rgba(254, 226, 94, 1) 100%);
+      border-radius: 20px;
+      font-weight: 500;
+      color: black;
+    }
+  }
+}
