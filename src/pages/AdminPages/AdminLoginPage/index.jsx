@@ -1,5 +1,5 @@
 import "./index.scss";
-import AdminLoginForm from "../../../components/AdminComponents/AdminLoginForm/index.jsx";
+import AdminLoginForm from "../../../components/AdminComponents/AdminLoginSections/AdminLoginForm/index.jsx";
 
 function AdminLoginPage() {
     return (

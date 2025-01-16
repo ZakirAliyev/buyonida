@@ -5,7 +5,7 @@ import HomeNavbarDrawer from "../HomeNavbarDrawer/index.jsx";
 function HomeNavbar() {
     return (
         <section id={"homeNavbar"}>
-            <img src={"https://upload.wikimedia.org/wikipedia/commons/6/60/Logo-logosu.png"} alt={"Logo"}/>
+            <img src={"/src/assets/sariLogo.png"} alt={"Logo"}/>
             <HomeNavbarDrawer/>
             <ul>
                 <Link to={'/public'} className={"link"}>

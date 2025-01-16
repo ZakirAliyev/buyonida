@@ -6,6 +6,9 @@ import NotFoundPage from "../pages/NotFoundPage/index.jsx";
 import AdminRegisterPage from "../pages/AdminPages/AdminRegisterPage/index.jsx";
 import AdminRegisterViaEmailPage from "../pages/AdminPages/AdminRegisterViaEmailPage/index.jsx";
 import AdminHomePage from "../pages/AdminPages/AdminHomePage/index.jsx";
+import AdminEmailVerificationPage from "../pages/AdminPages/AdminEmailVerificationPage/index.jsx";
+import AdminLoginVerificationPage from "../pages/AdminPages/AdminLoginVerificationPage/index.jsx";
+import AdminChooseMarketPage from "../pages/AdminPages/AdminChooseMarketPage/index.jsx";
 
 export const ROUTES = [
     {
@@ -27,6 +30,18 @@ export const ROUTES = [
             {
                 path: 'reg-via-email',
                 element: <AdminRegisterViaEmailPage/>
+            },
+            {
+                path: 'email-verification',
+                element: <AdminEmailVerificationPage/>
+            },
+            {
+                path: 'login-verification',
+                element: <AdminLoginVerificationPage/>
+            },
+            {
+                path: 'choose-market',
+                element: <AdminChooseMarketPage/>
             },
             {
                 path: 'cp',

@@ -12,6 +12,10 @@
     font-family: "Space Grotesk", sans-serif;
 }
 
+*:hover {
+    cursor: pointer;
+}
+
 body {
     overflow-x: hidden;
 }

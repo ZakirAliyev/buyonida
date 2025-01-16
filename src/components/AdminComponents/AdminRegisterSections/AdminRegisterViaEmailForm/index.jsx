@@ -128,7 +128,7 @@ function AdminRegisterViaEmailForm() {
             <div className="wrapper">
                 <div className="img">
                     <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/6/60/Logo-logosu.png"
+                        src="/src/assets/sariLogo.png"
                         alt="Logo"
                     />
                 </div>

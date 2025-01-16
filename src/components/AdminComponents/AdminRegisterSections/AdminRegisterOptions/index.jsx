@@ -15,7 +15,7 @@ function AdminRegisterOptions() {
         <section id={"adminRegisterOptions"}>
             <div className={"wrapper"}>
                 <div className={"img"}>
-                    <img src={"https://upload.wikimedia.org/wikipedia/commons/6/60/Logo-logosu.png"} alt={"Logo"}/>
+                    <img src={"/src/assets/sariLogo.png"} alt={"Logo"}/>
                 </div>
                 <div className={"title"}>
                     <h2>Create Buyonida account</h2>
