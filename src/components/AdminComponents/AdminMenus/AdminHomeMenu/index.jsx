@@ -2,6 +2,7 @@ import './index.scss'
 import {IoMdSettings} from "react-icons/io";
 import {FaStoreAlt} from "react-icons/fa";
 import {AiFillProduct} from "react-icons/ai";
+import image1 from "/src/assets/bg.jpg"
 
 function AdminHomeMenu() {
     return (
@@ -10,7 +11,7 @@ function AdminHomeMenu() {
             <div className={"wrapper"}>
                 <div>
                     <div className={"storeLogo"}>Store Logo</div>
-                    <img src={"/src/assets/bg.jpg"} alt={"Image"}/>
+                    <img src={image1} alt={"Image"}/>
                 </div>
                 <div className={"inputWrapper"}>
                     <div className={"storeNameWrapper"}>
