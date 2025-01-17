@@ -5,6 +5,10 @@ import {useLocation} from "react-router";
 import AdminHomeMenu from "../../../components/AdminComponents/AdminMenus/AdminHomeMenu/index.jsx";
 import AdminOrdersMenu from "../../../components/AdminComponents/AdminMenus/AdminOrdersMenu/index.jsx";
 import AdminProductsMenu from "../../../components/AdminComponents/AdminMenus/AdminProductsMenu/index.jsx";
+import AdminAnalyticsMenu from "../../../components/AdminComponents/AdminMenus/AdminAnalyticsMenu/index.jsx";
+import AdminCustomizeStoreMenu from "../../../components/AdminComponents/AdminMenus/AdminCustomizeStoreMenu/index.jsx";
+import AdminDiscountsMenu from "../../../components/AdminComponents/AdminMenus/AdminDiscountsMenu/index.jsx";
+import AdminSettingsMenu from "../../../components/AdminComponents/AdminMenus/AdminSettingsMenu/index.jsx";
 
 function AdminHomePage() {
     const url = useLocation();
@@ -22,16 +26,14 @@ function AdminHomePage() {
                             <AdminOrdersMenu/>
                         ) : url.pathname === '/cp/products' ? (
                             <AdminProductsMenu/>
-                        ) : url.pathname === '/cp/customers' ? (
-                            <AdminOrdersMenu/>
-                        ) : url.pathname === '/cp/content' ? (
-                            <AdminOrdersMenu/>
                         ) : url.pathname === '/cp/analytics' ? (
-                            <AdminOrdersMenu/>
-                        ) : url.pathname === '/cp/marketing' ? (
-                            <AdminOrdersMenu/>
+                            <AdminAnalyticsMenu/>
+                        ) : url.pathname === '/cp/customize-store' ? (
+                            <AdminCustomizeStoreMenu/>
                         ) : url.pathname === '/cp/discounts' ? (
-                            <AdminOrdersMenu/>
+                            <AdminDiscountsMenu/>
+                        ) : url.pathname === '/cp/settings' ? (
+                            <AdminSettingsMenu/>
                         ) : null}
                     </div>
                 </div>

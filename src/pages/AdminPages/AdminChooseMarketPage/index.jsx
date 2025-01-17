@@ -5,7 +5,7 @@ import {useState} from "react";
 function AdminChooseMarketPage() {
 
     const [chooseMarket, setChooseMarket] = useState(null);
-    const markets = [1, 2]
+    const markets = [1, 2, 3]
 
     return (
         <section id={"adminChooseMarketPage"}>

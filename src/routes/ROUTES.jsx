@@ -72,7 +72,11 @@ export const ROUTES = [
                 element: <AdminHomePage/>
             },
             {
-                path: 'cp/marketing',
+                path: 'cp/settings',
+                element: <AdminHomePage/>
+            },
+            {
+                path: 'cp/customize-store',
                 element: <AdminHomePage/>
             },
             {
