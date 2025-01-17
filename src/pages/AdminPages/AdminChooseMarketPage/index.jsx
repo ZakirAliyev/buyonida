@@ -1,6 +1,8 @@
 import './index.scss'
 import {Link} from "react-router-dom";
 import {useState} from "react";
+import image1 from "/src/assets/bg.jpg"
+import image2 from "/src/assets/sariLogo.png"
 
 function AdminChooseMarketPage() {
 
@@ -12,7 +14,7 @@ function AdminChooseMarketPage() {
             <div className={"wrapper"}>
                 <div className="img">
                     <img
-                        src="/src/assets/sariLogo.png"
+                        src={image2}
                         alt="Logo"
                     />
                 </div>
@@ -24,7 +26,7 @@ function AdminChooseMarketPage() {
                             key={index}
                             className={`box ${chooseMarket === index ? 'selected' : ''}`}
                         >
-                            <img src={"/src/assets/bg.jpg"} alt={""}/>
+                            <img src={image1} alt={""}/>
                             <div>
                                 <h3>Qaraqan Store</h3>
                                 <p>elvar.agamaliyev.official@gmail.com</p>

@@ -1,5 +1,6 @@
 import './index.scss'
 import {Link, useNavigate} from "react-router-dom";
+import image1 from "/src/assets/sariLogo.png"
 
 function AdminRegisterOptions() {
 
@@ -15,7 +16,7 @@ function AdminRegisterOptions() {
         <section id={"adminRegisterOptions"}>
             <div className={"wrapper"}>
                 <div className={"img"}>
-                    <img src={"/src/assets/sariLogo.png"} alt={"Logo"}/>
+                    <img src={image1} alt={"Logo"}/>
                 </div>
                 <div className={"title"}>
                     <h2>Create Buyonida account</h2>

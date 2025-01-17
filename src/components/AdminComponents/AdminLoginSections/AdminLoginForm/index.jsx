@@ -9,6 +9,7 @@ import {PulseLoader} from "react-spinners";
 import {useState} from "react";
 import * as Yup from "yup";
 import Cookies from 'js-cookie'
+import image1 from "/src/assets/sariLogo.png"
 
 function AdminLoginForm() {
 
@@ -99,7 +100,7 @@ function AdminLoginForm() {
         <section id={"adminLoginForm"}>
             <div className={"wrapper"}>
                 <div className={"img"}>
-                    <img src={"/src/assets/sariLogo.png"} alt={"Logo"}/>
+                    <img src={image1} alt={"Logo"}/>
                 </div>
                 <div className={"title"}>
                     <h2>Log in</h2>

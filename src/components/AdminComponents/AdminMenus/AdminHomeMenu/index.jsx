@@ -3,6 +3,7 @@ import {IoMdSettings} from "react-icons/io";
 import {FaStoreAlt} from "react-icons/fa";
 import {AiFillProduct} from "react-icons/ai";
 import image1 from "/src/assets/bg.jpg"
+import image2 from "/src/assets/miniPhoto.png"
 
 function AdminHomeMenu() {
     return (
@@ -47,7 +48,7 @@ function AdminHomeMenu() {
             </div>
             <div className={"row"}>
                 <div className={"col-4"}>
-                    <img src={"/src/assets/miniPhoto.png"} alt={"Image"}/>
+                    <img src={image2} alt={"Image"}/>
                     <p>How to customise your store in 10 steps</p>
                     <p className={"p"}>
                         In this tutorial you can customise your store
@@ -55,7 +56,7 @@ function AdminHomeMenu() {
                     </p>
                 </div>
                 <div className={"col-4"}>
-                    <img src={"/src/assets/miniPhoto.png"} alt={"Image"}/>
+                    <img src={image2} alt={"Image"}/>
                     <p>How to customise your store in 10 steps</p>
                     <p className={"p"}>
                         In this tutorial you can customise your store
@@ -63,7 +64,7 @@ function AdminHomeMenu() {
                     </p>
                 </div>
                 <div className={"col-4"}>
-                    <img src={"/src/assets/miniPhoto.png"} alt={"Image"}/>
+                    <img src={image2} alt={"Image"}/>
                     <p>How to customise your store in 10 steps</p>
                     <p className={"p"}>
                         In this tutorial you can customise your store
