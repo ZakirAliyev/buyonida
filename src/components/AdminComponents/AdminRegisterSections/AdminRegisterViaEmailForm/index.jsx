@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {useState} from "react";
 import {PulseLoader} from "react-spinners";
 import * as Yup from 'yup';
+import image1 from "/src/assets/sariLogo.png"
 
 function AdminRegisterViaEmailForm() {
     const [postRegister] = usePostRegisterViaEmailMutation();
@@ -128,7 +129,7 @@ function AdminRegisterViaEmailForm() {
             <div className="wrapper">
                 <div className="img">
                     <img
-                        src="/src/assets/sariLogo.png"
+                        src={image1}
                         alt="Logo"
                     />
                 </div>
@@ -221,7 +222,7 @@ function AdminRegisterViaEmailForm() {
                         <span>Password strength</span>: good. You can optionally lengthen
                         it to make it stronger.
                     </h3>
-                    <button type="submit" onClick={()=>handleClick()}>
+                    <button type="submit" onClick={() => handleClick()}>
                         {!isSubmitting && <span>Create Buyonida account</span>}
                         <PulseLoader
                             color={'white'}

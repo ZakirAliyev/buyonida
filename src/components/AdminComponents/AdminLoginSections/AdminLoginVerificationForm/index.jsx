@@ -1,9 +1,10 @@
 import './index.scss';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {IoChevronForward} from 'react-icons/io5';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useState} from "react";
+import image1 from "/src/assets/sariLogo.png"
 
 function AdminLoginVerificationForm() {
     // eslint-disable-next-line no-unused-vars
@@ -40,7 +41,7 @@ function AdminLoginVerificationForm() {
             <div className="wrapper">
                 <div className="img">
                     <img
-                        src="/src/assets/sariLogo.png"
+                        src={image1}
                         alt="Logo"
                     />
                 </div>
