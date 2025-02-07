@@ -1,0 +1,35 @@
+#adminManageAccount {
+  background-color: #ECECEC;
+  margin: 53px 0;
+  padding: 25px 0;
+
+  .wrapper {
+    border-top-right-radius: 30px;
+    border-top-left-radius: 30px;
+    overflow: hidden;
+
+    .nav-item {
+      text-align: center;
+      font-weight: 700;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+
+      .icon {
+        font-size: 22px;
+      }
+    }
+
+    .nav-item-1 {
+      background-color: #2F2F2F;
+      color: white;
+    }
+
+    .nav-item-2 {
+      background-color: #d3d3d3;
+      color: #383838;
+    }
+  }
+}

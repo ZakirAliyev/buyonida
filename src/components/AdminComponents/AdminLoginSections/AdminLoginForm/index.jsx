@@ -2,7 +2,6 @@ import './index.scss'
 import {Link, useNavigate} from "react-router-dom";
 import {IoChevronForwardOutline, IoEyeOffOutline, IoEyeOutline} from "react-icons/io5";
 import {useFormik} from "formik";
-import {usePostLoginMutation} from "../../../../service/userApi.js";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import {PulseLoader} from "react-spinners";
@@ -10,18 +9,19 @@ import {useState} from "react";
 import * as Yup from "yup";
 import Cookies from 'js-cookie'
 import image1 from "/src/assets/sariLogo.png"
+import {usePostLoginOwnerMutation} from "../../../../service/userApi.js";
 
 function AdminLoginForm() {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [postLogin] = usePostLoginMutation()
+    const [postLogin] = usePostLoginOwnerMutation()
     const navigate = useNavigate();
 
     function handleClick() {
         formik.validateForm().then((errors) => {
             if (Object.keys(errors).length !== 0) {
                 const errorMessages = {
-                    userNameOrEmail: 'Username or email is',
+                    email: 'Email is',
                     password: 'Password is',
                 };
 
@@ -44,7 +44,7 @@ function AdminLoginForm() {
     }
 
     const SignupSchema = Yup.object().shape({
-        userNameOrEmail: Yup.string().required('required!'),
+        email: Yup.string().required('required!'),
         password: Yup.string()
             .min(8, 'too short!')
             .max(50, 'too long!')
@@ -53,12 +53,12 @@ function AdminLoginForm() {
 
     const formik = useFormik({
         initialValues: {
-            userNameOrEmail: '',
+            email: '',
             password: '',
         },
         onSubmit: async (values, {resetForm}) => {
             setIsSubmitting(true);
-            const response = await postLogin(values);
+            const response = await postLogin(values).unwrap();
 
             if (response?.error?.data?.statusCode === 400) {
                 toast.error(`${response?.error?.data?.error}`, {
@@ -71,7 +71,7 @@ function AdminLoginForm() {
                     progress: undefined,
                     theme: 'dark',
                 });
-            } else if (response?.data?.token) {
+            } else if (response?.statusCode === 200) {
                 toast.success(`User login successfully!`, {
                     position: 'bottom-right',
                     autoClose: 2500,
@@ -82,13 +82,10 @@ function AdminLoginForm() {
                     progress: undefined,
                     theme: 'dark',
                 });
-                Cookies.set('token', response?.data?.token, {expires: 7});
                 resetForm();
-                setTimeout(() => {
-                    navigate('/home');
-                }, 3000);
+                localStorage.setItem('loginEmail', values.email)
+                navigate('/login-verification');
             }
-
             setIsSubmitting(false);
         },
         validationSchema: SignupSchema
@@ -109,9 +106,9 @@ function AdminLoginForm() {
                 <form onSubmit={formik.handleSubmit}>
                     <label>Username or email</label>
                     <input
-                        name="userNameOrEmail"
+                        name="email"
                         onChange={formik.handleChange}
-                        value={formik.values.userNameOrEmail}
+                        value={formik.values.email}
                     />
                     <label>Password</label>
                     <div style={{

@@ -9,6 +9,7 @@ import AdminHomePage from "../pages/AdminPages/AdminHomePage/index.jsx";
 import AdminEmailVerificationPage from "../pages/AdminPages/AdminEmailVerificationPage/index.jsx";
 import AdminLoginVerificationPage from "../pages/AdminPages/AdminLoginVerificationPage/index.jsx";
 import AdminChooseMarketPage from "../pages/AdminPages/AdminChooseMarketPage/index.jsx";
+import AdminManageAccount from "../pages/AdminPages/AdminManageAccount/index.jsx";
 
 export const ROUTES = [
     {
@@ -82,6 +83,10 @@ export const ROUTES = [
             {
                 path: 'cp/discounts',
                 element: <AdminHomePage/>
+            },
+            {
+                path: 'cp/manage-account',
+                element: <AdminManageAccount/>
             },
             {
                 path: '*',

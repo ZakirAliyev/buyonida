@@ -347,28 +347,6 @@ input::-ms-clear {
         }
     }
 
-    #userHomeSectThree {
-        padding: 50px 0;
-
-        .container {
-            padding: 40px 16px;
-            border-radius: 0;
-        }
-
-        .col {
-            h2 {
-                font-size: 40px;
-            }
-        }
-
-        .col1 {
-            margin-top: 30px;
-
-            h6 {
-                margin-bottom: 20px;
-            }
-        }
-    }
 
     #userHomeSectFour {
         padding: 0 16px;

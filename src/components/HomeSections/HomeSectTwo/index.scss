@@ -29,6 +29,11 @@
     font-weight: 700;
     border-radius: 25px;
     font-size: 20px;
+
+    &:hover {
+      background-color: #1A1A1A;
+      color: white;
+    }
   }
 
   .col1 {
@@ -39,5 +44,11 @@
 
   img {
     width: 100px;
+  }
+
+  @media screen and (max-width: 992px) {
+    h3 {
+      font-size: 35px;
+    }
   }
 }

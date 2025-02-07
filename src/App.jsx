@@ -7,13 +7,9 @@ const routes = createBrowserRouter(ROUTES);
 
 function App() {
 
-    const token = Cookies.get("token");
+    const token = Cookies.get("buyonidaToken");
     if (!token) {
-        Cookies.set("token", "null");
-    }
-    const userId = Cookies.get("userId");
-    if (!userId) {
-        Cookies.set("userId", "null");
+        Cookies.set("buyonidaToken", "null");
     }
 
     return (

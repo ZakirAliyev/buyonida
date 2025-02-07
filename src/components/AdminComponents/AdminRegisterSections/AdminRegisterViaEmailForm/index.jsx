@@ -3,7 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {IoChevronForward, IoEyeOffOutline, IoEyeOutline} from 'react-icons/io5';
 import {Progress} from 'antd';
 import {useFormik} from 'formik';
-import {usePostRegisterViaEmailMutation} from '../../../../service/userApi.js';
+import {usePostRegisterOwnerMutation} from '../../../../service/userApi.js';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useState} from "react";
@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 import image1 from "/src/assets/sariLogo.png"
 
 function AdminRegisterViaEmailForm() {
-    const [postRegister] = usePostRegisterViaEmailMutation();
+    const [postRegister] = usePostRegisterOwnerMutation();
     const [showPassword, setShowPassword] = useState(false);
     const [showPassword1, setShowPassword1] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -115,8 +115,9 @@ function AdminRegisterViaEmailForm() {
                     theme: 'dark',
                 });
                 resetForm()
+                localStorage.setItem('email', values.email)
                 setTimeout(() => {
-                    navigate('/login');
+                    navigate('/email-verification');
                 }, 3000);
             }
             setIsSubmitting(false);

@@ -32,4 +32,14 @@
       color: black;
     }
   }
+
+  @media screen and (max-width: 992px){
+    ul {
+      display: none;
+    }
+
+    img {
+      height: 30px;
+    }
+  }
 }

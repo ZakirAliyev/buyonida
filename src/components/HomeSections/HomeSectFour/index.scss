@@ -81,6 +81,7 @@
 
     .title1 {
       margin-bottom: 30px;
+
       h3 {
         margin-bottom: 10px;
         font-weight: bold;
@@ -89,6 +90,18 @@
       h4 {
         font-weight: 400;
       }
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+    .col, .col1 {
+      .wrapper {
+        padding: 48px 24px;
+      }
+    }
+
+    .col2 {
+      padding: 64px 16px 0 16px;
     }
   }
 }

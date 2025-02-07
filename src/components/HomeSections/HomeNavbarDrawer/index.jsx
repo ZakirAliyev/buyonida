@@ -16,6 +16,7 @@ const HomeNavbarDrawer = () => {
         <section id={"homeNavbarDrawer"}>
             <Button onClick={showDrawer} style={{
                 display: 'none',
+                backgroundColor:'transparent'
             }} className={"drawerBtn"}>
                 <IoMenuOutline/>
             </Button>

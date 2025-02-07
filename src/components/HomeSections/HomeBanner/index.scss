@@ -1,5 +1,5 @@
 #homeBanner {
-  height: calc(100vh - 64px);
+  height: calc(100vh - 56px);
   width: 100%;
   background-color: #FFE25E;
   text-align: center;
@@ -28,6 +28,11 @@
     font-weight: 700;
     border-radius: 25px;
     font-size: 20px;
+
+    &:hover {
+      background-color: #1A1A1A;
+      color: white;
+    }
   }
 
   h6 {
@@ -38,12 +43,26 @@
     max-width: 800px;
     margin: 50px auto 0;
 
+    &:hover {
+      transform: scale(1.03);
+    }
+
     img {
       height: 350px;
       width: 100%;
       object-fit: cover;
       object-position: center;
       border-radius: 50px;
+    }
+  }
+
+  @media screen and (max-width: 992px){
+    h2 {
+      font-size: 35px;
+    }
+
+    h4 {
+      font-size: 16px;
     }
   }
 }
