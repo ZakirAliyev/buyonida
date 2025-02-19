@@ -10,6 +10,13 @@
   left: 0;
   right: 0;
   top: 0;
+  z-index: 900;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+  .imageWrapper {
+    display: flex;
+    align-items: center;
+  }
 
   .inputWrapper {
     width: 100%;

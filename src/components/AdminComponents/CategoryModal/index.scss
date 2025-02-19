@@ -1,0 +1,140 @@
+#categoryModal {
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 900;
+    backdrop-filter: blur(5px);
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  }
+
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 1000px;
+    text-align: center;
+    position: relative;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .modal-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .modal-actions button:first-child {
+    background-color: #ccc;
+  }
+
+  .modal-actions button:last-child {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .row {
+    width: 100%;
+  }
+
+  .inputWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: self-start;
+    width: 100%;
+
+    textarea, input {
+      width: 100%;
+      margin-top: 5px;
+      background-color: #fcfcfc;
+      border: 1px solid #9e9e9e;
+      border-radius: 10px;
+      padding: 0 16px;
+
+      &:focus {
+        border: 1px solid #0095FF;
+      }
+    }
+
+    input {
+      height: 40px;
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      padding: 16px;
+    }
+  }
+
+  .bxbx {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    label {
+      margin-bottom: 5px;
+    }
+
+    .img {
+      width: 50%;
+      aspect-ratio: 1/1;
+      border: 1px dashed gray;
+      background-color: #fcfcfc;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      width: 50%;
+      padding: 6px 0;
+      margin-top: 5px;
+      border: none;
+      border-radius: 7px;
+      font-weight: 700;
+    }
+
+    .button {
+      background-color: #FFBB00;
+    }
+
+    .button1 {
+      background-color: #2F2F2F;
+      color: white;
+    }
+  }
+
+}

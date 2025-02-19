@@ -80,7 +80,7 @@ function AdminLoginVerificationForm() {
                 </div>
                 <div className="title">
                     <h2>Mail adresini təstiqlə</h2>
-                    <h3>{localStorage.getItem('email')} adresinə göndərilən kodu daxil et və hesabını təstiqlə</h3>
+                    <h3>Mail adresinə göndərilən kodu daxil et və hesabını təstiqlə</h3>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="boxWrapper">
@@ -133,7 +133,7 @@ function AdminLoginVerificationForm() {
                                         progress: undefined,
                                         theme: 'dark',
                                     });
-                                    navigate('/cp');
+                                    navigate('/choose-market');
                                 }
                             } catch (error) {
                                 toast.error(`Error`, {

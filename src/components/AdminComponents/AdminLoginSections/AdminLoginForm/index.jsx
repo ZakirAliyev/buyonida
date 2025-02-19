@@ -7,7 +7,6 @@ import 'react-toastify/dist/ReactToastify.css'
 import {PulseLoader} from "react-spinners";
 import {useState} from "react";
 import * as Yup from "yup";
-import Cookies from 'js-cookie'
 import image1 from "/src/assets/sariLogo.png"
 import {usePostLoginOwnerMutation} from "../../../../service/userApi.js";
 

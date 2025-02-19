@@ -1,0 +1,411 @@
+#adminAddProductMenu {
+  margin: -50px 0 0 0;
+  height: calc(100vh - 30px);
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  .error-text {
+    color: red;
+    font-size: 14px;
+    margin-top: 7px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    .icon {
+      margin-top: -2px;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  .lineWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+
+    .arrow {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      border: 1px solid #2F2F2F;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .icon {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .umumi {
+    position: relative;
+
+    .abso {
+      position: relative;
+      z-index: 0;
+      font-weight: 500;
+      top: 85px;
+      width: max-content;
+      right: -667px;
+      background-color: #2F2F2F;
+      color: white;
+      padding: 8px 40px 32px;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      button {
+        padding: 4px 32px;
+        background-color: #FFBB00;
+        color: white;
+        border-radius: 10px;
+        font-size: 18px;
+      }
+    }
+
+    .wrapper {
+      height: 100%;
+      margin-top: 20px;
+      background-color: white;
+      border-radius: 10px;
+      border: 1px solid #d0d0d0;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      padding: 32px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      .dropdown-item11 {
+        cursor: pointer;
+        margin: 16px;
+        padding: 8px 16px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: max-content;
+
+        span {
+          color: #6d6d6d;
+          font-weight: 500;
+        }
+
+        &:hover {
+          background: #f0f0f0;
+        }
+
+        .icon {
+          color: #6d6d6d;
+          border: 1px solid #b1b1b1;
+          border-radius: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      .inventoryWrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 10px 0;
+
+        .checkboxWrapper {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          input[type="checkbox"] {
+            accent-color: #FFBB00;
+            width: 20px;
+            height: 20px;
+          }
+        }
+
+        .input12 {
+          width: 100px;
+          padding: 5px 16px;
+          text-align: center;
+          font-size: 17px;
+          border-radius: 5px;
+          border: 1px solid #c1c1c1;
+        }
+      }
+
+      .bx {
+        margin-top: 30px;
+      }
+
+      h3 {
+        margin-bottom: 30px;
+        font-weight: 500;
+      }
+
+      .plusWrapper {
+        position: relative;
+
+        input {
+          position: absolute;
+        }
+
+        .icon {
+          position: absolute;
+          top: 15px;
+          right: 10px;
+          color: #2F2F2F;
+          font-size: 20px;
+        }
+      }
+
+      .inputWrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-bottom: 20px;
+
+        label {
+          margin-bottom: 5px;
+        }
+
+        input {
+          width: 100%;
+          height: 40px;
+          margin-top: 5px;
+          background-color: #fcfcfc;
+          border: 1px solid #9e9e9e;
+          border-radius: 10px;
+          padding: 0 16px;
+        }
+
+        .errorInput {
+          background-color: #FFE0E0;
+          border: 1px solid #EB5454;
+        }
+
+
+        .boxWrapper {
+          display: flex;
+
+          .bigBox {
+            height: 208px;
+            width: 208px;
+            border: 1px dashed gray;
+            background-color: #fcfcfc;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+          }
+
+          .lBoxWrapper {
+            padding: 0 0 0 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            .littleBox {
+              height: 100px;
+              width: 100px;
+              border: 1px dashed gray;
+              background-color: #fcfcfc;
+              font-size: 15px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 10px;
+            }
+          }
+        }
+      }
+    }
+
+    .codeEditor {
+      background-color: #fcfcfc;
+    }
+
+    .ql-editor {
+      min-height: 200px !important;
+      overflow: hidden;
+      overflow-y: auto;
+    }
+
+    .dropdown {
+      position: relative;
+      width: 100%;
+      user-select: none;
+
+      .dropdown-header {
+        padding: 10px 15px;
+        background: #fcfcfc;
+        border: 1px solid #9e9e9e;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .dropdown-list {
+        position: absolute;
+        width: 100%;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        margin-bottom: 5px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px -4px 6px;
+        z-index: 100;
+        top: auto;
+        bottom: 100%;
+        opacity: 0; /* Initially hidden */
+        height: 0; /* Initially collapsed */
+        overflow: hidden; /* Prevents content from overflowing */
+        transition: opacity .4s ease, height .4s ease; /* Smooth transition for opacity and height */
+
+        &.open { /* This class will trigger the open state */
+          opacity: 1;
+          height: auto; /* Automatically adjust the height */
+        }
+
+        &.close { /* This class will trigger the open state */
+          opacity: 0;
+          pointer-events: none;
+          cursor: default;
+          height: auto; /* Automatically adjust the height */
+        }
+
+        .line {
+          height: 1px;
+          background-color: #ddd;
+          width: 100%;
+        }
+
+        .icon {
+          color: #6d6d6d;
+          border: 1px solid #b1b1b1;
+          border-radius: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      .dropdown-item {
+        padding: 10px 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        span {
+          color: #6d6d6d;
+          font-weight: 500;
+        }
+      }
+
+      .dropdown-item:hover {
+        background: #f0f0f0;
+      }
+    }
+
+  }
+
+  .priceBox {
+    padding: 0;
+  }
+
+  .priceBox1 {
+    padding-right: 8px;
+  }
+
+  .priceBox2 {
+    padding-left: 8px;
+  }
+
+  .variant-section {
+    padding: 20px 32px;
+    margin-top: 40px;
+  }
+
+  .dropdown-item11 {
+    cursor: pointer;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: max-content;
+    border-radius: 10px;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+
+    .icon {
+      color: #6d6d6d;
+      border: 1px solid #b1b1b1;
+      border-radius: 5px;
+      padding: 5px;
+    }
+  }
+
+  .optionAdder {
+    margin-top: 16px;
+    padding: 16px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+
+    .dndWrapper {
+      background-color: #fff;
+      padding: 16px;
+      border-radius: 10px;
+
+      .optionWrapper {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 10px 0;
+
+        .deleteBtn {
+          background-color: #E00000;
+          color: white;
+          padding: 5px 12px;
+          border-radius: 5px;
+        }
+      }
+
+      .addOptionBtn {
+        background-color: #007BFF;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+
+      .deleteAllBtn {
+        background-color: #E00000;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  .submitButton {
+    background-color: #FFBB00;
+    color: white;
+    border: none;
+    padding: 5px 20px;
+    border-radius: 10px;
+  }
+}

@@ -5,7 +5,6 @@
   padding: 10px 16px;
   border-top-left-radius: 15px;
   margin-top: 53px;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -13,6 +12,7 @@
   .link1 {
     background-color: #eaeaea;
   }
+
   .link {
     padding: 8px 16px;
     margin-top: 5px;
@@ -23,13 +23,50 @@
     display: flex;
     gap: 10px;
     align-items: center;
+    cursor: pointer;
 
     .icon {
       font-size: 16px;
     }
 
+    &:hover {
+      background-color: white;
+    }
+
     &.selected {
       background-color: #FFBB00;
+    }
+  }
+
+  .wrrara {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    .firt {
+      height: 50px;
+      width: 2px;
+      border: 1px;
+      background-color: #bababa;
+      border-radius: 10px;
+      margin: 5px 0 0 0;
+    }
+    .submenu {
+      display: flex;
+      flex-direction: column;
+      margin: 5px 0 0 0;
+
+      .sublink {
+        padding: 8px 16px;
+        color: #707070;
+        text-decoration: none;
+        font-weight: 500;
+
+        &:hover {
+          color: #303030;
+        }
+      }
     }
   }
 }

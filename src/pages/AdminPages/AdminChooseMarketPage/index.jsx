@@ -1,5 +1,5 @@
 import './index.scss'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import image1 from "/src/assets/bg.jpg"
 import image2 from "/src/assets/sariLogo.png"
@@ -8,6 +8,8 @@ function AdminChooseMarketPage() {
 
     const [chooseMarket, setChooseMarket] = useState(null);
     const markets = [1, 2, 3]
+
+    const navigate = useNavigate()
 
     return (
         <section id={"adminChooseMarketPage"}>
@@ -51,7 +53,10 @@ function AdminChooseMarketPage() {
                     )}
                 </div>
                 <form>
-                    <button>Daxil ol</button>
+                    <button onClick={() => {
+                        navigate('/cp')
+                    }}>Daxil ol
+                    </button>
                 </form>
                 <div className="links">
                     <Link to="/public" className="link">

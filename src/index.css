@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
+
 * {
     margin: 0;
     padding: 0;
@@ -8,7 +9,6 @@
     text-decoration: none;
     list-style: none;
     outline: none;
-    transition: all .4s ease;
     font-family: "Space Grotesk", sans-serif;
 }
 
@@ -372,4 +372,9 @@ input::-ms-clear {
             padding: 32px 16px;
         }
     }
+}
+
+.iconPlus {
+    border: 1px solid gray;
+    border-radius: 3px;
 }

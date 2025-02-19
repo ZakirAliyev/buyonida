@@ -3,9 +3,17 @@ import App from './App.jsx'
 import './index.css'
 import {Provider} from "react-redux";
 import {store} from "./service/store.js";
+import '@mantine/core/styles.css';
+
+import {MantineProvider} from '@mantine/core';
+import {DndContext} from '@dnd-kit/core';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <Provider store={store}>
-        <App/>
-    </Provider>
+    <DndContext>
+        <MantineProvider>
+            <Provider store={store}>
+                <App/>
+            </Provider>
+        </MantineProvider>
+    </DndContext>
 )

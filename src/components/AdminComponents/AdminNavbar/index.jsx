@@ -5,6 +5,8 @@ import image2 from "/src/assets/miniPhoto.png";
 import {IoStorefrontOutline} from "react-icons/io5";
 import {useState, useEffect, useRef} from "react";
 import {useNavigate} from "react-router-dom";
+import {useLocation} from "react-router";
+import {FiLogOut} from "react-icons/fi";
 
 function AdminNavbar() {
     const [layerOpen, setLayerOpen] = useState(false);
@@ -15,6 +17,9 @@ function AdminNavbar() {
             setLayerOpen(false);
         }
     };
+
+    const location = useLocation();
+    console.log(location?.pathname);
 
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
@@ -30,7 +35,9 @@ function AdminNavbar() {
             <div className={"imageWrapper"}>
                 <img
                     src={image1}
-                    alt={"Image"} className={"first"}/>
+                    alt={"Image"} className={"first"} onClick={() => {
+                    navigate('/cp')
+                }}/>
             </div>
             <div className={"inputWrapper"}>
                 <input placeholder={"Search"}/>
@@ -53,43 +60,77 @@ function AdminNavbar() {
                 ref={layerRef}
                 aria-hidden={!layerOpen}
             >
-                <div className={"wrapper"}>
-                    <div className={"box"}>
-                        <img src={image2} alt={"Image"}/>
-                        <span>Store Name</span>
-                    </div>
-                    <div className={"box"} onClick={() => {
-                        navigate('/choose-market')
-                    }}>
-                        <IoStorefrontOutline className={"icon"}/>
-                        <span>All Stores</span>
-                    </div>
-                </div>
-                <div className={"line"}></div>
-                <div className={"wrapper"}>
-                    <div className={"box"}>
-                        <span>Help Center</span>
-                    </div>
-                    <div className={"box"}>
-                        <span>Tutorials</span>
-                    </div>
-                    <div className={"box"}>
-                        <span>Get help to build</span>
-                    </div>
-                </div>
-                <div className={"line"}></div>
-                <div className={"wrapper"}>
-                    <div className={"box box1"}>
-                        <span>Name Surname</span>
-                        <div className={"mail"}>mailadress@gmail.com</div>
-                    </div>
-                    <div className={"box"}>
-                        <span>Manage account</span>
-                    </div>
-                    <div className={"box logOut"}>
-                        <span>Log out</span>
-                    </div>
-                </div>
+                {location?.pathname !== '/cp/manage-account' ? (
+                    <>
+                        <div className={"wrapper"}>
+                            <div className={"box"}>
+                                <img src={image2} alt={"Image"}/>
+                                <span>Store Name</span>
+                            </div>
+                            <div className={"box"} onClick={() => {
+                                navigate('/choose-market')
+                            }}>
+                                <IoStorefrontOutline className={"icon"}/>
+                                <span>All Stores</span>
+                            </div>
+                        </div>
+                        <div className={"line"}></div>
+                        <div className={"wrapper"}>
+                            <div className={"box"}>
+                                <span>Help Center</span>
+                            </div>
+                            <div className={"box"}>
+                                <span>Tutorials</span>
+                            </div>
+                            <div className={"box"}>
+                                <span>Get help to build</span>
+                            </div>
+                        </div>
+                        <div className={"line"}></div>
+                        <div className={"wrapper"}>
+                            <div className={"box box1"}>
+                                <span>Name Surname</span>
+                                <div className={"mail"}>mailadress@gmail.com</div>
+                            </div>
+                            <div className={"box"} onClick={() => {
+                                navigate('/cp/manage-account')
+                            }}>
+                                <span>Manage account</span>
+                            </div>
+                            <div className={"box logOut"}>
+                                <span>Log out</span>
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div className={"wrapper"}>
+                            <div className={"box logOut"} style={{
+                                justifyContent: 'space-between'
+                            }}>
+                                <span style={{
+                                    fontWeight: '500'
+                                }}>Log out</span>
+                                <FiLogOut style={{
+                                    rotate: '180deg',
+                                    fontWeight: '500'
+                                }}/>
+                            </div>
+                        </div>
+                        <div className={"line"}></div>
+                        <div className={"wrapper"}>
+                            <div className={"box"}>
+                                <span>Help Center</span>
+                            </div>
+                            <div className={"box"}>
+                                <span>Tutorials</span>
+                            </div>
+                            <div className={"box"}>
+                                <span>Get help to build</span>
+                            </div>
+                        </div>
+                    </>
+                )}
             </div>
         </section>
     );

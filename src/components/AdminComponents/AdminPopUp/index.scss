@@ -1,0 +1,60 @@
+#adminPopUp {
+  width: 400px;
+  height: 40px;
+  color: white;
+  margin-bottom: 80px;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 999;
+
+  .wrapper1 {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: white;
+    animation: fadeIn 0.5s ease-in-out;
+
+    .popUp {
+      padding: 8px 16px;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .popUp1 {
+      padding: 8px 16px;
+      border-radius: 10px;
+      color: black;
+    }
+  }
+
+  // Açılma animasyonu
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .fadeOut {
+    animation: fadeOut 0.5s ease-in-out forwards;
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+}

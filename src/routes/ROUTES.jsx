@@ -10,6 +10,9 @@ import AdminEmailVerificationPage from "../pages/AdminPages/AdminEmailVerificati
 import AdminLoginVerificationPage from "../pages/AdminPages/AdminLoginVerificationPage/index.jsx";
 import AdminChooseMarketPage from "../pages/AdminPages/AdminChooseMarketPage/index.jsx";
 import AdminManageAccount from "../pages/AdminPages/AdminManageAccount/index.jsx";
+import AdminForgotPassPage from "../pages/AdminPages/AdminForgotPassPage/index.jsx";
+import AdminReEnterPassPage from "../pages/AdminPages/AdminReEnterPassPage/index.jsx";
+import AdminSuccessPage from "../pages/AdminPages/AdminSuccessPage/index.jsx";
 
 export const ROUTES = [
     {
@@ -43,6 +46,18 @@ export const ROUTES = [
             {
                 path: 'choose-market',
                 element: <AdminChooseMarketPage/>
+            },
+            {
+                path: 'forgot-pass',
+                element: <AdminForgotPassPage/>
+            },
+            {
+                path: 're-enter-pass',
+                element: <AdminReEnterPassPage/>
+            },
+            {
+                path: 'success-page',
+                element: <AdminSuccessPage/>
             },
             {
                 path: 'cp',
@@ -85,8 +100,16 @@ export const ROUTES = [
                 element: <AdminHomePage/>
             },
             {
+                path: 'cp/collections',
+                element: <AdminHomePage/>
+            },
+            {
                 path: 'cp/manage-account',
                 element: <AdminManageAccount/>
+            },
+            {
+                path: 'cp/add-product',
+                element: <AdminHomePage/>
             },
             {
                 path: '*',

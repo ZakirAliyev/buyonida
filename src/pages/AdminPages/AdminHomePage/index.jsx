@@ -9,6 +9,8 @@ import AdminAnalyticsMenu from "../../../components/AdminComponents/AdminMenus/A
 import AdminCustomizeStoreMenu from "../../../components/AdminComponents/AdminMenus/AdminCustomizeStoreMenu/index.jsx";
 import AdminDiscountsMenu from "../../../components/AdminComponents/AdminMenus/AdminDiscountsMenu/index.jsx";
 import AdminSettingsMenu from "../../../components/AdminComponents/AdminMenus/AdminSettingsMenu/index.jsx";
+import AdminAddProductMenu from "../../../components/AdminComponents/AdminMenus/AdminAddProductMenu/index.jsx";
+import AdminCollectionsMenu from "../../../components/AdminComponents/AdminMenus/AdminCollectionsMenu/index.jsx";
 
 function AdminHomePage() {
     const url = useLocation();
@@ -34,6 +36,10 @@ function AdminHomePage() {
                             <AdminDiscountsMenu/>
                         ) : url.pathname === '/cp/settings' ? (
                             <AdminSettingsMenu/>
+                        ) : url.pathname === '/cp/add-product' ? (
+                            <AdminAddProductMenu/>
+                        ) : url.pathname === '/cp/collections' ? (
+                            <AdminCollectionsMenu/>
                         ) : null}
                     </div>
                 </div>
