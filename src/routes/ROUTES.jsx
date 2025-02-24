@@ -13,6 +13,9 @@ import AdminManageAccount from "../pages/AdminPages/AdminManageAccount/index.jsx
 import AdminForgotPassPage from "../pages/AdminPages/AdminForgotPassPage/index.jsx";
 import AdminReEnterPassPage from "../pages/AdminPages/AdminReEnterPassPage/index.jsx";
 import AdminSuccessPage from "../pages/AdminPages/AdminSuccessPage/index.jsx";
+import AdminAddCollectionMenu from "../components/AdminComponents/AdminMenus/AdminAddCollectionMenu/index.jsx";
+import AdminCreateMaketPage from "../pages/AdminPages/AdminCreateMaketPage/index.jsx";
+import AdminCreateMaketFinishPage from "../pages/AdminPages/AdminCreateMaketFinishPage/index.jsx";
 
 export const ROUTES = [
     {
@@ -60,6 +63,14 @@ export const ROUTES = [
                 element: <AdminSuccessPage/>
             },
             {
+                path: 'create-market',
+                element: <AdminCreateMaketPage/>
+            },
+            {
+                path: 'create-market-finish',
+                element: <AdminCreateMaketFinishPage/>
+            },
+            {
                 path: 'cp',
                 element: <Navigate to="/cp/home" replace/>
             },
@@ -101,6 +112,10 @@ export const ROUTES = [
             },
             {
                 path: 'cp/collections',
+                element: <AdminHomePage/>
+            },
+            {
+                path: 'cp/add-collection',
                 element: <AdminHomePage/>
             },
             {

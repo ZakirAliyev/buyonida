@@ -68,3 +68,22 @@
     margin-top: 20px;
   }
 }
+
+.save {
+  background-color: #FFBB00;
+  color: black;
+  font-weight: 500;
+  padding: 8px 0;
+  font-size: 18px;
+  margin-top: 20px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  transition: all .4s ease;
+  margin-bottom: 100px;
+
+  &:hover {
+    background-color: #ffc41a;
+    color: white;
+  }
+}

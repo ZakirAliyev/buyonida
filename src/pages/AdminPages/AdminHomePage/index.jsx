@@ -11,6 +11,7 @@ import AdminDiscountsMenu from "../../../components/AdminComponents/AdminMenus/A
 import AdminSettingsMenu from "../../../components/AdminComponents/AdminMenus/AdminSettingsMenu/index.jsx";
 import AdminAddProductMenu from "../../../components/AdminComponents/AdminMenus/AdminAddProductMenu/index.jsx";
 import AdminCollectionsMenu from "../../../components/AdminComponents/AdminMenus/AdminCollectionsMenu/index.jsx";
+import AdminAddCollectionMenu from "../../../components/AdminComponents/AdminMenus/AdminAddCollectionMenu/index.jsx";
 
 function AdminHomePage() {
     const url = useLocation();
@@ -40,6 +41,8 @@ function AdminHomePage() {
                             <AdminAddProductMenu/>
                         ) : url.pathname === '/cp/collections' ? (
                             <AdminCollectionsMenu/>
+                        ) : url.pathname === '/cp/add-collection' ? (
+                            <AdminAddCollectionMenu/>
                         ) : null}
                     </div>
                 </div>
