@@ -3,24 +3,24 @@ import "react-quill/dist/quill.snow.css";
 import image1 from "/src/assets/miniPhoto.png"
 import {useNavigate} from "react-router-dom";
 
-function AdminCollectionsMenu() {
+function AdminCategoriesMenu() {
 
     const navigate = useNavigate()
 
     return (
-        <section id="adminCollectionsMenu">
+        <section id="adminCategoriesMenu">
             <div className={"textWrapper"}>
-                <h2>Collections</h2>
+                <h2>Categories</h2>
                 <button onClick={() => {
-                    navigate('/cp/add-collection')
-                }}>Create collection
+                    navigate('/cp/add-category')
+                }}>Create category
                 </button>
             </div>
             <table>
                 <thead>
                 <tr className={"first"}>
                     <th>
-                        <button>All collections</button>
+                        <button>All categories</button>
                     </th>
                 </tr>
                 <tr className={"bgbg"}>
@@ -38,7 +38,7 @@ function AdminCollectionsMenu() {
                     </td>
                     <td>
                         <img className={"image"} src={image1} alt={"Image"}/>
-                        Default collection
+                        Default category
                     </td>
                     <td>5</td>
                 </tr>
@@ -48,4 +48,4 @@ function AdminCollectionsMenu() {
     );
 }
 
-export default AdminCollectionsMenu;
+export default AdminCategoriesMenu;

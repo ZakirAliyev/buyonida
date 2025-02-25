@@ -8,11 +8,11 @@ import CategoryModal from "../../CategoryModal/index.jsx";
 import {AiOutlineExclamationCircle} from "react-icons/ai";
 import {Modal} from "antd";
 import image1 from "../../../../assets/miniPhoto.png";
+import image2 from "../../../../assets/order.png";
 import {RxCross2} from "react-icons/rx";
 
 import {message, Upload} from 'antd';
-import AdminCollectionAddProduct from "../../AdminCollectionAddProduct/index.jsx";
-import image2 from "../../../../assets/order.png";
+import AdminCategoryAddProduct from "../../AdminCategoryAddProduct/index.jsx";
 
 const {Dragger} = Upload;
 const props = {
@@ -35,7 +35,7 @@ const props = {
     },
 };
 
-function AdminAddCollectionMenu() {
+function AdminAddCategoryMenu() {
     const navigate = useNavigate();
     const [selectedCategory, setSelectedCategory] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -80,17 +80,17 @@ function AdminAddCollectionMenu() {
     const arr = new Array(0).fill(0)
 
     return (
-        <section id="adminAddProductMenu">
+        <section id="adminAddCategoryMenu">
             <div className={"umumi"}>
                 <div className={"abso"}>
-                    <span>Collection status</span>
+                    <span>Category status</span>
                     <button>Active</button>
                 </div>
                 <div className="lineWrapper">
                     <div className="arrow" onClick={() => navigate(-1)}>
                         <FiArrowLeft className="icon"/>
                     </div>
-                    <h1>Create collection</h1>
+                    <h1>Create category</h1>
                 </div>
                 <div className="wrapper">
                     <div className="inputWrapper">
@@ -98,7 +98,7 @@ function AdminAddCollectionMenu() {
                         <input
                             id="productTitle"
                             name="title"
-                            placeholder="Enter product title"
+                            placeholder="Enter category title"
                             value={title}
                             onChange={handleTitleChange}
                             className={errors.title ? "errorInput" : ""}
@@ -131,7 +131,7 @@ function AdminAddCollectionMenu() {
                             <div className={"textWrapper"} style={{
                                 padding: '32px 32px 0 32px'
                             }}>
-                                <h4>Collections</h4>
+                                <h4>Products</h4>
                                 <div className={"inputWrapper1"}>
                                     <input placeholder={"Search..."}/>
                                     <button onClick={handleBigBoxClick}>Axtar</button>
@@ -194,7 +194,7 @@ function AdminAddCollectionMenu() {
                             <div className={"textWrapper"} style={{
                                 padding: '32px 32px 0 32px'
                             }}>
-                                <h4>Collection image</h4>
+                                <h4>Category image</h4>
                             </div>
                             <div className={"line"}></div>
                             <div className={"textWrapper"}>
@@ -230,7 +230,7 @@ function AdminAddCollectionMenu() {
                     });
                 }}
             >
-                <AdminCollectionAddProduct/>
+                <AdminCategoryAddProduct/>
             </Modal>
             <CategoryModal
                 isOpen={isModalOpen}
@@ -241,4 +241,4 @@ function AdminAddCollectionMenu() {
     );
 }
 
-export default AdminAddCollectionMenu;
+export default AdminAddCategoryMenu;

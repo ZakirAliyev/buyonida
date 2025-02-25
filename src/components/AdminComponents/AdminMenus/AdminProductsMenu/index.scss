@@ -5,6 +5,20 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 
+  .status {
+    background-color: #80FF93;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 1px 10px;
+    gap: 5px;
+
+    .dot {
+      font-size: 10px;
+    }
+  }
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -64,6 +78,58 @@
       &:hover {
         transform: scale(1.1);
       }
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 15px;
+    margin-top: 25px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+    .image {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-right: 40px;
+    }
+
+    .bgbg {
+      background-color: #EBEBEB;
+      border-left: 1px solid white;
+      border-right: 1px solid white;
+    }
+
+    tr {
+      display: flex;
+      align-items: center;
+      border-top: 1px solid #D0D0D0;
+      padding: 12px 16px;
+    }
+
+    th, td, tr {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+    }
+
+    .checkboxWrapper {
+      width: 100px;
+    }
+
+    button {
+      background-color: #FFBB00;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 5px;
+    }
+
+    .first {
+      border: none;
     }
   }
 }

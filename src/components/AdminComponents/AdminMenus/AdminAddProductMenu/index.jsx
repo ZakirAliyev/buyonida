@@ -102,7 +102,6 @@ function AdminAddProductMenu() {
         setIsBigBoxModalOpen(true);
     };
 
-    // Modal'ı kapatacak fonksiyon
     const handleBigBoxModalClose = () => {
         setIsBigBoxModalOpen(false);
     };

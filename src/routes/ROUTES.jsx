@@ -119,6 +119,14 @@ export const ROUTES = [
                 element: <AdminHomePage/>
             },
             {
+                path: 'cp/categories',
+                element: <AdminHomePage/>
+            },
+            {
+                path: 'cp/add-category',
+                element: <AdminHomePage/>
+            },
+            {
                 path: 'cp/manage-account',
                 element: <AdminManageAccount/>
             },

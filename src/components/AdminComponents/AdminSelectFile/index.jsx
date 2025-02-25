@@ -1,5 +1,4 @@
 import './index.scss'
-import {InboxOutlined} from '@ant-design/icons';
 import {message, Upload} from 'antd';
 import {BsSortUp} from "react-icons/bs";
 
