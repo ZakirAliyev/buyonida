@@ -57,10 +57,9 @@ function AdminLoginForm() {
         },
         onSubmit: async (values, {resetForm}) => {
             setIsSubmitting(true);
-            const response = await postLogin(values).unwrap();
-
-            if (response?.error?.data?.statusCode === 400) {
-                toast.error(`${response?.error?.data?.error}`, {
+            try {
+                const response = await postLogin(values).unwrap();
+                toast.success(`${response?.message}`, {
                     position: 'bottom-right',
                     autoClose: 2500,
                     hideProgressBar: false,
@@ -69,22 +68,24 @@ function AdminLoginForm() {
                     draggable: true,
                     progress: undefined,
                     theme: 'dark',
-                });
-            } else if (response?.statusCode === 200) {
-                toast.success(`User login successfully!`, {
-                    position: 'bottom-right',
-                    autoClose: 2500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'dark',
+                    onClose: () => navigate('/login-verification') // Toast bitdikdən sonra yönləndir
                 });
                 resetForm();
-                localStorage.setItem('loginEmail', values.email)
-                navigate('/login-verification');
+                localStorage.setItem('loginEmail', values.email);
+            } catch (e) {
+                toast.error(`${e?.data?.message}`, {
+                    position: 'bottom-right',
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark',
+                });
             }
+
+
             setIsSubmitting(false);
         },
         validationSchema: SignupSchema

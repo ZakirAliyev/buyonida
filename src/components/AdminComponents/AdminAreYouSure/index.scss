@@ -1,0 +1,35 @@
+#adminAreYouSure {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  z-index: 500;
+
+  h2 {
+    text-align: center;
+    padding: 48px 0 16px;
+    border-radius: 20px;
+  }
+
+  .ending {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 10px;
+    padding-bottom: 25px;
+
+    button {
+      background-color: #FF2F2F;
+      padding: 4px 16px;
+      border: none;
+      border-radius: 5px;
+      color: white;
+    }
+
+    .btnbtntb {
+      background-color: white;
+      border: 1px solid gray;
+      color: black;
+    }
+  }
+}

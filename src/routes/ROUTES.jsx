@@ -83,6 +83,10 @@ export const ROUTES = [
                 element: <AdminHomePage/>
             },
             {
+                path: 'cp/order-details',
+                element: <AdminHomePage/>
+            },
+            {
                 path: 'cp/products',
                 element: <AdminHomePage/>
             },
@@ -119,6 +123,10 @@ export const ROUTES = [
                 element: <AdminHomePage/>
             },
             {
+                path: 'cp/edit-collection',
+                element: <AdminHomePage/>
+            },
+            {
                 path: 'cp/categories',
                 element: <AdminHomePage/>
             },
@@ -127,11 +135,20 @@ export const ROUTES = [
                 element: <AdminHomePage/>
             },
             {
+                path: 'cp/edit-category/:marketId/:id',
+                element: <AdminHomePage/>
+            },
+            {
                 path: 'cp/manage-account',
                 element: <AdminManageAccount/>
             },
             {
                 path: 'cp/add-product',
+                element: <AdminHomePage/>
+            },
+
+            {
+                path: 'cp/edit-product/:marketId/:id',
                 element: <AdminHomePage/>
             },
             {

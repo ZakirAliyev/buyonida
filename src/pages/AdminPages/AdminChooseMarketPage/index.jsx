@@ -1,73 +1,67 @@
 import './index.scss'
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
-import image1 from "/src/assets/bg.jpg"
-import image2 from "/src/assets/sariLogo.png"
+import image1 from "/src/assets/bg.jpg";
+import image2 from "/src/assets/sariLogo.png";
+import {useGetAllStoresQuery} from "../../../service/userApi.js";
+import {MARKET_LOGO} from "../../../../constants.js";
+import Cookies from "js-cookie";
 
 function AdminChooseMarketPage() {
 
     const [chooseMarket, setChooseMarket] = useState(null);
-    const markets = [1, 2, 3]
+    const navigate = useNavigate();
 
-    const navigate = useNavigate()
+    const {data: getAllStores} = useGetAllStoresQuery();
+    const stores = getAllStores?.data || [];
+    console.log(stores);
 
     return (
         <section id={"adminChooseMarketPage"}>
             <div className={"wrapper"}>
                 <div className="img">
-                    <img
-                        src={image2}
-                        alt="Logo"
-                    />
+                    <img src={image2} alt="Logo"/>
                 </div>
                 <h2>Mağazanı seç</h2>
                 <div className={"boxWrapper"}>
-                    {markets && markets.map((market, index) => (
-                        <div
-                            onClick={() => setChooseMarket(index)}
-                            key={index}
-                            className={`box ${chooseMarket === index ? 'selected' : ''}`}
-                        >
-                            <img src={image1} alt={""}/>
-                            <div>
-                                <h3>Qaraqan Store</h3>
-                                <p>elvar.agamaliyev.official@gmail.com</p>
+                    {stores.length > 0 ? (
+                        stores.map((store) => (
+                            <div
+                                onClick={() => setChooseMarket(store?.id)}
+                                key={store?.id}
+                                className={`box ${chooseMarket === store?.id ? 'selected' : ''}`}
+                            >
+                                <img src={MARKET_LOGO + store?.logoImageName} alt=""/>
+                                <div>
+                                    <h3>{store.name}</h3>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                    {markets.length === 0 ? (
-                        <>
-                            <div className={"noMarket newBox"}>Mağaza yoxdur</div>
-                            <div className={"newBox"}>
-                                <p>+ Yeni mağaza yarat</p>
-                            </div>
-                        </>
+                        ))
                     ) : (
                         <>
-                            {markets.length < 3 && (
-                                <div className={"newBox"}>
-                                    <p>+ Yeni mağaza yarat</p>
-                                </div>
-                            )}
+                            <div className={"noMarket newBox"}>Mağaza yoxdur</div>
                         </>
+                    )}
+                    {stores.length < 3 && (
+                        <div className={"newBox"}>
+                            <p>+ Yeni mağaza yarat</p>
+                        </div>
                     )}
                 </div>
                 <form>
-                    <button onClick={() => {
-                        navigate('/cp')
-                    }}>Daxil ol
-                    </button>
+                    {chooseMarket === null ? (
+                        <button disabled>Daxil ol</button>
+                    ) : (
+                        <button onClick={() => {
+                            navigate(`/cp`)
+                            Cookies.set('chooseMarket', chooseMarket)
+                        }}>Daxil ol</button>
+                    )}
                 </form>
                 <div className="links">
-                    <Link to="/public" className="link">
-                        Help
-                    </Link>
-                    <Link to="/public" className="link">
-                        Privacy
-                    </Link>
-                    <Link to="/public" className="link">
-                        Terms
-                    </Link>
+                    <Link to="/public" className="link">Help</Link>
+                    <Link to="/public" className="link">Privacy</Link>
+                    <Link to="/public" className="link">Terms</Link>
                 </div>
             </div>
         </section>

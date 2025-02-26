@@ -5,7 +5,111 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 
+  .pbtr {
+    td {
+      font-size: 14px;
+    }
+  }
+
+  .iconicon {
+    font-size: 12px;
+    margin-right: 5px;
+  }
+
+  .fulfilled {
+    background-color: #8E8E8E;
+    padding: 1px 10px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .paid {
+    background-color: #FF783F;
+    padding: 1px 10px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+
+  tr {
+    transition: all .4s ease;
+
+    &:hover {
+      background-color: #f3f3f3;
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    margin-top: 25px;
+    border: 1px solid white;
+    overflow: hidden;
+    border-radius: 15px;
+
+    .image {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-right: 40px;
+    }
+
+    .bgbg {
+      background-color: #EBEBEB;
+      border-left: 1px solid white;
+      border-right: 1px solid white;
+    }
+
+    tr {
+      display: flex;
+      align-items: center;
+      border-top: 1px solid #D0D0D0;
+      padding: 12px 16px;
+    }
+
+    th, td, tr {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+    }
+
+    th {
+      width: max-content;
+      margin-right: 20px;
+    }
+
+    .checkboxWrapper {
+      width: 300px;
+    }
+
+    button {
+      background-color: transparent;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 5px;
+    }
+
+    .selectedBtn {
+      background-color: #FFBB00;
+    }
+
+    .first {
+      border: none;
+    }
   }
 }

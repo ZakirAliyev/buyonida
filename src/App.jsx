@@ -12,6 +12,11 @@ function App() {
         Cookies.set("buyonidaToken", "null");
     }
 
+    const chooseMarket = Cookies.get("chooseMarket");
+    if (!chooseMarket) {
+        Cookies.set("chooseMarket", "null");
+    }
+
     return (
         <RouterProvider router={routes}/>
     );

@@ -1,95 +1,9 @@
-#adminEditCategoryMenu {
+#adminEditCollectionMenu {
   margin: -50px 0 0 0;
   height: calc(100vh - 30px);
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
-
-  table {
-    width: 100%;
-    font-size: 18px;
-    padding: 0 32px;
-
-    .productName {
-      font-weight: 500;
-    }
-
-    .checkboxWrapper {
-      font-size: 23px;
-      padding-right: 10px;
-    }
-
-    .btnbtn123 {
-      height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: end;
-      margin-right: 20px;
-
-      button {
-        background-color: #72FF8C;
-        border: none;
-        padding: 0 32px;
-        font-weight: 500;
-        border-radius: 10px;
-      }
-    }
-
-    img {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 15px;
-    }
-  }
-
-  h4 {
-    font-size: 20px;
-  }
-
-  .line {
-    height: 1px;
-    background-color: #c1c1c1;
-    width: 100%;
-    margin-top: 20px;
-  }
-
-  .inputWrapper1 {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-
-
-    input {
-      width: 100%;
-      height: 40px;
-      padding: 0 16px;
-      border-radius: 5px;
-      border: 1px solid white;
-      background-color: #f2f2f2;
-    }
-
-    button {
-      border: 1px solid gray;
-      height: 40px;
-      padding: 0 16px;
-      border-radius: 5px;
-      background-color: white;
-    }
-  }
-
-  .pd0 {
-    padding: 0;
-  }
-
-  .pd1 {
-    padding: 0 8px 0 0;
-  }
-
-  .pd2 {
-    padding: 0 0 0 8px;
-  }
 
   .error-text {
     color: red;
@@ -142,7 +56,7 @@
       font-weight: 500;
       top: 85px;
       width: max-content;
-      right: -657px;
+      right: -667px;
       background-color: #2F2F2F;
       color: white;
       padding: 8px 40px 32px;
@@ -493,42 +407,5 @@
     border: none;
     padding: 5px 20px;
     border-radius: 10px;
-  }
-
-  .ant-upload-list {
-    display: flex;
-    gap: 10px;
-  }
-
-  .ant-upload-list-item-container {
-    display: flex;
-  }
-
-  .ant-upload-drag-icon {
-    margin-top: 20px;
-
-    button {
-      background-color: #FFBB00;
-      color: black;
-      font-weight: bold;
-      border: none;
-      padding: 4px 16px;
-      border-radius: 10px;
-      font-size: 17px;
-    }
-  }
-
-  .buttin1 {
-    margin-top: 40px;
-    button {
-      width: 100%;
-      background-color: #FFBB00;
-      color: black;
-      border: none;
-      padding: 8px 32px;
-      font-size: 20px;
-      font-weight: bold;
-      border-radius: 10px;
-    }
   }
 }

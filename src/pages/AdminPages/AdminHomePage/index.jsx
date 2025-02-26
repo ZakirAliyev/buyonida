@@ -14,10 +14,14 @@ import AdminCollectionsMenu from "../../../components/AdminComponents/AdminMenus
 import AdminAddCollectionMenu from "../../../components/AdminComponents/AdminMenus/AdminAddCollectionMenu/index.jsx";
 import AdminAddCategoryMenu from "../../../components/AdminComponents/AdminMenus/AdminAddCategoryMenu/index.jsx";
 import AdminCategoriesMenu from "../../../components/AdminComponents/AdminMenus/AdminCategoriesMenu/index.jsx";
+import AdminEditCategoryMenu from "../../../components/AdminComponents/AdminMenus/AdminEditCategoryMenu/index.jsx";
+import AdminEditProductMenu from "../../../components/AdminComponents/AdminMenus/AdminEditProductMenu/index.jsx";
+import AdminEditCollectionMenu from "../../../components/AdminComponents/AdminMenus/AdminEditCollectionMenu/index.jsx";
+import AdminOrderDetails from "../../../components/AdminComponents/AdminMenus/AdminOrderDetails/index.jsx";
 
 function AdminHomePage() {
     const url = useLocation();
-
+    const pathname = url.pathname;
     return (
         <section id="adminHomePage">
             <AdminNavbar/>
@@ -29,6 +33,8 @@ function AdminHomePage() {
                             <AdminHomeMenu/>
                         ) : url.pathname === '/cp/orders' ? (
                             <AdminOrdersMenu/>
+                        ) : url.pathname === '/cp/order-details' ? (
+                            <AdminOrderDetails/>
                         ) : url.pathname === '/cp/products' ? (
                             <AdminProductsMenu/>
                         ) : url.pathname === '/cp/analytics' ? (
@@ -41,14 +47,20 @@ function AdminHomePage() {
                             <AdminSettingsMenu/>
                         ) : url.pathname === '/cp/add-product' ? (
                             <AdminAddProductMenu/>
+                        ) : /^\/cp\/edit-product\/\d+\/\d+$/.test(pathname) ? (
+                            <AdminEditProductMenu/>
                         ) : url.pathname === '/cp/collections' ? (
                             <AdminCollectionsMenu/>
                         ) : url.pathname === '/cp/add-collection' ? (
                             <AdminAddCollectionMenu/>
+                        ) : url.pathname === '/cp/edit-collection' ? (
+                            <AdminEditCollectionMenu/>
                         ) : url.pathname === '/cp/categories' ? (
                             <AdminCategoriesMenu/>
                         ) : url.pathname === '/cp/add-category' ? (
                             <AdminAddCategoryMenu/>
+                        ) : /^\/cp\/edit-category\/\d+\/\d+$/.test(pathname) ? (
+                            <AdminEditCategoryMenu/>
                         ) : null}
                     </div>
                 </div>

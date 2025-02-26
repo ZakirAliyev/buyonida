@@ -6,10 +6,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import {useState} from "react";
 import image1 from "/src/assets/sariLogo.png"
 import {
-    usePostConfirmEmailOwnerMutation, usePostConfirmLoginOwnerMutation,
+    usePostConfirmLoginOwnerMutation,
     usePostCreateNewConfirmEmailCodeOwnerMutation
 } from "../../../../service/userApi.js";
 import Countdown from "react-countdown";
+import Cookies from "js-cookie";
 
 function AdminLoginVerificationForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -133,6 +134,7 @@ function AdminLoginVerificationForm() {
                                         progress: undefined,
                                         theme: 'dark',
                                     });
+                                    Cookies.set('buyonidaToken', response?.data?.token)
                                     navigate('/choose-market');
                                 }
                             } catch (error) {

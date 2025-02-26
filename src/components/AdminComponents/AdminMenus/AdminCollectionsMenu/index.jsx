@@ -2,10 +2,13 @@ import './index.scss';
 import "react-quill/dist/quill.snow.css";
 import image1 from "/src/assets/miniPhoto.png"
 import {useNavigate} from "react-router-dom";
+import {RxCross2} from "react-icons/rx";
+import image2 from "../../../../assets/order.png";
 
 function AdminCollectionsMenu() {
 
     const navigate = useNavigate()
+    const arr = new Array(2).fill(0)
 
     return (
         <section id="adminCollectionsMenu">
@@ -32,16 +35,42 @@ function AdminCollectionsMenu() {
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td className={"checkboxWrapper"}>
-                        <input type="checkbox"/>
-                    </td>
-                    <td>
-                        <img className={"image"} src={image1} alt={"Image"}/>
-                        Default collection
-                    </td>
-                    <td>5</td>
-                </tr>
+                {arr && arr.length !== 0 ? (
+                    arr.map((item, index) => (
+                        <tr key={index}>
+                            <td className={"checkboxWrapper"}>
+                                <input type="checkbox"/>
+                            </td>
+                            <td onClick={()=> {
+                                navigate('/cp/edit-collection')
+                            }}>
+                                <img className={"image"} src={image1} alt={"Image"}/>
+                                Default collection
+                            </td>
+                            <td onClick={()=> {
+                                navigate('/cp/edit-collection')
+                            }}>5</td>
+                        </tr>
+                    ))
+                ) : (
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        textAlign: 'center',
+                        flexDirection: 'column',
+                        gap: '16px'
+                    }}>
+                        <img src={image2} alt={"Image"}/>
+                        <div style={{
+                            maxWidth: '400px',
+                            width: '100%',
+                        }}>
+                            There are no products in this collection.
+                            Search for products
+                        </div>
+                    </div>
+                )}
                 </tbody>
             </table>
         </section>

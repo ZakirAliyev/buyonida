@@ -61,6 +61,36 @@ export const ownerApi = createApi({
                 headers: {'Content-Type': 'application/json'}
             }),
         }),
+        getAllStores: builder.query({
+            query: () => ({
+                url: `/Market/get-all-store`,
+            })
+        }),
+        getStoreById: builder.query({
+            query: (id) => ({
+                url: `/Market/get-store-by-id/${id}`,
+            })
+        }),
+        getAllProductsByMarketId: builder.query({
+            query: (marketId) => ({
+                url: `/Products/all/${marketId}`,
+            })
+        }),
+        getProductById: builder.query({
+            query: ({marketId, id}) => ({
+                url: `/Products/${marketId}/${id}`,
+            })
+        }),
+        getAllCategoriesByMarketId: builder.query({
+            query: (marketId) => ({
+                url: `/Category/all/${marketId}`,
+            })
+        }),
+        getCategoryByMarketId: builder.query({
+            query: ({marketId, id}) => ({
+                url: `/Category/${marketId}/${id}`,
+            })
+        }),
     }),
 })
 export const {
@@ -69,5 +99,11 @@ export const {
     usePostLoginOwnerMutation,
     usePostConfirmLoginOwnerMutation,
     usePostConfirmEmailOwnerMutation,
-    usePostCreateNewConfirmEmailCodeOwnerMutation
+    usePostCreateNewConfirmEmailCodeOwnerMutation,
+    useGetAllStoresQuery,
+    useGetStoreByIdQuery,
+    useGetAllProductsByMarketIdQuery,
+    useGetProductByIdQuery,
+    useGetAllCategoriesByMarketIdQuery,
+    useGetCategoryByMarketIdQuery
 } = ownerApi

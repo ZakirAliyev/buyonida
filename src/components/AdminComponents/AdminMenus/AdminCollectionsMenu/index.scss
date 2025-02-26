@@ -5,6 +5,13 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 
+  tr {
+    transition: all .4s ease;
+    &:hover {
+      background-color: #f3f3f3;
+    }
+  }
+
   .textWrapper {
     display: flex;
     align-items: center;
@@ -26,6 +33,8 @@
     border-radius: 15px;
     margin-top: 25px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+    overflow: hidden;
 
     .image {
       width: 40px;

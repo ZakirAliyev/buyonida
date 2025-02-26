@@ -5,6 +5,14 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 
+  tr {
+    transition: all .4s ease;
+
+    &:hover {
+      background-color: #EBEBEB;
+    }
+  }
+
   .status {
     background-color: #80FF93;
     display: flex;
@@ -25,6 +33,20 @@
 
   h1 {
     font-size: 26px;
+  }
+
+  .textWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    button {
+      padding: 4px 16px;
+      background-color: black;
+      color: white;
+      border: 1px solid black;
+      border-radius: 10px;
+    }
   }
 
   .wrapper {
@@ -85,9 +107,10 @@
     width: 100%;
     border-collapse: collapse;
     background-color: white;
-    border-radius: 15px;
     margin-top: 25px;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border: 1px solid white;
+    overflow: hidden;
+    border-radius: 15px;
 
     .image {
       width: 40px;
