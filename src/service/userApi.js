@@ -91,6 +91,13 @@ export const ownerApi = createApi({
                 url: `/Category/${marketId}/${id}`,
             })
         }),
+        postCreateProduct: builder.mutation({
+            query: (data) => ({
+                url: `/Products/create`,
+                method: 'POST',
+                body: data
+            })
+        })
     }),
 })
 export const {
@@ -105,5 +112,6 @@ export const {
     useGetAllProductsByMarketIdQuery,
     useGetProductByIdQuery,
     useGetAllCategoriesByMarketIdQuery,
-    useGetCategoryByMarketIdQuery
+    useGetCategoryByMarketIdQuery,
+    usePostCreateProductMutation
 } = ownerApi

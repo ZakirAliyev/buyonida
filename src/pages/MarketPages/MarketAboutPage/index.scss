@@ -1,0 +1,38 @@
+#marketAboutPage {
+  background-color: #f6f6f6;
+
+  * {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .section {
+    padding-top: 220px;
+    padding-bottom: 180px;
+
+    .titleWrapper {
+      display: flex;
+      align-items: center;
+      gap: 64px;
+      img {
+        width: 300px;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        border-radius: 20px;
+      }
+    }
+
+    .textWrapper {
+      h2 {
+        font-weight: 600;
+        font-size: 52.9px;
+        line-height: 79.35px;
+      }
+
+      h3 {
+        font-weight: 400;
+        font-size: 15.8px;
+        line-height: 23.71px;
+      }
+    }
+  }
+}

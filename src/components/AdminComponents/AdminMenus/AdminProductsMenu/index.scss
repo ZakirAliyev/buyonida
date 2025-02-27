@@ -27,6 +27,11 @@
     }
   }
 
+  .statusDont {
+    background-color: #8e8e8e;
+    color: white;
+  }
+
   &::-webkit-scrollbar {
     display: none;
   }

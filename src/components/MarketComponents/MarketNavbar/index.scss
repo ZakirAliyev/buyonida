@@ -1,0 +1,59 @@
+#marketNavbar {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  height: 72px;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 998;
+
+  padding: 16px;
+
+  nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      width: 270px;
+
+      img {
+        filter: brightness(0);
+      }
+    }
+
+    .links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      margin-top: 4px;
+      .link {
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 22.5px;
+        color: black;
+      }
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      input {
+        background-color: #f6f6f6;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 10px;
+      }
+
+      .icon {
+        font-size: 20px;
+      }
+    }
+  }
+}

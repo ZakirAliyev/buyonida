@@ -9,7 +9,6 @@ import {PRODUCT_LOGO} from "../../../../../constants.js";
 
 function AdminProductsMenu() {
     const navigate = useNavigate();
-    const arr = new Array(1).fill(0);
 
     const {data: getAllProductsByMarketId} = useGetAllProductsByMarketIdQuery(Cookies.get('chooseMarket'));
     const products = getAllProductsByMarketId?.data;
@@ -60,9 +59,12 @@ function AdminProductsMenu() {
                                 <td onClick={() => {
                                     navigate(`/cp/edit-product/${Cookies.get('chooseMarket')}/${product?.id}`)
                                 }}>
-                                    <span className="status">
-                                        <GoDotFill className="dot"/> Active
-                                    </span>
+                                    {product?.status ?
+                                        <span className="status">
+                                        <GoDotFill className="dot"/> {product?.status ? <>Active</> : <>Deactive</>}
+                                    </span> : <span className="status statusDont">
+                                        <GoDotFill className="dot"/> {product?.status ? <>Active</> : <>Deactive</>}
+                                    </span>}
                                 </td>
                                 <td onClick={() => {
                                     navigate(`/cp/edit-product/${product?.id}`)

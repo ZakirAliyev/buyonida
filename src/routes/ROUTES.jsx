@@ -13,9 +13,11 @@ import AdminManageAccount from "../pages/AdminPages/AdminManageAccount/index.jsx
 import AdminForgotPassPage from "../pages/AdminPages/AdminForgotPassPage/index.jsx";
 import AdminReEnterPassPage from "../pages/AdminPages/AdminReEnterPassPage/index.jsx";
 import AdminSuccessPage from "../pages/AdminPages/AdminSuccessPage/index.jsx";
-import AdminAddCollectionMenu from "../components/AdminComponents/AdminMenus/AdminAddCollectionMenu/index.jsx";
 import AdminCreateMaketPage from "../pages/AdminPages/AdminCreateMaketPage/index.jsx";
 import AdminCreateMaketFinishPage from "../pages/AdminPages/AdminCreateMaketFinishPage/index.jsx";
+import MarketHomePage from "../pages/MarketPages/MarketHomePage/index.jsx";
+import MarketCollectionPage from "../pages/MarketPages/MarketCollectionPage/index.jsx";
+import MarketAboutPage from "../pages/MarketPages/MarketAboutPage/index.jsx";
 
 export const ROUTES = [
     {
@@ -150,6 +152,18 @@ export const ROUTES = [
             {
                 path: 'cp/edit-product/:marketId/:id',
                 element: <AdminHomePage/>
+            },
+            {
+                path: '/:marketName',
+                element: <MarketHomePage/>
+            },
+            {
+                path: '/:marketName/collection/:id',
+                element: <MarketCollectionPage/>
+            },
+            {
+                path: '/:marketName/about',
+                element: <MarketAboutPage/>
             },
             {
                 path: '*',

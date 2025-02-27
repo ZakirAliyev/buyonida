@@ -25,7 +25,7 @@ a, button {
 }
 
 .container {
-    max-width: 1120px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -107,6 +107,40 @@ input::-ms-clear {
 .col-12 {
     width: calc(100% / 12 * 12);
     padding: 16px;
+}
+
+@for $i from 1 through 60 {
+    .col-#{$i}-60 {
+        width: calc(100% / 60 * #{$i});
+        padding: 16px;
+    }
+}
+
+@media screen and (max-width: 992px) and (min-width: 768px) {
+    @for $i from 1 through 60 {
+        .col-md-#{$i}-60 {
+            width: calc(100% / 60 * #{$i});
+            padding: 16px;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) and (min-width: 576px) {
+    @for $i from 1 through 60 {
+        .col-sm-#{$i}-60 {
+            width: calc(100% / 60 * #{$i});
+            padding: 16px;
+        }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    @for $i from 1 through 60 {
+        .col-xs-#{$i}-60 {
+            width: calc(100% / 60 * #{$i});
+            padding: 16px;
+        }
+    }
 }
 
 /* for tablet */

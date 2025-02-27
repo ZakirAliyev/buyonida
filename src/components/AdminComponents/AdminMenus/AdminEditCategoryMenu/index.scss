@@ -174,35 +174,6 @@
       flex-direction: column;
       position: relative;
 
-      .dropdown-item11 {
-        cursor: pointer;
-        margin: 16px;
-        padding: 8px 16px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        width: max-content;
-
-        span {
-          color: #6d6d6d;
-          font-weight: 500;
-        }
-
-        &:hover {
-          background: #f0f0f0;
-        }
-
-        .icon {
-          color: #6d6d6d;
-          border: 1px solid #b1b1b1;
-          border-radius: 5px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-      }
-
       .inventoryWrapper {
         display: flex;
         align-items: center;
@@ -421,27 +392,6 @@
   .variant-section {
     padding: 20px 32px;
     margin-top: 40px;
-  }
-
-  .dropdown-item11 {
-    cursor: pointer;
-    padding: 8px 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: max-content;
-    border-radius: 10px;
-
-    &:hover {
-      background: #f0f0f0;
-    }
-
-    .icon {
-      color: #6d6d6d;
-      border: 1px solid #b1b1b1;
-      border-radius: 5px;
-      padding: 5px;
-    }
   }
 
   .optionAdder {

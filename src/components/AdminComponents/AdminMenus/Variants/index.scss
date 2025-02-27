@@ -1,12 +1,37 @@
 .variants {
-  margin: 16px;
+  margin: 16px 32px;
   padding: 16px;
 
   border: 1px solid #ccc;
   border-radius: 16px;
 
+  .dropdown-item11 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .soan {
+      width: max-content !important;
+      padding: 8px 16px;
+
+      &:hover {
+        background-color: #f1f1f1;
+        border-radius: 10px;
+      }
+    }
+
+    button {
+      border: none;
+      background-color: #E73C3C;
+      color: white;
+      padding: 4px 16px;
+      border-radius: 10px;
+    }
+  }
+
   &__section {
     margin-bottom: 16px;
+    width: 100%;
 
     &:last-of-type {
       margin-bottom: 0;
@@ -85,5 +110,14 @@
   &:hover {
     background-color: #ffc41a;
     color: white;
+  }
+}
+
+.dropdown-item112 {
+  span {
+    &:hover {
+      background-color: #e8e8e8;
+      border-radius: 10px;
+    }
   }
 }

@@ -1,11 +1,11 @@
 import "./index.scss";
-import React, { useState, useRef, useEffect } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { FiPlus } from "react-icons/fi";
+import React, {useState, useRef, useEffect} from "react";
+import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
+import {FiPlus} from "react-icons/fi";
 
-const Variants = ({ variantKey, updateVariant, options, autoFocusRef }) => {
+const Variants = ({variantKey, updateVariant, options, autoFocusRef}) => {
     const initialName = options?.name || "";
-    const initialValues = options?.values || [{ id: 0, value: "" }];
+    const initialValues = options?.values || [{id: 0, value: ""}];
     const [variantName, setVariantName] = useState(initialName);
     const [localOptions, setLocalOptions] = useState(initialValues);
 
@@ -17,18 +17,18 @@ const Variants = ({ variantKey, updateVariant, options, autoFocusRef }) => {
 
     // Herhangi bir değişiklikte üst bileşene güncellenmiş veriyi gönderiyoruz
     useEffect(() => {
-        updateVariant(variantKey, { name: variantName, values: localOptions });
+        updateVariant(variantKey, {name: variantName, values: localOptions});
     }, [variantName, localOptions]);
 
     const handleOptionChange = (index, newValue) => {
         const updatedOptions = localOptions.map((option, i) =>
-            i === index ? { ...option, value: newValue } : option
+            i === index ? {...option, value: newValue} : option
         );
         setLocalOptions(updatedOptions);
     };
 
     const handleAddOption = () => {
-        const newOptions = [...localOptions, { id: localOptions.length, value: "" }];
+        const newOptions = [...localOptions, {id: localOptions.length, value: ""}];
         setLocalOptions(newOptions);
     };
 
@@ -36,7 +36,7 @@ const Variants = ({ variantKey, updateVariant, options, autoFocusRef }) => {
         if (value.trim() === "") {
             const filteredOptions = localOptions
                 .filter((_, i) => i !== index)
-                .map((option, i) => ({ ...option, id: i }));
+                .map((option, i) => ({...option, id: i}));
             setLocalOptions(filteredOptions);
         }
     };
@@ -100,12 +100,12 @@ const Variants = ({ variantKey, updateVariant, options, autoFocusRef }) => {
                     </Droppable>
                     <div
                         className="dropdown-item11"
-                        onClick={handleAddOption}
-                        style={{ margin: "0", marginTop: "16px" }}
+                        style={{margin: "0", marginTop: "16px"}}
                     >
-            <span style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <FiPlus className="iconPlus" /> Add another value
-            </span>
+                        <span className={"soan"} onClick={handleAddOption} style={{display: "flex", alignItems: "center", gap: "10px", width: '100%'}}>
+                          <FiPlus className="iconPlus"/> Add another value
+                        </span>
+                        <button>Delete</button>
                     </div>
                 </div>
             </div>
@@ -117,13 +117,18 @@ const VariantContainer = () => {
     const [variants, setVariants] = useState({});
     const inputRefs = useRef({});
 
+    // Her variants güncellendiğinde localStorage güncellenir
+    useEffect(() => {
+        localStorage.setItem("variantData", JSON.stringify(variants));
+    }, [variants]);
+
     const addVariant = () => {
         setVariants((prevVariants) => {
             const newKey = `variant_${Object.keys(prevVariants).length}`;
             inputRefs.current[newKey] = React.createRef();
             return {
                 ...prevVariants,
-                [newKey]: { name: "", values: [{ id: 0, value: "" }] }
+                [newKey]: {name: "", values: [{id: 0, value: ""}]}
             };
         });
     };
@@ -136,15 +141,13 @@ const VariantContainer = () => {
     };
 
     const handleSaveChanges = () => {
-        // Kaydedilen variant verilerini localStorage'ye istenilen formatta yazıyoruz
-        localStorage.setItem("variantData", JSON.stringify(variants));
         alert("Variant verileri kaydedildi!");
     };
 
     return (
         <>
-            <div className="wrapper" style={{ marginTop: "40px", padding: "0" }}>
-                <h3 style={{ margin: "0", marginTop: "32px", padding: "0 32px" }}>Variant</h3>
+            <div className="wrapper" style={{padding: "0"}}>
+                <h3 style={{margin: "0", marginTop: "32px", padding: "0 32px"}}>Variant</h3>
                 {Object.entries(variants).map(([key, data]) => (
                     <Variants
                         key={key}
@@ -154,17 +157,15 @@ const VariantContainer = () => {
                         autoFocusRef={inputRefs.current[key]}
                     />
                 ))}
-                <div className="dropdown-item11" onClick={addVariant} style={{ marginTop: "16px" }}>
-          <span style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <FiPlus className="iconPlus" /> Add options like size or color
-          </span>
+                <div className="dropdown-item112" onClick={addVariant} style={{marginTop: "16px"}}>
+                    <span style={{display: "flex", alignItems: "center", gap: "10px", margin: '0 32px 32px 32px' ,width: 'max-content', padding: '8px 16px'}}>
+                        <FiPlus className="iconPlus"/> Add options like size or color
+                    </span>
                 </div>
             </div>
-            <button className="save" onClick={handleSaveChanges}>
-                Save changes
-            </button>
         </>
     );
 };
+
 
 export default VariantContainer;
