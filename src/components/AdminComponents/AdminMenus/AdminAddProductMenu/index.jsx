@@ -1,126 +1,110 @@
 import './index.scss';
-import {useNavigate} from "react-router-dom";
-import {FiArrowLeft, FiPlus} from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { FiArrowLeft, FiPlus } from "react-icons/fi";
 import ReactQuill from "react-quill";
-import {cloneElement, useState} from "react";
+import { cloneElement, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import CategoryModal from "../../CategoryModal/index.jsx";
 import VariantContainer from "../Variants/index.jsx";
 import AdminPopUp from "../../AdminPopUp/index.jsx";
-import {AiOutlineExclamationCircle} from "react-icons/ai";
-import {Modal} from "antd";
+import { AiOutlineExclamationCircle } from "react-icons/ai";
+import { Modal } from "antd";
 import AdminSelectFile from "../../AdminSelectFile/index.jsx";
+import { useGetAllCategoriesByMarketIdQuery } from "../../../../service/userApi.js";
+import Cookies from "js-cookie";
 
 function AdminAddProductMenu() {
     const navigate = useNavigate();
-    const [showDropdown, setShowDropdown] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState("");
-    const [showTrack, setShowTrack] = useState(false);
-    const [showSku, setShowSku] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [categories, setCategories] = useState(["Üst geyim", "Alt geyim", "Kurtka"]);
 
-    const handleCreateCategory = (categoryName) => {
-        if (categoryName.trim()) {
-            setCategories([...categories, categoryName]);
-            setSelectedCategory(categoryName);
+    // Kategori listesini API'den çekiyoruz
+    const { data: categoriesData } = useGetAllCategoriesByMarketIdQuery(Cookies.get('chooseMarket'));
+    const categories = categoriesData?.data || [];
+
+    // Ürün verileri için state'ler
+    const [marketId, setMarketId] = useState(Cookies.get('chooseMarket'));
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [selectedCategoryId, setSelectedCategoryId] = useState("");
+    const [pricing, setPricing] = useState("");
+    const [compareAtPrice, setCompareAtPrice] = useState("");
+    const [sku, setSku] = useState("");
+    const [barcode, setBarcode] = useState("");
+    const [isStock, setIsStock] = useState(false);
+    const [stock, setStock] = useState(0);
+    const [status, setStatus] = useState(true);
+
+    // Diğer state'ler
+    const [errors, setErrors] = useState({});
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isBigBoxModalOpen, setIsBigBoxModalOpen] = useState(false);
+
+    // Kategori oluşturma işlemi
+    const handleCreateCategory = (category) => {
+        if (category.name.trim()) {
+            categories.push(category);
+            setSelectedCategoryId(category.id);
         }
         setIsModalOpen(false);
     };
 
-    const [variants, setVariants] = useState([]);
-
-    const addVariant = () => {
-        setVariants([...variants, {}]);
-    };
-
-    const updateVariant = (index, updatedOptions) => {
-        setVariants((prevVariants) => {
-            const newVariants = [...prevVariants];
-            newVariants[index] = {...newVariants[index], options: updatedOptions};
-            return newVariants;
-        });
-    };
-
     const handleSubmit = () => {
-        console.log("Product Data:", JSON.stringify({
-            title: document.getElementById("productTitle").value,
-            description: description,
-            category: selectedCategory,
-            variants: variants
-        }, null, 2));
-    };
+        // VariantContainer'da kaydedilen veriyi localStorage'den çekiyoruz (kaydedilmemişse boş obje)
+        const storedVariantsObj = JSON.parse(localStorage.getItem("variantData") || "{}");
+        const variantsArray = Object.keys(storedVariantsObj)
+            .sort((a, b) => {
+                const aNum = parseInt(a.split("_")[1], 10);
+                const bNum = parseInt(b.split("_")[1], 10);
+                return aNum - bNum;
+            })
+            .map((key, index) => {
+                const variant = storedVariantsObj[key];
+                return {
+                    name: variant.name,
+                    displayOrder: index,
+                    values: variant.values.map((val, i) => ({
+                        value: val.value,
+                        displayOrder: i
+                    }))
+                };
+            });
 
-    const [title, setTitle] = useState("");
-    const [pricing, setPricing] = useState("");
-    const [compareAtPrice, setCompareAtPrice] = useState("");
-    const [description, setDescription] = useState("");
-    const [errors, setErrors] = useState({});
+        const productData = {
+            MarketId: marketId,
+            Title: title,
+            Description: description,
+            CategoryId: selectedCategoryId,
+            Price: parseFloat(pricing),
+            ComparePrice: parseFloat(compareAtPrice),
+            SKU: sku,
+            Barcode: barcode,
+            IsStock: isStock,
+            Stock: parseInt(stock, 10),
+            Status: status,
+            ProductOptions: variantsArray,
+            ProductOptionsJson: JSON.stringify(variantsArray)
+        };
 
-    const handleTitleChange = (event) => {
-        const newTitle = event.target.value;
-        setTitle(newTitle);
-
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            title: newTitle.trim() === "" ? "Title can't be blank" : "",
-        }));
-    };
-
-    const handlePricingChange = (event) => {
-        const newTitle = event.target.value;
-        setPricing(newTitle);
-
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            pricing: newTitle.trim() === "" ? "Pricing can't be blank" : "",
-        }));
-    };
-
-    const handleDescriptionChange = (value) => {
-        setDescription(value);
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            description: value.trim() === "<p><br></p>" ? "Description can't be blank" : "",
-        }));
-
-    };
-
-    const handleCompareAtPriceChange = (event) => {
-        const newTitle = event.target.value;
-        setCompareAtPrice(newTitle);
-
-
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            compareAtPrice: newTitle.trim() === "" ? "Compare at price can't be blank" : "",
-        }));
-    };
-
-    const [isBigBoxModalOpen, setIsBigBoxModalOpen] = useState(false);
-    const handleBigBoxClick = () => {
-        setIsBigBoxModalOpen(true);
-    };
-
-    const handleBigBoxModalClose = () => {
-        setIsBigBoxModalOpen(false);
+        console.log("Product Data:", JSON.stringify(productData, null, 2));
+        // API'ye gönderme işlemini burada gerçekleştirebilirsin...
     };
 
     return (
         <section id="adminAddProductMenu">
-            <div className={"umumi"}>
-                <div className={"abso"}>
+            <div className="umumi">
+                <div className="abso">
                     <span>Product status</span>
                     <button>Active</button>
                 </div>
                 <div className="lineWrapper">
                     <div className="arrow" onClick={() => navigate(-1)}>
-                        <FiArrowLeft className="icon"/>
+                        <FiArrowLeft className="icon" />
                     </div>
                     <h1>Add product</h1>
                 </div>
                 <div className="wrapper">
-                    <AdminPopUp/>
+                    <AdminPopUp />
+                    {/* Title */}
                     <div className="inputWrapper">
                         <label>Title</label>
                         <input
@@ -128,169 +112,160 @@ function AdminAddProductMenu() {
                             name="title"
                             placeholder="Enter product title"
                             value={title}
-                            onChange={handleTitleChange}
+                            onChange={(e) => setTitle(e.target.value)}
                             className={errors.title ? "errorInput" : ""}
                         />
-                        {errors.title && <span className="error-text">
-                            <AiOutlineExclamationCircle className={"icon"}/>
-                            {errors.title}</span>}
+                        {errors.title && (
+                            <span className="error-text">
+                <AiOutlineExclamationCircle className="icon" />
+                                {errors.title}
+              </span>
+                        )}
                     </div>
-                    <div className={"inputWrapper"}>
-                        <label htmlFor="productTitle">Description</label>
+                    {/* Description */}
+                    <div className="inputWrapper">
+                        <label>Description</label>
                         <ReactQuill
                             theme="snow"
                             value={description}
-                            onChange={handleDescriptionChange}
+                            onChange={setDescription}
                             className={errors.description ? "codeEditor errorInput" : "codeEditor"}
                         />
                         {errors.description && (
                             <span className="error-text">
-                                <AiOutlineExclamationCircle className={"icon"}/>
+                <AiOutlineExclamationCircle className="icon" />
                                 {errors.description}
-                            </span>
+              </span>
                         )}
                     </div>
-                    <div className={"inputWrapper"}>
-                        <label htmlFor="productTitle">Image</label>
-                        <div className={"boxWrapper"}>
-                            <div className={"bigBox"} onClick={handleBigBoxClick}>
-                                <FiPlus/>
-                            </div>
-                            <div className={"lBoxWrapper"}>
-                                <div className={"littleBox"}>
-                                    <FiPlus/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {/* Category Dropdown */}
                     <div className="inputWrapper">
                         <label>Category</label>
                         <div className="dropdown">
-                            <div className="dropdown-header" onClick={() => setShowDropdown(!showDropdown)}>
-                                {selectedCategory || "Select a category"}
+                            <div
+                                className="dropdown-header"
+                                onClick={() => setShowDropdown(!showDropdown)}
+                            >
+                                {selectedCategoryId
+                                    ? categories.find((cat) => cat.id === selectedCategoryId)?.name
+                                    : "Select a category"}
                             </div>
                             <div className={`dropdown-list ${showDropdown ? "open" : "close"}`}>
-                                {categories.map((category, index) => (
+                                {categories.map((category) => (
                                     <div
-                                        key={index}
+                                        key={category.id}
                                         className="dropdown-item"
                                         onClick={() => {
-                                            setSelectedCategory(category);
+                                            setSelectedCategoryId(category.id);
                                             setShowDropdown(false);
                                         }}
                                     >
-                                        {category}
+                                        {category.name}
                                     </div>
                                 ))}
-                                <div className={"line"}/>
+                                <div className="line" />
                                 <div
-                                    key={-1}
                                     className="dropdown-item"
                                     onClick={() => setIsModalOpen(true)}
                                 >
-                                    <FiPlus className={"icon"}/>
+                                    <FiPlus className="icon" />
                                     <span>Create category</span>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                </div>
-                <div className={"row"}>
-                    <div className={"col-4 priceBox priceBox1"}>
-                        <div className={"wrapper"}>
-                            <h3>Pricing</h3>
-                            <div className="inputWrapper">
-                                <label>Pricing</label>
-                                <input
-                                    id="productPricing"
-                                    name="pricing"
-                                    value={pricing}
-                                    onChange={handlePricingChange}
-                                    className={errors.pricing ? "errorInput" : ""}
-                                />
-                                {errors.pricing && <span className="error-text">
-                            <AiOutlineExclamationCircle className={"icon"}/>
-                                    {errors.pricing}</span>}
-                            </div>
-                            <div className="inputWrapper">
-                                <label>Compare-at-price</label>
-                                <input
-                                    id="productCompareAtPrice"
-                                    name="compareAtPrice"
-                                    value={compareAtPrice}
-                                    onChange={handleCompareAtPriceChange}
-                                    className={errors.compareAtPrice ? "errorInput" : ""}
-                                />
-                                {errors.compareAtPrice && <span className="error-text">
-                                        <AiOutlineExclamationCircle className={"icon"}/>
-                                    {errors.compareAtPrice}</span>}
-                            </div>
+                    {/* Price and Compare Price */}
+                    <div className="inputWrapper">
+                        <label>Price</label>
+                        <input
+                            id="productPricing"
+                            name="pricing"
+                            placeholder="Enter price"
+                            value={pricing}
+                            onChange={(e) => setPricing(e.target.value)}
+                            className={errors.pricing ? "errorInput" : ""}
+                        />
+                        {errors.pricing && (
+                            <span className="error-text">
+                <AiOutlineExclamationCircle className="icon" />
+                                {errors.pricing}
+              </span>
+                        )}
+                    </div>
+                    <div className="inputWrapper">
+                        <label>Compare Price</label>
+                        <input
+                            id="productCompareAtPrice"
+                            name="compareAtPrice"
+                            placeholder="Enter compare price"
+                            value={compareAtPrice}
+                            onChange={(e) => setCompareAtPrice(e.target.value)}
+                            className={errors.compareAtPrice ? "errorInput" : ""}
+                        />
+                        {errors.compareAtPrice && (
+                            <span className="error-text">
+                <AiOutlineExclamationCircle className="icon" />
+                                {errors.compareAtPrice}
+              </span>
+                        )}
+                    </div>
+                    {/* SKU and Barcode */}
+                    <div className="inputWrapper">
+                        <label>SKU</label>
+                        <input
+                            placeholder="Enter SKU"
+                            value={sku}
+                            onChange={(e) => setSku(e.target.value)}
+                        />
+                    </div>
+                    <div className="inputWrapper">
+                        <label>Barcode</label>
+                        <input
+                            placeholder="Enter Barcode"
+                            value={barcode}
+                            onChange={(e) => setBarcode(e.target.value)}
+                        />
+                    </div>
+                    {/* Stock */}
+                    <div className="inputWrapper">
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={isStock}
+                                onChange={(e) => setIsStock(e.target.checked)}
+                            />
+                            Is Stock
+                        </label>
+                    </div>
+                    {isStock && (
+                        <div className="inputWrapper">
+                            <label>Stock</label>
+                            <input
+                                type="number"
+                                value={stock}
+                                onChange={(e) => setStock(e.target.value)}
+                            />
                         </div>
-                    </div>
-                    <div className={"col-8 priceBox priceBox2"}>
-                        <div className={"wrapper"}>
-                            <h3>Inventory</h3>
-                            <div className={"inventoryWrapper"}>
-                                <div className={"checkboxWrapper"}>
-                                    <input type={"checkbox"} className={"checkbox"}
-                                           onClick={() => setShowTrack(!showTrack)}/>
-                                    <label>Track quantity</label>
-                                </div>
-                                {showTrack ? (
-                                    <input type={"number"} className={"input12"} defaultValue={0}/>
-                                ) : (
-                                    <></>
-                                )}
-                            </div>
-                            <div className={"inventoryWrapper"}>
-                                <div className={"checkboxWrapper"}>
-                                    <input type={"checkbox"} className={"checkbox"}/>
-                                    <label>Continue selling when out of stock</label>
-                                </div>
-                            </div>
-                            <div className={"inventoryWrapper"}>
-                                <div className={"checkboxWrapper"}>
-                                    <input type={"checkbox"} className={"checkbox"}
-                                           onClick={() => setShowSku(!showSku)}/>
-                                    <label>This product has a SKU or barcode</label>
-                                </div>
-                            </div>
-                            {showSku ? (
-                                <div className={"bx row"}>
-                                    <div className={"priceBox priceBox1 col-6"}>
-                                        <div className={"inputWrapper"}>
-                                            <label>SKU (Stock Keeping Unit)</label>
-                                            <input/>
-                                        </div>
-                                    </div>
-                                    <div className={"priceBox priceBox2 col-6"}>
-                                        <div className={"inputWrapper"}>
-                                            <label>Barcode (ISBN, UPC, GTIN, etc.)</label>
-                                            <input/>
-                                        </div>
-                                    </div>
-                                </div>
-                            ) : (
-                                <></>
-                            )}
-                        </div>
-                    </div>
+                    )}
+                    {/* Variant Container */}
+                    <VariantContainer />
                 </div>
-                <VariantContainer variants={variants} setVariants={setVariants} updateVariant={updateVariant}/>
+                <button onClick={handleSubmit} className="submit-button">
+                    Submit Product
+                </button>
             </div>
             <Modal
                 visible={isBigBoxModalOpen}
-                onCancel={handleBigBoxModalClose}
+                onCancel={() => setIsBigBoxModalOpen(false)}
                 footer={null}
                 width={1000}
-                modalRender={(modal) => {
-                    return cloneElement(modal, {
-                        style: {...modal.props.style, ...{padding: 0, borderRadius: '20px'}},
-                    });
-                }}
+                modalRender={(modal) =>
+                    cloneElement(modal, {
+                        style: { ...modal.props.style, padding: 0, borderRadius: '20px' },
+                    })
+                }
             >
-                <AdminSelectFile/>
+                <AdminSelectFile />
             </Modal>
             <CategoryModal
                 isOpen={isModalOpen}
