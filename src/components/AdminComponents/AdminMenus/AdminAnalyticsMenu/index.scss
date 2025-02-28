@@ -8,4 +8,42 @@
   &::-webkit-scrollbar {
     display: none;
   }
+
+  .pd0 {
+    padding: 0;
+  }
+
+  h2 {
+    padding: 0 16px 16px;
+  }
+
+  .textWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    button {
+      padding: 4px 16px;
+      background-color: black;
+      color: white;
+      border: 1px solid black;
+      border-radius: 10px;
+    }
+  }
+
+  .wrapper {
+    width: 100%;
+    border-radius: 17px;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
 }

@@ -1,85 +1,100 @@
+import React, { useState } from 'react';
 import './index.scss';
-import {message, Upload} from 'antd';
-import {BsSortUp} from 'react-icons/bs';
-import image1 from '/src/assets/miniPhoto.png';
-import {RxCross2} from "react-icons/rx";
+import { message } from 'antd';
+import { BsSortUp } from 'react-icons/bs';
 import image2 from "../../../assets/order.png";
+import { useGetAllProductsByMarketIdQuery } from "../../../service/userApi.js";
+import Cookies from "js-cookie";
+import { PRODUCT_LOGO } from "../../../../constants.js";
 
-const {Dragger} = Upload;
+function AdminCollectionAddProduct({ selectedProducts, setSelectedProducts, onDone }) {
+    const { data: getAllProductsByMarketId } = useGetAllProductsByMarketIdQuery(Cookies.get('chooseMarket'));
+    const products = getAllProductsByMarketId?.data || [];
 
-const props = {
-    name: 'file',
-    multiple: true,
-    action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-    onChange(info) {
-        const {status} = info.file;
-        if (status !== 'uploading') {
-            console.log(info.file, info.fileList);
+    // Axtarış üçün state
+    const [searchTerm, setSearchTerm] = useState("");
+
+    // Checkbox‑ın dəyişikliyini valideyn state‑i üzərindən idarə edirik
+    const handleCheckboxChange = (item) => {
+        if (selectedProducts.some(prod => prod.id === item.id)) {
+            setSelectedProducts(selectedProducts.filter(prod => prod.id !== item.id));
+        } else {
+            setSelectedProducts([...selectedProducts, item]);
         }
-        if (status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully.`);
-        } else if (status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
+    };
+
+    // "Done" düyməsinə basanda seçilmiş məhsulları localStorage‑a yazırıq və modalı bağlamaq üçün callback çağırırıq
+    const handleDone = () => {
+        localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+        message.success("Seçilmiş məhsullar yadda saxlanıldı.");
+        if (onDone) {
+            onDone();
         }
-    },
-    onDrop(e) {
-        console.log('Dropped files', e.dataTransfer.files);
-    },
-};
+    };
 
-function AdminCollectionAddProduct() {
-
-    const arr = new Array(0).fill(0)
+    // Məhsulları axtarış kriteriyasına uyğun filtr edirik
+    const filteredProducts = products.filter(product =>
+        product.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <section id="adminCollectionAddProduct">
             <h2>Search product</h2>
             <div className="wrapper">
-                <input type="text" placeholder="Search..." className="search-input"/>
+                <input
+                    type="text"
+                    placeholder="Search by name..."
+                    className="search-input"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
                 <button className="sort-button">
-                    <BsSortUp className="icon2"/>
+                    <BsSortUp className="icon2" />
                     Sort
                 </button>
             </div>
             <table className="product-table">
                 <tbody>
-                {arr && arr.length !== 0 ? (
-                    arr.map((item, index) => (
-                        <tr key={index}>
+                {filteredProducts && filteredProducts.length !== 0 ? (
+                    filteredProducts.map((item) => (
+                        <tr key={item.id}>
                             <td className="birinci">
-                                <input type="checkbox"/>
+                                <input
+                                    type="checkbox"
+                                    onChange={() => handleCheckboxChange(item)}
+                                    checked={selectedProducts.some(prod => prod.id === item.id)}
+                                />
                             </td>
                             <td className="ikinci">
-                                <img src={image1} alt="Product" className="product-image"/>
+                                <img src={PRODUCT_LOGO + item?.imageNames[0]} alt="Product" className="product-image" />
                             </td>
-                            <td className="ucuncu">Product name</td>
+                            <td className="ucuncu">{item?.title}</td>
                         </tr>
                     ))
                 ) : (
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        textAlign: 'center',
-                        flexDirection: 'column',
-                        gap: '16px',
-                        margin: '20px 0'
-                    }}>
-                        <img src={image2} alt={"Image"}/>
-                        <div style={{
-                            maxWidth: '400px',
+                    <tr>
+                        <td colSpan="3" style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            textAlign: 'center',
+                            flexDirection: 'column',
+                            gap: '16px',
+                            margin: '20px auto',
                             width: '100%',
                         }}>
-                            There are no products in this collection.
-                            Search for products
-                        </div>
-                    </div>
+                            <img src={image2} alt="Image" />
+                            <div style={{ maxWidth: '400px', width: '100%' }}>
+                                There are no products in this collection. Search for products
+                            </div>
+                        </td>
+                    </tr>
                 )}
                 </tbody>
             </table>
             <div className="ending">
                 <button className="btnbtntb">Cancel</button>
-                <button className="btn-done">Done</button>
+                <button className="btn-done" onClick={handleDone}>Done</button>
             </div>
         </section>
     );

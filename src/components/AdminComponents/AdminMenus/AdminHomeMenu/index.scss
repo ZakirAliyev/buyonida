@@ -5,6 +5,16 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 
+  .marketLink {
+    color: #20A2FF;
+    font-weight: 600;
+    margin-left: 20px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   &::-webkit-scrollbar {
     display: none;
   }

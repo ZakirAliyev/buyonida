@@ -91,13 +91,54 @@ export const ownerApi = createApi({
                 url: `/Category/${marketId}/${id}`,
             })
         }),
+        getAllSectors: builder.query({
+            query: () => ({
+                url: `/Sector/get-all-sectors`,
+            })
+        }),
         postCreateProduct: builder.mutation({
             query: (data) => ({
                 url: `/Products/create`,
                 method: 'POST',
                 body: data
             })
-        })
+        }),
+        postCreateMarket: builder.mutation({
+            query: (data) => ({
+                url: `/Market/create-store`,
+                method: 'POST',
+                body: data
+            })
+        }),
+        postCreateCategory: builder.mutation({
+            query: (data) => ({
+                url: `/Category/create`,
+                method: 'POST',
+                body: data
+            })
+        }),
+        getUser: builder.query({
+            query: () => ({
+                url: `/User/get-user`,
+            })
+        }),
+        getAllCollectionsByMarketId: builder.query({
+            query: (marketId) => ({
+                url: `/Collection/get-all-collections/${marketId}`,
+            })
+        }),
+        getCollectionByMarketId: builder.query({
+            query: ({id, marketId}) => ({
+                url: `/Collection/get-collection-by-id/${id}/${marketId}`,
+            })
+        }),
+        postCreateCollection: builder.mutation({
+            query: (data) => ({
+                url: `/Collection/create-collection-and-product-collection`,
+                method: 'POST',
+                body: data
+            })
+        }),
     }),
 })
 export const {
@@ -113,5 +154,12 @@ export const {
     useGetProductByIdQuery,
     useGetAllCategoriesByMarketIdQuery,
     useGetCategoryByMarketIdQuery,
-    usePostCreateProductMutation
+    usePostCreateProductMutation,
+    useGetAllSectorsQuery,
+    usePostCreateMarketMutation,
+    useGetUserQuery,
+    usePostCreateCategoryMutation,
+    useGetAllCollectionsByMarketIdQuery,
+    useGetCollectionByMarketIdQuery,
+    usePostCreateCollectionMutation
 } = ownerApi

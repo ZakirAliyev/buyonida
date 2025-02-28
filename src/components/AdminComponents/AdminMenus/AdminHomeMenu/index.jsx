@@ -7,8 +7,8 @@ import image1 from "/src/assets/bg.jpg";
 import image2 from "/src/assets/miniPhoto.png";
 import {useGetAllProductsByMarketIdQuery, useGetStoreByIdQuery} from "../../../../service/userApi.js";
 import Cookies from "js-cookie";
-import {MARKET_LOGO} from "../../../../../constants.js";
-import {useNavigate} from "react-router-dom";
+import {BASE_URL, MARKET_LOGO} from "../../../../../constants.js";
+import {Link, useNavigate} from "react-router-dom";
 
 function AdminHomeMenu() {
     const {data: getStoreById} = useGetStoreByIdQuery(Cookies.get('chooseMarket'));
@@ -33,6 +33,18 @@ function AdminHomeMenu() {
     return (
         <section id="adminHomeMenu">
             <h1>Let's start to setup!</h1>
+            <div className="wrapper wrapper1" style={{
+                height: '60px'
+            }}>
+                <div className="textWrapper1">
+                    <div className="blackDot"></div>
+                    <span>
+                        Your market link:
+                        <Link to={`${BASE_URL}@${store?.name}`}
+                              className={"marketLink"}>{`${BASE_URL}@${store?.name}`}</Link>
+                    </span>
+                </div>
+            </div>
             {/*<div className="wrapper">*/}
             {/*    <div>*/}
             {/*        <div className="storeLogo">Store Logo</div>*/}
@@ -62,7 +74,7 @@ function AdminHomeMenu() {
                     <span>Add your {products && products.length === 0 ? (
                         <></>
                     ) : (
-                        <>first</>
+                        <>first </>
                     )}
                         {products && products.length === 0 ? (
                             <>products</>
@@ -83,7 +95,8 @@ function AdminHomeMenu() {
                 </div>
                 <div className="rightBar" onClick={() => {
                     navigate('/cp/customize-store')
-                }}><FaStoreAlt/>Customize Store</div>
+                }}><FaStoreAlt/>Customize Store
+                </div>
             </div>
             <div className="wrapper wrapper1">
                 <div className="textWrapper1">
@@ -92,7 +105,8 @@ function AdminHomeMenu() {
                 </div>
                 <div className="rightBar" onClick={() => {
                     navigate('/cp/settings')
-                }}><IoMdSettings/>Settings</div>
+                }}><IoMdSettings/>Settings
+                </div>
             </div>
             <div className="row">
                 <div className="col-4">

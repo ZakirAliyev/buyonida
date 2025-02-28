@@ -1,6 +1,6 @@
 import './index.scss'
 import {Link, useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import image1 from "/src/assets/bg.jpg";
 import image2 from "/src/assets/sariLogo.png";
 import {useGetAllStoresQuery} from "../../../service/userApi.js";
@@ -12,9 +12,12 @@ function AdminChooseMarketPage() {
     const [chooseMarket, setChooseMarket] = useState(null);
     const navigate = useNavigate();
 
-    const {data: getAllStores} = useGetAllStoresQuery();
+    const {data: getAllStores, refetch} = useGetAllStoresQuery();
     const stores = getAllStores?.data || [];
-    console.log(stores);
+
+    useEffect(() => {
+        refetch()
+    }, [refetch])
 
     return (
         <section id={"adminChooseMarketPage"}>
@@ -38,12 +41,12 @@ function AdminChooseMarketPage() {
                             </div>
                         ))
                     ) : (
-                        <>
-                            <div className={"noMarket newBox"}>Mağaza yoxdur</div>
-                        </>
+                        <></>
                     )}
                     {stores.length < 3 && (
-                        <div className={"newBox"}>
+                        <div className={"newBox"} onClick={() => {
+                            navigate('/create-market')
+                        }}>
                             <p>+ Yeni mağaza yarat</p>
                         </div>
                     )}

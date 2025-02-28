@@ -2,13 +2,17 @@ import './index.scss';
 import "react-quill/dist/quill.snow.css";
 import image1 from "/src/assets/miniPhoto.png"
 import {useNavigate} from "react-router-dom";
-import {RxCross2} from "react-icons/rx";
 import image2 from "../../../../assets/order.png";
+import {useGetAllCollectionsByMarketIdQuery} from "../../../../service/userApi.js";
+import Cookies from "js-cookie";
+import {COLLECTION_LOGO} from "../../../../../constants.js";
 
 function AdminCollectionsMenu() {
 
     const navigate = useNavigate()
-    const arr = new Array(2).fill(0)
+
+    const {data: getAllCollectionsByMarketId} = useGetAllCollectionsByMarketIdQuery(Cookies.get("chooseMarket"));
+    const collections = getAllCollectionsByMarketId?.data
 
     return (
         <section id="adminCollectionsMenu">
@@ -35,39 +39,39 @@ function AdminCollectionsMenu() {
                 </tr>
                 </thead>
                 <tbody>
-                {arr && arr.length !== 0 ? (
-                    arr.map((item, index) => (
-                        <tr key={index}>
+                {collections && collections.length !== 0 ? (
+                    collections.map((item) => (
+                        <tr key={item?.id}>
                             <td className={"checkboxWrapper"}>
                                 <input type="checkbox"/>
                             </td>
-                            <td onClick={()=> {
-                                navigate('/cp/edit-collection')
+                            <td onClick={() => {
+                                navigate(`/cp/edit-collection/${Cookies.get('chooseMarket')}/${item?.id}`)
                             }}>
-                                <img className={"image"} src={image1} alt={"Image"}/>
-                                Default collection
+                                <img className={"image"} src={COLLECTION_LOGO + item?.coverImageUrl} alt={"Image"}/>
+                                {item?.title}
                             </td>
-                            <td onClick={()=> {
-                                navigate('/cp/edit-collection')
-                            }}>5</td>
+                            <td onClick={() => {
+                                navigate(`/cp/edit-collection/${Cookies.get('chooseMarket')}/${item?.id}`)
+                            }}>{item?.products?.length}
+                            </td>
                         </tr>
                     ))
                 ) : (
                     <div style={{
                         display: 'flex',
-                        alignItems: 'center',
                         justifyContent: 'center',
                         textAlign: 'center',
                         flexDirection: 'column',
                         gap: '16px'
                     }}>
-                        <img src={image2} alt={"Image"}/>
                         <div style={{
                             maxWidth: '400px',
                             width: '100%',
+                            padding: '16px 32px',
+                            textAlign: 'start'
                         }}>
                             There are no products in this collection.
-                            Search for products
                         </div>
                     </div>
                 )}

@@ -125,7 +125,7 @@ export const ROUTES = [
                 element: <AdminHomePage/>
             },
             {
-                path: 'cp/edit-collection',
+                path: 'cp/edit-collection/:marketId/:id',
                 element: <AdminHomePage/>
             },
             {

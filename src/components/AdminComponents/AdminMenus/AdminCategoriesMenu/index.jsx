@@ -1,6 +1,5 @@
 import './index.scss';
 import "react-quill/dist/quill.snow.css";
-import image1 from "/src/assets/miniPhoto.png"
 import {useNavigate} from "react-router-dom";
 import {useGetAllCategoriesByMarketIdQuery} from "../../../../service/userApi.js";
 import Cookies from "js-cookie";

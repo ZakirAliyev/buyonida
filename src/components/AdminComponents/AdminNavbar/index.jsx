@@ -7,6 +7,9 @@ import {useState, useEffect, useRef} from "react";
 import {useNavigate} from "react-router-dom";
 import {useLocation} from "react-router";
 import {FiLogOut} from "react-icons/fi";
+import {useGetStoreByIdQuery, useGetUserQuery} from "../../../service/userApi.js";
+import Cookies from "js-cookie";
+import {MARKET_LOGO} from "../../../../constants.js";
 
 function AdminNavbar() {
     const [layerOpen, setLayerOpen] = useState(false);
@@ -28,7 +31,14 @@ function AdminNavbar() {
         };
     }, []);
 
+
     const navigate = useNavigate();
+    const {data: getStoreById} = useGetStoreByIdQuery(Cookies.get('chooseMarket'))
+    const store = getStoreById?.data
+
+    const {data: getStore} = useGetUserQuery()
+    const user = getStore?.data
+    console.log(user)
 
     return (
         <section id={"adminNavbar"}>
@@ -51,8 +61,10 @@ function AdminNavbar() {
                 <div className={"wrapper"} onClick={() => setLayerOpen(!layerOpen)} style={{
                     backgroundColor: layerOpen && '#FFBB00'
                 }}>
-                    <div className={"profilePhoto"}><FaUser className={"icon"}/></div>
-                    <p>Elvar Aghamaliyev</p>
+                    <div className={"profilePhoto"}>
+                        <img src={MARKET_LOGO + store?.logoImageName} alt={"Image"}/>
+                    </div>
+                    <p>{store?.name}</p>
                 </div>
             </div>
             <div
@@ -64,8 +76,8 @@ function AdminNavbar() {
                     <>
                         <div className={"wrapper"}>
                             <div className={"box"}>
-                                <img src={image2} alt={"Image"}/>
-                                <span>Store Name</span>
+                                <img src={MARKET_LOGO + store?.logoImageName} alt={"Image"}/>
+                                <span>{store?.name}</span>
                             </div>
                             <div className={"box"} onClick={() => {
                                 navigate('/choose-market')
@@ -89,8 +101,8 @@ function AdminNavbar() {
                         <div className={"line"}></div>
                         <div className={"wrapper"}>
                             <div className={"box box1"}>
-                                <span>Name Surname</span>
-                                <div className={"mail"}>mailadress@gmail.com</div>
+                                <span>{user?.name} {user?.surname}</span>
+                                <div className={"mail"}>{user?.email}</div>
                             </div>
                             <div className={"box"} onClick={() => {
                                 navigate('/cp/manage-account')

@@ -52,6 +52,28 @@
         border-radius: 5px;
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
         padding: 4px;
+
+        &:hover {
+          background-color: #FFCE00;
+        }
+      }
+    }
+
+    .noSelected {
+      .ad {
+        background-color: #FFBB00;
+        color: black;
+      }
+    }
+
+    .selected1 {
+      .ad {
+        background-color: #2F2F2F;
+        color: white;
+      }
+
+      .asdasd {
+        background-color: #FFBB00;
       }
     }
 

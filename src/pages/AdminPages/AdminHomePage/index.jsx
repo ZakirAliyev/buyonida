@@ -53,7 +53,7 @@ function AdminHomePage() {
                             <AdminCollectionsMenu/>
                         ) : url.pathname === '/cp/add-collection' ? (
                             <AdminAddCollectionMenu/>
-                        ) : url.pathname === '/cp/edit-collection' ? (
+                        ) : /^\/cp\/edit-collection\/\d+\/\d+$/.test(pathname) ? (
                             <AdminEditCollectionMenu/>
                         ) : url.pathname === '/cp/categories' ? (
                             <AdminCategoriesMenu/>
