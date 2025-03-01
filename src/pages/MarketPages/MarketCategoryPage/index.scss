@@ -1,0 +1,76 @@
+#marketCategoryPage {
+  background-color: #f6f6f6;
+
+  * {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .line {
+    height: 1px;
+    background-color: #d9d9d9;
+    width: 100%;
+    margin: 20px 0;
+  }
+
+  .icon {
+    font-size: 24px;
+  }
+
+  .box {
+    margin: auto;
+  }
+
+  .box1 {
+    rotate: 180deg;
+  }
+
+  .section {
+    padding-top: 100px;
+    padding-bottom: 30px;
+
+    .titleWrapper {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+
+      img {
+        width: 220px;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        border-radius: 15px;
+      }
+
+      .textWrapper {
+        h2 {
+          font-weight: 600;
+          font-size: 40px;
+          line-height: 60px;
+        }
+
+        h3 {
+          max-width: 500px;
+          width: 100%;
+          font-weight: 400;
+          font-size: 15.8px;
+          line-height: 23.71px;
+        }
+      }
+    }
+
+    .lookOther {
+      background-color: #eee;
+      padding: 32px;
+      border-radius: 30px;
+      margin: 50px;
+
+      h4 {
+        font-weight: 600;
+        font-size: 40px;
+        line-height: 60px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+    }
+  }
+}

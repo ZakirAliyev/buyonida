@@ -5,10 +5,17 @@
   overflow: hidden;
   transition: all .4s ease;
 
-  img {
+  .img {
     width: 100%;
     aspect-ratio: 1/1;
     object-fit: cover;
+    background-color: white;
+
+    img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: contain;
+    }
   }
 
   .textWrapper {

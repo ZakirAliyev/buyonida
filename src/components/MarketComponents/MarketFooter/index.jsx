@@ -10,26 +10,26 @@ function MarketFooter() {
                         <img src={image1} alt={"Image"}/>
                     </div>
                     <div className={"col-15-60"}>
-                        <h2>Pages</h2>
+                        <h3>Pages</h3>
                         <p>Collections</p>
                         <p>Categories</p>
                         <p>About Us</p>
                     </div>
                     <div className={"col-15-60"}>
-                        <h2>Social Links</h2>
+                        <h3>Social Links</h3>
                         <p>Instagram</p>
                         <p>Facebook</p>
                         <p>Tiktok</p>
                     </div>
                     <div className={"col-15-60"}>
-                        <h2>Get Help</h2>
+                        <h3>Get Help</h3>
                         <p>FAQ</p>
                         <p>Buyonida support</p>
                         <p>Documentary</p>
                     </div>
                 </div>
                 <div className={"bottom"}>
-                    <h3>Powered by Buyonida</h3>
+                    <h4>Powered by Buyonida</h4>
                 </div>
             </div>
         </section>

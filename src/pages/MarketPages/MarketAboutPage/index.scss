@@ -5,7 +5,7 @@
     font-family: 'Poppins', sans-serif;
   }
 
-  .section {
+  .section123 {
     padding-top: 220px;
     padding-bottom: 180px;
 
@@ -16,7 +16,8 @@
       img {
         width: 300px;
         aspect-ratio: 1/1;
-        object-fit: cover;
+        object-fit: contain;
+        filter: brightness(0);
         border-radius: 20px;
       }
     }

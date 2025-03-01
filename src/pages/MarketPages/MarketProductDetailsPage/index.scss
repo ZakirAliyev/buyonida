@@ -1,0 +1,234 @@
+#marketProductDetailsPage {
+  background-color: #f6f6f6;
+  min-height: 100vh;
+
+  * {
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+  }
+
+  .pd8 {
+    padding: 16px 8px 16px;
+  }
+
+  .section {
+    padding-top: 100px;
+    padding-bottom: 30px;
+
+    .container {
+      // Container içi düzenlemeler
+      // Örneğin: max-width, padding vs.
+      // max-width: 1200px;
+      // margin: 0 auto;
+      // padding: 0 15px;
+    }
+
+    .col-6:nth-of-type(1) {
+      .row {
+        .col-2 {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+
+          img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: contain;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+
+            &:hover {
+              opacity: 0.9;
+            }
+          }
+        }
+
+        img {
+          width: 100%;
+          aspect-ratio: 1 / 1;
+          object-fit: contain;
+          border: 1px solid #ddd;
+          border-radius: 15px;
+          background-color: white;
+        }
+      }
+    }
+
+    .col-6:nth-of-type(2) {
+      display: flex;
+      flex-direction: column;
+      padding: 32px;
+
+      h2 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      h3 {
+        font-size: 20px;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      h4 {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.4;
+        margin-bottom: 15px;
+      }
+
+      h5 {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .variantWrapper {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+
+        div {
+          padding: 6px 12px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+
+          &:hover {
+            background-color: #e6e6e6;
+          }
+        }
+      }
+
+      .allWrapper {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-top: 20px;
+
+        .incDecWrapper {
+          display: flex;
+          align-items: center;
+          border: 1px solid #ccc;
+          border-radius: 100px;
+
+          button {
+            width: 32px;
+            height: 32px;
+            background-color: #f6f6f6;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+
+            &:hover {
+              background-color: #e6e6e6;
+            }
+          }
+
+          input {
+            width: 40px;
+            height: 32px;
+            text-align: center;
+            outline: none;
+            border: none;
+            background-color: #f6f6f6;
+            padding-left: 15px;
+          }
+        }
+
+        // ADD TO CART butonu
+        button {
+          padding: 10px 20px;
+          border: none;
+          background-color: #FFBB00;
+          color: white;
+          cursor: pointer;
+          border-radius: 100px;
+          transition: opacity 0.2s ease;
+          width: 100%;
+          font-weight: 600;
+
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+      }
+
+      // BUY IT NOW butonu
+      > button:last-of-type {
+        padding: 10px 20px;
+        border: none;
+        background-color: #000;
+        color: #fff;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+
+        width: 100%;
+        margin-top: 10px;
+        border-radius: 100px;
+        font-weight: 600;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+
+  .span1 {
+    font-weight: 600;
+    font-size: 19.93px;
+    line-height: 29.9px;
+  }
+
+  .span2 {
+    text-decoration: line-through;
+    color: #a8a8a8;
+    font-size: 15px;
+    margin-left: 5px;
+  }
+
+  h2 {
+    font-weight: 600;
+    font-size: 39.28px;
+    line-height: 58.92px;
+  }
+
+  h1 + button {
+    background-color: #f6f6f6;
+    border: 1px solid black;
+    padding: 4px 32px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    .icon {
+      font-size: 20px;
+    }
+  }
+
+  .optVal {
+    background-color: #f6f6f6;
+    padding: 4px 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: all .2s ease;
+
+    &:hover {
+      background-color: #e6e6e6;
+    }
+  }
+
+  .active {
+    background-color: #FFBB00;
+    color: white;
+  }
+}

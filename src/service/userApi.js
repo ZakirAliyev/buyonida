@@ -139,6 +139,11 @@ export const ownerApi = createApi({
                 body: data
             })
         }),
+        getStoreByName: builder.query({
+            query: (name) => ({
+                url: `/Market/get-store-by-name/${name}`,
+            })
+        }),
     }),
 })
 export const {
@@ -161,5 +166,6 @@ export const {
     usePostCreateCategoryMutation,
     useGetAllCollectionsByMarketIdQuery,
     useGetCollectionByMarketIdQuery,
-    usePostCreateCollectionMutation
+    usePostCreateCollectionMutation,
+    useGetStoreByNameQuery
 } = ownerApi

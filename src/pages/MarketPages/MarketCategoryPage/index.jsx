@@ -1,17 +1,19 @@
 import './index.scss'
 import MarketNavbar from "../../../components/MarketComponents/MarketNavbar/index.jsx";
 import MarketFooter from "../../../components/MarketComponents/MarketFooter/index.jsx";
+import image1 from "/src/assets/mohtesem.jpg"
 import MarketCard from "../../../components/MarketComponents/MarketCard/index.jsx";
-import {FaChevronRight} from "react-icons/fa";
+import {FaChevronLeft, FaChevronRight} from "react-icons/fa";
+import {useLocation} from "react-router";
 import {useParams} from "react-router-dom";
 import {
     useGetAllProductsByMarketIdQuery,
-    useGetCollectionByMarketIdQuery,
+    useGetCategoryByMarketIdQuery,
     useGetStoreByNameQuery
 } from "../../../service/userApi.js";
-import {CATEGORY_LOGO, COLLECTION_LOGO} from "../../../../constants.js";
+import {CATEGORY_LOGO} from "../../../../constants.js";
 
-function MarketCollectionPage() {
+function MarketCategoryPage() {
 
     const params = useParams()
 
@@ -20,28 +22,28 @@ function MarketCollectionPage() {
     const store = getStoreByName?.data
     const marketId = store?.id
     const id = params?.id
-    const {data: getCollectionByMarketId} = useGetCollectionByMarketIdQuery({marketId, id})
-    const collection = getCollectionByMarketId?.data
+    const {data: getCategoryByMarketId} = useGetCategoryByMarketIdQuery({marketId, id})
+    const category = getCategoryByMarketId?.data
     const {data: getAllProductsByMarketId} = useGetAllProductsByMarketIdQuery(store?.id)
     const products = getAllProductsByMarketId?.data
-
+    console.log(products)
     return (
-        <section id={"marketCollectionPage"}>
+        <section id={"marketCategoryPage"}>
             <MarketNavbar/>
             <div className={"section"}>
                 <div className={"container"}>
                     <div className={"titleWrapper"}>
-                        <img src={COLLECTION_LOGO + collection?.coverImageUrl} alt={"Image"}/>
+                        <img src={CATEGORY_LOGO + category?.imageName} alt={"Image"}/>
                         <div className={"textWrapper"}>
-                            <h2>{collection?.title}</h2>
+                            <h2>{category?.name}</h2>
                             <h3>A short description about product. You will see product details and good sentences in
                                 here because i want like that because i want like that</h3>
                         </div>
                     </div>
                     <div className="row">
                         <div className="line"></div>
-                        {collection?.products &&
-                            collection.products.map((product, index) => (
+                        {category?.products &&
+                            category.products.map((product, index) => (
                                 <>
                                     <MarketCard number={12} product={product}/>
                                     {(index + 1) % 5 === 0 && <div className="line"></div>}
@@ -70,4 +72,4 @@ function MarketCollectionPage() {
     );
 }
 
-export default MarketCollectionPage;
+export default MarketCategoryPage;

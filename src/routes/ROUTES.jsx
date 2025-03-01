@@ -16,8 +16,11 @@ import AdminSuccessPage from "../pages/AdminPages/AdminSuccessPage/index.jsx";
 import AdminCreateMaketPage from "../pages/AdminPages/AdminCreateMaketPage/index.jsx";
 import AdminCreateMaketFinishPage from "../pages/AdminPages/AdminCreateMaketFinishPage/index.jsx";
 import MarketHomePage from "../pages/MarketPages/MarketHomePage/index.jsx";
-import MarketCollectionPage from "../pages/MarketPages/MarketCollectionPage/index.jsx";
 import MarketAboutPage from "../pages/MarketPages/MarketAboutPage/index.jsx";
+import MarketCategoryPage from "../pages/MarketPages/MarketCategoryPage/index.jsx";
+import MarketCollectionPage from "../pages/MarketPages/MarketCollectionPage/index.jsx";
+import MarketProductDetailsPage from "../pages/MarketPages/MarketProductDetailsPage/index.jsx";
+import MarketCheckoutPage from "../pages/MarketPages/MarketCheckoutPage/index.jsx";
 
 export const ROUTES = [
     {
@@ -158,8 +161,20 @@ export const ROUTES = [
                 element: <MarketHomePage/>
             },
             {
+                path: '/:marketName/category/:id',
+                element: <MarketCategoryPage/>
+            },
+            {
                 path: '/:marketName/collection/:id',
                 element: <MarketCollectionPage/>
+            },
+            {
+                path: '/:marketName/product/:id',
+                element: <MarketProductDetailsPage/>
+            },
+            {
+                path: 'checkout',
+                element: <MarketCheckoutPage/>
             },
             {
                 path: '/:marketName/about',
