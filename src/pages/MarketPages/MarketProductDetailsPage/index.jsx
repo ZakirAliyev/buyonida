@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./index.scss";
 import MarketNavbar from "../../../components/MarketComponents/MarketNavbar/index.jsx";
 import MarketFooter from "../../../components/MarketComponents/MarketFooter/index.jsx";
@@ -7,10 +7,14 @@ import {
     useGetAllProductsByMarketIdQuery,
     useGetProductByIdQuery,
     useGetStoreByNameQuery,
+    usePostAddProductMutation,
+    useGetBasketGetOrCreateQuery,
 } from "../../../service/userApi.js";
 import { PRODUCT_LOGO } from "../../../../constants.js";
 import MarketCard from "../../../components/MarketComponents/MarketCard/index.jsx";
 import { HiOutlineArrowLongRight } from "react-icons/hi2";
+import { toast, ToastContainer } from "react-toastify";
+import Cookies from "js-cookie";
 
 function MarketProductDetailsPage() {
     const params = useParams();
@@ -19,48 +23,82 @@ function MarketProductDetailsPage() {
     const store = getStoreByName?.data;
     const marketId = store?.id;
     const id = params?.id;
+    const uniqueCode = Cookies.get('uniqueCode');
+
+    // Ürünü ve diğer ürünleri çekiyoruz
     const { data: getProductById } = useGetProductByIdQuery({ marketId, id });
     const product = getProductById?.data;
     const { data: getAllProductsByMarketId } = useGetAllProductsByMarketIdQuery(marketId);
     const products = getAllProductsByMarketId?.data;
 
-    // State for quantity and selected variants
+    // Sepet verilerini almak için ek hook
+    const { refetch: refetchBasket } = useGetBasketGetOrCreateQuery({ marketId, uniqueCode });
+
     const [quantity, setQuantity] = useState(1);
-    // Bu nümunədə variantların obyekt şəklində saxlanması nəzərdə tutulur, məsələn: { color: 'red', size: 'M' }
     const [selectedVariants, setSelectedVariants] = useState({});
+    const [triggerBasket] = usePostAddProductMutation();
 
     const handleVariantChange = (optionName, value) => {
         setSelectedVariants((prev) => ({ ...prev, [optionName]: value }));
     };
 
-    const handleAddToCart = () => {
-        // Yerlərdə olan səbəti oxuyuruq, əgər yoxdursa, boş array
-        const basket = JSON.parse(localStorage.getItem("basket")) || [];
-        // Əgər hər variantdan yalnız bir dənə əlavə etmək istəyirsinizsə,
-        // əvvəlcədən eyni variant konfiqurasiyasına malik məhsul varsa onu update edin.
-        const existingIndex = basket.findIndex(
-            (item) =>
-                item.id === product.id &&
-                JSON.stringify(item.selectedVariants) === JSON.stringify(selectedVariants)
-        );
-        if (existingIndex > -1) {
-            // Miqdarı artırırıq
-            basket[existingIndex].quantity += quantity;
-        } else {
-            // Yeni obyekt yaradırıq
-            const basketItem = {
-                id: product.id,
-                title: product.title,
-                price: product.price,
-                image: product?.imageNames ? PRODUCT_LOGO + product.imageNames[0] : "",
-                selectedVariants,
-                quantity,
-            };
-            basket.push(basketItem);
+    const handleAddToCart = async () => {
+        if (product?.productOptions) {
+            for (let option of product.productOptions) {
+                if (!selectedVariants[option.name]) {
+                    toast.warning(`Zəhmət olmasa ${option.name} seçin`, {
+                        position: 'bottom-right',
+                        autoClose: 2500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: 'dark',
+                    });
+                    return;
+                }
+            }
         }
-        localStorage.setItem("basket", JSON.stringify(basket));
-        // İstəyə bağlı olaraq, uğur mesajı və ya modal göstərmək olar
-        alert("Məhsul səbətə əlavə edildi!");
+
+        const selectedOptions = product?.productOptions.map((option) => {
+            const selectedValue = selectedVariants[option.name];
+            const valueObj = option.values.find((val) => val.value === selectedValue);
+            return {
+                productOptionId: option.id,
+                optionValueId: valueObj?.id,
+            };
+        });
+
+        const payload = {
+            uniqueCode: uniqueCode,
+            productId: product.id,
+            quantity: quantity,
+            marketId: marketId,
+            selectedOptions: selectedOptions,
+        };
+
+        const response = await triggerBasket(payload).unwrap();
+        console.log(response);
+
+        if (response?.statusCode === 201) {
+            console.log("Basket updated:", response.data);
+            toast.success("Məhsul səbətə əlavə edildi!", {
+                position: 'bottom-right',
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'dark',
+            });
+            // Varyant seçimlerini ve miktarı sıfırla
+            setSelectedVariants({});
+            setQuantity(1);
+            // Sepet verilerini refetch et
+            refetchBasket();
+        }
     };
 
     return (
@@ -76,14 +114,12 @@ function MarketProductDetailsPage() {
                                     <div className="pd8 col-2">
                                         {product?.imageNames &&
                                             product.imageNames.slice(1, 6).map((image, index) => (
-                                                <img src={PRODUCT_LOGO + image} alt="Image" key={index}/>
+                                                <img src={PRODUCT_LOGO + image} alt="Image" key={index} />
                                             ))}
                                     </div>
-                                ) : (
-                                    <></>
-                                )}
+                                ) : null}
                                 <div className={product?.imageNames.length > 1 ? 'col-10' : 'col-12'}>
-                                    <img src={PRODUCT_LOGO + product?.imageNames[0]} alt="Image"/>
+                                    <img src={PRODUCT_LOGO + product?.imageNames[0]} alt="Image" />
                                 </div>
                             </div>
                         </div>
@@ -162,6 +198,7 @@ function MarketProductDetailsPage() {
                 </div>
             </div>
             <MarketFooter />
+            <ToastContainer />
         </section>
     );
 }

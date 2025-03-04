@@ -17,6 +17,11 @@ function App() {
         Cookies.set("chooseMarket", "null");
     }
 
+    const uniqueCode = Cookies.get("uniqueCode");
+    if (!uniqueCode) {
+        Cookies.set("uniqueCode", "null");
+    }
+
     return (
         <RouterProvider router={routes}/>
     );

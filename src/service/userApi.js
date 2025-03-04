@@ -144,6 +144,47 @@ export const ownerApi = createApi({
                 url: `/Market/get-store-by-name/${name}`,
             })
         }),
+        /*BASKET*/
+        postAddProduct: builder.mutation({
+            query: (data) => ({
+                url: `/Basket/add-product`,
+                method: 'POST',
+                body: data,
+                headers: {'Content-Type': 'application/json'}
+            })
+        }),
+        getBasketGetOrCreate: builder.query({
+            query: ({marketId, uniqueCode}) => ({
+                url: `/Basket/get-or-create/${marketId}/${uniqueCode}`,
+            })
+        }),
+        getBasket: builder.query({
+            query: (basketId) => ({
+                url: `/Basket/${basketId}`,
+            })
+        }),
+        postBasketCheckout: builder.mutation({
+            query: (data) => ({
+                url: `/Basket/checkout`,
+                method: 'POST',
+                body: data,
+                headers: {'Content-Type': 'application/json'}
+            })
+        }),
+        postBasketConfirm: builder.mutation({
+            query: (data) => ({
+                url: `/Basket/confirm`,
+                method: 'POST',
+                body: data,
+                headers: {'Content-Type': 'application/json'}
+            })
+        }),
+        deleteBasketItem: builder.mutation({
+            query: ({basketItemId, marketId, uniqueCode}) => ({
+                url: `/Basket/${basketItemId}/${marketId}/${uniqueCode}`,
+                method: 'DELETE',
+            })
+        })
     }),
 })
 export const {
@@ -167,5 +208,12 @@ export const {
     useGetAllCollectionsByMarketIdQuery,
     useGetCollectionByMarketIdQuery,
     usePostCreateCollectionMutation,
-    useGetStoreByNameQuery
+    useGetStoreByNameQuery,
+    /* BASKET */
+    usePostAddProductMutation,
+    useGetBasketGetOrCreateQuery,
+    useGetBasketQuery,
+    usePostBasketCheckoutMutation,
+    usePostBasketConfirmMutation,
+    useDeleteBasketItemMutation
 } = ownerApi
