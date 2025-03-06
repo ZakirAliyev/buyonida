@@ -1,40 +1,44 @@
 import "./index.scss";
-import { useEffect, useState } from "react";
-import { FaRegTrashAlt, FaShoppingBag } from "react-icons/fa";
+import {useEffect, useState} from "react";
+import {FaRegTrashAlt, FaShoppingBag} from "react-icons/fa";
 import Fingerprint from "../../Fingerprint/index.jsx";
 import {
     useDeleteBasketItemMutation,
     useGetBasketGetOrCreateQuery,
     useGetStoreByNameQuery,
-    usePostAddProductMutation
+    usePostAddProductMutation,
+    usePostBasketCheckoutMutation
 } from "../../../service/userApi.js";
 import Cookies from "js-cookie";
-import { useNavigate, useParams } from "react-router-dom";
-import { PRODUCT_LOGO } from "../../../../constants.js";
-import { toast } from "react-toastify";
+import {useNavigate, useParams} from "react-router-dom";
+import {PRODUCT_LOGO} from "../../../../constants.js";
+import {toast} from "react-toastify";
 
-const MarketCart = ({ isOpen, onClose }) => {
+const MarketCart = ({isOpen, onClose}) => {
     const navigate = useNavigate();
     const params = useParams();
+
+    // Get market name from URL
     const marketName = params.marketName.substring(1);
-    const { data: storeData } = useGetStoreByNameQuery(marketName);
+
+    // Get store info from RTK Query
+    const {data: storeData} = useGetStoreByNameQuery(marketName);
     const store = storeData?.data;
     const marketId = store?.id;
+
+    // Get uniqueCode from Cookies
     const uniqueCode = Cookies.get("uniqueCode");
 
-    const { data: basketData, refetch } = useGetBasketGetOrCreateQuery({ marketId, uniqueCode });
+    const {data: basketData, refetch} = useGetBasketGetOrCreateQuery({
+        marketId,
+        uniqueCode
+    });
     const basket = basketData?.data;
     const basketItems = basket?.basketItems || [];
 
     const [deleteBasketItem] = useDeleteBasketItemMutation();
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            refetch();
-        }, 500);
-
-        return () => clearTimeout(timer);
-    }, [basketItems, refetch]);
+    const [postBasketCheckout] = usePostBasketCheckoutMutation();
+    const [postAddProduct] = usePostAddProductMutation();
 
     const [localBasketItems, setLocalBasketItems] = useState(basketItems);
 
@@ -42,15 +46,30 @@ const MarketCart = ({ isOpen, onClose }) => {
         setLocalBasketItems(basketItems);
     }, [basketItems]);
 
-    const subtotal = localBasketItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-    const [postAddProduct] = usePostAddProductMutation();
+    // Periodically refetch basket (optional)
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            refetch();
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [basketItems, refetch]);
 
+    // Calculate subtotal
+    const subtotal = localBasketItems.reduce(
+        (acc, item) => acc + item.price * item.quantity,
+        0
+    );
+
+    // Update quantity
     async function updateQuantity(item, change) {
+        // Avoid decreasing below 1
         if (item.quantity === 1 && change < 0) return;
-        setLocalBasketItems((prevItems) =>
-            prevItems.map((it) => {
+
+        // Update local state first for immediate UI response
+        setLocalBasketItems(prevItems =>
+            prevItems.map(it => {
                 if (it.id === item.id) {
-                    return { ...it, quantity: it.quantity + change };
+                    return {...it, quantity: it.quantity + change};
                 }
                 return it;
             })
@@ -63,9 +82,9 @@ const MarketCart = ({ isOpen, onClose }) => {
                 quantity: change,
                 marketId: marketId,
                 selectedOptions: item.basketItemOptions
-                    ? item.basketItemOptions.map((option) => ({
+                    ? item.basketItemOptions.map(option => ({
                         productOptionId: option.productOptionId,
-                        optionValueId: option.optionValueId,
+                        optionValueId: option.optionValueId
                     }))
                     : []
             }).unwrap();
@@ -75,19 +94,21 @@ const MarketCart = ({ isOpen, onClose }) => {
         }
     }
 
+    // Remove item from basket
     async function handleRemoveItem(item) {
-        setLocalBasketItems((prevItems) => prevItems.filter((it) => it.id !== item.id));
+        // Update local state
+        setLocalBasketItems(prevItems => prevItems.filter(it => it.id !== item.id));
 
         try {
             await deleteBasketItem({
                 basketItemId: item.id,
                 marketId: marketId,
-                uniqueCode: uniqueCode,
+                uniqueCode: uniqueCode
             }).unwrap();
             toast.success("Məhsul səbətdən silindi!", {
                 position: "bottom-right",
                 autoClose: 2500,
-                theme: "dark",
+                theme: "dark"
             });
             refetch();
         } catch (error) {
@@ -95,18 +116,40 @@ const MarketCart = ({ isOpen, onClose }) => {
             toast.error("Məhsul silinirken xəta baş verdi!", {
                 position: "bottom-right",
                 autoClose: 2500,
-                theme: "dark",
+                theme: "dark"
             });
             refetch();
         }
     }
+
+    const handleYasinCheckPut = async (marketId) => {
+        try {
+            const uniqueCodeFromCookie = Cookies.get("uniqueCode");
+            const response = await postBasketCheckout({
+                uniqueCode: uniqueCodeFromCookie, marketId
+            }).unwrap();
+            toast.success("Checkout completed successfully!", {
+                position: "bottom-right",
+                autoClose: 2500,
+                theme: "dark"
+            });
+            console.log("Checkout response:", response);
+        } catch (error) {
+            console.error("Error during checkout:", error);
+            toast.error("Xəta baş verdi! Zəhmət olmasa yenidən cəhd edin.", {
+                position: "bottom-right",
+                autoClose: 2500,
+                theme: "dark"
+            });
+        }
+    };
 
     return (
         <section id="marketCart">
             <div className={`cart-sidebar ${isOpen ? "open" : ""}`}>
                 <div>
                     <h2 className="cart-title">YOUR SHOPPING BAG</h2>
-                    <Fingerprint />
+                    <Fingerprint/>
                     <div className="cart-items">
                         {localBasketItems.length > 0 ? (
                             localBasketItems.map((item, index) => (
@@ -121,12 +164,15 @@ const MarketCart = ({ isOpen, onClose }) => {
                                             style={{
                                                 display: "flex",
                                                 alignItems: "center",
-                                                justifyContent: "space-between",
+                                                justifyContent: "space-between"
                                             }}
                                         >
                                             <h3>{item.product.title}</h3>
-                                            <button className="delete-btn" onClick={() => handleRemoveItem(item)}>
-                                                <FaRegTrashAlt />
+                                            <button
+                                                className="delete-btn"
+                                                onClick={() => handleRemoveItem(item)}
+                                            >
+                                                <FaRegTrashAlt/>
                                             </button>
                                         </div>
                                         {item.basketItemOptions &&
@@ -138,11 +184,26 @@ const MarketCart = ({ isOpen, onClose }) => {
                                         <div className="cart-item-footer">
                                             <span className="price">${item.price}</span>
                                             <div className="quantity">
-                                                <span style={{ fontSize: "14px", marginRight: "10px" }}>Quantity:</span>
+                                                <span
+                                                    style={{
+                                                        fontSize: "14px",
+                                                        marginRight: "10px"
+                                                    }}
+                                                >
+                                                    Quantity:
+                                                </span>
                                                 <div className="btnWrapper">
-                                                    <button onClick={() => updateQuantity(item, -1)}>-</button>
-                                                    <input type="text" value={item.quantity} readOnly />
-                                                    <button onClick={() => updateQuantity(item, 1)}>+</button>
+                                                    <button onClick={() => updateQuantity(item, -1)}>
+                                                        -
+                                                    </button>
+                                                    <input
+                                                        type="text"
+                                                        value={item.quantity}
+                                                        readOnly
+                                                    />
+                                                    <button onClick={() => updateQuantity(item, 1)}>
+                                                        +
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -171,10 +232,11 @@ const MarketCart = ({ isOpen, onClose }) => {
                 <button
                     className="checkout-btn"
                     onClick={() => {
-                        navigate("/checkout");
+                        navigate(`/checkout/${marketId}`);
+                        handleYasinCheckPut(marketId)
                     }}
                 >
-                    <FaShoppingBag /> CHECKOUT SECURELY
+                    <FaShoppingBag/> CHECKOUT SECURELY
                 </button>
             </div>
         </section>

@@ -2,6 +2,7 @@ import './App.css';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {ROUTES} from "./routes/ROUTES.jsx";
 import Cookies from 'js-cookie'
+import {ToastContainer} from "react-toastify";
 
 const routes = createBrowserRouter(ROUTES);
 
@@ -23,7 +24,7 @@ function App() {
     }
 
     return (
-        <RouterProvider router={routes}/>
+            <RouterProvider router={routes}/>
     );
 }
 

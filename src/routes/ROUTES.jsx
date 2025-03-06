@@ -173,7 +173,7 @@ export const ROUTES = [
                 element: <MarketProductDetailsPage/>
             },
             {
-                path: 'checkout',
+                path: 'checkout/:marketId',
                 element: <MarketCheckoutPage/>
             },
             {

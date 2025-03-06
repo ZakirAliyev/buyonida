@@ -164,11 +164,9 @@ export const ownerApi = createApi({
             })
         }),
         postBasketCheckout: builder.mutation({
-            query: (data) => ({
-                url: `/Basket/checkout`,
+            query: ({uniqueCode, marketId}) => ({
+                url: `/Basket/checkout/${uniqueCode}/${marketId}`,
                 method: 'POST',
-                body: data,
-                headers: {'Content-Type': 'application/json'}
             })
         }),
         postBasketConfirm: builder.mutation({
@@ -184,7 +182,21 @@ export const ownerApi = createApi({
                 url: `/Basket/${basketItemId}/${marketId}/${uniqueCode}`,
                 method: 'DELETE',
             })
-        })
+        }),
+        /* ORDER */
+        postOrder: builder.mutation({
+            query: (data) => ({
+                url: `/Order`,
+                method: 'POST',
+                body: data,
+                headers: {'Content-Type': 'application/json'}
+            })
+        }),
+        getOrdersByMarketId: builder.query({
+            query: (marketId) => ({
+                url: `/Order/market?marketId=${marketId}`,
+            })
+        }),
     }),
 })
 export const {
@@ -215,5 +227,8 @@ export const {
     useGetBasketQuery,
     usePostBasketCheckoutMutation,
     usePostBasketConfirmMutation,
-    useDeleteBasketItemMutation
+    useDeleteBasketItemMutation,
+    /* ORDER */
+    usePostOrderMutation,
+    useGetOrdersByMarketIdQuery
 } = ownerApi

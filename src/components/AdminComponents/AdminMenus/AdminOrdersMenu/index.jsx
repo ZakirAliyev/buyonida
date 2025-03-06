@@ -1,20 +1,24 @@
 import './index.scss'
 import {GoDotFill} from "react-icons/go";
 import {useNavigate} from "react-router-dom";
+import {useGetOrdersByMarketIdQuery} from "../../../../service/userApi.js";
+import Cookies from "js-cookie";
 
 function AdminOrdersMenu() {
 
-    const arr = new Array(0).fill(0)
+    const {data: getOrdersByMarketId} = useGetOrdersByMarketIdQuery(Cookies.get('chooseMarket'))
+    const orders = getOrdersByMarketId?.data
+
     const navigate = useNavigate();
 
     return (
-        <section id={"adminOrdersMenu"}>
+        <section id="adminOrdersMenu">
             <h1>Orders</h1>
             <table>
                 <thead>
                 <tr className="first">
                     <th>
-                        <button className={"selectedBtn"}>All orders</button>
+                        <button className="selectedBtn">All orders</button>
                     </th>
                     <th>
                         <button>Unfulfilled</button>
@@ -43,50 +47,42 @@ function AdminOrdersMenu() {
                 </tr>
                 </thead>
                 <tbody>
-                {arr && arr.length > 0 ? (
-                    arr.map((item, index) => (
-                        <tr key={index} className="pbtr">
+                {orders && orders.length > 0 ? (
+                    orders.map((order) => (
+                        <tr key={order.id} className="pbtr">
                             <td className="checkboxWrapper">
                                 <input type="checkbox"/>
                             </td>
-                            <td onClick={() => {
-                                navigate('/cp/order-details')
-                            }}>
-                                <span>#1031</span>
+                            <td onClick={() => navigate('/cp/order-details')}>
+                                <span>#{order.id}</span>
                             </td>
-                            <td onClick={() => {
-                                navigate('/cp/order-details')
-                            }}>
-                                <span>24 Feb at 11:00 AM</span>
+                            <td onClick={() => navigate('/cp/order-details')}>
+                                <span>{new Date(order.createdDate).toLocaleString()}</span>
                             </td>
-                            <td onClick={() => {
-                                navigate('/cp/order-details')
-                            }}>Elvar Aghamaliyev
+                            <td onClick={() => navigate('/cp/order-details')}>
+                                <span>{order.name} {order.surname}</span>
                             </td>
-                            <td onClick={() => {
-                                navigate('/cp/order-details')
-                            }}>$153.24
+                            <td onClick={() => navigate('/cp/order-details')}>
+                                <span>${order.totalPrice}</span>
                             </td>
-                            <td onClick={() => {
-                                navigate('/cp/order-details')
-                            }}>
-                <span className="paid">
-                    <GoDotFill className="iconicon"/> Paid
-                </span>
+                            <td onClick={() => navigate('/cp/order-details')}>
+                  <span className={order.isPayment ? "paid" : "unpaid"}>
+                    <GoDotFill className="iconicon"/> {order.isPayment ? "Paid" : "Not Paid"}
+                  </span>
                             </td>
-                            <td onClick={() => {
-                                navigate('/cp/order-details')
-                            }}>
-                <span className="fulfilled">
-                    <GoDotFill className="iconicon"/> Fulfilled
-                </span>
+                            <td onClick={() => navigate('/cp/order-details')}>
+                  <span className={order.isFulfilled ? "fulfilled" : "unfulfilled"}>
+                    <GoDotFill className="iconicon"/> {order.isFulfilled ? "Fulfilled" : "Not Fulfilled"}
+                  </span>
                             </td>
                         </tr>
                     ))
                 ) : (
-                    <div style={{
-                        padding: '16px 32px'
-                    }}>You don't have an order yet</div>
+                    <tr>
+                        <td colSpan="7" style={{padding: '16px 32px'}}>
+                            You don't have an order yet
+                        </td>
+                    </tr>
                 )}
                 </tbody>
             </table>
