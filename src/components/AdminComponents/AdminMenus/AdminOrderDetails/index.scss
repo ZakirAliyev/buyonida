@@ -4,74 +4,24 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 
-  //.heart {
-  //  .circleWrapper {
-  //    display: flex;
-  //    .circle {
-  //      width: 100px;
-  //      height: 100px;
-  //      border: 1px solid black;
-  //      border-radius: 50%;
-  //    }
-  //  }
-  //}
+  // Row düzeni ve grid sütunları (varsa harici grid sistemi kullanılabilir)
+  .row {
+    display: flex;
+    gap: 20px;
+  }
+
+  .col-8 {
+    width: 66.66%;
+  }
+
+  .col-4 {
+    width: 33.33%;
+  }
 
   .heart {
     font-size: 290px;
     color: red;
   }
-
-
-  //.bigSquare {
-  //  display: flex;
-  //  justify-content: center;
-  //  align-items: center;
-  //  flex-direction: column;
-  //  .squareWrapper {
-  //    display: flex;
-  //
-  //
-  //    .square {
-  //      height: 300px;
-  //      width: 400px;
-  //      border: 3px solid purple;
-  //      background-color: black;
-  //      display: flex;
-  //      justify-content: end;
-  //      align-items: end;
-  //
-  //      .circle {
-  //        height: 200px;
-  //        width: 200px;
-  //        border-radius: 50%;
-  //        border: 3px solid green;
-  //        background-color: red;
-  //        display: flex;
-  //        align-items: center;
-  //        justify-content: center;
-  //
-  //        .circle1 {
-  //          height: 150px;
-  //          width: 150px;
-  //          border-radius: 50%;
-  //          border: 3px solid blue;
-  //          background-color: yellow;
-  //
-  //
-  //        }
-  //      }
-  //    }
-  //
-  //    .square1 {
-  //      justify-content: start;
-  //    }
-  //
-  //    .square2 {
-  //      align-items: start;
-  //    }
-  //  }
-  //}
-
 
   .wrapper {
     margin-top: 20px;
@@ -161,13 +111,14 @@
 
   .img1 {
     height: 30px;
-    width: max-content;
-    border-radius: 0px;
+    width: auto;
+    border-radius: 0;
   }
 
   .line {
     height: 1px;
     background-color: #C6C6C6;
+    margin: 0 32px;
   }
 
   .box3 {
@@ -210,10 +161,71 @@
     padding: 6px 16px;
     border: none;
     border-radius: 5px;
+    cursor: pointer;
   }
 
   .fulfillButton {
     background-color: transparent;
     color: red;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  // Ürün seçenekleri ve opsiyonlar
+  .productOptions {
+    padding: 16px 32px;
+    margin-top: 10px;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+
+    h5 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .optionValues {
+      display: flex;
+      gap: 8px;
+
+      span {
+        background-color: #f0f0f0;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .selectedOption {
+    margin-top: 10px;
+
+    h5 {
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    ul {
+      list-style: disc;
+      margin-left: 20px;
+
+      li {
+        margin-bottom: 4px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .textWrapper2 {
+    display: flex;
+    flex-direction: column;
   }
 }

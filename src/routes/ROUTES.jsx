@@ -88,7 +88,7 @@ export const ROUTES = [
                 element: <AdminHomePage/>
             },
             {
-                path: 'cp/order-details',
+                path: 'cp/order-details/:marketId/:orderId',
                 element: <AdminHomePage/>
             },
             {
@@ -104,7 +104,7 @@ export const ROUTES = [
                 element: <AdminHomePage/>
             },
             {
-                path: 'cp/analytics',
+                path: 'cp/analytics/:marketId',
                 element: <AdminHomePage/>
             },
             {

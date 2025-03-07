@@ -53,19 +53,19 @@ function AdminOrdersMenu() {
                             <td className="checkboxWrapper">
                                 <input type="checkbox"/>
                             </td>
-                            <td onClick={() => navigate('/cp/order-details')}>
+                            <td onClick={() => navigate(`/cp/order-details/${Cookies.get('chooseMarket')}/${order?.id}`)}>
                                 <span>#{order.id}</span>
                             </td>
-                            <td onClick={() => navigate('/cp/order-details')}>
+                            <td onClick={() => navigate(`/cp/order-details/${Cookies.get('chooseMarket')}/${order?.id}`)}>
                                 <span>{new Date(order.createdDate).toLocaleString()}</span>
                             </td>
-                            <td onClick={() => navigate('/cp/order-details')}>
+                            <td onClick={() => navigate(`/cp/order-details/${Cookies.get('chooseMarket')}/${order?.id}`)}>
                                 <span>{order.name} {order.surname}</span>
                             </td>
-                            <td onClick={() => navigate('/cp/order-details')}>
+                            <td onClick={() => navigate(`/cp/order-details/${Cookies.get('chooseMarket')}/${order?.id}`)}>
                                 <span>${order.totalPrice}</span>
                             </td>
-                            <td onClick={() => navigate('/cp/order-details')}>
+                            <td onClick={() => navigate(`/cp/order-details/${Cookies.get('chooseMarket')}/${order?.id}`)}>
                   <span className={order.isPayment ? "paid" : "unpaid"}>
                     <GoDotFill className="iconicon"/> {order.isPayment ? "Paid" : "Not Paid"}
                   </span>

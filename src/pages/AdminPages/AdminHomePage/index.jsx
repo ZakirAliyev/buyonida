@@ -1,7 +1,7 @@
 import './index.scss';
 import AdminLeftMenu from "../../../components/AdminComponents/AdminLeftMenu/index.jsx";
 import AdminNavbar from "../../../components/AdminComponents/AdminNavbar/index.jsx";
-import {useLocation} from "react-router";
+import { useLocation } from "react-router";
 import AdminHomeMenu from "../../../components/AdminComponents/AdminMenus/AdminHomeMenu/index.jsx";
 import AdminOrdersMenu from "../../../components/AdminComponents/AdminMenus/AdminOrdersMenu/index.jsx";
 import AdminProductsMenu from "../../../components/AdminComponents/AdminMenus/AdminProductsMenu/index.jsx";
@@ -24,45 +24,90 @@ function AdminHomePage() {
     const pathname = url.pathname;
     return (
         <section id="adminHomePage">
-            <AdminNavbar/>
+            <AdminNavbar />
             <div className="wrapper">
-                <AdminLeftMenu/>
+                <AdminLeftMenu />
                 <div className="adminWrapper">
-                    <div className="container1">
-                        {url.pathname === '/cp/home' ? (
-                            <AdminHomeMenu/>
-                        ) : url.pathname === '/cp/orders' ? (
-                            <AdminOrdersMenu/>
-                        ) : url.pathname === '/cp/order-details' ? (
-                            <AdminOrderDetails/>
-                        ) : url.pathname === '/cp/products' ? (
-                            <AdminProductsMenu/>
-                        ) : url.pathname === '/cp/analytics' ? (
-                            <AdminAnalyticsMenu/>
-                        ) : url.pathname === '/cp/customize-store' ? (
-                            <AdminCustomizeStoreMenu/>
-                        ) : url.pathname === '/cp/discounts' ? (
-                            <AdminDiscountsMenu/>
-                        ) : url.pathname === '/cp/settings' ? (
-                            <AdminSettingsMenu/>
-                        ) : url.pathname === '/cp/add-product' ? (
-                            <AdminAddProductMenu/>
-                        ) : /^\/cp\/edit-product\/\d+\/\d+$/.test(pathname) ? (
-                            <AdminEditProductMenu/>
-                        ) : url.pathname === '/cp/collections' ? (
-                            <AdminCollectionsMenu/>
-                        ) : url.pathname === '/cp/add-collection' ? (
-                            <AdminAddCollectionMenu/>
-                        ) : /^\/cp\/edit-collection\/\d+\/\d+$/.test(pathname) ? (
-                            <AdminEditCollectionMenu/>
-                        ) : url.pathname === '/cp/categories' ? (
-                            <AdminCategoriesMenu/>
-                        ) : url.pathname === '/cp/add-category' ? (
-                            <AdminAddCategoryMenu/>
-                        ) : /^\/cp\/edit-category\/\d+\/\d+$/.test(pathname) ? (
-                            <AdminEditCategoryMenu/>
-                        ) : null}
-                    </div>
+                    {url.pathname === '/cp/home' && (
+                        <div className="container1">
+                            <AdminHomeMenu />
+                        </div>
+                    )}
+                    {url.pathname === '/cp/orders' && (
+                        <div className="container1">
+                            <AdminOrdersMenu />
+                        </div>
+                    )}
+                    {/^\/cp\/order-details\/\d+\/\d+$/.test(pathname) && (
+                        <div className="container1">
+                            <AdminOrderDetails />
+                        </div>
+                    )}
+                    {url.pathname === '/cp/products' && (
+                        <div className="container1">
+                            <AdminProductsMenu />
+                        </div>
+                    )}
+                    {/^\/cp\/analytics\/\d+$/.test(pathname) && (
+                        <div className="container3">
+                            <AdminAnalyticsMenu />
+                        </div>
+                    )}
+                    {url.pathname === '/cp/customize-store' && (
+                        <div className="container1">
+                            <AdminCustomizeStoreMenu />
+                        </div>
+                    )}
+                    {url.pathname === '/cp/discounts' && (
+                        <div className="container1">
+                            <AdminDiscountsMenu />
+                        </div>
+                    )}
+                    {url.pathname === '/cp/settings' && (
+                        <div className="container1">
+                            <AdminSettingsMenu />
+                        </div>
+                    )}
+                    {url.pathname === '/cp/add-product' && (
+                        <div className="container1">
+                            <AdminAddProductMenu />
+                        </div>
+                    )}
+                    {/^\/cp\/edit-product\/\d+\/\d+$/.test(pathname) && (
+                        <div className="container1">
+                            <AdminEditProductMenu />
+                        </div>
+                    )}
+                    {url.pathname === '/cp/collections' && (
+                        <div className="container1">
+                            <AdminCollectionsMenu />
+                        </div>
+                    )}
+                    {url.pathname === '/cp/add-collection' && (
+                        <div className="container1">
+                            <AdminAddCollectionMenu />
+                        </div>
+                    )}
+                    {/^\/cp\/edit-collection\/\d+\/\d+$/.test(pathname) && (
+                        <div className="container1">
+                            <AdminEditCollectionMenu />
+                        </div>
+                    )}
+                    {url.pathname === '/cp/categories' && (
+                        <div className="container1">
+                            <AdminCategoriesMenu />
+                        </div>
+                    )}
+                    {url.pathname === '/cp/add-category' && (
+                        <div className="container1">
+                            <AdminAddCategoryMenu />
+                        </div>
+                    )}
+                    {/^\/cp\/edit-category\/\d+\/\d+$/.test(pathname) && (
+                        <div className="container1">
+                            <AdminEditCategoryMenu />
+                        </div>
+                    )}
                 </div>
             </div>
         </section>

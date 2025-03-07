@@ -197,6 +197,17 @@ export const ownerApi = createApi({
                 url: `/Order/market?marketId=${marketId}`,
             })
         }),
+        getOrderByOrderId: builder.query({
+            query: ({orderId, marketId}) => ({
+                url: `/Order/${orderId}?marketId=${marketId}`,
+            })
+        }),
+        /* ANALYTICS */
+        getAdminDashboard: builder.query({
+            query: ({startDate, endDate, marketId}) => ({
+                url: `/Analytics/get-dashboard?startDate=${startDate}&endDate=${endDate}&marketId=${marketId}`,
+            })
+        }),
     }),
 })
 export const {
@@ -230,5 +241,8 @@ export const {
     useDeleteBasketItemMutation,
     /* ORDER */
     usePostOrderMutation,
-    useGetOrdersByMarketIdQuery
+    useGetOrdersByMarketIdQuery,
+    useGetOrderByOrderIdQuery,
+    /* ANALYTICS */
+    useGetAdminDashboardQuery
 } = ownerApi
