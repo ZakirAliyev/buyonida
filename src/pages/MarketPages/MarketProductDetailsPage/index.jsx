@@ -79,10 +79,8 @@ function MarketProductDetailsPage() {
         };
 
         const response = await triggerBasket(payload).unwrap();
-        console.log(response);
 
         if (response?.statusCode === 201) {
-            console.log("Basket updated:", response.data);
             toast.success("Məhsul səbətə əlavə edildi!", {
                 position: 'bottom-right',
                 autoClose: 2500,

@@ -157,12 +157,7 @@ function AdminAddProductMenu() {
                 formData.append('imagesToAdd', images[i]);
             }
 
-            for (let pair of formData.entries()) {
-                console.log(pair[0] + ':', pair[1]);
-            }
-
             const response = await postCreateProduct(formData).unwrap();
-            console.log(response);
             toast.success("Product created successfully!", {
                 position: 'bottom-right',
                 autoClose: 2500,

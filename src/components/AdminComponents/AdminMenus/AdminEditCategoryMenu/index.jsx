@@ -79,7 +79,6 @@ function AdminEditCategoryMenu() {
         );
         // Update the category with the new products array
         // This is a placeholder, you should replace it with your actual state management logic
-        console.log("Toggled product status", updatedProducts);
     };
 
     return (

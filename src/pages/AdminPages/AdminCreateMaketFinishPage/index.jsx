@@ -43,11 +43,6 @@ function AdminCreateMaketFinishPage() {
         formData.append('description', description);
         formData.append('image', file);
 
-        console.log("Combined FormData:");
-        for (let [key, value] of formData.entries()) {
-            console.log(key, value);
-        }
-
         setIsSubmitting(true);
         try {
             const response = await postCreateMarket(formData).unwrap();

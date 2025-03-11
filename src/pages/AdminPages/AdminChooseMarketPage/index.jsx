@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 function AdminChooseMarketPage() {
 
     const [chooseMarket, setChooseMarket] = useState(null);
+    const [chooseMarketName, setChooseMarketName] = useState(null);
     const navigate = useNavigate();
 
     const {data: getAllStores, refetch} = useGetAllStoresQuery();
@@ -30,7 +31,10 @@ function AdminChooseMarketPage() {
                     {stores.length > 0 ? (
                         stores.map((store) => (
                             <div
-                                onClick={() => setChooseMarket(store?.id)}
+                                onClick={() => {
+                                    setChooseMarket(store?.id)
+                                    setChooseMarketName(store?.name)
+                                }}
                                 key={store?.id}
                                 className={`box ${chooseMarket === store?.id ? 'selected' : ''}`}
                             >
@@ -58,6 +62,7 @@ function AdminChooseMarketPage() {
                         <button onClick={() => {
                             navigate(`/cp`)
                             Cookies.set('chooseMarket', chooseMarket)
+                            Cookies.set('chooseMarketName', chooseMarketName)
                         }}>Daxil ol</button>
                     )}
                 </form>

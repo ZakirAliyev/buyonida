@@ -22,7 +22,6 @@ function AdminNavbar() {
     };
 
     const location = useLocation();
-    console.log(location?.pathname);
 
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
@@ -38,7 +37,6 @@ function AdminNavbar() {
 
     const {data: getStore} = useGetUserQuery()
     const user = getStore?.data
-    console.log(user)
 
     return (
         <section id={"adminNavbar"}>

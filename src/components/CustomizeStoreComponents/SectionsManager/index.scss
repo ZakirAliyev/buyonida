@@ -1,0 +1,201 @@
+#sectionsManager {
+  margin: 16px;
+  border-radius: 10px;
+
+  .csplus1 {
+    font-size: 22px;
+
+    &:hover {
+      background-color: #ececec;
+    }
+  }
+
+  .sections-manager-container {
+    border-radius: 8px;
+  }
+
+  .sections-manager-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .h3 {
+      margin: 0;
+    }
+
+    button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  .sections-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .section-item {
+    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    display: flex;
+    border: 1px solid #ddd;
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+
+      .section-title {
+        font-weight: 600;
+      }
+
+      .remove-btn {
+        background: transparent;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+        color: #888;
+
+        &:hover {
+          color: #333;
+        }
+      }
+    }
+
+    .section-controls {
+
+      .cardsInRowControl {
+
+        .cardsInRowLabel {
+          font-weight: 500;
+          margin-bottom: 8px;
+          display: inline-block;
+        }
+
+        .rangeContainer {
+          width: max-content;
+          padding: 8px 16px;
+          background-color: #f8f8f8;
+          border-radius: 10px;
+          border: 1px solid #e4e4e4;
+          display: flex;
+          align-items: center;
+          gap: 8px; // space between "3", the slider, and "6"
+
+          span {
+            font-weight: 500;
+          }
+
+          input[type="range"] {
+            -webkit-appearance: none; /* Remove default styling on Safari/Chrome */
+            width: 100px;             /* Adjust the width to your preference */
+            background: transparent;  /* So we can style the track fully */
+
+            /* Track */
+            &::-webkit-slider-runnable-track {
+              height: 4px;
+              background: repeating-linear-gradient(
+                              to left,
+                              black 4px,
+                              black 0,
+                              transparent 100px,
+                              transparent 100px
+              );
+              border-radius: 2px;
+            }
+
+            &::-moz-range-track {
+              height: 4px;
+              background: repeating-linear-gradient(
+                              to right,
+                              #ccc 0,
+                              #ccc 4px,
+                              transparent 4px,
+                              transparent 8px
+              );
+              border-radius: 2px;
+            }
+
+            /* Thumb (the black dot) */
+            &::-webkit-slider-thumb {
+              -webkit-appearance: none;
+              height: 16px;
+              width: 16px;
+              border-radius: 50%;
+              background: #000;
+              margin-top: -6px; /* center the thumb vertically on the track */
+              cursor: pointer;
+            }
+
+            &::-moz-range-thumb {
+              height: 16px;
+              width: 16px;
+              border-radius: 50%;
+              background: #000;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+      .inputWrapper1123 {
+        display: flex;
+        flex-direction: column;
+
+        .label {
+          margin-bottom: 2px;
+          color: #343A40;
+        }
+      }
+
+      .inputWrapper {
+        display: flex;
+        flex-direction: column;
+
+        .label {
+          margin-bottom: 2px;
+          color: #343A40;
+        }
+
+        input, option {
+          border: 1px solid #343A40;
+          height: 30px;
+          border-radius: 4px;
+          margin-bottom: 20px;
+          padding: 0 10px;
+          font-size: 14px;
+        }
+      }
+
+      select {
+        width: 100%;
+        border: 1px solid #343A40;
+        height: 30px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        color: #3C3C3C;
+        padding: 0 8px;
+        font-size: 14px;
+
+        option {
+          border: 1px solid #343A40;
+          height: 30px;
+          border-radius: 4px;
+          margin-bottom: 20px;
+          width: 100%;
+        }
+      }
+    }
+  }
+}

@@ -1,10 +1,8 @@
 import './index.scss'
 import MarketNavbar from "../../../components/MarketComponents/MarketNavbar/index.jsx";
 import MarketFooter from "../../../components/MarketComponents/MarketFooter/index.jsx";
-import image1 from "/src/assets/mohtesem.jpg"
 import MarketCard from "../../../components/MarketComponents/MarketCard/index.jsx";
-import {FaChevronLeft, FaChevronRight} from "react-icons/fa";
-import {useLocation} from "react-router";
+import {FaChevronRight} from "react-icons/fa";
 import {useParams} from "react-router-dom";
 import {
     useGetAllProductsByMarketIdQuery,
@@ -26,7 +24,6 @@ function MarketCategoryPage() {
     const category = getCategoryByMarketId?.data
     const {data: getAllProductsByMarketId} = useGetAllProductsByMarketIdQuery(store?.id)
     const products = getAllProductsByMarketId?.data
-    console.log(products)
     return (
         <section id={"marketCategoryPage"}>
             <MarketNavbar/>

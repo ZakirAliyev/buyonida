@@ -21,6 +21,7 @@ import MarketCategoryPage from "../pages/MarketPages/MarketCategoryPage/index.js
 import MarketCollectionPage from "../pages/MarketPages/MarketCollectionPage/index.jsx";
 import MarketProductDetailsPage from "../pages/MarketPages/MarketProductDetailsPage/index.jsx";
 import MarketCheckoutPage from "../pages/MarketPages/MarketCheckoutPage/index.jsx";
+import CustomizeStorePages from "../pages/CustomizeStorePages/index.jsx";
 
 export const ROUTES = [
     {
@@ -179,6 +180,10 @@ export const ROUTES = [
             {
                 path: '/:marketName/about',
                 element: <MarketAboutPage/>
+            },
+            {
+                path: 'customize-store-page',
+                element: <CustomizeStorePages/>
             },
             {
                 path: '*',

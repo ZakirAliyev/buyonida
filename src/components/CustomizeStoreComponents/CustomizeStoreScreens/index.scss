@@ -1,0 +1,177 @@
+#customizeStoreScreens {
+  width: 100%;
+  height: calc(100vh - 60px);
+  font-weight: 500;
+
+  .csplus {
+    margin-left: 10px;
+    font-size: 20px;
+    border-radius: 4px;
+    transition: all .2s ease;
+
+    &:hover {
+      background-color: white;
+    }
+  }
+
+
+  .react-tabs {
+    -webkit-tap-highlight-color: transparent;
+    background-color: white;
+
+    &__tab-list {
+      border-bottom: 1px solid #d9d9d9;
+      margin: 0 0 10px;
+      padding: 0;
+      background-color: #ececec;
+      display: flex;
+      align-items: center;
+    }
+
+    &__tab {
+      width: 33.3%;
+      text-align: center;
+      border: 1px solid transparent;
+      border-bottom: none;
+      bottom: -1px;
+      position: relative;
+      list-style: none;
+      padding: 6px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+
+      &--selected {
+        background: #fff;
+        border-color: #d9d9d9;
+        color: black;
+        border-radius: 5px 5px 0 0;
+      }
+
+      &--disabled {
+        color: GrayText;
+        cursor: default;
+      }
+
+      &:focus {
+        outline: none;
+
+        &:after {
+          content: "";
+          position: absolute;
+          height: 5px;
+          left: -4px;
+          right: -4px;
+          bottom: -5px;
+          background: #fff;
+        }
+      }
+    }
+
+    &__tab-panel {
+      display: none;
+      padding: 16px;
+
+      &--selected {
+        display: block;
+      }
+    }
+  }
+
+
+  .pd-8 {
+    padding: 8px;
+  }
+
+  .pd-0 {
+    padding: 0;
+  }
+
+  .pd-16 {
+    border-radius: 15px;
+    overflow: hidden;
+  }
+
+  .firstScreen {
+    height: calc(100vh - 60px);
+    padding: 0;
+    overflow-y: scroll;
+  }
+
+  .lastScreen {
+    background-color: #ececec;
+    height: calc(100vh - 60px);
+    overflow-y: scroll;
+  }
+
+  .choose {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+    position: relative;
+
+    .sections, .settings {
+      padding: 8px;
+      font-size: 12px;
+      border-radius: 8px;
+      transition: all .2s ease;
+
+      &:hover {
+        background-color: #f3f3f3;
+      }
+    }
+
+    .sections {
+      background-color: #f3f3f3;
+    }
+  }
+
+  .heroSettings {
+    background-color: #ECECEC;
+    margin: 16px 16px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+
+    .inputWrapper {
+      display: flex;
+      flex-direction: column;
+
+      .label {
+        margin-bottom: 2px;
+        color: #343A40;
+      }
+
+      input, option {
+        border: 1px solid #343A40;
+        height: 30px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        padding: 0 10px;
+        font-size: 14px;
+      }
+    }
+
+    select {
+      width: 100%;
+      border: 1px solid #343A40;
+      height: 30px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      color: #3C3C3C;
+      padding: 0 8px;
+      font-size: 14px;
+
+      option {
+        border: 1px solid #343A40;
+        height: 30px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        width: 100%;
+      }
+    }
+  }
+}

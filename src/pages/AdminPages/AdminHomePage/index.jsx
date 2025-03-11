@@ -54,7 +54,7 @@ function AdminHomePage() {
                         </div>
                     )}
                     {url.pathname === '/cp/customize-store' && (
-                        <div className="container1">
+                        <div className="container4">
                             <AdminCustomizeStoreMenu />
                         </div>
                     )}

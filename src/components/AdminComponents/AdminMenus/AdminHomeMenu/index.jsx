@@ -16,7 +16,6 @@ function AdminHomeMenu() {
 
     const {data: getAllProductsByMarketId} = useGetAllProductsByMarketIdQuery(Cookies.get('chooseMarket'));
     const products = getAllProductsByMarketId?.data;
-    console.log(products);
 
     const [storeName, setStoreName] = useState("");
     const [storeDescription, setStoreDescription] = useState("");

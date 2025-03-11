@@ -76,7 +76,6 @@ function AdminAddCollectionMenu() {
             }
         },
         onDrop(e) {
-            console.log('Dropped files', e.dataTransfer.files);
         },
     };
 
@@ -192,9 +191,6 @@ function AdminAddCollectionMenu() {
                 theme: 'dark',
             });
         }
-
-        console.log("Collection Data to send (simple object):", data);
-        console.log("Collection Data to send (FormData):", formData);
     };
 
     return (

@@ -1,0 +1,53 @@
+#customizeStorePageNavbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  font-weight: 500;
+  height: 60px;
+
+  .start {
+    display: flex;
+    align-items: center;
+
+    .exit {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 16px;
+
+      .icon {
+        rotate: 180deg;
+      }
+
+      span {
+        background-color: #FFBB00;
+        padding: 2px 16px;
+        border-radius: 100px;
+      }
+    }
+
+    .line {
+      height: 1px;
+      width: 30px;
+      background-color: #c1c1c1;
+      rotate: 90deg;
+    }
+  }
+
+  .middle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+
+  .end {
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: 0 16px;
+  }
+}

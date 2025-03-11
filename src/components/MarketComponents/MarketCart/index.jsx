@@ -18,10 +18,8 @@ const MarketCart = ({isOpen, onClose}) => {
     const navigate = useNavigate();
     const params = useParams();
 
-    // Get market name from URL
-    const marketName = params.marketName.substring(1);
+    const marketName = params?.marketName?.substring(1);
 
-    // Get store info from RTK Query
     const {data: storeData} = useGetStoreByNameQuery(marketName);
     const store = storeData?.data;
     const marketId = store?.id;
@@ -133,7 +131,6 @@ const MarketCart = ({isOpen, onClose}) => {
                 autoClose: 2500,
                 theme: "dark"
             });
-            console.log("Checkout response:", response);
         } catch (error) {
             console.error("Error during checkout:", error);
             toast.error("Xəta baş verdi! Zəhmət olmasa yenidən cəhd edin.", {

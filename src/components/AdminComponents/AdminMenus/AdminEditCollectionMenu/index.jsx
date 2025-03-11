@@ -22,17 +22,13 @@ function AdminEditCollectionMenu() {
     const id = params.id;
     const marketId = params.marketId;
 
-    // API‑dən kolleksiya məlumatlarını götürürük
     const {data: getCollectionByMarketId} = useGetCollectionByMarketIdQuery({id, marketId});
     const collection = getCollectionByMarketId?.data;
-    console.log("Fetched collection:", collection);
 
-    // Form inputları üçün state-lər
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [errors, setErrors] = useState({});
 
-    // Cover şəkli üçün state-lər
     const [coverFile, setCoverFile] = useState(null);      // Yeni yüklənən fayl
     const [coverPreview, setCoverPreview] = useState(null); // Ekranda göstərilən şəkil linki
 
@@ -108,7 +104,6 @@ function AdminEditCollectionMenu() {
             }
         },
         onDrop(e) {
-            console.log('Dropped files', e.dataTransfer.files);
         },
     };
 

@@ -74,9 +74,6 @@ function AdminManageAccount() {
             return;
         }
 
-        // Burada güncelleme API çağrısını gerçekleştirebilirsiniz
-        console.log("Updated form data:", formData);
-        // Hata mesajlarını temizle
         setErrors({});
     };
 

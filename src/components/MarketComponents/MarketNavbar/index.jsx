@@ -10,7 +10,8 @@ function MarketNavbar() {
     const params = useParams();
 
     const navigate = useNavigate();
-    const {data: getStoreByName} = useGetStoreByNameQuery(params.marketName.substring(1, params.marketName.length))
+    const name = params?.marketName?.substring(1, params.marketName.length)
+    const {data: getStoreByName} = useGetStoreByNameQuery(name)
     const store = getStoreByName?.data
     const [isOpen, setIsOpen] = useState(false);
 
