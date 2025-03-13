@@ -40,30 +40,14 @@ const MarketCart = ({isOpen, onClose}) => {
 
     const [localBasketItems, setLocalBasketItems] = useState(basketItems);
 
-    useEffect(() => {
-        setLocalBasketItems(basketItems);
-    }, [basketItems]);
-
-    // Periodically refetch basket (optional)
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            refetch();
-        }, 500);
-        return () => clearTimeout(timer);
-    }, [basketItems, refetch]);
-
-    // Calculate subtotal
     const subtotal = localBasketItems.reduce(
         (acc, item) => acc + item.price * item.quantity,
         0
     );
 
-    // Update quantity
     async function updateQuantity(item, change) {
-        // Avoid decreasing below 1
         if (item.quantity === 1 && change < 0) return;
 
-        // Update local state first for immediate UI response
         setLocalBasketItems(prevItems =>
             prevItems.map(it => {
                 if (it.id === item.id) {
@@ -92,9 +76,7 @@ const MarketCart = ({isOpen, onClose}) => {
         }
     }
 
-    // Remove item from basket
     async function handleRemoveItem(item) {
-        // Update local state
         setLocalBasketItems(prevItems => prevItems.filter(it => it.id !== item.id));
 
         try {

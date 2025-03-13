@@ -1,9 +1,12 @@
-import React, {useState} from "react";
-import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
-import {HiOutlinePlusSm} from "react-icons/hi";
-import {Modal, Button, Select} from "antd";
+// SectionsManager.jsx
+import { useState, useEffect } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { HiOutlinePlusSm } from "react-icons/hi";
+import { Modal, Select } from "antd";
 import "./index.scss";
-import {PiDotsSixVerticalBold} from "react-icons/pi";
+import { PiDotsSixVerticalBold } from "react-icons/pi";
+import { useGetStoreWithSectionsQuery } from "../../../service/userApi.js";
+import Cookies from "js-cookie";
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -12,35 +15,53 @@ const reorder = (list, startIndex, endIndex) => {
     return result;
 };
 
-function SectionsManager() {
+function SectionsManager({ onSectionsChange }) {
     const [sections, setSections] = useState([]);
-
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [newSectionType, setNewSectionType] = useState("collection");
+
+    const { data: getStoreWithSections } = useGetStoreWithSectionsQuery(
+        Cookies.get("chooseMarket")
+    );
+
+    useEffect(() => {
+        if (getStoreWithSections?.data?.sections) {
+            const filteredSections = getStoreWithSections.data.sections.filter(
+                (s) =>
+                    s.$type.toLowerCase() === "category" ||
+                    s.$type.toLowerCase() === "collection"
+            );
+            const mappedSections = filteredSections.map((s) => {
+                if (s.$type.toLowerCase() === "collection") {
+                    return {
+                        id: s.id.toString(),
+                        type: "collection",
+                        collection: s.collection?.title || "Default Collection",
+                        cardsInRow: s.displayColumns || 3,
+                        products: s.collection?.products || [],
+                    };
+                } else if (s.$type.toLowerCase() === "category") {
+                    return {
+                        id: s.id.toString(),
+                        type: "category",
+                        category: s.category?.name || "Default Category",
+                        cardsInRow: s.displayColumns || 3,
+                        products: s.category?.products || [],
+                    };
+                }
+                return s;
+            });
+            setSections(mappedSections);
+            onSectionsChange && onSectionsChange(mappedSections);
+        }
+    }, [getStoreWithSections, onSectionsChange]);
 
     const onDragEnd = (result) => {
         if (!result.destination) return;
         if (result.destination.index === result.source.index) return;
-
-        const newSections = reorder(
-            sections,
-            result.source.index,
-            result.destination.index
-        );
+        const newSections = reorder(sections, result.source.index, result.destination.index);
         setSections(newSections);
-    };
-
-    const handleTypeChange = (index, newType) => {
-        setSections((prev) => {
-            const updated = [...prev];
-            updated[index] = {
-                ...updated[index],
-                type: newType,
-                collection: newType === "collection" ? "Winter collection" : undefined,
-                category: newType === "category" ? "T-shirts" : undefined,
-            };
-            return updated;
-        });
+        onSectionsChange && onSectionsChange(newSections);
     };
 
     const handleSelectChange = (index, field, value) => {
@@ -50,6 +71,7 @@ function SectionsManager() {
                 ...updated[index],
                 [field]: value,
             };
+            onSectionsChange && onSectionsChange(updated);
             return updated;
         });
     };
@@ -58,30 +80,33 @@ function SectionsManager() {
         setSections((prev) => {
             const updated = [...prev];
             updated[index].cardsInRow = Number(value);
+            onSectionsChange && onSectionsChange(updated);
             return updated;
         });
     };
 
-    // Called when user confirms creating a new section in the modal
     const handleCreateNewSection = () => {
         const newSection = {
             id: `section-${Date.now()}`,
             type: newSectionType,
             cardsInRow: 3,
+            products: [],
         };
-
         if (newSectionType === "collection") {
             newSection.collection = "Winter collection";
         } else {
             newSection.category = "T-shirts";
         }
-
-        setSections((prev) => [...prev, newSection]);
-        setIsModalVisible(false); // Close the modal
+        const updatedSections = [...sections, newSection];
+        setSections(updatedSections);
+        onSectionsChange && onSectionsChange(updatedSections);
+        setIsModalVisible(false);
     };
 
     const handleRemoveSection = (index) => {
-        setSections((prev) => prev.filter((_, i) => i !== index));
+        const updatedSections = sections.filter((_, i) => i !== index);
+        setSections(updatedSections);
+        onSectionsChange && onSectionsChange(updatedSections);
     };
 
     return (
@@ -94,13 +119,10 @@ function SectionsManager() {
                                 className="sections-list"
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
+                                style={{ minHeight: "150px" }}
                             >
                                 {sections.map((section, index) => (
-                                    <Draggable
-                                        key={section.id}
-                                        draggableId={section.id}
-                                        index={index}
-                                    >
+                                    <Draggable key={section.id} draggableId={section.id} index={index}>
                                         {(providedDrag) => (
                                             <div
                                                 className="section-item"
@@ -108,26 +130,30 @@ function SectionsManager() {
                                                 {...providedDrag.draggableProps}
                                                 {...providedDrag.dragHandleProps}
                                             >
-                                                <div style={{
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    padding: '0 8px',
-                                                    background: '#FeFeFe',
-                                                }}><PiDotsSixVerticalBold style={{
-                                                    fontSize: "22px",
-                                                }}/></div>
-                                                <div style={{
-                                                    width: "100%",
-                                                    padding: '16px',
-                                                    border: '1px solid #ddd',
-                                                    borderRadius: '10px',
-                                                }}>
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        padding: "0 8px",
+                                                        background: "#FeFeFe",
+                                                    }}
+                                                >
+                                                    <PiDotsSixVerticalBold style={{ fontSize: "22px" }} />
+                                                </div>
+                                                <div
+                                                    style={{
+                                                        width: "100%",
+                                                        padding: "16px",
+                                                        border: "1px solid #ddd",
+                                                        borderRadius: "10px",
+                                                    }}
+                                                >
                                                     <div className="section-header">
-                                                      <span className="section-title">
-                                                        {section.type === "collection"
-                                                            ? "Collection list"
-                                                            : "Category list"}
-                                                      </span>
+                            <span className="section-title">
+                              {section.type === "collection"
+                                  ? "Collection list"
+                                  : "Category list"}
+                            </span>
                                                         <button
                                                             className="remove-btn"
                                                             onClick={() => handleRemoveSection(index)}
@@ -137,51 +163,45 @@ function SectionsManager() {
                                                     </div>
                                                     <div className="section-controls">
                                                         {section.type === "collection" && (
-                                                            <div className={"inputWrapper"}>
-                                                                <div
-                                                                    className={"label"}>Selected {section.type === "collection" && (
-                                                                    'collection'
-                                                                )}</div>
+                                                            <div className="inputWrapper">
+                                                                <div className="label">Selected collection</div>
                                                                 <select
-                                                                    value={'Winter collection'}
+                                                                    value={section.collection}
+                                                                    onChange={(e) =>
+                                                                        handleSelectChange(index, "collection", e.target.value)
+                                                                    }
                                                                 >
-                                                                    <option value="Winter collection">Winter
-                                                                        collection
-                                                                    </option>
-                                                                    <option value="Spring collection">Spring
-                                                                        collection
-                                                                    </option>
-                                                                    <option value="Summer collection">Summer
-                                                                        collection
-                                                                    </option>
+                                                                    <option value="Winter collection">Winter collection</option>
+                                                                    <option value="Spring collection">Spring collection</option>
+                                                                    <option value="Summer collection">Summer collection</option>
                                                                 </select>
                                                             </div>
                                                         )}
 
                                                         {section.type === "category" && (
                                                             <>
-                                                                <div className={"label"}>Selected :{section.type === "category" && (
-                                                                    'category'
-                                                                )}</div>
+                                                                <div className="label">Selected category</div>
                                                                 <Select
                                                                     value={section.category}
-                                                                    style={{width: 150}}
+                                                                    style={{ width: 150 }}
                                                                     onChange={(value) =>
                                                                         handleSelectChange(index, "category", value)
                                                                     }
                                                                     options={[
-                                                                        {label: "T-shirts", value: "T-shirts"},
-                                                                        {label: "Hoodies", value: "Hoodies"},
-                                                                        {label: "Accessories", value: "Accessories"},
+                                                                        { label: "T-shirts", value: "T-shirts" },
+                                                                        { label: "Hoodies", value: "Hoodies" },
+                                                                        { label: "Accessories", value: "Accessories" },
                                                                     ]}
                                                                 />
                                                             </>
                                                         )}
 
-                                                        {(section.type === "collection" || section.type === "category") && (
+                                                        {(section.type === "collection" ||
+                                                            section.type === "category") && (
                                                             <div className="inputWrapper1123 cardsInRowControl">
-                                                                <div className="label cardsInRowLabel">Show cards in a
-                                                                    row</div>
+                                                                <div className="label cardsInRowLabel">
+                                                                    Show cards in a row
+                                                                </div>
                                                                 <div className="rangeContainer">
                                                                     <span>3</span>
                                                                     <input
@@ -190,7 +210,9 @@ function SectionsManager() {
                                                                         max="6"
                                                                         step="1"
                                                                         value={section.cardsInRow || 3}
-                                                                        onChange={(e) => handleCardsInRowChange(index, e.target.value)}
+                                                                        onChange={(e) =>
+                                                                            handleCardsInRowChange(index, e.target.value)
+                                                                        }
                                                                     />
                                                                     <span>6</span>
                                                                 </div>
@@ -208,18 +230,11 @@ function SectionsManager() {
                     </Droppable>
                 </DragDropContext>
 
-                <div className="sections-manager-header section-item" style={{
-                    padding: '16px'
-                }}>
-                    <div className={"h3"}>Add a section</div>
-                    <HiOutlinePlusSm
-                        className={"csplus1"}
-                        onClick={() => setIsModalVisible(true)}
-                    />
+                <div className="sections-manager-header section-item" style={{ padding: "16px" }}>
+                    <div className="h3">Add a section</div>
+                    <HiOutlinePlusSm className="csplus1" onClick={() => setIsModalVisible(true)} />
                 </div>
             </div>
-
-            {/* Ant Design Modal */}
             <Modal
                 title="Create a new section"
                 open={isModalVisible}
@@ -228,14 +243,14 @@ function SectionsManager() {
                 okText="Create"
                 cancelText="Cancel"
             >
-                <div className={"label"}>Type:</div>
+                <div className="label">Type:</div>
                 <Select
                     value={newSectionType}
-                    style={{width: 150, marginLeft: 8}}
+                    style={{ width: 150, marginLeft: 8 }}
                     onChange={(value) => setNewSectionType(value)}
                     options={[
-                        {label: "Collection", value: "collection"},
-                        {label: "Category", value: "category"},
+                        { label: "Collection", value: "collection" },
+                        { label: "Category", value: "category" },
                     ]}
                 />
             </Modal>

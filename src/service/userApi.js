@@ -208,6 +208,20 @@ export const ownerApi = createApi({
                 url: `/Analytics/get-dashboard?startDate=${startDate}&endDate=${endDate}&marketId=${marketId}`,
             })
         }),
+        /* MARKET */
+        getStoreWithSections: builder.query({
+            query: (marketId) => ({
+                url: `/Market/get-store-with-sections/${marketId}`,
+            })
+        }),
+        /* SECTION */
+        postBannerItem: builder.mutation({
+            query: (data) => ({
+                url: `/Section/bannerItem`,
+                method: 'POST',
+                body: data,
+            })
+        }),
     }),
 })
 export const {
@@ -244,5 +258,9 @@ export const {
     useGetOrdersByMarketIdQuery,
     useGetOrderByOrderIdQuery,
     /* ANALYTICS */
-    useGetAdminDashboardQuery
+    useGetAdminDashboardQuery,
+    /* MARKET */
+    useGetStoreWithSectionsQuery,
+    /* SECTION */
+    usePostBannerItemMutation,
 } = ownerApi

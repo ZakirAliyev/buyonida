@@ -4,4 +4,5 @@ export const CATEGORY_LOGO = 'https://buyonidafiles1.blob.core.windows.net/categ
 export const SECTOR_LOGO = 'https://buyonidafiles1.blob.core.windows.net/sectorimages/';
 export const USER_LOGO = 'https://buyonidafiles1.blob.core.windows.net/userprofilphotos/';
 export const COLLECTION_LOGO = 'https://buyonidafiles1.blob.core.windows.net/collectionimages/';
+export const BANNER_LOGO = 'https://buyonidafiles1.blob.core.windows.net/bannerimages/'
 export const BASE_URL = 'http://localhost:5173/'

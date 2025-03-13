@@ -1,64 +1,60 @@
 import './index.scss'
-import MarketNavbar from "../../../components/MarketComponents/MarketNavbar/index.jsx";
-import MarketCard from "../../../components/MarketComponents/MarketCard/index.jsx";
-import MarketTitle from "../../../components/MarketComponents/MarketTitle/index.jsx";
 import MarketFooter from "../../../components/MarketComponents/MarketFooter/index.jsx";
 import {
-    useGetAllCategoriesByMarketIdQuery, useGetAllCollectionsByMarketIdQuery, useGetCategoryByMarketIdQuery,
-    useGetStoreByNameQuery
+    useGetStoreWithSectionsQuery
 } from "../../../service/userApi.js";
-import {useLocation} from "react-router";
 import CSMarketSwiperHero from "../CustomMarket/CSMarketSwiperHero/index.jsx";
+import CSMarketNavbar from "../CustomMarket/CSMarketNavbar/index.jsx";
+import Cookies from "js-cookie";
+import CSMarketTitle from "../CustomMarket/CSMarketTitle/index.jsx";
+import CSMarketCard from "../CustomMarket/CSMarketCard/index.jsx";
 
 function CustomizeStoreMarketHomePage({swipers}) {
 
-    const location = useLocation();
-    const cleanedPath = location.pathname
-        .replace(/\//g, '')
-        .replace(/%20/g, ' ')
-        .replace(/@/g, '');
+    const {data: getStoreWithSections} = useGetStoreWithSectionsQuery(Cookies.get('chooseMarket'))
+    const mySections = getStoreWithSections?.data
+    const sections = mySections?.sections
 
-    const {data: getStoreByName} = useGetStoreByNameQuery(cleanedPath)
-    const store = getStoreByName?.data
-
-    const {data: getAllCategoriesByMarketId} = useGetAllCategoriesByMarketIdQuery(store?.id)
-    const categories = getAllCategoriesByMarketId?.data
-
-    const {data: getAllCollectionsByMarketId} = useGetAllCollectionsByMarketIdQuery(store?.id)
-    const collections = getAllCollectionsByMarketId?.data
 
     return (
         <section id={"customizeStoreMarketHomePage"}>
-            <MarketNavbar/>
+            <CSMarketNavbar/>
             <CSMarketSwiperHero swipers={swipers}/>
             <div className={"section"}>
-                {categories && categories.map((category) => (
-                    <>
-                        {category?.products.length > 0 && (
+                {sections && sections.map((section, index) => (
+                    <div key={index}>
+                        {section?.sectionType === 'Category' ? (
                             <>
-                                <MarketTitle title={`${category?.name} :`} category={category}/>
-                                <div className={"container"} key={category?.id}>
+                                <CSMarketTitle
+                                    title={`${section?.category?.name} :`}
+                                    category={section?.category}
+                                />
+                                <div className={"container"}>
                                     <div className={"row"}>
-                                        {category?.products && category?.products.map((product) => (
-                                            <MarketCard number={12} key={product.id} product={product}/>
+                                        {section?.category?.products && section?.category?.products.map((product) => (
+                                            <CSMarketCard number={60 / section?.displayColumns} product={product}
+                                                          key={product.id}/>
                                         ))}
                                     </div>
                                 </div>
                             </>
-                        )}
-                    </>
-                ))}
-                {collections && collections.map((collection) => (
-                    <>
-                        <MarketTitle title={`${collection?.title} :`} collection={collection}/>
-                        <div className={"container"} key={collection?.id}>
-                            <div className={"row"}>
-                                {collection?.products && collection?.products.map((product) => (
-                                    <MarketCard number={12} key={product.id} product={product}/>
-                                ))}
-                            </div>
-                        </div>
-                    </>
+                        ) : section?.sectionType === 'Collection' ? (
+                            <>
+                                <CSMarketTitle
+                                    title={`${section?.collection?.title} :`}
+                                    category={section?.collection}
+                                />
+                                <div className={"container"}>
+                                    <div className={"row"}>
+                                        {section?.collection?.products && section?.collection?.products.map((product) => (
+                                            <CSMarketCard number={60 / section?.displayColumns} product={product}
+                                                          key={product.id}/>
+                                        ))}
+                                    </div>
+                                </div>
+                            </>
+                        ) : null}
+                    </div>
                 ))}
             </div>
             <MarketFooter/>

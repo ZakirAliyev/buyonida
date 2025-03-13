@@ -1,0 +1,165 @@
+#cSMarketCart {
+
+  img {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+
+  .cart-sidebar {
+    position: fixed;
+    display: flex;
+    flex-direction: column;justify-content: space-between;
+    top: 0;
+    right: 0;
+    width: 460px; /* Burada genişliyi istədiyiniz kimi tənzimləyə bilərsiniz */
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%); /* Başlanğıcda ekranın sağından kənardadır */
+    transition: transform 0.3s ease-in-out;
+    z-index: 9999;
+    overflow-y: auto;
+
+    &.open {
+      transform: translateX(0); /* Açıq olduqda içəri sürüşür */
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      float: right;
+      color: #333;
+    }
+
+    .cart-title {
+      margin-top: 0;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      padding: 10px 0;
+      background-color: #2F2F2F;
+      color: white;
+      text-align: center;
+      border-bottom-right-radius: 15px;
+      border-bottom-left-radius: 15px;
+    }
+
+    .cart-items {
+      padding: 20px;
+      .cart-item {
+        display: flex;
+        margin-bottom: 20px;
+
+        .cart-item-image {
+          width: 110px;
+          height: 110px;
+          margin-right: 10px;
+          object-fit: cover;
+        }
+
+        .cart-item-info {
+          flex: 1;
+
+          h3 {
+            font-size: 1rem;
+            margin: 0 0 5px;
+          }
+
+          p {
+            font-size: 0.9rem;
+            margin: 0;
+            color: #777;
+          }
+
+          .cart-item-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+
+            .price {
+              font-size: 1rem;
+              font-weight: 600;
+              margin-right: 10px;
+            }
+
+            .quantity {
+              display: flex;
+              align-items: center;
+
+              .btnWrapper {
+              border: 1px solid black;
+                border-radius: 100px;
+                button {
+                  width: 24px;
+                  height: 24px;
+                  border: none;
+                  background-color: transparent;
+                  cursor: pointer;
+                }
+
+                input {
+                  width: 30px;
+                  text-align: center;
+                  margin: 0 5px;
+                  border: none;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .cart-summary {
+      padding: 20px;
+      margin-top: 30px;
+      border-top: 1px solid #ddd;
+
+      .cart-summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 1rem;
+
+        &.total {
+          font-weight: 700;
+        }
+      }
+    }
+
+    .checkout-btn {
+      width: 91%;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 14px 0;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      font-size: 20px;
+      margin: 20px;
+    }
+  }
+
+  .delete-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #999;
+    cursor: pointer;
+
+    &:hover {
+      color: #333;
+    }
+  }
+}

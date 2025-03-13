@@ -1,97 +1,92 @@
-import { useState } from 'react';
+import {useState, useEffect} from 'react';
 import './index.scss';
-import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
+import {Tabs, TabList, Tab, TabPanel} from 'react-tabs';
 import SectionsManager from "../SectionsManager/index.jsx";
 import CustomizeStoreMarketHomePage from "../CustomizeStoreMarketHomePage/index.jsx";
-import { RxCross2 } from 'react-icons/rx';
-import { HiOutlinePlusSm } from 'react-icons/hi';
-import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
-import { Upload } from 'antd';
+import {RxCross2} from 'react-icons/rx';
+import {HiOutlinePlusSm} from 'react-icons/hi';
+import {FiArrowLeft, FiArrowRight} from 'react-icons/fi';
+import {Upload} from 'antd';
 import ImgCrop from 'antd-img-crop';
-import image1 from "../../../assets/mohtesem.jpg";
-
-const swipers = [
-    {
-        id: 1,
-        title: "Salam 1",
-        subTitle: "Aleykum",
-        imageName: image1,
-        displayOrderId: 2,
-    },
-    {
-        id: 2,
-        title: "Salam 2",
-        subTitle: "Aleykumasda",
-        imageName: image1,
-        displayOrderId: 1,
-    },
-    {
-        id: 3,
-        title: "Salam 3",
-        subTitle: "Aleykum",
-        imageName: image1,
-        displayOrderId: 3,
-    },
-];
-
-// displayOrderId'ye göre sıralayarak kullanıyoruz
-const sortedSwipers = [...swipers].sort((a, b) => a.displayOrderId - b.displayOrderId);
+import '/src/assets/mohtesem.jpg';
+import {useGetStoreWithSectionsQuery, usePostBannerItemMutation} from "../../../service/userApi.js";
+import Cookies from "js-cookie";
+import {BANNER_LOGO} from "../../../../constants.js";
 
 function CustomizeStoreScreens() {
-    // JSON içerisindeki displayOrderId'yi kullanarak sekme (tab) oluşturuluyor.
-    const initialTabs = sortedSwipers.map(item => ({
-        id: item.id,
-        label: `Pic ${item.displayOrderId}`,
-        displayOrderId: item.displayOrderId,
-    }));
+    const {data: getStoreWithSections} = useGetStoreWithSectionsQuery(Cookies.get('chooseMarket'));
+    const sections = getStoreWithSections?.data;
 
-    // JSON içerisindeki verilerden ilgili inputların başlangıç verileri oluşturuluyor.
-    const initialTabData = sortedSwipers.reduce((acc, item) => {
-        acc[item.id] = {
-            title: item.title,
-            subTitle: item.subTitle,
-            buttonLink: 'Winter collection', // varsayılan değer
-            displayOrderId: item.displayOrderId,
-            image: [
-                {
-                    uid: item.id,
-                    name: `image-${item.id}.jpg`,
-                    status: 'done',
-                    url: item.imageName,
-                }
-            ]
-        };
-        return acc;
-    }, {});
+    const [postBannerItem] = usePostBannerItemMutation()
 
-    const [tabs, setTabs] = useState(initialTabs);
-    const [tabData, setTabData] = useState(initialTabData);
+    const [tabs, setTabs] = useState([]);
+    const [tabData, setTabData] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
     const [tabsVisible, setTabsVisible] = useState(true);
 
-    // Inputlardaki değişiklikleri ilgili sekme verisine yansıtma
+    async function handleBannerSave() {
+        const response = await postBannerItem().unwrap()
+    }
+
+    useEffect(() => {
+        if (sections) {
+            // "Banner" bölməsini sections array-dən seçirik
+            const bannerSection = sections.sections?.find(section => section.sectionType === "Banner");
+
+            // bannerItems array-indəki hər bir elementi swipers formatına çeviririk
+            const swipers = bannerSection?.bannerItems?.map(item => ({
+                id: item.id,
+                title: item.title,
+                subTitle: item.subtitle, // JSON-da "subtitle" kimi gəlir, kodda subTitle istifadə olunur
+                buttonLink: item.buttonLink,
+                displayOrderId: item.displayOrderId,
+                image: [
+                    {
+                        uid: item.id,
+                        name: item.imageName,
+                        status: 'done',
+                        url: `${BANNER_LOGO}${item.imageName}`
+                    }
+                ]
+            })) || [];
+
+            const sortedSwipers = [...swipers].sort((a, b) => a.displayOrderId - b.displayOrderId);
+
+            const initialTabData = sortedSwipers.map(item => ({
+                id: item.id,
+                title: item.title,
+                subTitle: item.subTitle,
+                buttonLink: item.buttonLink,
+                displayOrderId: item.displayOrderId,
+                image: [
+                    {
+                        uid: item.image[0]?.uid || item.id,
+                        name: item.image[0]?.name || `image-${item.id}.jpg`,
+                        status: item.image[0]?.status || 'done',
+                        url: item.image[0]?.url || '',
+                    }
+                ]
+            }));
+
+            // Hem tabs, hem de tabData state-lərini güncəlləyirik
+            setTabs(initialTabData);
+            setTabData(initialTabData);
+        }
+    }, [sections]);
+
+    console.log("initialTabData:", tabData);
+
+    // Məsələn, konkret bir tabın sahəsini yeniləmək üçün funksiya
     const updateTabData = (id, field, value) => {
-        setTabData(prev => ({
-            ...prev,
-            [id]: {
-                ...prev[id],
-                [field]: value
-            }
-        }));
+        setTabData(prev => prev.map(item => item.id === id ? {...item, [field]: value} : item));
     };
 
-    // Her sekme için image dosyalarını güncelleyen fonksiyon
-    const onImageChange = (tabId) => ({ fileList: newFileList }) => {
-        setTabData(prev => ({
-            ...prev,
-            [tabId]: {
-                ...prev[tabId],
-                image: newFileList.slice(-1)
-            }
-        }));
+    // Şəkil dəyişiklikləri üçün funksiya (yalnız ən son faylı saxlayır)
+    const onImageChange = (tabId) => ({fileList: newFileList}) => {
+        setTabData(prev => prev.map(item => item.id === tabId ? {...item, image: newFileList.slice(-1)} : item));
     };
 
-    // Resim önizleme işlemi
+    // Şəkil preview funksiyası
     const onPreview = async (file) => {
         let src = file.url;
         if (!src) {
@@ -120,26 +115,26 @@ function CustomizeStoreScreens() {
             };
             const newTabs = [...tabs, newTab];
             setTabs(newTabs);
-            setTabData(prev => ({
+            setTabData(prev => ([
                 ...prev,
-                [newId]: {
+                {
+                    id: newId,
                     title: '',
                     subTitle: '',
                     buttonLink: 'Winter collection',
                     displayOrderId: newOrder,
                     image: []
                 }
-            }));
+            ]));
             setActiveIndex(newTabs.length - 1);
         }
     };
 
-    // Sekme silme işlemi
+    // Verilmiş index-ə görə tab silir və qalanların displayOrderId və label-lərini yeniləyir
     const removeTab = (index) => {
         if (tabs.length === 1) return;
         const tabToRemove = tabs[index];
         const newTabs = tabs.filter((_, i) => i !== index);
-        // Kalan sekmelerin displayOrderId'lerini yeniden 1,2,3 olarak güncelle
         const updatedTabs = newTabs.map((tab, idx) => ({
             ...tab,
             displayOrderId: idx + 1,
@@ -147,13 +142,8 @@ function CustomizeStoreScreens() {
         }));
         setTabs(updatedTabs);
         setTabData(prev => {
-            const newData = { ...prev };
-            delete newData[tabToRemove.id];
-            updatedTabs.forEach((tab, idx) => {
-                if (newData[tab.id]) {
-                    newData[tab.id].displayOrderId = idx + 1;
-                }
-            });
+            const newData = prev.filter(item => item.id !== tabToRemove.id)
+                .map((item, idx) => ({...item, displayOrderId: idx + 1}));
             return newData;
         });
         if (activeIndex >= updatedTabs.length) {
@@ -161,7 +151,6 @@ function CustomizeStoreScreens() {
         }
     };
 
-    // Sekmeleri sola kaydırma
     const moveTabLeft = (index) => {
         if (index > 0) {
             const newTabs = [...tabs];
@@ -173,10 +162,11 @@ function CustomizeStoreScreens() {
             }));
             setTabs(updatedTabs);
             setTabData(prev => {
-                const newData = { ...prev };
+                const newData = [...prev];
                 updatedTabs.forEach((tab, idx) => {
-                    if (newData[tab.id]) {
-                        newData[tab.id].displayOrderId = idx + 1;
+                    const dataIndex = newData.findIndex(item => item.id === tab.id);
+                    if (dataIndex !== -1) {
+                        newData[dataIndex].displayOrderId = idx + 1;
                     }
                 });
                 return newData;
@@ -189,7 +179,7 @@ function CustomizeStoreScreens() {
         }
     };
 
-    // Sekmeleri sağa kaydırma
+    // Tab-ı sağa hərəkət etdirir
     const moveTabRight = (index) => {
         if (index < tabs.length - 1) {
             const newTabs = [...tabs];
@@ -201,10 +191,11 @@ function CustomizeStoreScreens() {
             }));
             setTabs(updatedTabs);
             setTabData(prev => {
-                const newData = { ...prev };
+                const newData = [...prev];
                 updatedTabs.forEach((tab, idx) => {
-                    if (newData[tab.id]) {
-                        newData[tab.id].displayOrderId = idx + 1;
+                    const dataIndex = newData.findIndex(item => item.id === tab.id);
+                    if (dataIndex !== -1) {
+                        newData[dataIndex].displayOrderId = idx + 1;
                     }
                 });
                 return newData;
@@ -216,6 +207,8 @@ function CustomizeStoreScreens() {
             }
         }
     };
+
+    const getTabData = (id) => tabData.find(item => item.id === id) || {};
 
     return (
         <section id="customizeStoreScreens">
@@ -266,7 +259,7 @@ function CustomizeStoreScreens() {
                                         </Tab>
                                     ))}
                                     {tabs.length < 3 && (
-                                        <HiOutlinePlusSm onClick={addTab} className="csplus" />
+                                        <HiOutlinePlusSm onClick={addTab} className="csplus"/>
                                     )}
                                 </TabList>
                                 {tabs.map((tab) => (
@@ -274,21 +267,21 @@ function CustomizeStoreScreens() {
                                         <div className="inputWrapper">
                                             <div className="label">Title</div>
                                             <input
-                                                value={tabData[tab.id]?.title || ''}
+                                                value={getTabData(tab.id).title || ''}
                                                 onChange={(e) => updateTabData(tab.id, 'title', e.target.value)}
                                             />
                                         </div>
                                         <div className="inputWrapper">
                                             <div className="label">Sub-title</div>
                                             <input
-                                                value={tabData[tab.id]?.subTitle || ''}
+                                                value={getTabData(tab.id).subTitle || ''}
                                                 onChange={(e) => updateTabData(tab.id, 'subTitle', e.target.value)}
                                             />
                                         </div>
                                         <div className="inputWrapper">
                                             <div className="label">Button link</div>
                                             <select
-                                                value={tabData[tab.id]?.buttonLink || 'Winter collection'}
+                                                value={getTabData(tab.id).buttonLink || 'Winter collection'}
                                                 onChange={(e) => updateTabData(tab.id, 'buttonLink', e.target.value)}
                                             >
                                                 <option value="Winter collection">Winter collection</option>
@@ -296,36 +289,45 @@ function CustomizeStoreScreens() {
                                                 <option value="Summer collection">Summer collection</option>
                                             </select>
                                         </div>
-                                        <div className="inputWrapper" style={{
-                                            display: "flex",
-                                            flexDirection: "row",
-                                            justifyContent: "space-between",
-                                            alignItems: "center",
-                                        }}>
+                                        <div
+                                            className="inputWrapper"
+                                            style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                justifyContent: "space-between",
+                                                alignItems: "center",
+                                            }}
+                                        >
                                             <div className="label">Image</div>
                                             <ImgCrop rotationSlider>
                                                 <Upload
-                                                    action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                                                    customRequest={({file, onSuccess}) => {
+                                                        setTimeout(() => {
+                                                            onSuccess("ok");
+                                                        }, 0);
+                                                    }}
                                                     listType="picture-card"
-                                                    fileList={tabData[tab.id]?.image || []}
+                                                    fileList={getTabData(tab.id).image || []}
                                                     onChange={onImageChange(tab.id)}
                                                     onPreview={onPreview}
                                                     maxCount={1}
                                                 >
-                                                    {(tabData[tab.id]?.image || []).length < 1 && '+ Upload'}
+                                                    {(getTabData(tab.id).image || []).length < 1 && '+ Upload'}
                                                 </Upload>
                                             </ImgCrop>
                                         </div>
                                     </TabPanel>
                                 ))}
                             </Tabs>
+                            <button onClick={() => handleBannerSave()}>Save</button>
                         </div>
                     )}
-                    <SectionsManager />
+                    <SectionsManager/>
                 </div>
                 <div className="lastScreen col-46-60">
                     <div className="pd-16">
-                        <CustomizeStoreMarketHomePage swipers={swipers} />
+                        {/* CustomizeStoreMarketHomePage komponentinə tabData swipers olaraq ötürülür */}
+                        <CustomizeStoreMarketHomePage swipers={tabData}/>
                     </div>
                 </div>
             </div>
