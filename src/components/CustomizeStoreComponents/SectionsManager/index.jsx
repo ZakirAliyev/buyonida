@@ -77,6 +77,7 @@ function SectionsManager({ onSectionsChange }) {
     };
 
     const handleCardsInRowChange = (index, value) => {
+        console.log(`Range container ${index} için seçilen değer: ${value}`);
         setSections((prev) => {
             const updated = [...prev];
             updated[index].cardsInRow = Number(value);
