@@ -37,6 +37,8 @@ function NotFoundPage() {
                 </div>
             )}
             <button onClick={takeScreenshot}>Screenshot Al</button>
+
+            <div>Bu githubu yoxlamaq ucundur.</div>
         </>
     );
 }
