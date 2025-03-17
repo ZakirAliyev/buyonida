@@ -1,54 +1,57 @@
-import './index.scss'
+import "./index.scss";
 import MarketFooter from "../../../components/MarketComponents/MarketFooter/index.jsx";
-import {
-    useGetStoreWithSectionsQuery
-} from "../../../service/userApi.js";
 import CSMarketSwiperHero from "../CustomMarket/CSMarketSwiperHero/index.jsx";
 import CSMarketNavbar from "../CustomMarket/CSMarketNavbar/index.jsx";
-import Cookies from "js-cookie";
 import CSMarketTitle from "../CustomMarket/CSMarketTitle/index.jsx";
 import CSMarketCard from "../CustomMarket/CSMarketCard/index.jsx";
 
-function CustomizeStoreMarketHomePage({swipers}) {
-
-    const {data: getStoreWithSections} = useGetStoreWithSectionsQuery(Cookies.get('chooseMarket'))
-    const mySections = getStoreWithSections?.data
-    const sections = mySections?.sections
-
+function CustomizeStoreMarketHomePage({ swipers, sections }) {
+    // sections prop'u finalSections objesi şeklinde geliyor: { categorySections: [...], collectionSections: [...] }
+    // Her iki diziyi birleştirip, displayOrderId'ya göre sıralıyoruz.
+    const sectionsArray = [
+        ...(sections.categorySections || []),
+        ...(sections.collectionSections || [])
+    ].sort((a, b) => a.displayOrderId - b.displayOrderId);
 
     return (
-        <section id={"customizeStoreMarketHomePage"}>
-            <CSMarketNavbar/>
-            <CSMarketSwiperHero swipers={swipers}/>
-            <div className={"section"}>
-                {sections && sections.map((section, index) => (
+        <section id="customizeStoreMarketHomePage">
+            <CSMarketNavbar />
+            <CSMarketSwiperHero swipers={swipers} />
+            <div className="section">
+                {sectionsArray.map((section, index) => (
                     <div key={index}>
-                        {section?.sectionType === 'Category' ? (
+                        {section.type === "category" ? (
                             <>
                                 <CSMarketTitle
-                                    title={`${section?.category?.name} :`}
-                                    category={section?.category}
+                                    title={`${section.category} (Order: ${section.displayOrderId}) :`}
+                                    category={section.category}
                                 />
-                                <div className={"container"}>
-                                    <div className={"row"}>
-                                        {section?.category?.products && section?.category?.products.map((product) => (
-                                            <CSMarketCard number={60 / section?.displayColumns} product={product}
-                                                          key={product.id}/>
+                                <div className="container">
+                                    <div className="row">
+                                        {section.products.map((product) => (
+                                            <CSMarketCard
+                                                number={60 / section.cardsInRow}
+                                                product={product}
+                                                key={product.id}
+                                            />
                                         ))}
                                     </div>
                                 </div>
                             </>
-                        ) : section?.sectionType === 'Collection' ? (
+                        ) : section.type === "collection" ? (
                             <>
                                 <CSMarketTitle
-                                    title={`${section?.collection?.title} :`}
-                                    category={section?.collection}
+                                    title={`${section.collection} (Order: ${section.displayOrderId}) :`}
+                                    category={section.collection}
                                 />
-                                <div className={"container"}>
-                                    <div className={"row"}>
-                                        {section?.collection?.products && section?.collection?.products.map((product) => (
-                                            <CSMarketCard number={60 / section?.displayColumns} product={product}
-                                                          key={product.id}/>
+                                <div className="container">
+                                    <div className="row">
+                                        {section.products.map((product) => (
+                                            <CSMarketCard
+                                                number={60 / section.cardsInRow}
+                                                product={product}
+                                                key={product.id}
+                                            />
                                         ))}
                                     </div>
                                 </div>
@@ -57,7 +60,7 @@ function CustomizeStoreMarketHomePage({swipers}) {
                     </div>
                 ))}
             </div>
-            <MarketFooter/>
+            <MarketFooter />
         </section>
     );
 }

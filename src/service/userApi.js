@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 export const ownerApi = createApi({
     reducerPath: 'ownerApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://buyonida-001-site1.anytempurl.com/api/',
+        baseUrl: 'https://api.buyonida.com/api/',
         prepareHeaders: (headers) => {
             const token = Cookies.get('buyonidaToken');
             if (token) {
@@ -222,6 +222,14 @@ export const ownerApi = createApi({
                 body: data,
             })
         }),
+        putSections: builder.mutation({
+            query: ({marketId, data}) => ({
+                url: `/Section/bulk-update-sections/${marketId}`,
+                method: 'POST',
+                body: data,
+                headers: {'Content-Type': 'application/json'}
+            })
+        }),
     }),
 })
 export const {
@@ -263,4 +271,5 @@ export const {
     useGetStoreWithSectionsQuery,
     /* SECTION */
     usePostBannerItemMutation,
+    usePutSectionsMutation,
 } = ownerApi
