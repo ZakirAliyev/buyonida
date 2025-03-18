@@ -3,7 +3,9 @@ import CustomizeStoreScreens from "../../components/CustomizeStoreComponents/Cus
 
 function CustomizeStorePages() {
     return (
-        <section id={"customizeStorePages"}>
+        <section id={"customizeStorePages"} style={{
+            fontFamily: "'Space Grotesk', sans-serif"
+        }}>
             <CustomizeStorePageNavbar/>
             <CustomizeStoreScreens/>
         </section>

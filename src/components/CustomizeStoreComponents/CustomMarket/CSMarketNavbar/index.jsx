@@ -3,7 +3,6 @@ import {useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {FaShoppingBag} from "react-icons/fa";
 import {useGetStoreByNameQuery} from "../../../../service/userApi.js";
-import MarketCart from "../../../MarketComponents/MarketCart/index.jsx";
 import {MARKET_LOGO} from "../../../../../constants.js";
 import CSMarketCart from "../CSMarketCart/index.jsx";
 import Cookies from "js-cookie";

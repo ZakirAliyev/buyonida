@@ -3,6 +3,10 @@
   background-color: white;
   height: calc(100vh - 53px);
 
+  * {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
   .wrapper {
     display: flex;
     flex-direction: row;

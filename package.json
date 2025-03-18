@@ -25,6 +25,7 @@
     "@mantine/hooks": "^7.16.3",
     "@mui/material": "^6.4.7",
     "@mui/styled-engine-sc": "^6.4.6",
+    "@rc-component/color-picker": "^2.0.1",
     "@reduxjs/toolkit": "^2.2.7",
     "@tabler/icons-react": "^3.30.0",
     "@tailwindcss/vite": "^4.0.5",

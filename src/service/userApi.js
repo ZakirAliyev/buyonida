@@ -1,5 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import Cookies from 'js-cookie'
+import {useState} from "react";
 
 export const ownerApi = createApi({
     reducerPath: 'ownerApi',
@@ -230,6 +231,26 @@ export const ownerApi = createApi({
                 headers: {'Content-Type': 'application/json'}
             })
         }),
+        /* PALETTE */
+        getPaletteByMarketId: builder.query({
+            query: (marketId) => ({
+                url: `/Palet/market/${marketId}`,
+            })
+        }),
+        postPalette: builder.mutation({
+            query: (data) => ({
+                url: `/Palet`,
+                method: 'POST',
+                body: data,
+                headers: {'Content-Type': 'application/json'}
+            })
+        }),
+        postSettingFontName: builder.mutation({
+            query: ({marketId, selectedFont}) => ({
+                url: `/MarketSetting/font?marketId=${marketId}&fontName=${selectedFont}`,
+                method: 'POST',
+            })
+        }),
     }),
 })
 export const {
@@ -272,4 +293,8 @@ export const {
     /* SECTION */
     usePostBannerItemMutation,
     usePutSectionsMutation,
+    /* PALETTE */
+    useGetPaletteByMarketIdQuery,
+    usePostPaletteMutation,
+    usePostSettingFontNameMutation,
 } = ownerApi

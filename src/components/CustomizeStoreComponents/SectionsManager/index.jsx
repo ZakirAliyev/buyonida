@@ -86,7 +86,6 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
 
     // Silinen bölümlerin id listesini her değiştiğinde konsola logluyoruz
     useEffect(() => {
-        console.log("Deleted IDs:", deletedIds);
         if (onDeletedIdsChange) onDeletedIdsChange(deletedIds);
     }, [deletedIds, onDeletedIdsChange]);
 

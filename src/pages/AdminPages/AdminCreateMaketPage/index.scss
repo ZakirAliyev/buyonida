@@ -8,6 +8,10 @@
   align-items: center;
   justify-content: center;
 
+  * {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
   .aminake {
     max-height: 240px;
     overflow-y: auto;

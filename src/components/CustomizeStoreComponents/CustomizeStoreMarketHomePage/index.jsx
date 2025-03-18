@@ -4,14 +4,23 @@ import CSMarketSwiperHero from "../CustomMarket/CSMarketSwiperHero/index.jsx";
 import CSMarketNavbar from "../CustomMarket/CSMarketNavbar/index.jsx";
 import CSMarketTitle from "../CustomMarket/CSMarketTitle/index.jsx";
 import CSMarketCard from "../CustomMarket/CSMarketCard/index.jsx";
+import { useEffect } from "react";
 
 function CustomizeStoreMarketHomePage({ swipers, sections }) {
-    // sections prop'u finalSections objesi şeklinde geliyor: { categorySections: [...], collectionSections: [...] }
-    // Her iki diziyi birleştirip, displayOrderId'ya göre sıralıyoruz.
     const sectionsArray = [
         ...(sections.categorySections || []),
         ...(sections.collectionSections || [])
     ].sort((a, b) => a.displayOrderId - b.displayOrderId);
+
+    useEffect(() => {
+        const savedFont = localStorage.getItem("selectedFont");
+        if (savedFont) {
+            const style = document.createElement("style");
+            style.innerHTML = `body { font-family: ${savedFont} !important; }`;
+            document.head.appendChild(style);
+        }
+    }, []);
+
 
     return (
         <section id="customizeStoreMarketHomePage">
