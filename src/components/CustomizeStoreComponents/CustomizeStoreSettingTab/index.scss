@@ -2,12 +2,11 @@
   .settingsContent {
     padding: 16px;
     transition: all 0.2s ease;
-      border-radius: 20px !important;
+    border-radius: 20px !important;
     overflow: hidden;
 
     .accordion-item {
-      border-bottom: 1px solid #d9d9d9;
-      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      box-shadow: rgba(0, 0, 0, 0.16) 0 .1px 4px;
       background-color: #fff;
       overflow: hidden;
 
@@ -15,10 +14,13 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 12px 32px;
+        padding: 16px 40px;
         cursor: pointer;
         font-weight: 500;
         transition: background-color 0.2s ease;
+        border-bottom: 1px solid #d9d9d9;
+        color: #404040;
+
 
         &:hover {
           background-color: #f5f5f5;
@@ -27,8 +29,8 @@
         .arrow {
           width: 8px;
           height: 8px;
-          border-right: 2px solid #333;
-          border-bottom: 2px solid #333;
+          border-right: 2px solid #9B9B9B;
+          border-bottom: 2px solid #9B9B9B;
           transform: rotate(45deg);
           transition: transform 0.3s ease;
 
@@ -62,13 +64,14 @@
 
     textarea {
       border-radius: 10px;
-      border: 1px solid gray;
+      border: 1px solid #bdbdbd;
       resize: vertical;
+      outline: none;
+      padding: 8px;
     }
 
     input,
     textarea {
-      border: 1px solid black;
       width: 100%;
     }
 
@@ -179,7 +182,6 @@
     border: 1px solid black;
   }
 
-  /* Shared styles for both create and edit forms */
   .add-color-form-container,
   .edit-form {
     width: 100%;

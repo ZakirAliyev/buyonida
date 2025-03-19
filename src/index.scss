@@ -453,5 +453,5 @@ input::-ms-clear {
 
 .my-scrollable-element {
   overflow: auto;
-  @include custom-scrollbar(#acacac, white, 8px, 4px);
+  @include custom-scrollbar(#d5d5d5, white, 8px, 4px);
 }

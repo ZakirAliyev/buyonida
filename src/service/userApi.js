@@ -251,6 +251,13 @@ export const ownerApi = createApi({
                 method: 'POST',
             })
         }),
+        postSettingBranding: builder.mutation({
+            query: (data) => ({
+                url: `/MarketSetting/brending`,
+                method: 'POST',
+                body: data,
+            })
+        }),
     }),
 })
 export const {
@@ -297,4 +304,5 @@ export const {
     useGetPaletteByMarketIdQuery,
     usePostPaletteMutation,
     usePostSettingFontNameMutation,
+    usePostSettingBrandingMutation
 } = ownerApi

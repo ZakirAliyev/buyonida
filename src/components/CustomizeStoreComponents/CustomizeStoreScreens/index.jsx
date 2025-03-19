@@ -3,12 +3,9 @@ import "./index.scss";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import SectionsManager from "../SectionsManager/index.jsx";
 import CustomizeStoreMarketHomePage from "../CustomizeStoreMarketHomePage/index.jsx";
-import { RxCross2 } from "react-icons/rx";
-import { HiOutlinePlusSm } from "react-icons/hi";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
-import { Upload, message } from "antd";
-import ImgCrop from "antd-img-crop";
-import "/src/assets/mohtesem.jpg";
+import { HiOutlinePlusSm } from "react-icons/hi";
+import {message, Upload} from "antd";
 import {
     useGetStoreWithSectionsQuery,
     usePostBannerItemMutation,
@@ -17,6 +14,7 @@ import {
 import Cookies from "js-cookie";
 import { BANNER_LOGO } from "../../../../constants.js";
 import CustomizeStoreSettingTab from "../CustomizeStoreSettingTab/index.jsx";
+import ImgCrop from "antd-img-crop";
 
 function CustomizeStoreScreens() {
     const { data: storeData, refetch } = useGetStoreWithSectionsQuery(Cookies.get("chooseMarket"));
@@ -32,6 +30,13 @@ function CustomizeStoreScreens() {
     const [activeMainTab, setActiveMainTab] = useState("sections");
     const [updatedSections, setUpdatedSections] = useState([]);
     const [deletedIds, setDeletedIds] = useState([]);
+
+    // Yeni: Seçilen logo ve genişlik state’leri (başlangıçta backend’den alınan değeri kullanabiliriz)
+    const [customLogo, setCustomLogo] = useState(null);
+    const [customLogoWidth, setCustomLogoWidth] = useState(null);
+
+    // Menü için state: Hangi tabda menü açık
+    const [menuOpenTabIndex, setMenuOpenTabIndex] = useState(null);
 
     async function handleBannerSave() {
         try {
@@ -68,6 +73,7 @@ function CustomizeStoreScreens() {
 
                 const sortedSwipers = [...swipers].sort((a, b) => a.displayOrderId - b.displayOrderId);
 
+                // Tab içeriği için orijinal veriler saklanıyor
                 const initialTabData = sortedSwipers.map((item) => ({
                     id: item.id,
                     title: item.title,
@@ -90,7 +96,7 @@ function CustomizeStoreScreens() {
         }
     }, [sectionsData, tabs.length]);
 
-    // Final JSON oluşturulması (console log için)
+    // Final JSON oluşturulması (debug amaçlı)
     useEffect(() => {
         const bannerSectionFromAPI = sectionsData?.sections?.find(
             (section) => section.sectionType === "Banner"
@@ -128,18 +134,9 @@ function CustomizeStoreScreens() {
                 displayColumns: section.cardsInRow,
             }));
 
-        const finalJson = {
-            ...bannerSectionsJson,
-            categorySections,
-            collectionSections,
-            deleteSectionIds: deletedIds,
-        };
-
-        // finalJson üzerinde konsol log veya diğer işlemler yapılabilir.
-        console.log(finalJson);
+        // finalJson kullanılabilir...
     }, [tabData, updatedSections, sectionsData, deletedIds]);
 
-    // Final JSON hesaplamak için yardımcı fonksiyon:
     function getFinalJson() {
         const bannerSectionFromAPI = sectionsData?.sections?.find(
             (section) => section.sectionType === "Banner"
@@ -208,7 +205,6 @@ function CustomizeStoreScreens() {
         }
     }
 
-    // finalSections: CustomizeStoreMarketHomePage'e geçmek için
     const finalSections = {
         categorySections: updatedSections.filter((section) => section.type === "category"),
         collectionSections: updatedSections.filter((section) => section.type === "collection"),
@@ -243,6 +239,8 @@ function CustomizeStoreScreens() {
         imgWindow?.document.write(image.outerHTML);
     };
 
+    const fixedLabels = ["First", "Second", "Third"];
+
     const addTab = () => {
         if (tabs.length < 3) {
             const usedOrders = tabs.map((tab) => tab.displayOrderId);
@@ -250,7 +248,7 @@ function CustomizeStoreScreens() {
             const newOrder = available.length ? Math.min(...available) : tabs.length + 1;
             const newTab = {
                 id: null,
-                label: `Pic ${newOrder}`,
+                // label burada fixedLabels üzerinden verilecek, tab verisi içindeki label artık kullanılmayacak
                 displayOrderId: newOrder,
             };
             setTabs([...tabs, newTab]);
@@ -276,7 +274,6 @@ function CustomizeStoreScreens() {
         const updatedTabs = newTabs.map((tab, idx) => ({
             ...tab,
             displayOrderId: idx + 1,
-            label: `Pic ${idx + 1}`,
         }));
         setTabs(updatedTabs);
         setTabData((prev) => {
@@ -297,7 +294,6 @@ function CustomizeStoreScreens() {
             const updatedTabs = newTabs.map((tab, idx) => ({
                 ...tab,
                 displayOrderId: idx + 1,
-                label: `Pic ${idx + 1}`,
             }));
             setTabs(updatedTabs);
             setTabData((prev) => {
@@ -325,7 +321,6 @@ function CustomizeStoreScreens() {
             const updatedTabs = newTabs.map((tab, idx) => ({
                 ...tab,
                 displayOrderId: idx + 1,
-                label: `Pic ${idx + 1}`,
             }));
             setTabs(updatedTabs);
             setTabData((prev) => {
@@ -347,33 +342,32 @@ function CustomizeStoreScreens() {
     };
 
     const getTabData = (id) => tabData.find((item) => item.id === id) || {};
+
     return (
         <section id="customizeStoreScreens">
             <div className="row">
                 <div className="firstScreen col-14-60 my-scrollable-element">
-                    <div className="row main-tabs">
+                    <div className="choose row main-tabs">
                         <div
-                            className={`pd-8 col-6 clickable ${activeMainTab === "sections" ? "active" : ""}`}
+                            className={`sections pd-8 col-6 clickable ${activeMainTab === "sections" ? "selected" : ""}`}
                             onClick={() => setActiveMainTab("sections")}
                         >
                             Sections
                         </div>
                         <div
-                            className={`pd-8 col-6 clickable ${activeMainTab === "settings" ? "active" : ""}`}
+                            className={`settings pd-8 col-6 clickable ${activeMainTab === "settings" ? "selected" : ""}`}
                             onClick={() => setActiveMainTab("settings")}
                         >
                             Settings
                         </div>
                     </div>
 
-                    {/* SECTIONS TAB */}
                     <div style={{ display: activeMainTab === "sections" ? "block" : "none" }}>
                         <div className="heroSettings">
                             <Tabs selectedIndex={activeBannerIndex} onSelect={(index) => setActiveBannerIndex(index)}>
                                 <TabList>
                                     {tabs.map((tab, index) => (
                                         <Tab key={index}>
-                                            {tab.label}
                                             {index > 0 && (
                                                 <FiArrowLeft
                                                     className="csicon arrow-icon"
@@ -383,6 +377,9 @@ function CustomizeStoreScreens() {
                                                     }}
                                                 />
                                             )}
+                                            <div className="tab-header">
+                                                <span className="tab-label">{fixedLabels[index] || `Tab ${index + 1}`}</span>
+                                            </div>
                                             {index < tabs.length - 1 && (
                                                 <FiArrowRight
                                                     className="csicon arrow-icon"
@@ -392,14 +389,26 @@ function CustomizeStoreScreens() {
                                                     }}
                                                 />
                                             )}
-                                            {tabs.length > 1 && (
-                                                <RxCross2
-                                                    className="csicon"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        removeTab(index);
-                                                    }}
-                                                />
+                                            {menuOpenTabIndex === index && (
+                                                <div className="tab-menu">
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            removeTab(index);
+                                                            setMenuOpenTabIndex(null);
+                                                        }}
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setMenuOpenTabIndex(null);
+                                                        }}
+                                                    >
+                                                        Close
+                                                    </button>
+                                                </div>
                                             )}
                                         </Tab>
                                     ))}
@@ -463,23 +472,27 @@ function CustomizeStoreScreens() {
                                     </TabPanel>
                                 ))}
                             </Tabs>
-                            <button onClick={handleBannerSave}>Save Banner</button>
                         </div>
 
-                        {/* Sections Manager */}
-                        <SectionsManager
-                            onSectionsChange={setUpdatedSections}
-                            onDeletedIdsChange={setDeletedIds}
-                        />
+                        <SectionsManager onSectionsChange={setUpdatedSections} onDeletedIdsChange={setDeletedIds} />
                         <button className="save-sections-btn" onClick={() => handlePutSection(getFinalJson())}>
                             Save Changes
                         </button>
                     </div>
-                    <CustomizeStoreSettingTab activeMainTab={activeMainTab} />
+                    <CustomizeStoreSettingTab
+                        activeMainTab={activeMainTab}
+                        setCustomLogo={setCustomLogo}
+                        setCustomLogoWidth={setCustomLogoWidth}
+                    />
                 </div>
                 <div className="lastScreen col-46-60">
                     <div className="pd-16">
-                        <CustomizeStoreMarketHomePage swipers={tabData} sections={finalSections} />
+                        <CustomizeStoreMarketHomePage
+                            swipers={tabData}
+                            sections={finalSections}
+                            customLogo={customLogo}
+                            customLogoWidth={customLogoWidth}
+                        />
                     </div>
                 </div>
             </div>

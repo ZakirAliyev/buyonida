@@ -1,23 +1,45 @@
 import "./index.scss";
-import ImgCrop from "antd-img-crop";
-import { Form, Upload, Button } from "antd";
-import { MdOutlineFolderCopy } from "react-icons/md";
-import { useState, useEffect, useRef } from "react";
+import {Form, Upload, Button, message} from "antd";
+import {MdOutlineFolderCopy} from "react-icons/md";
+import {useState, useEffect, useRef} from "react";
 import Cookies from "js-cookie";
 import {
     useGetPaletteByMarketIdQuery,
+    useGetStoreByIdQuery,
     usePostPaletteMutation,
     usePostSettingFontNameMutation,
+    usePostSettingBrandingMutation,
 } from "../../../service/userApi.js";
 import CustomColorPicker from "../../CustomColorPicker/index.jsx";
 
-function CustomizeStoreSettingTab({ activeMainTab }) {
+function AccordionItem({title, children, isOpen, onToggle}) {
+    return (
+        <div className="accordion-item" style={{
+            borderBottomRightRadius: title === "Font" && "8px",
+            borderBottomLeftRadius: title === "Font" && "8px",
+            borderTopRightRadius: title === "Brending" && "8px",
+            borderTopLeftRadius: title === "Brending" && "8px",
+        }}>
+            <div className="accordion-header" onClick={onToggle}>
+                <span>{title}</span>
+                <span className={`arrow ${isOpen ? "up" : "down"}`}/>
+            </div>
+            {isOpen && <div className="accordion-content">{children}</div>}
+        </div>
+    );
+}
+
+function CustomizeStoreSettingTab({activeMainTab, setCustomLogo, setCustomLogoWidth}) {
     const chosenMarket = parseInt(Cookies.get("chooseMarket"), 10);
-    const { data: getPaletteByMarketId } = useGetPaletteByMarketIdQuery(chosenMarket);
+    const {data: getPaletteByMarketId} = useGetPaletteByMarketIdQuery(chosenMarket);
     const palette = getPaletteByMarketId?.data;
+
+    const {data: getStoreById} = useGetStoreByIdQuery(Cookies.get("chooseMarket"));
+    const store = getStoreById?.data;
 
     const [postPalette] = usePostPaletteMutation();
     const [postSettingPalette] = usePostSettingFontNameMutation();
+    const [postBranding] = usePostSettingBrandingMutation();
 
     const [showAddColorForm, setShowAddColorForm] = useState(false);
     const [editingSchemeId, setEditingSchemeId] = useState(null);
@@ -29,11 +51,10 @@ function CustomizeStoreSettingTab({ activeMainTab }) {
     const [logoFileList, setLogoFileList] = useState([]);
     const [faviconFileList, setFaviconFileList] = useState([]);
 
-    // Form verileri (palette adı vb.)
+    // Palet form verileri
     const [formData, setFormData] = useState({
         marketId: chosenMarket,
         name: "",
-        // Renk değerleri (hex kod formatında olmalı)
         textColor: "",
         backgroundColor: "",
         cardBgColor: "",
@@ -44,7 +65,7 @@ function CustomizeStoreSettingTab({ activeMainTab }) {
         navbarTextColor: "",
         buttonBorderColor: "",
         buttonBgColor: "",
-        buttonTextColor: ""
+        buttonTextColor: "",
     });
 
     const [selectedFont, setSelectedFont] = useState("Poppins");
@@ -68,9 +89,8 @@ function CustomizeStoreSettingTab({ activeMainTab }) {
                 navbarTextColor: editingPalette.navbarTextColor,
                 buttonBorderColor: editingPalette.buttonBorderColor,
                 buttonBgColor: editingPalette.buttonBgColor,
-                buttonTextColor: editingPalette.buttonTextColor
+                buttonTextColor: editingPalette.buttonTextColor,
             });
-            // Düzenleme modunda form alanlarını da güncellemek için:
             formRef.current.setFieldsValue({
                 textColor: editingPalette.textColor,
                 backgroundColor: editingPalette.backgroundColor,
@@ -86,22 +106,6 @@ function CustomizeStoreSettingTab({ activeMainTab }) {
             });
         }
     }, [editingPalette, chosenMarket]);
-
-    useEffect(() => {
-        console.log(formData);
-    }, []);
-
-    function AccordionItem({ title, children, isOpen, onToggle }) {
-        return (
-            <div className="accordion-item">
-                <div className="accordion-header" onClick={onToggle}>
-                    <span>{title}</span>
-                    <span className={`arrow ${isOpen ? "up" : "down"}`} />
-                </div>
-                {isOpen && <div className="accordion-content">{children}</div>}
-            </div>
-        );
-    }
 
     const onPreview = async (file) => {
         let src = file.url;
@@ -127,22 +131,15 @@ function CustomizeStoreSettingTab({ activeMainTab }) {
 
     const handleSave = async () => {
         try {
-            // Form içindeki renk değerlerini alıyoruz. Bu değerlerin hex kod formatında olduğunu varsayıyoruz.
             const colorValues = await formRef.current.validateFields();
-            // paletteData nesnesini formData ve formdaki renk değerlerinden oluşturuyoruz.
             const paletteData = {
                 ...formData,
                 ...colorValues,
             };
 
-            // JSON'u kontrol amaçlı ekrana bastırıyoruz
-            console.log(JSON.stringify(paletteData, null, 2));
-
-            // Tüm alanların dolu olup olmadığını kontrol ediyoruz
             const allFilled = Object.values(paletteData).every((value) => value !== "");
             if (!allFilled) {
                 alert("Lütfen tüm alanları doldurun.");
-                console.log(paletteData);
                 return;
             }
             const response = await postPalette(paletteData).unwrap();
@@ -173,7 +170,7 @@ function CustomizeStoreSettingTab({ activeMainTab }) {
             navbarTextColor: "",
             buttonBorderColor: "",
             buttonBgColor: "",
-            buttonTextColor: ""
+            buttonTextColor: "",
         });
         if (formRef.current) {
             formRef.current.resetFields();
@@ -184,7 +181,7 @@ function CustomizeStoreSettingTab({ activeMainTab }) {
     const handleUpdatePalette = async () => {
         try {
             const marketId = Cookies.get("chooseMarket");
-            const response = await postSettingPalette({ marketId, selectedFont }).unwrap();
+            const response = await postSettingPalette({marketId, selectedFont}).unwrap();
             if (response?.statusCode === 200) {
                 alert("Palet başarıyla güncellendi.");
             } else {
@@ -205,13 +202,72 @@ function CustomizeStoreSettingTab({ activeMainTab }) {
         }
     }, [selectedFont]);
 
+    // BRANDING: "About store" alanı için state
+    const [aboutStore, setAboutStore] = useState(store?.aboutMarket || "");
     useEffect(() => {
-        console.log("CustomizeStoreSettingTab çalışıyor...");
-    }, []);
+        if (store?.aboutMarket) {
+            setAboutStore(store.aboutMarket);
+        }
+    }, [store]);
+
+    // Brending kısmı: Logo, logo genişliği, favicon, About store
+    const handleLogoChange = ({fileList}) => {
+        setLogoFileList(fileList);
+        if (fileList && fileList.length > 0) {
+            const file = fileList[fileList.length - 1];
+            if (file.originFileObj) {
+                const preview = URL.createObjectURL(file.originFileObj);
+                setCustomLogo(preview);
+            }
+        } else {
+            setCustomLogo(null);
+        }
+    };
+
+    const [localLogoWidth, setLocalLogoWidth] = useState(store?.logoWidth || 100);
+    const handleWidthChange = (e) => {
+        const newWidth = parseInt(e.target.value, 10);
+        setLocalLogoWidth(newWidth);
+        setCustomLogoWidth(newWidth);
+    };
+
+    useEffect(() => {
+        if (store?.logoWidth) {
+            setLocalLogoWidth(store.logoWidth);
+            setCustomLogoWidth(store.logoWidth);
+        }
+    }, [store, setCustomLogoWidth]);
+
+    // Branding: Save Branding butonu ve işlevi (FormData kullanarak, favicon eklendi)
+    const handleSaveBranding = async () => {
+        try {
+            const formDataToSend = new FormData();
+            formDataToSend.append("marketId", chosenMarket);
+            formDataToSend.append("aboutMarket", aboutStore);
+            formDataToSend.append("logoWidth", localLogoWidth);
+            // Logo dosyası varsa ekle
+            if (logoFileList && logoFileList.length > 0 && logoFileList[logoFileList.length - 1].originFileObj) {
+                formDataToSend.append("logo", logoFileList[logoFileList.length - 1].originFileObj);
+            }
+            // Favicon dosyası varsa ekle (alan adı "favicon")
+            if (faviconFileList && faviconFileList.length > 0 && faviconFileList[faviconFileList.length - 1].originFileObj) {
+                formDataToSend.append("favicon", faviconFileList[faviconFileList.length - 1].originFileObj);
+            }
+            const response = await postBranding(formDataToSend).unwrap();
+            if (response?.statusCode === 200) {
+                message.success("Branding başarıyla kaydedildi.");
+            } else {
+                message.error("Branding kaydedilemedi.");
+            }
+        } catch (error) {
+            console.error("Branding gönderilirken hata oluştu:", error);
+            alert("Branding gönderilirken hata oluştu.");
+        }
+    };
 
     return (
         <section id="customizeStoreSettingTab">
-            <div style={{ display: activeMainTab === "settings" ? "block" : "none" }}>
+            <div style={{display: activeMainTab === "settings" ? "block" : "none"}}>
                 <div className="settingsContent">
                     <AccordionItem
                         title="Brending"
@@ -225,62 +281,71 @@ function CustomizeStoreSettingTab({ activeMainTab }) {
                     >
                         <div className="myWrapper">
                             <div className="name">Logo</div>
-                            <ImgCrop rotationSlider>
-                                <Upload
-                                    customRequest={({ onSuccess }) => {
-                                        setTimeout(() => {
-                                            onSuccess("ok");
-                                        }, 0);
-                                    }}
-                                    listType="picture-card"
-                                    fileList={logoFileList}
-                                    onChange={({ fileList }) => setLogoFileList(fileList)}
-                                    onPreview={onPreviewFile}
-                                    maxCount={1}
-                                >
-                                    {logoFileList.length < 1 && (
-                                        <>
-                                            <span>Select</span>
-                                            <MdOutlineFolderCopy />
-                                        </>
-                                    )}
-                                </Upload>
-                            </ImgCrop>
+                            <Upload
+                                customRequest={({onSuccess}) => {
+                                    setTimeout(() => {
+                                        onSuccess("ok");
+                                    }, 0);
+                                }}
+                                listType="picture-card"
+                                fileList={logoFileList}
+                                onChange={handleLogoChange}
+                                onPreview={onPreviewFile}
+                                maxCount={1}
+                            >
+                                {logoFileList.length < 1 && (
+                                    <>
+                                        <span>Select</span>
+                                        <MdOutlineFolderCopy/>
+                                    </>
+                                )}
+                            </Upload>
                         </div>
-
                         <div className="myWrapper">
-                            <div className="name">Width</div>
-                            <input type="range" min="3" max="6" step="1" />
+                            <div className="name">
+                                Width - <span>{localLogoWidth}px</span>
+                            </div>
+                            <input
+                                type="range"
+                                min="50"
+                                max="300"
+                                value={localLogoWidth}
+                                onChange={handleWidthChange}
+                            />
                         </div>
-
                         <div className="myWrapper">
                             <div className="name">Favicon</div>
-                            <ImgCrop rotationSlider>
-                                <Upload
-                                    customRequest={({ onSuccess }) => {
-                                        setTimeout(() => {
-                                            onSuccess("ok");
-                                        }, 0);
-                                    }}
-                                    listType="picture-card"
-                                    fileList={faviconFileList}
-                                    onChange={({ fileList }) => setFaviconFileList(fileList)}
-                                    onPreview={onPreviewFile}
-                                    maxCount={1}
-                                >
-                                    {faviconFileList.length < 1 && (
-                                        <>
-                                            <span>Select</span>
-                                            <MdOutlineFolderCopy />
-                                        </>
-                                    )}
-                                </Upload>
-                            </ImgCrop>
+                            <Upload
+                                customRequest={({onSuccess}) => {
+                                    setTimeout(() => {
+                                        onSuccess("ok");
+                                    }, 0);
+                                }}
+                                listType="picture-card"
+                                fileList={faviconFileList}
+                                onChange={({fileList}) => setFaviconFileList(fileList)}
+                                onPreview={onPreviewFile}
+                                maxCount={1}
+                            >
+                                {faviconFileList.length < 1 && (
+                                    <>
+                                        <span>Select</span>
+                                        <MdOutlineFolderCopy/>
+                                    </>
+                                )}
+                            </Upload>
                         </div>
-
                         <div className="myWrapper">
                             <div className="name">About store</div>
-                            <textarea type="text" rows={3} />
+                            <textarea
+                                type="text"
+                                rows={6}
+                                value={aboutStore}
+                                onChange={(e) => setAboutStore(e.target.value)}
+                            />
+                        </div>
+                        <div className="myWrapper">
+                            <Button onClick={handleSaveBranding}>Save Branding</Button>
                         </div>
                     </AccordionItem>
 
@@ -304,52 +369,50 @@ function CustomizeStoreSettingTab({ activeMainTab }) {
                                                 ? `Edit Palette - ${editingPalette?.name}`
                                                 : "Add New Palette"}
                                         </h3>
-                                        {/* Palette Name */}
                                         <div className="form-group">
                                             <label>Palette Name</label>
                                             <input
                                                 type="text"
                                                 defaultValue={formData.name}
                                                 onBlur={(e) =>
-                                                    setFormData((prev) => ({ ...prev, name: e.target.value }))
+                                                    setFormData((prev) => ({...prev, name: e.target.value}))
                                                 }
                                                 required
                                             />
                                         </div>
-                                        {/* Renk seçiciler için tek form */}
                                         <Form ref={formRef} initialValues={formData}>
                                             <Form.Item name="textColor" label="Text Color">
-                                                <CustomColorPicker />
+                                                <CustomColorPicker/>
                                             </Form.Item>
                                             <Form.Item name="backgroundColor" label="Navbar bg">
-                                                <CustomColorPicker />
+                                                <CustomColorPicker/>
                                             </Form.Item>
                                             <Form.Item name="cardBgColor" label="Navbar text">
-                                                <CustomColorPicker />
+                                                <CustomColorPicker/>
                                             </Form.Item>
                                             <Form.Item name="cardTextColor" label="Background">
-                                                <CustomColorPicker />
+                                                <CustomColorPicker/>
                                             </Form.Item>
                                             <Form.Item name="footerBgColor" label="Card bg">
-                                                <CustomColorPicker />
+                                                <CustomColorPicker/>
                                             </Form.Item>
                                             <Form.Item name="footerTextColor" label="Card text">
-                                                <CustomColorPicker />
+                                                <CustomColorPicker/>
                                             </Form.Item>
                                             <Form.Item name="navbarBgColor" label="Footer bg">
-                                                <CustomColorPicker />
+                                                <CustomColorPicker/>
                                             </Form.Item>
                                             <Form.Item name="navbarTextColor" label="Footer text">
-                                                <CustomColorPicker />
+                                                <CustomColorPicker/>
                                             </Form.Item>
                                             <Form.Item name="buttonBorderColor" label="Button Border">
-                                                <CustomColorPicker />
+                                                <CustomColorPicker/>
                                             </Form.Item>
                                             <Form.Item name="buttonBgColor" label="Button bg">
-                                                <CustomColorPicker />
+                                                <CustomColorPicker/>
                                             </Form.Item>
                                             <Form.Item name="buttonTextColor" label="Button text">
-                                                <CustomColorPicker />
+                                                <CustomColorPicker/>
                                             </Form.Item>
                                         </Form>
                                         <div className="edit-buttons">
@@ -360,52 +423,44 @@ function CustomizeStoreSettingTab({ activeMainTab }) {
                                 </div>
                             </div>
                         ) : (
-                            // Normal modda mevcut paletlerin ve ekleme butonunun gösterimi
-                            <div className="row">
-                                {palette &&
-                                    palette.length > 0 &&
-                                    palette.map((item) => (
-                                        <div key={item.id} className="col-4">
-                                            <div
-                                                className="wrapper2"
-                                                onClick={() => setEditingSchemeId(item.id)}
-                                            >
-                                                <div
-                                                    className="box"
-                                                    style={{
-                                                        backgroundColor: item.backgroundColor,
-                                                        color: item.textColor,
-                                                    }}
-                                                >
-                                                    Aa
-                                                    <div style={{ display: "flex", gap: "5px" }}>
-                                                        <div
-                                                            className="rengBoxu"
-                                                            style={{ backgroundColor: item.navbarBgColor }}
-                                                        ></div>
-                                                        <div
-                                                            className="rengBoxu"
-                                                            style={{ backgroundColor: item.navbarTextColor }}
-                                                        ></div>
+                            <>
+                                <div className="row">
+                                    {palette &&
+                                        palette.length > 0 &&
+                                        palette.map((item) => (
+                                            <div key={item.id} className="col-4">
+                                                <div className="wrapper2" onClick={() => setEditingSchemeId(item.id)}>
+                                                    <div
+                                                        className="box"
+                                                        style={{
+                                                            backgroundColor: item.backgroundColor,
+                                                            color: item.textColor,
+                                                        }}
+                                                    >
+                                                        Aa
+                                                        <div style={{display: "flex", gap: "5px"}}>
+                                                            <div className="rengBoxu"
+                                                                 style={{backgroundColor: item.navbarBgColor}}></div>
+                                                            <div className="rengBoxu"
+                                                                 style={{backgroundColor: item.navbarTextColor}}></div>
+                                                        </div>
                                                     </div>
+                                                    <div className="myName">{item.name}</div>
                                                 </div>
-                                                <div className="myName">{item.name}</div>
+                                            </div>
+                                        ))}
+                                    {!showAddColorForm && editingSchemeId === null && (
+                                        <div className="col-4">
+                                            <div className="wrapper2" onClick={toggleAddColorForm}
+                                                 style={{cursor: "pointer"}}>
+                                                <div className="box box1 plus">+</div>
+                                                <div className="myName">Add color</div>
                                             </div>
                                         </div>
-                                    ))}
-                                {!showAddColorForm && editingSchemeId === null && (
-                                    <div className="col-4">
-                                        <div
-                                            className="wrapper2"
-                                            onClick={toggleAddColorForm}
-                                            style={{ cursor: "pointer" }}
-                                        >
-                                            <div className="box box1 plus">+</div>
-                                            <div className="myName">Add color</div>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
+                                    )}
+                                </div>
+                                <Button onClick={handleUpdatePalette}>Save Palet</Button>
+                            </>
                         )}
                     </AccordionItem>
 
@@ -422,17 +477,13 @@ function CustomizeStoreSettingTab({ activeMainTab }) {
                     >
                         <div className="myWrapper1">
                             <div className="name">Choose font family</div>
-                            <select
-                                value={selectedFont}
-                                onChange={(e) => setSelectedFont(e.target.value)}
-                            >
+                            <select value={selectedFont} onChange={(e) => setSelectedFont(e.target.value)}>
                                 <option value="Poppins">Poppins</option>
                                 <option value="Space Grotesk">Space Grotesk</option>
                             </select>
                         </div>
                     </AccordionItem>
                 </div>
-                <Button onClick={handleUpdatePalette}>save palet</Button>
             </div>
         </section>
     );

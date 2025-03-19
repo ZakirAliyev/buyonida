@@ -6,10 +6,10 @@ import CSMarketTitle from "../CustomMarket/CSMarketTitle/index.jsx";
 import CSMarketCard from "../CustomMarket/CSMarketCard/index.jsx";
 import { useEffect } from "react";
 
-function CustomizeStoreMarketHomePage({ swipers, sections }) {
+function CustomizeStoreMarketHomePage({ swipers, sections, customLogo, customLogoWidth }) {
     const sectionsArray = [
         ...(sections.categorySections || []),
-        ...(sections.collectionSections || [])
+        ...(sections.collectionSections || []),
     ].sort((a, b) => a.displayOrderId - b.displayOrderId);
 
     useEffect(() => {
@@ -21,10 +21,11 @@ function CustomizeStoreMarketHomePage({ swipers, sections }) {
         }
     }, []);
 
-
     return (
         <section id="customizeStoreMarketHomePage">
-            <CSMarketNavbar />
+            <div className="navbar-container">
+                <CSMarketNavbar customLogo={customLogo} customLogoWidth={customLogoWidth} />
+            </div>
             <CSMarketSwiperHero swipers={swipers} />
             <div className="section">
                 {sectionsArray.map((section, index) => (
