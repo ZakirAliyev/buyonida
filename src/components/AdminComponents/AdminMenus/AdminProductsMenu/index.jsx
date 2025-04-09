@@ -1,21 +1,27 @@
-import "./index.scss";
+import './index.scss';
 import { FiPlus } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { GoDotFill } from "react-icons/go";
 import { useGetAllProductsByMarketIdQuery } from "../../../../service/userApi.js";
 import Cookies from "js-cookie";
 import { PRODUCT_LOGO } from "../../../../../constants.js";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import html2canvas from "html2canvas";
 import image1 from "/src/assets/static.png";
 
 function AdminProductsMenu() {
     const navigate = useNavigate();
-    const { data: getAllProductsByMarketId } = useGetAllProductsByMarketIdQuery(Cookies.get('chooseMarket'));
+    // refetch fonksiyonunu ekledik
+    const { data: getAllProductsByMarketId, refetch } = useGetAllProductsByMarketIdQuery(Cookies.get('chooseMarket'));
     const products = getAllProductsByMarketId?.data;
     const captureRef = useRef(null);
     const [image, setImage] = useState(null);
     const [isScreenshotMode, setScreenshotMode] = useState(false);
+
+    // Bileşen mount olduğunda refetch yaparak güncel ürün verilerini alalım.
+    useEffect(() => {
+        refetch();
+    }, [refetch]);
 
     const takeScreenshot = () => {
         setScreenshotMode(true);
@@ -66,7 +72,6 @@ function AdminProductsMenu() {
                                     <input type="checkbox" />
                                 </td>
                                 <td onClick={() => navigate(`/cp/edit-product/${Cookies.get('chooseMarket')}/${product?.id}`)}>
-                                    {/* Eğer screenshot modu aktifse statik resmi göster */}
                                     {!isScreenshotMode ? (
                                         <img
                                             className="image"
@@ -81,12 +86,12 @@ function AdminProductsMenu() {
                                 <td onClick={() => navigate(`/cp/edit-product/${Cookies.get('chooseMarket')}/${product?.id}`)}>
                                     {product?.status ? (
                                         <span className="status">
-                                                <GoDotFill className="dot" /> Active
-                                            </span>
+                                            <GoDotFill className="dot" /> Active
+                                        </span>
                                     ) : (
                                         <span className="status statusDont">
-                                                <GoDotFill className="dot" /> Deactive
-                                            </span>
+                                            <GoDotFill className="dot" /> Deactive
+                                        </span>
                                     )}
                                 </td>
                                 <td onClick={() => navigate(`/cp/edit-product/${product?.id}`)}>5</td>

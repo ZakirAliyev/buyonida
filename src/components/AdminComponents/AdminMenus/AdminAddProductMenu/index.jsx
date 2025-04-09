@@ -1,30 +1,29 @@
 import './index.scss';
-import {useNavigate} from "react-router-dom";
-import {FiArrowLeft, FiPlus} from "react-icons/fi";
-import {FaTrash} from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { FiArrowLeft, FiPlus } from "react-icons/fi";
+import { FaTrash } from "react-icons/fa";
 import ReactQuill from "react-quill";
-import {cloneElement, useState} from "react";
+import { cloneElement, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import CategoryModal from "../../CategoryModal/index.jsx";
 import VariantContainer from "../Variants/index.jsx";
 import AdminPopUp from "../../AdminPopUp/index.jsx";
-import {AiOutlineExclamationCircle} from "react-icons/ai";
-import {Modal} from "antd";
+import { AiOutlineExclamationCircle } from "react-icons/ai";
+import { Modal } from "antd";
 import AdminSelectFile from "../../AdminSelectFile/index.jsx";
-import {useGetAllCategoriesByMarketIdQuery, usePostCreateProductMutation} from "../../../../service/userApi.js";
+import { useGetAllCategoriesByMarketIdQuery, usePostCreateProductMutation } from "../../../../service/userApi.js";
 import Cookies from "js-cookie";
-import {toast} from "react-toastify";
-import {FaCross} from "react-icons/fa6";
-import {RxCross2} from "react-icons/rx";
+import {toast, ToastContainer} from "react-toastify";
+import { FaCross } from "react-icons/fa6";
+import { RxCross2 } from "react-icons/rx";
+import {PulseLoader} from "react-spinners";
 
 function AdminAddProductMenu() {
     const navigate = useNavigate();
 
-    // API'den kategori listesini çekiyoruz
-    const {data: categoriesData} = useGetAllCategoriesByMarketIdQuery(Cookies.get('chooseMarket'));
+    const { data: categoriesData, refetch } = useGetAllCategoriesByMarketIdQuery(Cookies.get('chooseMarket'));
     const categories = categoriesData?.data || [];
 
-    // Ürün verileri için state'ler
     const [marketId] = useState(Cookies.get('chooseMarket'));
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -36,44 +35,30 @@ function AdminAddProductMenu() {
     const [isStock, setIsStock] = useState(false);
     const [skuAndBarcode, setSkuAndBarcode] = useState(false);
     const [stock, setStock] = useState(0);
+    // Ürün durumunu temsil eden state (true: Active, false: Passive)
     const [status, setStatus] = useState(true);
 
-    // Resim yükleme için state (eklenen resimler korunacak)
     const [images, setImages] = useState([]);
 
-    // Diğer state'ler
     const [errors, setErrors] = useState({});
     const [showDropdown, setShowDropdown] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isBigBoxModalOpen, setIsBigBoxModalOpen] = useState(false);
 
-    // Resim seçimi: mevcut resimleri silmeden yeni resimleri ekleyelim
     const handleImageChange = (e) => {
         const newFiles = Array.from(e.target.files);
         setImages((prevImages) => [...prevImages, ...newFiles]);
         e.target.value = "";
     };
 
-    // Seçilen resimden birini kaldırmak için
     const handleRemoveImage = (indexToRemove) => {
         setImages((prevImages) =>
             prevImages.filter((_, index) => index !== indexToRemove)
         );
     };
 
-    // Kategori oluşturma işlemi
-    const handleCreateCategory = (category) => {
-        if (category.name.trim()) {
-            categories.push(category);
-            setSelectedCategoryId(category.id);
-        }
-        setIsModalOpen(false);
-    };
-
-    // API mutation'ı
     const [postCreateProduct] = usePostCreateProductMutation();
 
-    // Input validasyon fonksiyonu
     const validateInputs = () => {
         let errors = {};
         if (!title.trim()) {
@@ -91,11 +76,13 @@ function AdminAddProductMenu() {
         if (!compareAtPrice.trim() || isNaN(parseFloat(compareAtPrice))) {
             errors.compareAtPrice = "Valid compare price is required";
         }
-        if (!sku.trim()) {
-            errors.sku = "SKU is required";
-        }
-        if (!barcode.trim()) {
-            errors.barcode = "Barcode is required";
+        if (skuAndBarcode) {
+            if (!sku.trim()) {
+                errors.sku = "SKU is required";
+            }
+            if (!barcode.trim()) {
+                errors.barcode = "Barcode is required";
+            }
         }
         if (isStock && (stock === "" || isNaN(parseInt(stock, 10)))) {
             errors.stock = "Valid stock number is required";
@@ -106,6 +93,20 @@ function AdminAddProductMenu() {
         return errors;
     };
 
+    // Gerekli alanların kontrolüne göre formun geçerliliğini hesapla
+    const isFormValid = (
+        title.trim() !== "" &&
+        description.trim() !== "" &&
+        selectedCategoryId !== "" &&
+        pricing.trim() !== "" && !isNaN(parseFloat(pricing)) &&
+        compareAtPrice.trim() !== "" && !isNaN(parseFloat(compareAtPrice)) &&
+        images.length > 0 &&
+        (!isStock || (stock !== "" && !isNaN(parseInt(stock, 10)))) &&
+        (!skuAndBarcode || (sku.trim() !== "" && barcode.trim() !== ""))
+    );
+
+    const [postAddProduct] = usePostCreateProductMutation();
+    const [loading, setLoading] = useState(false);
     const handleSubmit = async () => {
         const validationErrors = validateInputs();
         if (Object.keys(validationErrors).length > 0) {
@@ -115,6 +116,7 @@ function AdminAddProductMenu() {
         setErrors({});
 
         try {
+            setLoading(true);
             const storedVariantsObj = JSON.parse(localStorage.getItem("variantData") || "{}");
             const variantsArray = Object.keys(storedVariantsObj)
                 .sort((a, b) => {
@@ -157,17 +159,27 @@ function AdminAddProductMenu() {
                 formData.append('imagesToAdd', images[i]);
             }
 
-            const response = await postCreateProduct(formData).unwrap();
-            toast.success("Product created successfully!", {
-                position: 'bottom-right',
-                autoClose: 2500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: 'dark',
-            });
+            // Form verilerini konsola logla
+            console.log("Form Data:", productData);
+            for (const pair of formData.entries()) {
+                console.log(pair[0] + ": ", pair[1]);
+            }
+
+            const response = await postAddProduct(formData).unwrap();
+            if (response?.statusCode === 201) {
+                toast.success("Category created successfully", {
+                    position: 'bottom-right',
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark',
+                    onClose: () => {navigate('/cp/products')}
+                });
+            }
+            setLoading(false);
         } catch (e) {
             toast.error(`Error`, {
                 position: 'bottom-right',
@@ -185,13 +197,16 @@ function AdminAddProductMenu() {
     return (
         <section id="adminAddProductMenu">
             <div className="umumi">
+                {/* Ürün Durumu */}
                 <div className="abso">
                     <span>Product status</span>
-                    <button>Active</button>
+                    <button onClick={() => setStatus(!status)}>
+                        {status ? "Active" : "Passive"}
+                    </button>
                 </div>
                 <div className="lineWrapper">
                     <div className="arrow" onClick={() => navigate(-1)}>
-                        <FiArrowLeft className="icon"/>
+                        <FiArrowLeft className="icon" />
                     </div>
                     <h1>Add product</h1>
                 </div>
@@ -208,7 +223,7 @@ function AdminAddProductMenu() {
                         />
                         {errors.title && (
                             <span className="error-text">
-                                <AiOutlineExclamationCircle className="icon"/>
+                                <AiOutlineExclamationCircle className="icon" />
                                 {errors.title}
                             </span>
                         )}
@@ -224,7 +239,7 @@ function AdminAddProductMenu() {
                         />
                         {errors.description && (
                             <span className="error-text">
-                                <AiOutlineExclamationCircle className="icon"/>
+                                <AiOutlineExclamationCircle className="icon" />
                                 {errors.description}
                             </span>
                         )}
@@ -254,19 +269,19 @@ function AdminAddProductMenu() {
                                         {category.name}
                                     </div>
                                 ))}
-                                <div className="line"/>
+                                <div className="line" style={{ margin: '0' }}/>
                                 <div
                                     className="dropdown-item"
                                     onClick={() => setIsModalOpen(true)}
                                 >
-                                    <FiPlus className="icon"/>
+                                    <FiPlus className="icon" />
                                     <span>Create category</span>
                                 </div>
                             </div>
                         </div>
                         {errors.selectedCategoryId && (
                             <span className="error-text">
-                                <AiOutlineExclamationCircle className="icon"/>
+                                <AiOutlineExclamationCircle className="icon" />
                                 {errors.selectedCategoryId}
                             </span>
                         )}
@@ -274,17 +289,27 @@ function AdminAddProductMenu() {
                     {/* Images */}
                     <div className="inputWrapper">
                         <label>Images</label>
-                        <div className="uploaded-images">
-                            <label className="image-upload-container">
-                                <div className="image-upload-button">
-                                    <FiPlus className="icon"/>
+                        <div
+                            className="uploaded-images"
+                            style={{
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                                gap: '8px'
+                            }}
+                        >
+                            <label
+                                className="image-upload-container"
+                                style={{ position: 'relative' }}
+                            >
+                                <div className="image-upload-button" style={{ aspectRatio: '1/1' }}>
+                                    <FiPlus className="icon" />
                                 </div>
                                 <input
                                     type="file"
                                     id="imageUpload"
                                     multiple
                                     onChange={handleImageChange}
-                                    style={{display: "none"}}
+                                    style={{ display: 'none' }}
                                 />
                             </label>
                             {images.length > 0 &&
@@ -292,11 +317,7 @@ function AdminAddProductMenu() {
                                     <div
                                         key={index}
                                         className="uploaded-image-wrapper"
-                                        style={{
-                                            position: 'relative',
-                                            display: 'inline-block',
-                                            marginRight: '8px'
-                                        }}
+                                        style={{ position: 'relative' }}
                                     >
                                         <img
                                             src={URL.createObjectURL(image)}
@@ -316,15 +337,14 @@ function AdminAddProductMenu() {
                                                 cursor: 'pointer'
                                             }}
                                         >
-                                            <RxCross2/>
+                                            <RxCross2 />
                                         </button>
                                     </div>
                                 ))}
                         </div>
-
                         {errors.images && (
                             <span className="error-text">
-                                <AiOutlineExclamationCircle className="icon"/>
+                                <AiOutlineExclamationCircle className="icon" />
                                 {errors.images}
                             </span>
                         )}
@@ -348,7 +368,7 @@ function AdminAddProductMenu() {
                                 />
                                 {errors.pricing && (
                                     <span className="error-text">
-                                        <AiOutlineExclamationCircle className="icon"/>
+                                        <AiOutlineExclamationCircle className="icon" />
                                         {errors.pricing}
                                     </span>
                                 )}
@@ -365,27 +385,18 @@ function AdminAddProductMenu() {
                                 />
                                 {errors.compareAtPrice && (
                                     <span className="error-text">
-                                        <AiOutlineExclamationCircle className="icon"/>
+                                        <AiOutlineExclamationCircle className="icon" />
                                         {errors.compareAtPrice}
                                     </span>
                                 )}
                             </div>
                         </div>
                     </div>
-                    <div className={"col-8"} style={{
-                        padding: '0 0 0 8px'
-                    }}>
-                        <div className={"wrapper"} style={{
-                            padding: '16px 0',
-                            height: 'max-content'
-                        }}>
-                            <label style={{
-                                padding: '16px 32px'
-                            }}>Inventory</label>
+                    <div className={"col-8"} style={{ padding: '0 0 0 8px' }}>
+                        <div className={"wrapper"} style={{ padding: '16px 0', height: 'max-content' }}>
+                            <label style={{ padding: '16px 32px' }}>Inventory</label>
                             <div className="inputWrapper1">
-                                <div className={"inputWrapper1"} style={{
-                                    padding: '0'
-                                }}>
+                                <div className={"inputWrapper1"} style={{ padding: '0' }}>
                                     <input
                                         type="checkbox"
                                         checked={isStock}
@@ -394,22 +405,17 @@ function AdminAddProductMenu() {
                                     <label>Track quantity</label>
                                 </div>
                                 {isStock && (
-                                    <div className="inputWrapper" style={{
-                                        padding: '0',
-                                        width: 'max-content'
-                                    }}>
+                                    <div className="inputWrapper" style={{ padding: '0', width: 'max-content' }}>
                                         <input
                                             type="number"
                                             value={stock}
                                             onChange={(e) => setStock(e.target.value)}
                                             className={errors.stock ? "errorInput" : ""}
-                                            style={{
-                                                width: '100px'
-                                            }}
+                                            style={{ width: '100px' }}
                                         />
                                         {errors.stock && (
                                             <span className="error-text">
-                                                <AiOutlineExclamationCircle className="icon"/>
+                                                <AiOutlineExclamationCircle className="icon" />
                                                 {errors.stock}
                                             </span>
                                         )}
@@ -417,20 +423,12 @@ function AdminAddProductMenu() {
                                 )}
                             </div>
                             <div className={"line"}></div>
-                            <div className={"inputWrapper1 inputWrapper2"} style={{
-                                marginTop: '16px'
-                            }}>
-                                <div className={"inputWrapper1"} style={{
-                                    padding: '0'
-                                }}>
-                                    <input
-                                        type="checkbox"
-                                    />
+                            <div className={"inputWrapper1 inputWrapper2"} style={{ marginTop: '16px' }}>
+                                <div className={"inputWrapper1"} style={{ padding: '0' }}>
+                                    <input type="checkbox" />
                                     <label>Continue selling when out of stock</label>
                                 </div>
-                                <div className={"inputWrapper1"} style={{
-                                    padding: '0'
-                                }}>
+                                <div className={"inputWrapper1"} style={{ padding: '0' }}>
                                     <input
                                         type="checkbox"
                                         checked={skuAndBarcode}
@@ -439,9 +437,7 @@ function AdminAddProductMenu() {
                                     <label>This product has a SKU or barcode</label>
                                 </div>
                                 {skuAndBarcode && (
-                                    <div className={"row"} style={{
-                                        padding: '0'
-                                    }}>
+                                    <div className={"row"} style={{ padding: '0' }}>
                                         <div className={"col-6"}>
                                             <div className="inputWrapper">
                                                 <label>SKU</label>
@@ -453,7 +449,7 @@ function AdminAddProductMenu() {
                                                 />
                                                 {errors.sku && (
                                                     <span className="error-text">
-                                                        <AiOutlineExclamationCircle className="icon"/>
+                                                        <AiOutlineExclamationCircle className="icon" />
                                                         {errors.sku}
                                                     </span>
                                                 )}
@@ -470,7 +466,7 @@ function AdminAddProductMenu() {
                                                 />
                                                 {errors.barcode && (
                                                     <span className="error-text">
-                                                        <AiOutlineExclamationCircle className="icon"/>
+                                                        <AiOutlineExclamationCircle className="icon" />
                                                         {errors.barcode}
                                                     </span>
                                                 )}
@@ -482,9 +478,15 @@ function AdminAddProductMenu() {
                         </div>
                     </div>
                 </div>
-                <VariantContainer/>
-                <button onClick={handleSubmit} className="save">
-                    Submit Product
+                <VariantContainer />
+                <button onClick={handleSubmit} className="save" style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}>
+                    {loading ? (<PulseLoader color={"white"}/>) : (<>
+                        Submit Product
+                    </>)}
                 </button>
             </div>
             <Modal
@@ -494,17 +496,18 @@ function AdminAddProductMenu() {
                 width={1000}
                 modalRender={(modal) =>
                     cloneElement(modal, {
-                        style: {...modal.props.style, padding: 0, borderRadius: '20px'},
+                        style: { ...modal.props.style, padding: 0, borderRadius: '20px' },
                     })
                 }
             >
-                <AdminSelectFile/>
+                <AdminSelectFile />
             </Modal>
             <CategoryModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                onSave={handleCreateCategory}
+                onSave={refetch}
             />
+            <ToastContainer />
         </section>
     );
 }

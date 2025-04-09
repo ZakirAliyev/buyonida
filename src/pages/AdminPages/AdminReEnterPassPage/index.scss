@@ -24,7 +24,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 20px;
 
       img {
         height: 100%;
@@ -32,7 +31,7 @@
     }
 
     .title {
-      margin-top: 50px;
+      margin-top: 20px;
 
       h3 {
         font-size: 15px;
@@ -56,8 +55,8 @@
         margin-top: 30px;
 
         .box {
-          width: 70px;
-          height: 70px;
+          width: 50px;
+          height: 50px;
 
           input {
             width: 100%;
@@ -65,7 +64,7 @@
             border-radius: 10px;
             border: 1px solid gray;
             text-align: center;
-            font-size: 20px;
+            font-size: 14px;
             background-color: #F8F8F8;
           }
         }
@@ -77,7 +76,8 @@
       }
 
       input {
-        padding: 13px 20px;
+        padding: 0 20px;
+        height: 40px;
         margin-top: 5px;
         border-radius: 10px;
         border: 1px solid #181818;

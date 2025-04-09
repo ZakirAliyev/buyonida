@@ -5,7 +5,7 @@ import {useState} from "react";
 export const ownerApi = createApi({
     reducerPath: 'ownerApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://api.buyonida.com/api/',
+        baseUrl: 'https://buyonida-bnf5dbgxhegwd8ay.canadacentral-01.azurewebsites.net/api/',
         prepareHeaders: (headers) => {
             const token = Cookies.get('buyonidaToken');
             if (token) {
@@ -258,9 +258,25 @@ export const ownerApi = createApi({
                 body: data,
             })
         }),
+        postForgotPassword: builder.mutation({
+            query: (data) => ({
+                url: `/User/forgot-password`,
+                method: 'POST',
+                body: data,
+            })
+        }),
+        postResetPassword: builder.mutation({
+            query: (data) => ({
+                url: `/User/reset-password`,
+                method: 'POST',
+                body: data,
+            })
+        }),
     }),
 })
 export const {
+    usePostForgotPasswordMutation,
+    usePostResetPasswordMutation,
     usePostRegisterOwnerMutation,
     usePutUpdateOwnerMutation,
     usePostLoginOwnerMutation,

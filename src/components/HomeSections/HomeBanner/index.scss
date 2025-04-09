@@ -1,68 +1,214 @@
 #homeBanner {
-  height: calc(100vh - 56px);
-  width: 100%;
-  background-color: #FFE25E;
   text-align: center;
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  background-image: url("/src/assets/homeBg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 100px 16px 0;
+  margin-top: 100px;
+  border-bottom: 1px solid #EDEDED;
+
+  .container {
+    margin-top: -100px;
+  }
+
+  .kilit, .analytics {
+    position: absolute;
+    bottom:300px;
+    animation: floating 4s ease-in-out infinite;
+  }
+
+  .kilit {
+    margin-left: 100px;
+    animation-delay: 0s;
+  }
+
+  .analytics {
+    margin-left: 1000px;
+    animation-delay: 2s;
+  }
+
+  .d-none {
+    visibility: hidden;
+    margin-top: 100px;
+    margin-right: -200px;
+  }
+
+  .animationWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: floating1 4s ease-in-out infinite;
+  }
+
+  .animationWrapper1 {
+    justify-content: space-evenly;
+    animation: floating1 4s ease-in-out infinite;
+  }
+
+  .animation {
+    position: relative;
+
+    span {
+      font-weight: 500;
+      width: 313px;
+      height: 74px;
+      background-image: url("/src/assets/blur.png");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .icon {
+        position: absolute;
+        left: 235px;
+        top: 70px;
+        rotate: -70deg;
+      }
+    }
+  }
+
+  .animation1 {
+    margin-top: 50px;
+  }
+
+  .animation2 {
+    span {
+      width: 256px;
+      height: 74px;
+      background-image: url("/src/assets/blur1.png");
+
+      .icon {
+        position: absolute;
+        left: 200px;
+        top: 60px;
+        rotate: -70deg;
+      }
+    }
+  }
+
+  .animation3 {
+    margin-top: 50px;
+
+    span {
+      width: 256px;
+      height: 74px;
+      background-image: url("/src/assets/blur2.png");
+
+      .icon {
+        position: absolute;
+        left: 200px;
+        top: 60px;
+        rotate: -70deg;
+      }
+    }
+  }
 
   h2 {
-    font-size: 55px;
-    font-weight: 500;
-    margin: 0 0 20px;
+    font-size: 64px;
+    font-weight: 400;
+    margin-top: 20px;
+  }
+
+  .h4 {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
   }
 
   h4 {
-    max-width: 600px;
+    max-width: 550px;
     width: 100%;
-    margin: 0 auto 50px;
+    font-weight: 400;
   }
 
-  .link {
-    background-color: white;
-    color: black;
-    padding: 10px 30px;
-    font-weight: 700;
-    border-radius: 25px;
-    font-size: 20px;
+  .linkWrapper {
 
-    &:hover {
-      background-color: #1A1A1A;
-      color: white;
+    margin: 30px 0;
+
+    .link {
+      background-color: #FFBB00;
+      color: black;
+      font-size: 20px;
+      padding: 16px 36px;
+      border-radius: 100px;
+      font-weight: 500;
+      margin-top: 40px;
     }
   }
 
   h6 {
-    margin-top: 30px;
+    color: #5A5A5A;
+    font-weight: 500;
   }
 
   .img {
-    max-width: 800px;
-    margin: 50px auto 0;
+    display: none;
+    border-radius: 10px;
+  }
 
-    &:hover {
-      transform: scale(1.03);
+  @keyframes floating {
+    0% {
+      transform: translateY(0);
     }
-
-    img {
-      height: 350px;
-      width: 100%;
-      object-fit: cover;
-      object-position: center;
-      border-radius: 50px;
+    50% {
+      transform: translateY(-10px); /* Yükselme */
+    }
+    100% {
+      transform: translateY(0); /* Başlangıç konumuna dönme */
     }
   }
 
-  @media screen and (max-width: 992px){
+  @keyframes floating1 {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(10px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+    padding: 80px 16px 0;
+
+    .img {
+      display: block;
+      aspect-ratio: 16/9;
+      width: 75%;
+      object-fit: cover;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      margin: 50px auto;
+    }
+
     h2 {
-      font-size: 35px;
+      font-size: 33px;
     }
 
     h4 {
       font-size: 16px;
+    }
+
+    .linkWrapper {
+      .link {
+        font-size: 16px;
+        padding: 12px 24px;
+      }
+    }
+
+    .animationWrapper {
+      display: none;
+    }
+
+    .kilit {
+      display: none;
+    }
+
+    .analytics {
+      display: none;
     }
   }
 }

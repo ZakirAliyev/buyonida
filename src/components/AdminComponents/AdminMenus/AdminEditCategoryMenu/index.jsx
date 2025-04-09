@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import ReactQuill from "react-quill";
 import { cloneElement, useState, useEffect } from "react";
-import "react-quill/dist/quill.snow.css";
+// import "react-quill/dist/quill.snow.css";
 import CategoryModal from "../../CategoryModal/index.jsx";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { Modal, message, Upload } from "antd";

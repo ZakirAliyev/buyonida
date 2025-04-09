@@ -21,7 +21,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 20px;
 
       img {
         height: 100%;
@@ -29,7 +28,7 @@
     }
 
     .title {
-      margin-top: 50px;
+      margin-top: 20px;
 
       h3 {
         font-size: 15px;
@@ -49,7 +48,8 @@
       }
 
       input {
-        padding: 13px 20px;
+        padding: 0 20px;
+        height: 40px;
         margin-top: 5px;
         border-radius: 10px;
         border: 1px solid #181818;
@@ -67,10 +67,11 @@
         color: white;
         margin-top: 20px;
         font-size: 17px;
-        padding: 10px 20px;
+        padding: 0 20px;
         font-weight: 700;
         border: none;
         border-radius: 10px;
+        height: 40px;
       }
     }
 
@@ -78,7 +79,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      margin: 50px 0 10px;
+      margin: 20px 0 10px;
 
       .line {
         width: 100%;

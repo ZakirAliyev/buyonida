@@ -102,7 +102,7 @@ function AdminLoginVerificationForm() {
                     <div
                         style={{
                             textAlign: "center",
-                            margin: '15px 0 100px 0',
+                            margin: '15px 0',
                             color: '#0866FF'
                         }}
                     >

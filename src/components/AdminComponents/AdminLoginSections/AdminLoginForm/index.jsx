@@ -129,13 +129,13 @@ function AdminLoginForm() {
                             style={{
                                 position: 'absolute',
                                 right: '15px',
-                                top: '18px',
+                                top: '15px',
                                 margin: 0,
                                 cursor: 'pointer'
                             }}
                         >
                             {showPassword ? <IoEyeOffOutline style={{
-                                fontSize: '20px'
+                                fontSize: '20px',
                             }}/> : <IoEyeOutline style={{
                                 fontSize: '20px'
                             }}/>}

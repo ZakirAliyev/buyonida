@@ -1,79 +1,81 @@
 import "./index.scss";
-import React, {useState, useRef, useEffect} from "react";
-import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
-import {FiPlus} from "react-icons/fi";
+import React, { useState, useEffect, useRef } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { FiPlus } from "react-icons/fi";
 
-const Variants = ({variantKey, updateVariant, options, autoFocusRef}) => {
-    const initialName = options?.name || "";
-    const initialValues = options?.values || [{id: 0, value: ""}];
-    const [variantName, setVariantName] = useState(initialName);
-    const [localOptions, setLocalOptions] = useState(initialValues);
+// Tek bir variantın (seçenek grubunun) düzenlendiği bileşen.
+function VariantItem({ variant, index, updateVariant, deleteVariant }) {
+    const [variantName, setVariantName] = useState(variant.name || "");
+    // En az bir seçenek olacak şekilde başlatıyoruz.
+    const [options, setOptions] = useState(variant.values && variant.values.length ? variant.values : [{ id: 0, value: "" }]);
+    const autoFocusRef = useRef(null);
 
+    // Herhangi bir değişiklik yapıldığında ilgili variantı 'edited' olarak işaretleyip üst bileşene bildiriyoruz.
     useEffect(() => {
-        if (autoFocusRef?.current) {
-            autoFocusRef.current.focus();
-        }
-    }, [autoFocusRef]);
+        const updatedVariant = {
+            ...variant,
+            name: variantName,
+            values: options,
+            edited: true
+        };
+        updateVariant(index, updatedVariant);
+    }, [variantName, options]);
 
-    // Herhangi bir değişiklikte üst bileşene güncellenmiş veriyi gönderiyoruz
-    useEffect(() => {
-        updateVariant(variantKey, {name: variantName, values: localOptions});
-    }, [variantName, localOptions]);
-
-    const handleOptionChange = (index, newValue) => {
-        const updatedOptions = localOptions.map((option, i) =>
-            i === index ? {...option, value: newValue} : option
+    const handleOptionChange = (optIndex, newValue) => {
+        setOptions((prev) =>
+            prev.map((opt, i) => (i === optIndex ? { ...opt, value: newValue } : opt))
         );
-        setLocalOptions(updatedOptions);
     };
 
     const handleAddOption = () => {
-        const newOptions = [...localOptions, {id: localOptions.length, value: ""}];
-        setLocalOptions(newOptions);
+        setOptions((prev) => [...prev, { id: prev.length, value: "" }]);
     };
 
-    const handleBlur = (index, value) => {
+    // Eğer seçenek alanı boş bırakılırsa o satırı kaldırıyoruz
+    const handleBlur = (optIndex, value) => {
         if (value.trim() === "") {
-            const filteredOptions = localOptions
-                .filter((_, i) => i !== index)
-                .map((option, i) => ({...option, id: i}));
-            setLocalOptions(filteredOptions);
+            setOptions((prev) => {
+                const filtered = prev.filter((_, i) => i !== optIndex).map((opt, i) => ({ ...opt, id: i }));
+                return filtered.length ? filtered : [{ id: 0, value: "" }];
+            });
         }
     };
 
     const handleDragEnd = (result) => {
         if (!result.destination) return;
-        const reorderedOptions = Array.from(localOptions);
-        const [movedItem] = reorderedOptions.splice(result.source.index, 1);
-        reorderedOptions.splice(result.destination.index, 0, movedItem);
-        const updatedOptions = reorderedOptions.map((option, index) => ({
-            ...option,
-            id: index,
-        }));
-        setLocalOptions(updatedOptions);
+        const reordered = Array.from(options);
+        const [removed] = reordered.splice(result.source.index, 1);
+        reordered.splice(result.destination.index, 0, removed);
+        const updated = reordered.map((opt, i) => ({ ...opt, id: i }));
+        setOptions(updated);
     };
 
     return (
-        <DragDropContext onDragEnd={handleDragEnd}>
-            <div className="variants">
-                <div className="variants__section">
+        <div className="variants__section">
+            <div className="variantHeader" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div>
                     <label className="variants__label">Option name</label>
                     <input
                         type="text"
-                        className="variants__input"
-                        ref={autoFocusRef}
                         placeholder="Enter option name"
                         value={variantName}
                         onChange={(e) => setVariantName(e.target.value)}
+                        ref={autoFocusRef}
+                        className="variants__input"
                     />
                 </div>
-                <div className="variants__section">
-                    <label className="variants__label">Option values</label>
-                    <Droppable droppableId={`options-${variantKey}`}>
+                <button className="deleteVariantButton" onClick={() => deleteVariant(index)}>
+                    Delete Variant
+                </button>
+            </div>
+            <div className="variants__section">
+                <label className="variants__label">Option values</label>
+                <DragDropContext onDragEnd={handleDragEnd}>
+                    <Droppable droppableId={`droppable-${index}`}>
                         {(provided) => (
                             <div {...provided.droppableProps} ref={provided.innerRef} className="variants__list">
-                                {localOptions.map((option, index) => (
-                                    <Draggable key={option.id} draggableId={option.id.toString()} index={index}>
+                                {options.map((opt, optIndex) => (
+                                    <Draggable key={optIndex.toString()} draggableId={`${index}-${optIndex}`} index={optIndex}>
                                         {(provided) => (
                                             <div
                                                 className="variants__row"
@@ -81,14 +83,14 @@ const Variants = ({variantKey, updateVariant, options, autoFocusRef}) => {
                                                 {...provided.draggableProps}
                                                 {...provided.dragHandleProps}
                                             >
-                                                <div className="variants__drag">⋮⋮</div>
+                                                <div className="variants__drag">≡</div>
                                                 <input
                                                     type="text"
-                                                    className="variants__input"
-                                                    value={option.value}
-                                                    onChange={(e) => handleOptionChange(index, e.target.value)}
-                                                    onBlur={(e) => handleBlur(index, e.target.value)}
                                                     placeholder="Enter value"
+                                                    value={opt.value}
+                                                    onChange={(e) => handleOptionChange(optIndex, e.target.value)}
+                                                    onBlur={(e) => handleBlur(optIndex, e.target.value)}
+                                                    className="variants__input"
                                                 />
                                             </div>
                                         )}
@@ -98,74 +100,74 @@ const Variants = ({variantKey, updateVariant, options, autoFocusRef}) => {
                             </div>
                         )}
                     </Droppable>
-                    <div
-                        className="dropdown-item11"
-                        style={{margin: "0", marginTop: "16px"}}
-                    >
-                        <span className={"soan"} onClick={handleAddOption} style={{display: "flex", alignItems: "center", gap: "10px", width: '100%'}}>
-                          <FiPlus className="iconPlus"/> Add another value
-                        </span>
-                        <button>Delete</button>
-                    </div>
+                </DragDropContext>
+                <div className="dropdown-item11">
+          <span className="soan" onClick={handleAddOption}>
+            <FiPlus /> Add another value
+          </span>
                 </div>
             </div>
-        </DragDropContext>
+        </div>
     );
-};
+}
 
-const VariantContainer = () => {
-    const [variants, setVariants] = useState({});
-    const inputRefs = useRef({});
+// VariantContainer: Tüm variantları listeler ve yeni variant eklenmesini sağlar.
+function VariantContainer({ variants, onVariantsChange }) {
+    const [localVariants, setLocalVariants] = useState(variants || []);
 
-    // Her variants güncellendiğinde localStorage güncellenir
     useEffect(() => {
-        localStorage.setItem("variantData", JSON.stringify(variants));
+        setLocalVariants(variants);
     }, [variants]);
 
-    const addVariant = () => {
-        setVariants((prevVariants) => {
-            const newKey = `variant_${Object.keys(prevVariants).length}`;
-            inputRefs.current[newKey] = React.createRef();
-            return {
-                ...prevVariants,
-                [newKey]: {name: "", values: [{id: 0, value: ""}]}
-            };
-        });
+    // Bir variant güncellendiğinde
+    const handleUpdateVariant = (index, updatedData) => {
+        const updatedVariants = localVariants.map((variant, i) =>
+            i === index ? updatedData : variant
+        );
+        setLocalVariants(updatedVariants);
+        onVariantsChange(updatedVariants);
     };
 
-    const updateVariant = (variantKey, updatedData) => {
-        setVariants((prevVariants) => ({
-            ...prevVariants,
-            [variantKey]: updatedData,
-        }));
+    // Bir variant silindiğinde
+    const handleDeleteVariant = (index) => {
+        const updatedVariants = localVariants.filter((_, i) => i !== index);
+        setLocalVariants(updatedVariants);
+        onVariantsChange(updatedVariants);
     };
 
-    const handleSaveChanges = () => {
-        alert("Variant verileri kaydedildi!");
+    // Yeni variant ekle
+    const handleAddVariant = () => {
+        const newVariant = {
+            id: null, // henüz veritabanında değil
+            name: "",
+            values: [{ id: 0, value: "" }],
+            isNew: true,
+            edited: true
+        };
+        const updatedVariants = [...localVariants, newVariant];
+        setLocalVariants(updatedVariants);
+        onVariantsChange(updatedVariants);
     };
 
     return (
-        <>
-            <div className="wrapper" style={{padding: "0"}}>
-                <h3 style={{margin: "0", marginTop: "32px", padding: "0 32px"}}>Variant</h3>
-                {Object.entries(variants).map(([key, data]) => (
-                    <Variants
-                        key={key}
-                        variantKey={key}
-                        updateVariant={updateVariant}
-                        options={data}
-                        autoFocusRef={inputRefs.current[key]}
-                    />
-                ))}
-                <div className="dropdown-item112" onClick={addVariant} style={{marginTop: "16px"}}>
-                    <span style={{display: "flex", alignItems: "center", gap: "10px", margin: '0 32px 32px 32px' ,width: 'max-content', padding: '8px 16px'}}>
-                        <FiPlus className="iconPlus"/> Add options like size or color
-                    </span>
-                </div>
+        <div className="variants">
+            <h3 style={{ margin: "32px 0 16px 0" }}>Variant</h3>
+            {localVariants.map((variant, index) => (
+                <VariantItem
+                    key={index}
+                    variant={variant}
+                    index={index}
+                    updateVariant={handleUpdateVariant}
+                    deleteVariant={handleDeleteVariant}
+                />
+            ))}
+            <div className="dropdown-item112" onClick={handleAddVariant} style={{ margin: "16px 0", cursor: "pointer" }}>
+        <span className="soan" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <FiPlus /> Add options like size or color
+        </span>
             </div>
-        </>
+        </div>
     );
-};
-
+}
 
 export default VariantContainer;
