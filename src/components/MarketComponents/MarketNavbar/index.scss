@@ -1,12 +1,10 @@
 #marketNavbar {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   background-color: white;
-  display: flex;
-  align-items: center;
+
   padding: 16px;
 
   img {
-    max-width: 150px;
     width: 100%;
   }
 
@@ -19,7 +17,6 @@
     .logo {
       display: flex;
       align-items: center;
-      width: 270px;
     }
 
     .links {

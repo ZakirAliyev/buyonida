@@ -14,7 +14,7 @@ function MarketNavbar() {
     const {data: getStoreByName} = useGetStoreByNameQuery('Zakir magaza')
     const store = getStoreByName?.data
     const [isOpen, setIsOpen] = useState(false);
-
+    console.log(store);
     const handleOpenCart = () => {
         setIsOpen(true);
     };
@@ -34,6 +34,7 @@ function MarketNavbar() {
                         }}
                     >
                         <img
+                        style={{width:`${store?.logoWidth}px`}}
                             src={MARKET_LOGO + store?.logoImageName}
                             alt="Logo"
                         />
