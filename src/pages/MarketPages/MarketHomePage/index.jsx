@@ -6,9 +6,10 @@ import MarketTitle from "../../../components/MarketComponents/MarketTitle/index.
 import MarketFooter from "../../../components/MarketComponents/MarketFooter/index.jsx";
 import {
     useGetAllCategoriesByMarketIdQuery, useGetAllCollectionsByMarketIdQuery, useGetCategoryByMarketIdQuery,
-    useGetStoreByNameQuery
+    useGetStoreByNameQuery, useGetStoreWithSectionsQuery
 } from "../../../service/userApi.js";
 import {useLocation} from "react-router";
+import Cookies from "js-cookie";
 
 function MarketHomePage() {
 
@@ -20,46 +21,38 @@ function MarketHomePage() {
 
     const {data: getStoreByName} = useGetStoreByNameQuery(cleanedPath)
     const store = getStoreByName?.data
+    const id = Cookies.get("chooseMarket")
+    console.log(id)
+    const {data: getStoreWithSections} = useGetStoreWithSectionsQuery(id)
+    const categories = getStoreWithSections?.data?.sections[1].category
 
-    const {data: getAllCategoriesByMarketId} = useGetAllCategoriesByMarketIdQuery(store?.id)
-    const categories = getAllCategoriesByMarketId?.data
-
-    const {data: getAllCollectionsByMarketId} = useGetAllCollectionsByMarketIdQuery(store?.id)
-    const collections = getAllCollectionsByMarketId?.data
-
+    const collections = getStoreWithSections?.data?.sections[2].collection
+    console.log(collections)
     return (
         <section id={"marketHomePage"}>
             <MarketNavbar/>
             <MarketSwiperHero/>
             <div className={"section"}>
-                {categories && categories.map((category) => (
-                    <>
-                        {category?.products.length > 0 && (
-                            <>
-                                <MarketTitle title={`${category?.name} :`} category={category}/>
-                                <div className={"container"} key={category?.id}>
-                                    <div className={"row"}>
-                                        {category?.products && category?.products.map((product) => (
-                                            <MarketCard number={12} key={product.id} product={product}/>
-                                        ))}
-                                    </div>
-                                </div>
-                            </>
-                        )}
-                    </>
-                ))}
-                {collections && collections.map((collection) => (
-                    <>
-                        <MarketTitle title={`${collection?.title} :`} collection={collection}/>
-                        <div className={"container"} key={collection?.id}>
+
+
+                <MarketTitle title={`${categories?.name} :`} categories={categories}/>
+                <div className={"container"} key={categories?.id}>
+                    <div className={"row"}>
+                        {categories?.products && categories?.products.map((product) => (
+                            <MarketCard number={12} key={product.id} product={product}/>
+                        ))}
+                    </div>
+                </div>
+
+
+                        <MarketTitle title={`${collections?.title} :`} collections={collections}/>
+                        <div className={"container"} key={collections?.id}>
                             <div className={"row"}>
-                                {collection?.products && collection?.products.map((product) => (
+                                {collections?.products && collections?.products.map((product) => (
                                     <MarketCard number={12} key={product.id} product={product}/>
                                 ))}
                             </div>
                         </div>
-                    </>
-                ))}
             </div>
             <MarketFooter/>
         </section>
