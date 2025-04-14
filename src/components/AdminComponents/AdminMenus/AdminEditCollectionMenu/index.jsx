@@ -130,18 +130,14 @@ function AdminEditCollectionMenu() {
     };
 
     const handleProductSelect = (selectedIds) => {
+        // Set the selected product IDs to the state
         setSelectedProductIds(selectedIds);
 
-        // Get all available products from the collection data
-        const allAvailableProducts = collection?.products || [];
-
-        // Filter to only include selected products
-        const selectedProducts = allAvailableProducts.filter(product =>
-            selectedIds.includes(product.id)
-        );
-
+        // Update the products list based on selected product IDs
+        const selectedProducts = myProducts?.filter(product => selectedIds.includes(product.id));
         setProducts(selectedProducts);
     };
+
 
     const [editCollection] = useEditCollectionMutation()
 
@@ -183,16 +179,20 @@ function AdminEditCollectionMenu() {
             formData.append('coverImageFile', coverFile);
         }
 
-
+        // Append each selected productId to the FormData
         selectedProductIds.forEach(productId => {
             formData.append('productIds', productId);
         });
 
-
+        // Append each deleted productId (those unselected) to the FormData
+        const deleteProductIds = JSON.parse(localStorage.getItem('deletedProductIds')) || [];
+        deleteProductIds.forEach(productId => {
+            formData.append('deleteProductIds', productId);
+        });
 
         try {
-            const response = await editCollection(formData).unwrap
-            if(response?.statusCode === 200) {
+            const response = await editCollection(formData).unwrap();
+            if (response?.statusCode === 200) {
                 toast.success('Sifariş uğurla tamamlandı!', {
                     position: 'bottom-right',
                     autoClose: 2500,
@@ -206,7 +206,7 @@ function AdminEditCollectionMenu() {
                 });
             }
         } catch (error) {
-            toast.success('Xeta bas verdi!', {
+            toast.error('Xeta baş verdi!', {
                 position: 'bottom-right',
                 autoClose: 2500,
                 hideProgressBar: false,
@@ -220,7 +220,6 @@ function AdminEditCollectionMenu() {
 
         message.success("Collection updated successfully!");
     };
-
 
 
     return (

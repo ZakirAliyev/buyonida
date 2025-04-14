@@ -37,12 +37,27 @@ function AdminCategoryAddProduct({ selectedProducts, onProductSelect, allProduct
     };
 
     const handleProductSelect = (productId) => {
-        const newSelection = selectedProductIds.includes(productId)
-            ? selectedProductIds.filter(id => id !== productId)
-            : [...selectedProductIds, productId];
+        let updatedSelectedProductIds;
+        let updatedDeletedProductIds = JSON.parse(localStorage.getItem('deletedProductIds')) || [];
 
-        setSelectedProductIds(newSelection); // Update selectedProductIds state
+        // If product is selected, add it to selectedProductIds
+        if (!selectedProductIds.includes(productId)) {
+            updatedSelectedProductIds = [...selectedProductIds, productId];
+            updatedDeletedProductIds = updatedDeletedProductIds.filter(id => id !== productId);  // Remove from delete list
+        } else {
+            // If product is unselected, add it to deletedProductIds
+            updatedSelectedProductIds = selectedProductIds.filter(id => id !== productId);
+            updatedDeletedProductIds.push(productId);
+        }
+
+        // Update the state for selected and deleted product IDs
+        setSelectedProductIds(updatedSelectedProductIds);
+        localStorage.setItem('collectionProductIds', JSON.stringify(updatedSelectedProductIds)); // Store selected products
+
+        // Update deleted products in localStorage
+        localStorage.setItem('deletedProductIds', JSON.stringify(updatedDeletedProductIds));
     };
+
 
     const handleDone = () => {
         // Propagate the selected product ids to the parent component
@@ -95,6 +110,7 @@ function AdminCategoryAddProduct({ selectedProducts, onProductSelect, allProduct
                                 </td>
                                 <td className="ucuncu">{product.title}</td>
                             </tr>
+
                         ))
                 ) : (
                     <tr>
