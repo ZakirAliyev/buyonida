@@ -1,81 +1,131 @@
 import './index.scss';
-import {message, Upload} from 'antd';
-import {BsSortUp} from 'react-icons/bs';
+import { useState, useEffect } from 'react';
+import { BsSortUp } from 'react-icons/bs';
 import image1 from '/src/assets/miniPhoto.png';
 import image2 from "../../../assets/order.png";
+import { useGetAllProductsByMarketIdQuery } from "../../../service/userApi.js";
+import Cookies from "js-cookie";
+import { PRODUCT_LOGO } from "../../../../constants.js";
+import { message } from 'antd';
 
-const {Dragger} = Upload;
+function AdminCategoryAddProduct({ selectedProducts, onProductSelect, allProducts }) {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedProductIds, setSelectedProductIds] = useState(selectedProducts || []);
+    const [localProducts, setLocalProducts] = useState([]);
 
-const props = {
-    name: 'file',
-    multiple: true,
-    action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-    onChange(info) {
-        const {status} = info.file;
-        if (status !== 'uploading') {
+    const { data: getAllProducts } = useGetAllProductsByMarketIdQuery(Cookies.get('chooseMarket'));
+
+    useEffect(() => {
+        if (getAllProducts?.data) {
+            setLocalProducts(getAllProducts.data);
         }
-        if (status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully.`);
-        } else if (status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
-        }
-    },
-    onDrop(e) {
-    },
-};
+    }, [getAllProducts]);
 
-function AdminCategoryAddProduct() {
+    useEffect(() => {
+        // Initialize selectedProductIds from localStorage when component mounts
+        const storedProductIds = JSON.parse(localStorage.getItem('collectionProductIds')) || [];
+        setSelectedProductIds(storedProductIds);
+    }, []);
 
-    const arr = new Array(0).fill(0)
+    useEffect(() => {
+        // Update localStorage whenever selectedProductIds change
+        localStorage.setItem('collectionProductIds', JSON.stringify(selectedProductIds));
+    }, [selectedProductIds]);
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const handleProductSelect = (productId) => {
+        const newSelection = selectedProductIds.includes(productId)
+            ? selectedProductIds.filter(id => id !== productId)
+            : [...selectedProductIds, productId];
+
+        setSelectedProductIds(newSelection); // Update selectedProductIds state
+    };
+
+    const handleDone = () => {
+        // Propagate the selected product ids to the parent component
+        onProductSelect(selectedProductIds);
+
+        // Message to indicate that the products were added
+        message.success("Products added to the collection successfully!");
+    };
 
     return (
         <section id="adminCategoryAddProduct">
-            <h2>Select file</h2>
+            <h2>Select Products</h2>
             <div className="wrapper">
-                <input type="text" placeholder="Search..." className="search-input"/>
+                <input
+                    type="text"
+                    placeholder="Search..."
+                    className="search-input"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                />
                 <button className="sort-button">
-                    <BsSortUp className="icon2"/>
+                    <BsSortUp className="icon2" />
                     Sort
                 </button>
             </div>
             <table className="product-table">
                 <tbody>
-                {arr && arr.length !== 0 ? (
-                    arr.map((item, index) => (
-                        <tr key={index}>
-                            <td className="birinci">
-                                <input type="checkbox"/>
-                            </td>
-                            <td className="ikinci">
-                                <img src={image1} alt="Product" className="product-image"/>
-                            </td>
-                            <td className="ucuncu">Product name</td>
-                        </tr>
-                    ))
+                {localProducts.length > 0 ? (
+                    localProducts
+                        .filter(product =>
+                            product.title.toLowerCase().includes(searchTerm.toLowerCase())
+                        )
+                        .map((product) => (
+                            <tr key={product.id}>
+                                <td className="birinci">
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedProductIds.includes(product.id)}
+                                        onChange={() => handleProductSelect(product.id)}
+                                    />
+                                </td>
+                                <td className="ikinci">
+                                    <img
+                                        src={product.imageNames && product.imageNames.length > 0
+                                            ? `${PRODUCT_LOGO}${product.imageNames[0]}`
+                                            : image1}
+                                        alt="Product"
+                                        className="product-image"
+                                    />
+                                </td>
+                                <td className="ucuncu">{product.title}</td>
+                            </tr>
+                        ))
                 ) : (
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        textAlign: 'center',
-                        flexDirection: 'column',
-                        gap: '16px'
-                    }}>
-                        <img src={image2} alt={"Image"}/>
-                        <div style={{
-                            maxWidth: '400px',
-                            width: '100%',
-                        }}>
-                            There are no products in this collection.
-                            Search for products
-                        </div>
-                    </div>
+                    <tr>
+                        <td colSpan="3" style={{ textAlign: 'center', padding: '20px' }}>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    flexDirection: 'column',
+                                    gap: '16px',
+                                }}
+                            >
+                                <img src={image2} alt="No products" />
+                                <div style={{ maxWidth: '400px', width: '100%' }}>
+                                    There are no products available to add
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                 )}
                 </tbody>
             </table>
             <div className="ending">
                 <button className="btnbtntb">Cancel</button>
-                <button className="btn-done">Done</button>
+                <button
+                    className="btn-done"
+                    onClick={handleDone}
+                >
+                    Done
+                </button>
             </div>
         </section>
     );

@@ -55,11 +55,13 @@ function AdminEditCategoryMenu() {
     // Handle image upload
     const handleImageUpload = ({ file }) => {
         if (file) {
-            setImageFiles((prev) => [...prev, file]);
+            // Direkt olarak imageFiles olarak ekliyoruz, dizinin sadece bir elemanı olacak
+            setImageFiles([file]); // Eski dosyaları temizleyip sadece yeni resmi ekliyoruz
             if (errors.imageFiles) setErrors({ ...errors, imageFiles: "" });
             message.success(`${file.name} uploaded successfully`);
         }
     };
+
 
     // Remove an image by index
     const handleRemoveImage = (index) => {
@@ -112,10 +114,10 @@ function AdminEditCategoryMenu() {
         formData.append("isActive", isActive.toString());
         formData.append("description", description);
 
-        // Append all images to FormData
-        imageFiles.forEach((file, index) => {
-            formData.append(`imageFiles[${index}]`, file);
-        });
+        // Eğer imageFiles dizisi varsa, tek resmi formData'ya ekliyoruz
+        if (imageFiles.length > 0) {
+            formData.append("imageFile", imageFiles[0]);
+        }
 
         console.log("Saving FormData:");
         for (let [key, value] of formData.entries()) {
@@ -127,6 +129,7 @@ function AdminEditCategoryMenu() {
             const response = await editCategory(formData).unwrap();
             if (response.statusCode === 200) {
                 refetch();
+                navigate('/cp/categories');
                 message.success("Changes saved successfully!");
             }
         } catch (error) {
@@ -134,6 +137,7 @@ function AdminEditCategoryMenu() {
         }
         setEditLoading(false);
     };
+
 
     // Modal handlers
     const handleBigBoxClick = () => {

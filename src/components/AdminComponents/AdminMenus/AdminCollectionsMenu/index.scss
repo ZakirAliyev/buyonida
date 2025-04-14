@@ -5,6 +5,41 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 
+    .status {
+      background-color: #80FF93;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      padding: 1px 10px;
+      gap: 5px;
+      width: max-content;
+      font-size: 16px !important;
+      color: black !important;
+
+      .dot {
+        font-size: 10px;
+      }
+    }
+
+    .statusDont {
+      background-color: #8e8e8e;
+      color: white;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      padding: 1px 10px;
+      gap: 5px;
+      width: max-content;
+      font-size: 16px !important;
+
+      .dot {
+        font-size: 10px;
+      }
+    }
+
   tr {
     transition: all .4s ease;
     &:hover {
@@ -65,7 +100,15 @@
     }
 
     .checkboxWrapper {
-      width: 100px;
+      width: 250px;
+    }
+
+    .deleteButton {
+      background-color: #E00000;
+      border: none;
+      padding: 4px 16px;
+      border-radius: 5px;
+      color: white;
     }
 
     button {

@@ -91,7 +91,7 @@ function AdminCategoriesMenu() {
                             <td className="titleCol" onClick={() => navigate(`/cp/edit-category/${marketId}/${category.id}`)}>
                                 {category.name}
                             </td>
-                            <td className={"titleCol"}>
+                            <td className={"titleCol div"}>
                                 {category.isActive ? (
                                     <span className="status active"><GoDotFill className="dot" /> Active</span>
                                 ) : (

@@ -5,9 +5,20 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 
+  .errorInput {
+    border-color: red;
+  }
+
+  .error-text {
+    color: red;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+
   table {
     width: 100%;
-    font-size: 18px;
     padding: 0 32px;
 
     .productName {
@@ -15,23 +26,34 @@
     }
 
     .checkboxWrapper {
-      font-size: 23px;
       padding-right: 10px;
     }
 
-    .btnbtn123 {
-      height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: end;
-      margin-right: 20px;
+    .btnbtn123123 {
 
-      button {
+      .active {
         background-color: #72FF8C;
         border: none;
-        padding: 0 32px;
         font-weight: 500;
-        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border-radius: 5px;
+        padding: 5px 10px;
+      }
+
+      .inactive {
+        background: #8e8e8e;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
       }
     }
 
@@ -40,10 +62,10 @@
     }
 
     img {
-      width: 60px;
-      height: 60px;
+      width: 40px;
+      height: 40px;
       object-fit: cover;
-      border-radius: 15px;
+      border-radius: 5px;
     }
   }
 
@@ -74,7 +96,7 @@
       background-color: #f2f2f2;
     }
 
-    button {
+    .menimButton {
       border: 1px solid gray;
       height: 40px;
       padding: 0 16px;

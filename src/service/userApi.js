@@ -298,6 +298,19 @@ export const ownerApi = createApi({
                 body: data,
             })
         }),
+        editCollection: builder.mutation({
+            query: (data) => ({
+                url: `/Collection/update-collection`,
+                method: 'PUT',
+                body: data,
+            })
+        }),
+        deleteCollection: builder.mutation({
+            query: ({marketId, id}) => ({
+                url: `/Collection/delete-collection/${id}/${marketId}`,
+                method: 'DELETE',
+            })
+        }),
     }),
 })
 export const {
@@ -351,4 +364,6 @@ export const {
     useDeleteProductMutation,
     useDeleteCategoryMutation,
     useEditCategoryMutation,
+    useEditCollectionMutation,
+    useDeleteCollectionMutation,
 } = ownerApi
