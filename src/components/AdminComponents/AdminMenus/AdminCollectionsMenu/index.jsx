@@ -11,9 +11,8 @@ function AdminCollectionsMenu() {
 
     const navigate = useNavigate()
 
-    const {data: getAllCollectionsByMarketId} = useGetAllCollectionsByMarketIdQuery(Cookies.get("chooseMarket"));
+    const {data: getAllCollectionsByMarketId, refetch} = useGetAllCollectionsByMarketIdQuery(Cookies.get("chooseMarket"));
     const collections = getAllCollectionsByMarketId?.data
-
     return (
         <section id="adminCollectionsMenu">
             <div className={"textWrapper"}>

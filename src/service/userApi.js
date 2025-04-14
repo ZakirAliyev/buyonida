@@ -104,6 +104,13 @@ export const ownerApi = createApi({
                 body: data
             })
         }),
+        postEditProduct: builder.mutation({
+            query: (data) => ({
+                url: `/Products/update`,
+                method: 'PUT',
+                body: data
+            })
+        }),
         postCreateMarket: builder.mutation({
             query: (data) => ({
                 url: `/Market/create-store`,
@@ -272,6 +279,25 @@ export const ownerApi = createApi({
                 body: data,
             })
         }),
+        deleteProduct: builder.mutation({
+            query: ({marketId, id}) => ({
+                url: `/Products/${marketId}/${id}`,
+                method: 'DELETE',
+            })
+        }),
+        deleteCategory: builder.mutation({
+            query: ({marketId, id}) => ({
+                url: `/Category/${marketId}/${id}`,
+                method: 'DELETE',
+            })
+        }),
+        editCategory: builder.mutation({
+            query: (data) => ({
+                url: `/Category/update`,
+                method: 'PUT',
+                body: data,
+            })
+        }),
     }),
 })
 export const {
@@ -320,5 +346,9 @@ export const {
     useGetPaletteByMarketIdQuery,
     usePostPaletteMutation,
     usePostSettingFontNameMutation,
-    usePostSettingBrandingMutation
+    usePostSettingBrandingMutation,
+    usePostEditProductMutation,
+    useDeleteProductMutation,
+    useDeleteCategoryMutation,
+    useEditCategoryMutation,
 } = ownerApi

@@ -1,25 +1,34 @@
+// VariantContainer.jsx
 import "./index.scss";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FiPlus } from "react-icons/fi";
 
 // Tek bir variantın (seçenek grubunun) düzenlendiği bileşen.
 function VariantItem({ variant, index, updateVariant, deleteVariant }) {
     const [variantName, setVariantName] = useState(variant.name || "");
-    // En az bir seçenek olacak şekilde başlatıyoruz.
-    const [options, setOptions] = useState(variant.values && variant.values.length ? variant.values : [{ id: 0, value: "" }]);
+    const [options, setOptions] = useState(
+        variant.values && variant.values.length ? variant.values : [{ id: 0, value: "" }]
+    );
     const autoFocusRef = useRef(null);
 
-    // Herhangi bir değişiklik yapıldığında ilgili variantı 'edited' olarak işaretleyip üst bileşene bildiriyoruz.
+    // Yerel state değiştiğinde, güncellenmiş veriyi parent bileşene bildir.
     useEffect(() => {
         const updatedVariant = {
             ...variant,
             name: variantName,
             values: options,
-            edited: true
+            edited: true,
         };
-        updateVariant(index, updatedVariant);
-    }, [variantName, options]);
+
+        // Sadece veri değiştiğinde güncelleme çağrısı yapılsın.
+        const isNameChanged = updatedVariant.name !== variant.name;
+        const isOptionsChanged =
+            JSON.stringify(updatedVariant.values) !== JSON.stringify(variant.values);
+        if (isNameChanged || isOptionsChanged) {
+            updateVariant(index, updatedVariant);
+        }
+    }, [variantName, options, index, updateVariant, variant]);
 
     const handleOptionChange = (optIndex, newValue) => {
         setOptions((prev) =>
@@ -31,7 +40,7 @@ function VariantItem({ variant, index, updateVariant, deleteVariant }) {
         setOptions((prev) => [...prev, { id: prev.length, value: "" }]);
     };
 
-    // Eğer seçenek alanı boş bırakılırsa o satırı kaldırıyoruz
+    // Eğer seçenek değeri boş bırakılırsa, o satırı kaldır.
     const handleBlur = (optIndex, value) => {
         if (value.trim() === "") {
             setOptions((prev) => {
@@ -41,7 +50,8 @@ function VariantItem({ variant, index, updateVariant, deleteVariant }) {
         }
     };
 
-    const handleDragEnd = (result) => {
+    // Sürükleme işlemini yönet.
+    const onDragEnd = (result) => {
         if (!result.destination) return;
         const reordered = Array.from(options);
         const [removed] = reordered.splice(result.source.index, 1);
@@ -52,7 +62,11 @@ function VariantItem({ variant, index, updateVariant, deleteVariant }) {
 
     return (
         <div className="variants__section">
-            <div className="variantHeader" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div className={"line"}></div>
+            <div
+                className="variantHeader"
+                style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+            >
                 <div>
                     <label className="variants__label">Option name</label>
                     <input
@@ -65,12 +79,12 @@ function VariantItem({ variant, index, updateVariant, deleteVariant }) {
                     />
                 </div>
                 <button className="deleteVariantButton" onClick={() => deleteVariant(index)}>
-                    Delete Variant
+                    Delete
                 </button>
             </div>
-            <div className="variants__section">
-                <label className="variants__label">Option values</label>
-                <DragDropContext onDragEnd={handleDragEnd}>
+            <div className="variants__section varyox">
+                <label className="variants__label variants__label1">Option values</label>
+                <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId={`droppable-${index}`}>
                         {(provided) => (
                             <div {...provided.droppableProps} ref={provided.innerRef} className="variants__list">
@@ -111,7 +125,6 @@ function VariantItem({ variant, index, updateVariant, deleteVariant }) {
     );
 }
 
-// VariantContainer: Tüm variantları listeler ve yeni variant eklenmesini sağlar.
 function VariantContainer({ variants, onVariantsChange }) {
     const [localVariants, setLocalVariants] = useState(variants || []);
 
@@ -119,30 +132,37 @@ function VariantContainer({ variants, onVariantsChange }) {
         setLocalVariants(variants);
     }, [variants]);
 
-    // Bir variant güncellendiğinde
-    const handleUpdateVariant = (index, updatedData) => {
-        const updatedVariants = localVariants.map((variant, i) =>
-            i === index ? updatedData : variant
-        );
-        setLocalVariants(updatedVariants);
-        onVariantsChange(updatedVariants);
-    };
+    const handleUpdateVariant = useCallback(
+        (index, updatedData) => {
+            setLocalVariants((prev) => {
+                const updatedVariants = prev.map((variant, i) =>
+                    i === index ? updatedData : variant
+                );
+                onVariantsChange(updatedVariants);
+                return updatedVariants;
+            });
+        },
+        [onVariantsChange]
+    );
 
-    // Bir variant silindiğinde
-    const handleDeleteVariant = (index) => {
-        const updatedVariants = localVariants.filter((_, i) => i !== index);
-        setLocalVariants(updatedVariants);
-        onVariantsChange(updatedVariants);
-    };
+    const handleDeleteVariant = useCallback(
+        (index) => {
+            setLocalVariants((prev) => {
+                const updatedVariants = prev.filter((_, i) => i !== index);
+                onVariantsChange(updatedVariants);
+                return updatedVariants;
+            });
+        },
+        [onVariantsChange]
+    );
 
-    // Yeni variant ekle
     const handleAddVariant = () => {
         const newVariant = {
-            id: null, // henüz veritabanında değil
+            id: null,
             name: "",
             values: [{ id: 0, value: "" }],
             isNew: true,
-            edited: true
+            edited: true,
         };
         const updatedVariants = [...localVariants, newVariant];
         setLocalVariants(updatedVariants);
@@ -161,8 +181,12 @@ function VariantContainer({ variants, onVariantsChange }) {
                     deleteVariant={handleDeleteVariant}
                 />
             ))}
-            <div className="dropdown-item112" onClick={handleAddVariant} style={{ margin: "16px 0", cursor: "pointer" }}>
-        <span className="soan" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div
+                className="dropdown-item112"
+                onClick={handleAddVariant}
+                style={{ margin: "16px 0", cursor: "pointer" }}
+            >
+        <span className="soan ununun" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <FiPlus /> Add options like size or color
         </span>
             </div>

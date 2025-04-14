@@ -1,9 +1,43 @@
 .variants {
-  margin: 16px 32px;
-  padding: 16px;
-
+  margin: 40px 0;
+  width: 100%;
   border: 1px solid #ccc;
   border-radius: 16px;
+  background: white;
+
+  .ununun {
+    border-top: 1px solid #ccc;
+    padding: 16px 48px 0;
+    border-radius: 4px;
+  }
+
+  .variantHeader {
+    padding: 0 32px;
+  }
+
+  .line{
+    width: 100%;
+    height: 1px;
+    background: #ccc;
+  }
+
+  .deleteVariantButton {
+    background: #E00000;
+    color: white;
+    padding: 2px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  .variants__label1 {
+    margin: 15px 32px;
+  }
+
+  h3 {
+    margin: 0 0 8px 0 !important;
+    padding: 32px 32px 0 32px;
+  }
 
   .dropdown-item11 {
     display: flex;
@@ -11,12 +45,18 @@
     justify-content: space-between;
 
     .soan {
-      width: max-content !important;
-      padding: 8px 16px;
+      width: 100%;
+      padding: 4px 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 10px 40px;
 
       &:hover {
         background-color: #f1f1f1;
-        border-radius: 10px;
       }
     }
 
@@ -64,6 +104,7 @@
     align-items: center;
     padding: 8px;
     border-radius: 4px;
+      margin: 0 32px;
   }
 
   &__drag {
@@ -116,8 +157,6 @@
 .dropdown-item112 {
   span {
     &:hover {
-      background-color: #e8e8e8;
-      border-radius: 10px;
     }
   }
 }

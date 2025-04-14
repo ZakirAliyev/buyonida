@@ -1,109 +1,55 @@
+// AdminEditProductMenu.jsx
 import "./index.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { FiArrowLeft, FiPlus } from "react-icons/fi";
 import ReactQuill from "react-quill";
-import { cloneElement, useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import "react-quill/dist/quill.snow.css";
 import CategoryModal from "../../CategoryModal/index.jsx";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
-import { useGetAllCategoriesByMarketIdQuery, useGetProductByIdQuery } from "../../../../service/userApi.js";
+import {
+    useGetAllCategoriesByMarketIdQuery,
+    useGetProductByIdQuery,
+    usePostEditProductMutation
+} from "../../../../service/userApi.js";
 import Cookies from "js-cookie";
 import { PRODUCT_LOGO } from "../../../../../constants.js";
 import VariantContainer from "../Variants/index.jsx";
-
-// Reusable Dropdown Component
-const Dropdown = ({ label, options, selectedOption, onSelect, onCreate }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    return (
-        <div className="inputWrapper">
-            <label>{label}</label>
-            <div className="dropdown">
-                <div className="dropdown-header" onClick={() => setIsOpen(!isOpen)}>
-                    {selectedOption || "Select a category"}
-                </div>
-                <div className={`dropdown-list ${isOpen ? "open" : "close"}`}>
-                    {options.map((option) => (
-                        <div
-                            key={option.id}
-                            className="dropdown-item"
-                            onClick={() => {
-                                onSelect(option.name, option.id);
-                                setIsOpen(false);
-                            }}
-                        >
-                            {option.name}
-                        </div>
-                    ))}
-                    <div className="line" />
-                    <div className="dropdown-item" onClick={onCreate}>
-                        <FiPlus className="icon" />
-                        <span>Create category</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-// Reusable Input Component
-const InputField = ({ label, id, name, value, onChange, error, placeholder, type = "text" }) => (
-    <div className="inputWrapper">
-        <label>{label}</label>
-        <input
-            id={id}
-            name={name}
-            type={type}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            className={error ? "errorInput" : ""}
-        />
-        {error && (
-            <span className="error-text">
-        <AiOutlineExclamationCircle className="icon" />
-                {error}
-      </span>
-        )}
-    </div>
-);
-
-// Reusable Checkbox Component
-const CheckboxField = ({ label, checked, onChange }) => (
-    <div className="checkboxWrapper">
-        <input type="checkbox" className="checkbox" checked={checked} onChange={onChange} />
-        <label>{label}</label>
-    </div>
-);
+import { InputField } from "../../InputField/index.jsx";
+import Dropdown from "../../Dropdown/index.jsx";
+import CheckboxField from "../../CheckboxField/index.jsx";
+import { toast, ToastContainer } from "react-toastify";
+import {useLocation} from "react-router";
+import {PulseLoader} from "react-spinners";
 
 function AdminEditProductMenu() {
+
+    const location = useLocation();
     const navigate = useNavigate();
     const { id: myId, marketId: myMarketId } = useParams();
 
-    // FormData üzerinde ImagesToAdd alanı için başlangıç state’i
-    const [formData, setFormData] = useState({
-        ImagesToAdd: []
-    });
-
-    // Variantlar get'ten gelen veriye göre başlatılıyor.
+    // FormData için state
+    const [formData, setFormData] = useState({ ImagesToAdd: [] });
     const [variants, setVariants] = useState([]);
 
-    // Kategori oluşturma modal'ı
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCategoryName, setSelectedCategoryName] = useState("");
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
     const [showTrack, setShowTrack] = useState(false);
     const [showSku, setShowSku] = useState(false);
-
-    // Status state: API'den gelen değere göre true/false
     const [status, setStatus] = useState(true);
 
-    const { data: getProductById } = useGetProductByIdQuery({ marketId: myMarketId, id: myId });
+    // Yeni state: variant için hata mesajı
+    const [variantError, setVariantError] = useState("");
+
+    // getProductByIdQuery'den refetch'i de alıyoruz
+    const { data: getProductById, refetch: refetchProduct } = useGetProductByIdQuery({ marketId: myMarketId, id: myId });
     const product = getProductById?.data;
 
     const { data: getAllCategoriesByMarketId } = useGetAllCategoriesByMarketIdQuery(Cookies.get("chooseMarket"));
     const myCategories = getAllCategoriesByMarketId?.data || [];
 
-    // Ürün detayları için yerel alanlar
+    // Ürün alanları
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
     const [comparePrice, setComparePrice] = useState("");
@@ -114,55 +60,82 @@ function AdminEditProductMenu() {
     const [stock, setStock] = useState(null);
     const [errors, setErrors] = useState({});
 
-    // Görseller: Mevcut, silinen ve yeni eklenen dosyalar
+    // Görseller
     const [currentImages, setCurrentImages] = useState([]);
     const [deletedImages, setDeletedImages] = useState([]);
     const [newImages, setNewImages] = useState([]);
 
-    // Dosya input referansı
     const fileInputRef = useRef(null);
 
+    // Sayfa açılır açılır, en güncel ürünü almak için refetch çalışsın
+    useEffect(() => {
+        refetchProduct();
+    }, [refetchProduct]);
+
+    // Ürün verilerini güncelle (En güncel JSON verisini inputlara aktar)
     useEffect(() => {
         if (product) {
             setTitle(product.title || "");
-            setPrice(product.price || "");
-            setComparePrice(product.comparePrice || "");
+            setPrice(product.price !== undefined ? product.price.toString() : "");
+            setComparePrice(product.comparePrice !== undefined ? product.comparePrice.toString() : "");
             setDescription(product.description || "");
-            setSelectedCategoryName(product.categoryName || "");
             setSelectedCategoryId(product.categoryId || null);
             setSku(product.sku || "");
             setBarcode(product.barcode || "");
             setIsStock(product.isStock || false);
-            setStock(product.stock || null);
+            setStock(product.stock !== undefined ? product.stock.toString() : "");
             setShowTrack(product.isStock || false);
             setShowSku(!!product.sku || !!product.barcode);
             setVariants(product.productOptions || []);
             setCurrentImages(product.imageNames || []);
-            // Status başlangıç değeri (true veya false)
             setStatus(product.status);
         }
     }, [product]);
 
-    // Status toggling: true/false olarak değiştirir.
+    // Kategori adını ayarla
+    useEffect(() => {
+        if (selectedCategoryId && myCategories.length > 0) {
+            const foundCategory = myCategories.find((cat) => cat.id === selectedCategoryId);
+            if (foundCategory) {
+                setSelectedCategoryName(foundCategory.name);
+            }
+        }
+    }, [selectedCategoryId, myCategories]);
+
+    // Variant’lerin alanlarının dolu olup olmadığını kontrol et
+    useEffect(() => {
+        let error = "";
+        for (let variant of variants) {
+            if (!variant.name || variant.name.trim() === "") {
+                error = "Tüm haneleri doldurun";
+                break;
+            }
+            for (let opt of variant.values) {
+                if (!opt.value || opt.value.trim() === "") {
+                    error = "Tüm haneleri doldurun";
+                    break;
+                }
+            }
+            if (error) break;
+        }
+        setVariantError(error);
+    }, [variants]);
+
     const toggleStatus = () => {
         setStatus((prevStatus) => !prevStatus);
     };
 
-    // Track quantity (Stok Takibi) değiştirildiğinde:
-    // - Eğer açık (checkbox işaretliyse): isStock true, showTrack true
-    // - Kapatılırsa: isStock false, showTrack false ve stok değeri 0 olarak ayarlanabilir.
     const handleIsStockChange = (e) => {
         const newVal = e.target.checked;
         setIsStock(newVal);
         setShowTrack(newVal);
-        if (!newVal) {
-            setStock(0);
-        }
+        if (!newVal) setStock(0);
     };
 
     const handleCategorySelect = (catName, catId) => {
         setSelectedCategoryName(catName);
         setSelectedCategoryId(catId);
+        setErrors((prevErrors) => ({ ...prevErrors, category: "" }));
     };
 
     const handleCreateCategory = (categoryName) => {
@@ -176,23 +149,20 @@ function AdminEditProductMenu() {
     };
 
     const handleTitleChange = (e) => {
-        const newTitle = e.target.value;
-        setTitle(newTitle);
-        setErrors((prev) => ({ ...prev, title: newTitle.trim() === "" ? "Title can't be blank" : "" }));
+        setTitle(e.target.value);
+        setErrors((prev) => ({ ...prev, title: e.target.value.trim() === "" ? "Title can't be blank" : "" }));
     };
 
     const handlePricingChange = (e) => {
-        const newPrice = e.target.value;
-        setPrice(newPrice);
-        setErrors((prev) => ({ ...prev, price: newPrice.trim() === "" ? "Price can't be blank" : "" }));
+        setPrice(e.target.value);
+        setErrors((prev) => ({ ...prev, price: e.target.value.trim() === "" ? "Price can't be blank" : "" }));
     };
 
     const handleComparePriceChange = (e) => {
-        const newComparePrice = e.target.value;
-        setComparePrice(newComparePrice);
+        setComparePrice(e.target.value);
         setErrors((prev) => ({
             ...prev,
-            comparePrice: newComparePrice.trim() === "" ? "Compare price can't be blank" : ""
+            comparePrice: e.target.value.trim() === "" ? "Compare-at price can't be blank" : "",
         }));
     };
 
@@ -200,16 +170,21 @@ function AdminEditProductMenu() {
         setDescription(value);
         setErrors((prev) => ({
             ...prev,
-            description: value.trim() === "<p><br></p>" ? "Description can't be blank" : ""
+            description: value.trim() === "<p><br></p>" ? "Description can't be blank" : "",
         }));
     };
 
     const handleSkuChange = (e) => {
         setSku(e.target.value);
+        setErrors((prev) => ({ ...prev, sku: e.target.value.trim() === "" ? "SKU is required" : "" }));
     };
 
     const handleBarcodeChange = (e) => {
         setBarcode(e.target.value);
+        setErrors((prev) => ({
+            ...prev,
+            barcode: e.target.value.trim() === "" ? "Barcode is required" : "",
+        }));
     };
 
     const handleStockChange = (e) => {
@@ -221,17 +196,17 @@ function AdminEditProductMenu() {
         setDeletedImages((prev) => [...prev, imageName]);
     };
 
-    // Dosya input onChange: seçilen dosyalar hem FormData (ImagesToAdd) hem de preview için state'e ekleniyor.
     const handleImageChange = (e) => {
         const files = e.target.files;
         if (files && files.length) {
             const fileArray = Array.from(files);
             setFormData((prev) => ({
                 ...prev,
-                ImagesToAdd: [...prev.ImagesToAdd, ...fileArray]
+                ImagesToAdd: [...prev.ImagesToAdd, ...fileArray],
             }));
             setNewImages((prev) => [...prev, ...fileArray]);
             e.target.value = "";
+            setErrors((prev) => ({ ...prev, images: "" }));
         }
     };
 
@@ -239,65 +214,97 @@ function AdminEditProductMenu() {
         setNewImages((prev) => prev.filter((f) => f !== file));
         setFormData((prev) => ({
             ...prev,
-            ImagesToAdd: prev.ImagesToAdd.filter((f) => f !== file)
+            ImagesToAdd: prev.ImagesToAdd.filter((f) => f !== file),
         }));
     };
 
-    // FormData oluşturuluyor; sadece değişiklik yapılan alanlar append ediliyor.
-    // ...
-// FormData nesnesi oluşturuluyor; yalnızca değişiklik yapılan alanlar ekleniyor.
-    const handleSave = () => {
-        if (!product) return;
+    const [postEditProduct] = usePostEditProductMutation();
+    const [editLoading, setEditLoading] = useState(false);
+
+    const handleSave = async () => {
+        const newErrors = {};
+        if (String(price).trim() === "") newErrors.price = "Price can't be blank";
+        if (String(comparePrice).trim() === "") newErrors.comparePrice = "Compare-at price can't be blank";
+        if (String(description).trim() === "" || description.trim() === "<p><br></p>")
+            newErrors.description = "Description can't be blank";
+        if (!selectedCategoryId) newErrors.category = "Please select a category";
+        if (currentImages.length + newImages.length < 1) newErrors.images = "At least one image is required";
+        if (showSku) {
+            if (String(sku).trim() === "") newErrors.sku = "SKU is required";
+            if (String(barcode).trim() === "") newErrors.barcode = "Barcode is required";
+        }
+        // Variant alanlarını kontrol et
+        if (variantError) newErrors.variant = variantError;
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+
+        // FormData oluşturma
         const fd = new FormData();
-        // Temel alanlar her zaman eklenir.
         fd.append("MarketId", parseInt(myMarketId));
         fd.append("Id", parseInt(myId));
-
-        // Status değeri, checkbox durumuna göre her durumda gönderiliyor.
         fd.append("Status", status);
-
         if (title !== product.title) fd.append("Title", title);
         if (parseFloat(price) !== product.price) fd.append("Price", parseFloat(price));
-        if (parseFloat(comparePrice) !== product.comparePrice) fd.append("ComparePrice", parseFloat(comparePrice));
+        if (parseFloat(comparePrice) !== product.comparePrice)
+            fd.append("ComparePrice", parseFloat(comparePrice));
         if (description !== product.description) fd.append("Description", description);
         if (selectedCategoryId !== product.categoryId) fd.append("CategoryId", selectedCategoryId);
         if (sku !== product.sku) fd.append("SKU", sku);
         if (barcode !== product.barcode) fd.append("Barcode", barcode);
-        // isStock değeri her durumda gönderiliyor.
         fd.append("IsStock", isStock);
         if (parseInt(stock) !== product.stock) fd.append("Stock", parseInt(stock));
 
-        // Silinen görseller: her biri ayrı ayrı ekleniyor.
         if (deletedImages.length > 0) {
             deletedImages.forEach((img) => fd.append("ImageNamesToRemove", img));
         }
 
-        // Variantlarda (options) değişiklik varsa, sadece isNew veya edited olanları seçip, aşağıdaki formatta yapılandırıyoruz.
-        const changedVariants = variants.filter((variant) => variant.isNew || variant.edited);
-        if (changedVariants.length > 0) {
-            const formattedVariants = changedVariants.map((variant, idx) => ({
-                name: variant.name,
-                displayOrder: idx,
-                values: variant.values.map((val, idx2) => ({
-                    value: val.value,
-                    displayOrder: idx2
-                }))
-            }));
-            fd.append("ProductOptionsJson", JSON.stringify(formattedVariants));
-        }
+        const allVariants = variants.map((variant, idx) => ({
+            name: variant.name,
+            displayOrder: idx,
+            values: variant.values.map((val, idx2) => ({
+                value: val.value,
+                displayOrder: idx2,
+            })),
+        }));
+        fd.append("ProductOptionsJson", JSON.stringify(allVariants));
 
-        // Yeni eklenen görselleri ekliyoruz.
         if (formData.ImagesToAdd && formData.ImagesToAdd.length > 0) {
             formData.ImagesToAdd.forEach((file) => fd.append("ImagesToAdd", file));
         }
-
-        // Test amacıyla, FormData içeriğini konsola yazdırıyoruz.
-        for (let [key, value] of fd.entries()) {
-            console.log(key + ": ", value);
+        setEditLoading(true);
+        try {
+            const response = await postEditProduct(fd).unwrap();
+            if (response?.statusCode === 200) {
+                refetchProduct();  // Güncel verileri almak için refetch
+                toast.success('Mehsul ugurla yenilendi!', {
+                    position: 'bottom-right',
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark',
+                    onClose: () => navigate('/cp/products')
+                });
+            }
+        } catch (error) {
+            toast.error('Xeta bas verdi!', {
+                position: 'bottom-right',
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'dark',
+            });
         }
-        // Burada API'ye gönderim yapılabilir.
+        setEditLoading(false);
     };
-
 
     return (
         <section id="adminEditProductMenu">
@@ -332,22 +339,31 @@ function AdminEditProductMenu() {
                         />
                         {errors.description && (
                             <span className="error-text">
-                <AiOutlineExclamationCircle className="icon" />
+                                <AiOutlineExclamationCircle className="icon" />
                                 {errors.description}
-              </span>
+                            </span>
                         )}
                     </div>
                     <div className="inputWrapper">
                         <label style={{ marginBottom: "10px" }}>Image</label>
-                        {/* Görsellerin kapsayıcısı: flex-wrap ve gap sayesinde 5 taneden fazla olunca alt satıra geçer */}
                         <div className="boxWrapper" style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                            <div className="lBoxWrapper">
-                                <div className="littleBox" onClick={() => fileInputRef.current && fileInputRef.current.click()}>
-                                    <FiPlus />
+                            {/* Yeni: Resim ekleme butonu (+ ikonlu) */}
+                            <label
+                                className="image-upload-container"
+                                style={{ position: "relative", cursor: "pointer" }}
+                                onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                            >
+                                <div className="image-upload-button" style={{ aspectRatio: "1/1", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    <FiPlus className="icon" />
                                 </div>
-                            </div>
+                            </label>
+                            {/* Mevcut görseller */}
                             {currentImages.map((image, index) => (
-                                <div key={index} className="imageWrapper" style={{ position: "relative", margin: "8px" }}>
+                                <div
+                                    key={index}
+                                    className="imageWrapper"
+                                    style={{ position: "relative", margin: "8px" }}
+                                >
                                     <img
                                         src={PRODUCT_LOGO + image}
                                         alt={`Product Image ${index + 1}`}
@@ -366,16 +382,19 @@ function AdminEditProductMenu() {
                                             borderRadius: "50%",
                                             width: "24px",
                                             height: "24px",
-                                            cursor: "pointer"
+                                            cursor: "pointer",
                                         }}
                                     >
                                         &times;
                                     </button>
                                 </div>
                             ))}
-                            {/* Yeni eklenen görsellerin önizlemesi */}
                             {newImages.map((file, index) => (
-                                <div key={index} className="imageWrapper" style={{ position: "relative", margin: "8px" }}>
+                                <div
+                                    key={index}
+                                    className="imageWrapper"
+                                    style={{ position: "relative", margin: "8px" }}
+                                >
                                     <img
                                         src={URL.createObjectURL(file)}
                                         alt={`New Upload ${index + 1}`}
@@ -394,7 +413,7 @@ function AdminEditProductMenu() {
                                             borderRadius: "50%",
                                             width: "24px",
                                             height: "24px",
-                                            cursor: "pointer"
+                                            cursor: "pointer",
                                         }}
                                     >
                                         &times;
@@ -402,6 +421,7 @@ function AdminEditProductMenu() {
                                 </div>
                             ))}
                         </div>
+                        {errors.images && <span className="error-text">{errors.images}</span>}
                     </div>
                     <Dropdown
                         label="Category"
@@ -409,6 +429,8 @@ function AdminEditProductMenu() {
                         selectedOption={selectedCategoryName}
                         onSelect={handleCategorySelect}
                         onCreate={() => setIsModalOpen(true)}
+                        error={errors.category}
+                        path={location.pathname.toString().includes("/edit-product")}
                     />
                 </div>
                 <div className="row">
@@ -453,11 +475,7 @@ function AdminEditProductMenu() {
                             </div>
                             <div className="line"></div>
                             <div className="inventoryWrapper">
-                                <CheckboxField
-                                    label="Continue selling when out of stock"
-                                    checked={false}
-                                    onChange={() => {}}
-                                />
+                                <CheckboxField label="Continue selling when out of stock" checked={false} onChange={() => {}} />
                             </div>
                             <div className="inventoryWrapper">
                                 <CheckboxField
@@ -465,6 +483,9 @@ function AdminEditProductMenu() {
                                     checked={showSku}
                                     onChange={() => {
                                         setShowSku(!showSku);
+                                        if (!showSku) {
+                                            setErrors((prev) => ({ ...prev, sku: "", barcode: "" }));
+                                        }
                                     }}
                                 />
                             </div>
@@ -477,6 +498,7 @@ function AdminEditProductMenu() {
                                             name="sku"
                                             value={sku}
                                             onChange={handleSkuChange}
+                                            error={errors.sku}
                                         />
                                     </div>
                                     <div className="priceBox priceBox2 col-6">
@@ -486,6 +508,7 @@ function AdminEditProductMenu() {
                                             name="barcode"
                                             value={barcode}
                                             onChange={handleBarcodeChange}
+                                            error={errors.barcode}
                                         />
                                     </div>
                                 </div>
@@ -493,15 +516,24 @@ function AdminEditProductMenu() {
                         </div>
                     </div>
                 </div>
-                {/* VariantContainer: SCSS ile uyumlu */}
                 <VariantContainer variants={variants} onVariantsChange={setVariants} />
+                {errors.variant && <div className="error-text" style={{ color: "red", textAlign: "center", marginTop: "-20px",
+                background: 'white', width: 'max-content', padding: '5px 10px' , borderRadius: '10px' }}>
+                    <AiOutlineExclamationCircle/>
+                    {errors.variant}</div>}
                 <div className="saveButton" style={{ marginTop: "20px", textAlign: "center" }}>
-                    <button className="save" onClick={handleSave}>
-                        Save Changes
+                    <button className="save" onClick={handleSave} style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: 'white'
+                    }}>
+                        {editLoading ? <>
+                            <PulseLoader color={'white'}/>
+                        </> : <>Save Changes</>}
                     </button>
                 </div>
             </div>
-            {/* Gizli file input */}
             <input
                 type="file"
                 ref={fileInputRef}
@@ -515,6 +547,7 @@ function AdminEditProductMenu() {
                 onClose={() => setIsModalOpen(false)}
                 onSave={handleCreateCategory}
             />
+            <ToastContainer />
         </section>
     );
 }

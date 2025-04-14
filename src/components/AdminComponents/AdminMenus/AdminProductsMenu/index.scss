@@ -5,6 +5,16 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 
+  .deleteWrapper {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .deleteBtn1 {
+    color: white;
+    background-color: #E00000;
+  }
+
   tr {
     transition: all .4s ease;
 
@@ -146,7 +156,7 @@
     }
 
     .checkboxWrapper {
-      width: 100px;
+      width: 200px;
     }
 
     button {
