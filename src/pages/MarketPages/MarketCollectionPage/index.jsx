@@ -1,6 +1,4 @@
 import './index.scss'
-import MarketNavbar from "../../../components/MarketComponents/MarketNavbar/index.jsx";
-import MarketFooter from "../../../components/MarketComponents/MarketFooter/index.jsx";
 import MarketCard from "../../../components/MarketComponents/MarketCard/index.jsx";
 import {FaChevronRight} from "react-icons/fa";
 import {useParams} from "react-router-dom";
@@ -27,7 +25,6 @@ function MarketCollectionPage() {
 
     return (
         <section id={"marketCollectionPage"}>
-            <MarketNavbar/>
             <div className={"section"}>
                 <div className={"container"}>
                     <div className={"titleWrapper"}>
@@ -65,7 +62,6 @@ function MarketCollectionPage() {
                     </div>
                 </div>
             </div>
-            <MarketFooter/>
         </section>
     );
 }

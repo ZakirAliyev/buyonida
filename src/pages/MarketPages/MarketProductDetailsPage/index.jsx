@@ -1,7 +1,5 @@
 import { useState } from "react";
 import "./index.scss";
-import MarketNavbar from "../../../components/MarketComponents/MarketNavbar/index.jsx";
-import MarketFooter from "../../../components/MarketComponents/MarketFooter/index.jsx";
 import { useParams } from "react-router-dom";
 import {
     useGetAllProductsByMarketIdQuery,
@@ -101,8 +99,6 @@ function MarketProductDetailsPage() {
 
     return (
         <section id="marketProductDetailsPage">
-            <MarketNavbar />
-
             <div className="section">
                 <div className="container">
                     <div className="row">
@@ -191,11 +187,10 @@ function MarketProductDetailsPage() {
                 <div className="row">
                     {products &&
                         products.slice(0, 5).map((prod) => (
-                            <MarketCard number={12} key={prod.id} product={prod} />
+                            <MarketCard number={5} key={prod.id} product={prod} />
                         ))}
                 </div>
             </div>
-            <MarketFooter />
             <ToastContainer />
         </section>
     );

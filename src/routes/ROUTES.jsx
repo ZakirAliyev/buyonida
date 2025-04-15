@@ -1,4 +1,4 @@
-import {Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import AdminMain from "../pages/AdminPages/index.jsx";
 import HomePage from "../pages/HomePage/index.jsx";
 import AdminLoginPage from "../pages/AdminPages/AdminLoginPage/index.jsx";
@@ -22,16 +22,19 @@ import MarketCollectionPage from "../pages/MarketPages/MarketCollectionPage/inde
 import MarketProductDetailsPage from "../pages/MarketPages/MarketProductDetailsPage/index.jsx";
 import MarketCheckoutPage from "../pages/MarketPages/MarketCheckoutPage/index.jsx";
 import CustomizeStorePages from "../pages/CustomizeStorePages/index.jsx";
+import MarketLayout from "../pages/MarketPages/index.jsx";
 
 export const ROUTES = [
     {
         path: '/',
         element: <AdminMain/>,
         children: [
+            // Index route
             {
                 index: true,
                 element: <HomePage/>
             },
+            // Authentication and account-related routes
             {
                 path: 'login',
                 element: <AdminLoginPage/>
@@ -76,6 +79,7 @@ export const ROUTES = [
                 path: 'create-market-finish',
                 element: <AdminCreateMaketFinishPage/>
             },
+            // Admin control panel routes
             {
                 path: 'cp',
                 element: <Navigate to="/cp/home" replace/>
@@ -152,43 +156,51 @@ export const ROUTES = [
                 path: 'cp/add-product',
                 element: <AdminHomePage/>
             },
-
             {
                 path: 'cp/edit-product/:marketId/:id',
                 element: <AdminHomePage/>
             },
+            // Nested market routes
             {
-                path: '/:marketName',
-                element: <MarketHomePage/>
+                path: ':marketName',
+                element: <MarketLayout/>,
+                children: [
+                    {
+                        index: true,
+                        element: <MarketHomePage/>
+                    },
+                    {
+                        path: 'category/:id',
+                        element: <MarketCategoryPage/>
+                    },
+                    {
+                        path: 'collection/:id',
+                        element: <MarketCollectionPage/>
+                    },
+                    {
+                        path: 'product/:id',
+                        element: <MarketProductDetailsPage/>
+                    },
+                    {
+                        path: 'about',
+                        element: <MarketAboutPage/>
+                    }
+                ]
             },
-            {
-                path: '/:marketName/category/:id',
-                element: <MarketCategoryPage/>
-            },
-            {
-                path: '/:marketName/collection/:id',
-                element: <MarketCollectionPage/>
-            },
-            {
-                path: '/:marketName/product/:id',
-                element: <MarketProductDetailsPage/>
-            },
+            // Other standalone routes
             {
                 path: 'checkout/:marketId',
                 element: <MarketCheckoutPage/>
             },
             {
-                path: '/:marketName/about',
-                element: <MarketAboutPage/>
-            },
-            {
                 path: 'customize-store-page',
                 element: <CustomizeStorePages/>
             },
+            // Catch-all route
             {
                 path: '*',
                 element: <NotFoundPage/>
-            },
+            }
         ]
     }
 ];

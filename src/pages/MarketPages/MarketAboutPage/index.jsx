@@ -15,7 +15,6 @@ function MarketAboutPage() {
     const store = getStoreByName?.data
     return (
         <section id={"marketAboutPage"}>
-            <MarketNavbar/>
             <div className={"section123"}>
                 <div className={"container"}>
                     <div className={"titleWrapper"}>
@@ -27,7 +26,6 @@ function MarketAboutPage() {
                     </div>
                 </div>
             </div>
-            <MarketFooter/>
         </section>
     );
 }
