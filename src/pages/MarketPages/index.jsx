@@ -14,12 +14,10 @@ const MarketLayout = () => {
     const selectedPaletId = getStoreWithSections?.data?.selectedPaletId;
     const palet = palets?.filter((p) => p.id === selectedPaletId);
 
-    // Handle loading state
     if (isLoading) {
         return <div>Loading...</div>;
     }
 
-    // Handle error state
     if (isError) {
         return <div>Error loading store data. Please try again later.</div>;
     }
