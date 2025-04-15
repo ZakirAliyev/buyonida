@@ -245,7 +245,6 @@ function CustomizeStoreSettingTab({ activeMainTab, setCustomLogo, setCustomLogoW
 
     const handleSelectPalette = async (id) => {
         setSelectedPaletteId(id);
-        console.log(`Palette ${id} selected`);
 
         try {
             const marketId = Cookies.get("chooseMarket");
@@ -669,7 +668,6 @@ function CustomizeStoreSettingTab({ activeMainTab, setCustomLogo, setCustomLogoW
                                 value={selectedFont}
                                 onChange={(e) => {
                                     setSelectedFont(e.target.value);
-                                    console.log(selectedFont);
                                 }}
                             >
                                 <option value="Poppins">Poppins</option>

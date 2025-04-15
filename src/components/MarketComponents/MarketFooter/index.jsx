@@ -1,9 +1,9 @@
 import './index.scss'
 import image1 from "/src/assets/sariLogo.png"
 
-function MarketFooter() {
+function MarketFooter({palet}) {
     return (
-        <section id={"marketFooter"}>
+        <section id={"marketFooter"} style={{backgroundColor:palet ? (palet[0]?.footerBgColor):("#000000"),color:palet ? (`${palet[0]?.footerTextColor}`) : ("#ffffff")}}>
             <div className={"container"}>
                 <div className={"row"}>
                     <div className={"box col-15-60 col-md-30-60 col-sm-60-60 col-xs-60-60"}>

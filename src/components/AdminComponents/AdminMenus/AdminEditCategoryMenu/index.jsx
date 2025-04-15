@@ -119,11 +119,6 @@ function AdminEditCategoryMenu() {
             formData.append("imageFile", imageFiles[0]);
         }
 
-        console.log("Saving FormData:");
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
-        }
-
         setEditLoading(true);
         try {
             const response = await editCategory(formData).unwrap();

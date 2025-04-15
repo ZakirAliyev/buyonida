@@ -144,13 +144,6 @@ function AdminAddProductMenu() {
         }
         images.forEach((img) => formData.append("imagesToAdd", img));
 
-        // FormData içeriğini konsola yazdıralım
-        console.log("FormData İçeriği:");
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ": ", pair[1]);
-        }
-
-        // Aşağıdaki kısım, API çağrısı yapılmadan önce örnekleme amaçlıdır.
         try {
             setLoading(true);
             const response = await postCreateProduct(formData).unwrap()
