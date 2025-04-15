@@ -14,7 +14,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {PRODUCT_LOGO} from "../../../../constants.js";
 import {toast} from "react-toastify";
 
-const MarketCart = ({isOpen, onClose}) => {
+const MarketCart = ({isOpen, onClose,basketItems}) => {
     const navigate = useNavigate();
     const params = useParams();
 
@@ -24,15 +24,9 @@ const MarketCart = ({isOpen, onClose}) => {
     const store = storeData?.data;
     const marketId = store?.id;
 
-    // Get uniqueCode from Cookies
-    const uniqueCode = Cookies.get("uniqueCode");
 
-    const {data: basketData, refetch} = useGetBasketGetOrCreateQuery({
-        marketId,
-        uniqueCode
-    });
-    const basket = basketData?.data;
-    const basketItems = basket?.basketItems || [];
+
+
 
     const [deleteBasketItem] = useDeleteBasketItemMutation();
     const [postBasketCheckout] = usePostBasketCheckoutMutation();

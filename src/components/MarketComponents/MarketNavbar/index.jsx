@@ -3,8 +3,9 @@ import {useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {FaShoppingBag, FaTimes, FaBars} from "react-icons/fa";
 import MarketCart from "../MarketCart";
-import {useGetStoreByNameQuery} from "../../../service/userApi.js";
+import {useGetBasketGetOrCreateQuery, useGetStoreByNameQuery} from "../../../service/userApi.js";
 import {MARKET_LOGO} from "../../../../constants.js";
+import Cookies from "js-cookie";
 
 function MarketNavbar({palet}) {
     const params = useParams();
@@ -14,7 +15,14 @@ function MarketNavbar({palet}) {
     const store = getStoreByName?.data
     const [isOpen, setIsOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+    const uniqueCode = Cookies.get("uniqueCode");
+    const marketId = store?.id;
+    const {data: basketData, refetch} = useGetBasketGetOrCreateQuery({
+        marketId,
+        uniqueCode
+    });
+    const basket = basketData?.data;
+    const basketItems = basket?.basketItems || [];
     const handleOpenCart = () => {
         setIsOpen(true);
     };
@@ -65,7 +73,7 @@ function MarketNavbar({palet}) {
                 </nav>
             </div>
             {isOpen && <div className="overlay" onClick={handleCloseCart}></div>}
-            <MarketCart isOpen={isOpen} onClose={handleCloseCart}/>
+            <MarketCart basketItems={basketItems} isOpen={isOpen} onClose={handleCloseCart}/>
         </section>
     );
 }
