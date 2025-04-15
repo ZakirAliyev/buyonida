@@ -6,6 +6,7 @@ import {AiFillProduct} from 'react-icons/ai';
 import {FaStoreAlt} from 'react-icons/fa';
 import {MdAnalytics} from 'react-icons/md';
 import {useState} from 'react';
+import Cookies from "js-cookie";
 
 function AdminLeftMenu() {
     const location = useLocation();
@@ -42,7 +43,7 @@ function AdminLeftMenu() {
                         </div>
                     </div>
                 )}
-                <Link to={'/cp/analytics'} className={`link ${isSelected('/cp/analytics')}`}>
+                <Link to={`/cp/analytics/${Cookies.get('chooseMarket')}`} className={`link ${isSelected('/cp/analytics')}`}>
                     <MdAnalytics className={'icon'}/>
                     Analytics
                 </Link>

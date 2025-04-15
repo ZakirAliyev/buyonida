@@ -5,40 +5,39 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 
-    .status {
-      background-color: #80FF93;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      padding: 1px 10px;
-      gap: 5px;
-      width: max-content;
-      font-size: 16px !important;
-      color: black !important;
+  .status {
+    background-color: #80FF93;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 1px 10px;
+    gap: 5px;
+    width: max-content;
+    font-size: 16px !important;
+    color: black !important;
 
-      .dot {
-        font-size: 10px;
-      }
+    .dot {
+      font-size: 10px;
     }
+  }
 
-    .statusDont {
-      background-color: #8e8e8e;
-      color: white;
+  .statusDont {
+    background-color: #8e8e8e;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 1px 10px;
+    gap: 5px;
+    width: max-content;
+    font-size: 16px !important;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      padding: 1px 10px;
-      gap: 5px;
-      width: max-content;
-      font-size: 16px !important;
-
-      .dot {
-        font-size: 10px;
-      }
+    .dot {
+      font-size: 10px;
     }
+  }
 
   tr {
     transition: all .4s ease;
@@ -68,7 +67,6 @@
     border-radius: 15px;
     margin-top: 25px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-
     overflow: hidden;
 
     .image {
@@ -120,6 +118,42 @@
 
     .first {
       border: none;
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 16px;
+
+    .page-btn {
+      padding: 4px 12px;
+      background-color: #ffffff;
+      border: 1px solid #D0D0D0;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #333;
+
+      &:hover:not(:disabled) {
+        background-color: #f3f3f3;
+      }
+
+      &:disabled {
+        background-color: #EBEBEB;
+        cursor: not-allowed;
+        color: #999;
+      }
+
+      &.active {
+        background-color: #FFBB00;
+        border-color: #FFBB00;
+        color: #000;
+        font-weight: bold;
+      }
     }
   }
 }

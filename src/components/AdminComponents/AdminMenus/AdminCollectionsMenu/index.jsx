@@ -1,22 +1,71 @@
 import './index.scss';
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
-import {useDeleteCollectionMutation, useGetAllCollectionsByMarketIdQuery} from "../../../../service/userApi.js";
+import { useDeleteCollectionMutation, useGetAllCollectionsByMarketIdQuery } from "../../../../service/userApi.js";
 import Cookies from "js-cookie";
 import { COLLECTION_LOGO } from "../../../../../constants.js";
-import {GoDotFill} from "react-icons/go";
-import {toast} from "react-toastify";
+import { GoDotFill } from "react-icons/go";
+import { toast, ToastContainer } from "react-toastify";
+import { useEffect, useState } from "react";
 
 function AdminCollectionsMenu() {
     const navigate = useNavigate();
     const { data: getAllCollectionsByMarketId, refetch } = useGetAllCollectionsByMarketIdQuery(Cookies.get("chooseMarket"));
-    const collections = getAllCollectionsByMarketId?.data;
-const [deleteCollection] = useDeleteCollectionMutation()
+    const collections = getAllCollectionsByMarketId?.data || [];
+    const [deleteCollection] = useDeleteCollectionMutation();
+    const [currentPage, setCurrentPage] = useState(1);
+    const collectionsPerPage = 5;
+
+    // Calculate pagination data
+    const totalCollections = collections.length;
+    const totalPages = Math.ceil(totalCollections / collectionsPerPage);
+    const indexOfLastCollection = currentPage * collectionsPerPage;
+    const indexOfFirstCollection = indexOfLastCollection - collectionsPerPage;
+    const currentCollections = collections.slice(indexOfFirstCollection, indexOfLastCollection);
+
+    // Calculate the range of page numbers to display (max 5 pages)
+    const maxPageNumbers = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxPageNumbers / 2));
+    let endPage = Math.min(totalPages, startPage + maxPageNumbers - 1);
+
+    // Adjust startPage if endPage is at totalPages to ensure 5 pages are shown when possible
+    if (endPage - startPage + 1 < maxPageNumbers && startPage > 1) {
+        startPage = Math.max(1, endPage - maxPageNumbers + 1);
+    }
+
+    const pageNumbers = Array.from(
+        { length: endPage - startPage + 1 },
+        (_, index) => startPage + index
+    );
+
+    // Handle page change
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    // Handle Previous and Next buttons
+    const handlePrevious = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNext = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    useEffect(() => {
+        refetch();
+    }, [refetch]);
+
     const handleDelete = async (id) => {
-    const marketId = Cookies.get("chooseMarket");
+        const marketId = Cookies.get("chooseMarket");
         try {
-            const response = await deleteCollection({id, marketId}).unwrap
-            if(response?.statusCode === 200) {
+            const response = await deleteCollection({ id, marketId }).unwrap();
+            if (response?.statusCode === 200) {
+                refetch();
                 toast.success('Sifariş uğurla tamamlandı!', {
                     position: 'bottom-right',
                     autoClose: 2500,
@@ -27,9 +76,13 @@ const [deleteCollection] = useDeleteCollectionMutation()
                     progress: undefined,
                     theme: 'dark',
                 });
+                // Adjust current page if necessary
+                if (currentCollections.length === 1 && currentPage > 1) {
+                    setCurrentPage(currentPage - 1);
+                }
             }
         } catch (error) {
-            toast.success('Xeta bas verdi!', {
+            toast.error('Xeta bas verdi!', {
                 position: 'bottom-right',
                 autoClose: 2500,
                 hideProgressBar: false,
@@ -40,7 +93,6 @@ const [deleteCollection] = useDeleteCollectionMutation()
                 theme: 'dark',
             });
         }
-        refetch();
     };
 
     return (
@@ -74,8 +126,8 @@ const [deleteCollection] = useDeleteCollectionMutation()
                 </tr>
                 </thead>
                 <tbody>
-                {collections && collections.length !== 0 ? (
-                    collections.map((item) => (
+                {currentCollections && currentCollections.length !== 0 ? (
+                    currentCollections.map((item) => (
                         <tr key={item?.id}>
                             <td className="checkboxWrapper">
                                 <input type="checkbox" />
@@ -83,9 +135,9 @@ const [deleteCollection] = useDeleteCollectionMutation()
                             <td>
                                 <img
                                     className="image"
-                                    src={COLLECTION_LOGO + item?.coverImageUrl}
+                                    src={item?.coverImageUrl ? COLLECTION_LOGO + item.coverImageUrl : "path/to/placeholder/image.jpg"}
                                     alt="Image"
-                                    onError={(e) => (e.target.src = "path/to/placeholder/image.jpg")} // Fallback image if loading fails
+                                    onError={(e) => (e.target.src = "path/to/placeholder/image.jpg")}
                                 />
                             </td>
                             <td
@@ -96,17 +148,17 @@ const [deleteCollection] = useDeleteCollectionMutation()
                                 {item?.title}
                             </td>
                             <td>
-                  <span className={`status ${item?.isActive ? 'active' : 'inactive'}`}>
-                      <GoDotFill/>
-                    {item?.isActive ? 'Active' : 'Inactive'}
-                  </span>
+                                <span className={`${item?.isActive ? 'status' : 'statusDont'}`}>
+                                    <GoDotFill />
+                                    {item?.isActive ? 'Active' : 'Deactive'}
+                                </span>
                             </td>
                             <td
                                 onClick={() => {
                                     navigate(`/cp/edit-collection/${Cookies.get('chooseMarket')}/${item?.id}`);
                                 }}
                             >
-                                {item?.products?.length}
+                                {item?.products?.length || 0}
                             </td>
                             <td>
                                 <button
@@ -127,6 +179,34 @@ const [deleteCollection] = useDeleteCollectionMutation()
                 )}
                 </tbody>
             </table>
+            {totalCollections > collectionsPerPage && (
+                <div className="pagination">
+                    <button
+                        onClick={handlePrevious}
+                        disabled={currentPage === 1}
+                        className="page-btn"
+                    >
+                        Previous
+                    </button>
+                    {pageNumbers.map((page) => (
+                        <button
+                            key={page}
+                            onClick={() => handlePageChange(page)}
+                            className={`page-btn ${currentPage === page ? 'active' : ''}`}
+                        >
+                            {page}
+                        </button>
+                    ))}
+                    <button
+                        onClick={handleNext}
+                        disabled={currentPage === totalPages}
+                        className="page-btn"
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
+            <ToastContainer />
         </section>
     );
 }

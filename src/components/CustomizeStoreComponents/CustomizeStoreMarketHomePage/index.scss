@@ -1,7 +1,17 @@
 #customizeStoreMarketHomePage {
-  background-color: #f6f6f6;
+  background-color: var(--background-color, #f6f6f6); /* Use palette background color, fallback to #f6f6f6 */
+
+  .navbar-container {
+    /* Already styled by CSMarketNavbar with palette colors */
+  }
 
   .section {
     padding: 30px;
+    background-color: var(--background-color, transparent); /* Use palette card background for sections, fallback to transparent */
+  }
+
+  .container {
+    /* Ensure containers within sections inherit the background if needed */
+    background-color: inherit;
   }
 }

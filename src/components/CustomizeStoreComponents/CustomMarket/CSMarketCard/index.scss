@@ -1,7 +1,7 @@
 #cSMarketCard {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border-radius: 15px;
-  background-color: white;
+  background-color: var(--card-bg-color, white); /* Palette card background */
   overflow: hidden;
   transition: all .4s ease;
 
@@ -20,6 +20,10 @@
 
   .textWrapper {
     padding: 8px 16px;
+
+    h2, h3 {
+      color: var(--card-text-color, black); /* Palette card text color */
+    }
 
     h2 {
       font-weight: 600;

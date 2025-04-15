@@ -23,24 +23,18 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [newSectionType, setNewSectionType] = useState("collection");
     const [localIdCounter, setLocalIdCounter] = useState(0);
-    // Silinen bölümlerin id'lerini tutan state (null ise eklenmeyecek)
     const [deletedIds, setDeletedIds] = useState([]);
 
-    const { data: getAllCategoriesByMarketId } = useGetAllCategoriesByMarketIdQuery(
-        Cookies.get("chooseMarket")
-    );
+    const { data: getAllCategoriesByMarketId } = useGetAllCategoriesByMarketIdQuery(Cookies.get("chooseMarket"));
     const categories = getAllCategoriesByMarketId?.data || [];
 
-    const { data: getAllCollectionsByMarketId } = useGetAllCollectionsByMarketIdQuery(
-        Cookies.get("chooseMarket")
-    );
+    const { data: getAllCollectionsByMarketId } = useGetAllCollectionsByMarketIdQuery(Cookies.get("chooseMarket"));
     const collections = getAllCollectionsByMarketId?.data || [];
 
     const { data: storeData } = useGetStoreWithSectionsQuery(Cookies.get("chooseMarket"));
 
     useEffect(() => {
         if (storeData?.data?.sections) {
-            // Sadece category ve collection tipindeki bölümleri filtreliyoruz
             const filtered = storeData.data.sections.filter(
                 (s) =>
                     s.$type &&
@@ -48,7 +42,6 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
             );
             const mapped = filtered.map((s) => {
                 const cardsInRow = s.displayColumns || 3;
-                // Eğer API'den gelen sectionda id varsa onu localId olarak kullanıyoruz
                 const localId = s.id ? s.id.toString() : `temp-${Math.random()}`;
                 if (s.$type.toLowerCase() === "collection") {
                     return {
@@ -59,7 +52,7 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
                         collectionId: s.collection?.id,
                         cardsInRow,
                         products: s.collection?.products || [],
-                        displayOrderId: s.displayOrderId || 2, // Banner 1 olduğundan varsayılan 2
+                        displayOrderId: s.displayOrderId || 2,
                     };
                 } else if (s.$type.toLowerCase() === "category") {
                     return {
@@ -76,15 +69,12 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
                 return s;
             });
 
-            // Bölümleri displayOrderId değerine göre sıralıyoruz
             const sorted = mapped.sort((a, b) => a.displayOrderId - b.displayOrderId);
-
             setSections(sorted);
             if (onSectionsChange) onSectionsChange(sorted);
         }
     }, [storeData, onSectionsChange, categories, collections]);
 
-    // Silinen bölümlerin id listesini her değiştiğinde konsola logluyoruz
     useEffect(() => {
         if (onDeletedIdsChange) onDeletedIdsChange(deletedIds);
     }, [deletedIds, onDeletedIdsChange]);
@@ -92,7 +82,6 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
     const onDragEnd = (result) => {
         if (!result.destination) return;
         if (result.destination.index === result.source.index) return;
-        // Reorder işlemi yapıp, yeni sıraya göre displayOrderId'leri yeniden hesaplıyoruz (banner 1 olduğundan 2'den başlıyor)
         const newSections = reorder(sections, result.source.index, result.destination.index);
         const updatedSections = newSections.map((section, index) => ({
             ...section,
@@ -158,7 +147,6 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
         });
     };
 
-    // Yeni section oluşturulurken displayOrderId, mevcut bölümlerin sayısına göre hesaplanır (banner sabit 1 olduğundan 2'den başlar)
     const handleCreateNewSection = () => {
         const newSection = {
             id: null,
@@ -194,12 +182,10 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
 
     const handleRemoveSection = (index) => {
         const removedSection = sections[index];
-        // Eğer id null değilse, silinen id'leri tutan listeye ekliyoruz.
         if (removedSection.id !== null && removedSection.id !== undefined) {
             setDeletedIds((prev) => [...prev, removedSection.id]);
         }
         const updatedSections = sections.filter((_, i) => i !== index);
-        // Kaldırma sonrası displayOrderId'leri yeniden düzenliyoruz
         const reOrderedSections = updatedSections.map((section, index) => ({
             ...section,
             displayOrderId: index + 2,
@@ -261,18 +247,15 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
                                                         {section.type === "collection" && (
                                                             <div className="inputWrapper">
                                                                 <div className="label">Selected collection</div>
-                                                                <select
+                                                                <Select
                                                                     value={section.collection}
-                                                                    onChange={(e) =>
-                                                                        handleSelectChange(index, "collection", e.target.value)
-                                                                    }
-                                                                >
-                                                                    {collections.map((col) => (
-                                                                        <option key={col.id} value={col.title}>
-                                                                            {col.title}
-                                                                        </option>
-                                                                    ))}
-                                                                </select>
+                                                                    style={{ width: 150 }}
+                                                                    onChange={(value) => handleSelectChange(index, "collection", value)}
+                                                                    options={collections.map((col) => ({
+                                                                        label: col.title,
+                                                                        value: col.title,
+                                                                    }))}
+                                                                />
                                                             </div>
                                                         )}
                                                         {section.type === "category" && (

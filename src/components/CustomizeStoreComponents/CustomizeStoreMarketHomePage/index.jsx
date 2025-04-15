@@ -5,8 +5,22 @@ import CSMarketNavbar from "../CustomMarket/CSMarketNavbar/index.jsx";
 import CSMarketTitle from "../CustomMarket/CSMarketTitle/index.jsx";
 import CSMarketCard from "../CustomMarket/CSMarketCard/index.jsx";
 import { useEffect } from "react";
+import { useGetStoreWithSectionsQuery } from "../../../service/userApi.js"; // Adjust the import path
+import Cookies from "js-cookie";
 
 function CustomizeStoreMarketHomePage({ swipers, sections, customLogo, customLogoWidth }) {
+    const { data: getStoreWithSectionsByMarketId } = useGetStoreWithSectionsQuery(Cookies.get("chooseMarket"));
+    const storeWithSections = getStoreWithSectionsByMarketId?.data;
+    const selectedPaletId = storeWithSections?.selectedPaletId;
+    const selectedPalette = storeWithSections?.palets?.find(p => p.id === selectedPaletId);
+
+    const pageStyles = selectedPalette
+        ? {
+            '--background-color': selectedPalette.backgroundColor, // Main page background
+            '--section-bg-color': selectedPalette.cardBgColor, // Section background (e.g., for cards container)
+        }
+        : {};
+
     const sectionsArray = [
         ...(sections.categorySections || []),
         ...(sections.collectionSections || []),
@@ -22,7 +36,7 @@ function CustomizeStoreMarketHomePage({ swipers, sections, customLogo, customLog
     }, []);
 
     return (
-        <section id="customizeStoreMarketHomePage">
+        <section id="customizeStoreMarketHomePage" style={pageStyles}>
             <div className="navbar-container">
                 <CSMarketNavbar customLogo={customLogo} customLogoWidth={customLogoWidth} />
             </div>

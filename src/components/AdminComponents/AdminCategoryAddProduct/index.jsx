@@ -21,14 +21,11 @@ function AdminCategoryAddProduct({ selectedProducts, onProductSelect, allProduct
         }
     }, [getAllProducts]);
 
-    useEffect(() => {
-        // Initialize selectedProductIds from localStorage when component mounts
-        const storedProductIds = JSON.parse(localStorage.getItem('collectionProductIds')) || [];
-        setSelectedProductIds(storedProductIds);
-    }, []);
+    // Remove the useEffect that overrides selectedProductIds from localStorage
+    // We rely on the prop `selectedProducts` passed from the parent instead
 
     useEffect(() => {
-        // Update localStorage whenever selectedProductIds change
+        // Sync localStorage with selectedProductIds whenever it changes
         localStorage.setItem('collectionProductIds', JSON.stringify(selectedProductIds));
     }, [selectedProductIds]);
 
@@ -37,33 +34,31 @@ function AdminCategoryAddProduct({ selectedProducts, onProductSelect, allProduct
     };
 
     const handleProductSelect = (productId) => {
-        let updatedSelectedProductIds;
+        const originalProductIds = JSON.parse(localStorage.getItem('originalCollectionProductIds')) || [];
+        let updatedSelectedProductIds = [...selectedProductIds];
         let updatedDeletedProductIds = JSON.parse(localStorage.getItem('deletedProductIds')) || [];
 
-        // If product is selected, add it to selectedProductIds
-        if (!selectedProductIds.includes(productId)) {
-            updatedSelectedProductIds = [...selectedProductIds, productId];
-            updatedDeletedProductIds = updatedDeletedProductIds.filter(id => id !== productId);  // Remove from delete list
+        if (updatedSelectedProductIds.includes(productId)) {
+            // Unselecting the product
+            updatedSelectedProductIds = updatedSelectedProductIds.filter(id => id !== productId);
+            // Only add to deletedProductIds if it was originally in the collection
+            if (originalProductIds.includes(productId)) {
+                updatedDeletedProductIds.push(productId);
+            }
         } else {
-            // If product is unselected, add it to deletedProductIds
-            updatedSelectedProductIds = selectedProductIds.filter(id => id !== productId);
-            updatedDeletedProductIds.push(productId);
+            // Selecting the product
+            updatedSelectedProductIds.push(productId);
+            // Remove from deletedProductIds if it was there (e.g., reversing a deletion)
+            updatedDeletedProductIds = updatedDeletedProductIds.filter(id => id !== productId);
         }
 
-        // Update the state for selected and deleted product IDs
         setSelectedProductIds(updatedSelectedProductIds);
-        localStorage.setItem('collectionProductIds', JSON.stringify(updatedSelectedProductIds)); // Store selected products
-
-        // Update deleted products in localStorage
+        localStorage.setItem('collectionProductIds', JSON.stringify(updatedSelectedProductIds));
         localStorage.setItem('deletedProductIds', JSON.stringify(updatedDeletedProductIds));
     };
 
-
     const handleDone = () => {
-        // Propagate the selected product ids to the parent component
         onProductSelect(selectedProductIds);
-
-        // Message to indicate that the products were added
         message.success("Products added to the collection successfully!");
     };
 
@@ -110,7 +105,6 @@ function AdminCategoryAddProduct({ selectedProducts, onProductSelect, allProduct
                                 </td>
                                 <td className="ucuncu">{product.title}</td>
                             </tr>
-
                         ))
                 ) : (
                     <tr>

@@ -10,8 +10,162 @@
     }
   }
 
+  .section-item {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); /* Soft shadow */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px); /* Slight lift on hover */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /** Drag Handle */
+    > div:first-child {
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      color: #6b7280; /* Gray for subtle drag icon */
+      cursor: grab;
+
+      svg {
+        font-size: 24px;
+      }
+    }
+
+    /** Section Content */
+    > div:nth-child(2) {
+      flex-grow: 1;
+      padding: 16px;
+      border-left: 1px solid #e5e7eb;
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+
+        .section-title {
+          font-size: 16px;
+          font-weight: 500;
+          color: #374151; /* Darker gray for readability */
+        }
+
+        .remove-btn {
+          background: none;
+          border: none;
+          font-size: 18px;
+          color: #9ca3af; /* Light gray */
+          cursor: pointer;
+          padding: 4px;
+          transition: color 0.2s ease;
+
+          &:hover {
+            color: #ef4444; /* Red for delete action */
+          }
+        }
+      }
+
+      /** Controls Section */
+      .section-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        .label {
+          font-size: 14px;
+          font-weight: 500;
+          color: #4b5563; /* Medium gray */
+          margin-bottom: 4px;
+        }
+
+        /** Select Dropdowns */
+        select,
+        .ant-select-selector {
+          width: 100%;
+          max-width: 250px;
+          height: 38px;
+          border: 1px solid #d1d5db; /* Light border */
+          border-radius: 8px;
+          padding: 0 12px;
+          font-size: 14px;
+          color: #374151;
+          background: #f9fafb;
+          transition: border-color 0.2s ease;
+
+          &:hover,
+          &:focus {
+            border-color: black; /* Blue on interaction */
+            outline: none;
+          }
+        }
+
+        /** Cards in Row Control */
+        .cardsInRowControl {
+          .rangeContainer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f1f5f9; /* Light slate background */
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+
+            span {
+              font-size: 14px;
+              color: #4b5563;
+              font-weight: 500;
+            }
+
+            input[type="range"] {
+              -webkit-appearance: none;
+              width: 120px;
+              background: transparent;
+
+              &::-webkit-slider-runnable-track {
+                height: 6px;
+                background: #d1d5db; /* Gray track */
+                border-radius: 3px;
+              }
+
+              &::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                height: 18px;
+                width: 18px;
+                border-radius: 50%;
+                background: black; /* Blue thumb */
+                margin-top: -6px;
+                cursor: pointer;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+              }
+
+              &::-moz-range-track {
+                height: 6px;
+                background: #d1d5db;
+                border-radius: 3px;
+              }
+
+              &::-moz-range-thumb {
+                height: 18px;
+                width: 18px;
+                border-radius: 50%;
+                background: #4b5efa;
+                cursor: pointer;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   .sections-manager-container {
     border-radius: 8px;
+    background-color: var(--card-bg-color, #fff); /* Palette background */
   }
 
   .sections-manager-header {
@@ -21,6 +175,7 @@
 
     .h3 {
       margin: 0;
+      color: var(--text-color, black); /* Palette text color */
     }
 
     button {
@@ -44,7 +199,7 @@
 
   .section-item {
     box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
-    background: #fff;
+    background: var(--card-bg-color, #fff); /* Palette background */
     border-radius: 12px;
     overflow: hidden;
     margin-bottom: 16px;
@@ -55,9 +210,9 @@
       justify-content: space-between;
       margin-bottom: 8px;
 
-
       .section-title {
         font-weight: 600;
+        color: var(--text-color, black); /* Palette text color */
       }
 
       .remove-btn {
@@ -65,7 +220,7 @@
         border: none;
         font-size: 1rem;
         cursor: pointer;
-        color: #888;
+        color: var(--text-color, #888); /* Palette text color with fallback */
 
         &:hover {
           color: #333;
@@ -74,13 +229,12 @@
     }
 
     .section-controls {
-
       .cardsInRowControl {
-
         .cardsInRowLabel {
           font-weight: 500;
           margin-bottom: 8px;
           display: inline-block;
+          color: var(--text-color, black); /* Palette text color */
         }
 
         .rangeContainer {
@@ -91,18 +245,18 @@
           border: 1px solid #e4e4e4;
           display: flex;
           align-items: center;
-          gap: 8px; // space between "3", the slider, and "6"
+          gap: 8px;
 
           span {
             font-weight: 500;
+            color: var(--text-color, black); /* Palette text color */
           }
 
           input[type="range"] {
-            -webkit-appearance: none; /* Remove default styling on Safari/Chrome */
-            width: 100px;             /* Adjust the width to your preference */
-            background: transparent;  /* So we can style the track fully */
+            -webkit-appearance: none;
+            width: 100px;
+            background: transparent;
 
-            /* Track */
             &::-webkit-slider-runnable-track {
               height: 4px;
               background: repeating-linear-gradient(
@@ -127,14 +281,13 @@
               border-radius: 2px;
             }
 
-            /* Thumb (the black dot) */
             &::-webkit-slider-thumb {
               -webkit-appearance: none;
               height: 16px;
               width: 16px;
               border-radius: 50%;
               background: #000;
-              margin-top: -6px; /* center the thumb vertically on the track */
+              margin-top: -6px;
               cursor: pointer;
             }
 
@@ -155,7 +308,7 @@
 
         .label {
           margin-bottom: 2px;
-          color: #343A40;
+          color: var(--text-color, #343A40); /* Palette text color */
         }
       }
 
@@ -165,7 +318,7 @@
 
         .label {
           margin-bottom: 2px;
-          color: #343A40;
+          color: var(--text-color, #343A40); /* Palette text color */
         }
 
         input, option {
@@ -175,6 +328,7 @@
           margin-bottom: 20px;
           padding: 0 10px;
           font-size: 14px;
+          color: var(--text-color, black); /* Palette text color */
         }
       }
 
@@ -184,7 +338,7 @@
         height: 30px;
         border-radius: 4px;
         margin-bottom: 20px;
-        color: #3C3C3C;
+        color: var(--text-color, #3C3C3C); /* Palette text color */
         padding: 0 8px;
         font-size: 14px;
 
@@ -194,8 +348,10 @@
           border-radius: 4px;
           margin-bottom: 20px;
           width: 100%;
+          color: var(--text-color, black); /* Palette text color */
         }
       }
     }
   }
+
 }

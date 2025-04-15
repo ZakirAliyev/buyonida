@@ -5,13 +5,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { GoDotFill } from "react-icons/go";
 import html2canvas from "html2canvas";
 import image1 from "/src/assets/static.png";
-// Eğer react-spinners yüklüyse buradan PulseLoader'ı import edebilirsiniz
 import { PulseLoader } from 'react-spinners';
 import Cookies from "js-cookie";
-import {useDeleteProductMutation, useGetAllProductsByMarketIdQuery} from "../../../../service/userApi.js";
-// Sabit ürün logo url'niz
+import { useDeleteProductMutation, useGetAllProductsByMarketIdQuery } from "../../../../service/userApi.js";
 import { PRODUCT_LOGO } from "../../../../../constants.js";
-import {toast, ToastContainer} from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 function AdminProductsMenu() {
     const navigate = useNavigate();
@@ -22,20 +20,63 @@ function AdminProductsMenu() {
 
     // API'den ürünleri çekiyoruz
     const { data: getAllProductsByMarketId, refetch, isLoading } = useGetAllProductsByMarketIdQuery(Cookies.get('chooseMarket'));
-    const products = getAllProductsByMarketId?.data;
+    const products = getAllProductsByMarketId?.data || [];
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 5;
+
+    // Calculate pagination data
+    const totalProducts = products.length;
+    const totalPages = Math.ceil(totalProducts / productsPerPage);
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+    // Calculate the range of page numbers to display (max 5 pages)
+    const maxPageNumbers = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxPageNumbers / 2));
+    let endPage = Math.min(totalPages, startPage + maxPageNumbers - 1);
+
+    // Adjust startPage if endPage is at totalPages to ensure 5 pages are shown when possible
+    if (endPage - startPage + 1 < maxPageNumbers && startPage > 1) {
+        startPage = Math.max(1, endPage - maxPageNumbers + 1);
+    }
+
+    const pageNumbers = Array.from(
+        { length: endPage - startPage + 1 },
+        (_, index) => startPage + index
+    );
+
+    // Handle page change
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    // Handle Previous and Next buttons
+    const handlePrevious = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNext = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
 
     useEffect(() => {
         refetch();
     }, [refetch, location]);
 
-    const [deleteProduct] = useDeleteProductMutation()
+    const [deleteProduct] = useDeleteProductMutation();
 
     const handleDelete = async (id) => {
         const marketId = Cookies.get('chooseMarket');
         try {
-            const response = await deleteProduct({marketId, id}).unwrap()
-            if(response.statusCode === 200) {
-                refetch()
+            const response = await deleteProduct({ marketId, id }).unwrap();
+            if (response.statusCode === 200) {
+                refetch();
                 toast.success('Mehsul ugurla silindi!', {
                     position: 'bottom-right',
                     autoClose: 2500,
@@ -46,6 +87,10 @@ function AdminProductsMenu() {
                     progress: undefined,
                     theme: 'dark',
                 });
+                // Adjust current page if necessary
+                if (currentProducts.length === 1 && currentPage > 1) {
+                    setCurrentPage(currentPage - 1);
+                }
             }
         } catch (error) {
             toast.error('Xeta bas verdi!', {
@@ -85,7 +130,7 @@ function AdminProductsMenu() {
 
     return (
         <section id="adminProductsMenu" ref={captureRef}>
-            {products && products.length !== 0 ? (
+            {currentProducts && currentProducts.length !== 0 ? (
                 <>
                     <div className="textWrapper">
                         <h2>Products</h2>
@@ -114,7 +159,7 @@ function AdminProductsMenu() {
                         </tr>
                         </thead>
                         <tbody>
-                        {products.map((product) => (
+                        {currentProducts.map((product) => (
                             <tr key={product.id}>
                                 <td className="checkboxWrapper">
                                     <input type="checkbox" />
@@ -123,23 +168,23 @@ function AdminProductsMenu() {
                                     {!isScreenshotMode ? (
                                         <img
                                             className="image"
-                                            src={PRODUCT_LOGO + product.imageNames[0]}
+                                            src={product.imageNames && product.imageNames.length > 0 ? PRODUCT_LOGO + product.imageNames[0] : image1}
                                             alt="Product"
                                         />
                                     ) : (
                                         <img className="image" src={image1} alt="Static Product" />
                                     )}
-                                    {product.title.slice(0,10)}...
+                                    {product.title.slice(0, 10)}...
                                 </td>
                                 <td onClick={() => navigate(`/cp/edit-product/${Cookies.get('chooseMarket')}/${product.id}`)}>
                                     {product.status ? (
                                         <span className="status">
-                        <GoDotFill className="dot" /> Active
-                      </span>
+                                            <GoDotFill className="dot" /> Active
+                                        </span>
                                     ) : (
                                         <span className="status statusDont">
-                        <GoDotFill className="dot" /> Deactive
-                      </span>
+                                            <GoDotFill className="dot" /> Deactive
+                                        </span>
                                     )}
                                 </td>
                                 <td onClick={() => navigate(`/cp/edit-product/${Cookies.get('chooseMarket')}/${product.id}`)}>
@@ -154,6 +199,33 @@ function AdminProductsMenu() {
                         ))}
                         </tbody>
                     </table>
+                    {totalProducts > productsPerPage && (
+                        <div className="pagination">
+                            <button
+                                onClick={handlePrevious}
+                                disabled={currentPage === 1}
+                                className="page-btn"
+                            >
+                                Previous
+                            </button>
+                            {pageNumbers.map((page) => (
+                                <button
+                                    key={page}
+                                    onClick={() => handlePageChange(page)}
+                                    className={`page-btn ${currentPage === page ? 'active' : ''}`}
+                                >
+                                    {page}
+                                </button>
+                            ))}
+                            <button
+                                onClick={handleNext}
+                                disabled={currentPage === totalPages}
+                                className="page-btn"
+                            >
+                                Next
+                            </button>
+                        </div>
+                    )}
                 </>
             ) : (
                 <div className="wrapper">

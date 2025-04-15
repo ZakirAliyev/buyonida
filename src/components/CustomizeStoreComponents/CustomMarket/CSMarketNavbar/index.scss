@@ -1,8 +1,6 @@
 #cSMarketNavbar {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  background-color: white;
-  display: flex;
-  align-items: center;
+  background-color: var(--navbar-bg-color, white); /* Fallback to white if variable not set */
   padding: 16px;
 
   img {
@@ -31,7 +29,7 @@
         font-weight: 600;
         font-size: 15px;
         line-height: 22.5px;
-        color: black;
+        color: var(--navbar-text-color, black); /* Fallback to black if variable not set */
       }
     }
 
@@ -50,6 +48,7 @@
 
       .icon {
         font-size: 20px;
+        color: var(--navbar-text-color, black); /* Apply text color to icon */
       }
     }
   }
@@ -60,8 +59,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Ekranın brightness 10% görünməsi üçün çox tünd */
-    backdrop-filter: blur(5px); /* Bir az blur effekti */
-    z-index: 999; /* MarketCart-dan geridə, ancaq digər elementlərdən öndə */
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 999;
   }
 }

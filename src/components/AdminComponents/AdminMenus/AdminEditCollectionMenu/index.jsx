@@ -14,10 +14,10 @@ import {
     useGetAllProductsByMarketIdQuery,
     useGetCollectionByMarketIdQuery
 } from "../../../../service/userApi.js";
-import {COLLECTION_LOGO, PRODUCT_LOGO} from "../../../../../constants.js";
-import {GoDotFill} from "react-icons/go";
+import { COLLECTION_LOGO, PRODUCT_LOGO } from "../../../../../constants.js";
+import { GoDotFill } from "react-icons/go";
 import Cookies from "js-cookie";
-import {toast, ToastContainer} from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const { Dragger } = Upload;
 
@@ -27,7 +27,7 @@ function AdminEditCollectionMenu() {
     const id = params.id;
     const marketId = params.marketId;
 
-    const { data: getCollectionByMarketId } = useGetCollectionByMarketIdQuery({ id, marketId });
+    const { data: getCollectionByMarketId, refetch } = useGetCollectionByMarketIdQuery({ id, marketId });
     const collection = getCollectionByMarketId?.data;
 
     const { data: getAllProducts } = useGetAllProductsByMarketIdQuery(marketId);
@@ -43,7 +43,6 @@ function AdminEditCollectionMenu() {
     const [selectedProductIds, setSelectedProductIds] = useState([]);
     const [isBigBoxModalOpen, setIsBigBoxModalOpen] = useState(false);
 
-
     useEffect(() => {
         if (collection) {
             setTitle(collection.title || "");
@@ -53,16 +52,17 @@ function AdminEditCollectionMenu() {
             if (collection.coverImageUrl) {
                 setCoverPreview(collection.coverImageUrl);
             }
-            setSelectedProductIds(collection.products?.map(product => product.id) || []);
-
-            // Store the product IDs in localStorage
             const productIds = collection.products?.map(product => product.id) || [];
+            setSelectedProductIds(productIds);
+
+            // Store the original product IDs and initialize other localStorage keys
+            localStorage.setItem("originalCollectionProductIds", JSON.stringify(productIds));
             localStorage.setItem("collectionProductIds", JSON.stringify(productIds));
+            localStorage.setItem("deletedProductIds", JSON.stringify([]));
         }
     }, [collection]);
 
     const collectionProductIds = JSON.parse(localStorage.getItem("collectionProductIds")) || [];
-
     const filteredProducts = myProducts?.filter(product => collectionProductIds.includes(product.id));
 
     const handleTitleChange = (event) => {
@@ -130,61 +130,45 @@ function AdminEditCollectionMenu() {
     };
 
     const handleProductSelect = (selectedIds) => {
-        // Set the selected product IDs to the state
         setSelectedProductIds(selectedIds);
-
-        // Update the products list based on selected product IDs
         const selectedProducts = myProducts?.filter(product => selectedIds.includes(product.id));
         setProducts(selectedProducts);
     };
 
-
-    const [editCollection] = useEditCollectionMutation()
+    const [editCollection] = useEditCollectionMutation();
 
     const handleSaveChanges = async () => {
         const newErrors = {};
-
-        // Check for required fields
         if (!title.trim()) {
             newErrors.title = "Title is required";
         }
         if (!description.trim() || description === "<p><br></p>") {
             newErrors.description = "Description is required";
         }
-
-        // If no new cover image and there was no cover image to start with, show error
         if (!coverFile && !coverPreview) {
             newErrors.coverImage = "Cover image is required";
         }
-
         setErrors(newErrors);
 
-        // If there are errors, do not proceed
         if (Object.keys(newErrors).length > 0) {
             return;
         }
 
-        // Create a new FormData object
         const formData = new FormData();
-
-        // Append the required fields
-        formData.append('id', id); // From params (URL)
-        formData.append('marketId', Cookies.get('chooseMarket')); // Get marketId from cookies
+        formData.append('id', id);
+        formData.append('marketId', Cookies.get('chooseMarket'));
         formData.append('title', title);
         formData.append('description', description);
         formData.append('isActive', isActive);
 
-        // Check if a new cover image is uploaded or if the existing image was removed
         if (coverFile) {
             formData.append('coverImageFile', coverFile);
         }
 
-        // Append each selected productId to the FormData
         selectedProductIds.forEach(productId => {
             formData.append('productIds', productId);
         });
 
-        // Append each deleted productId (those unselected) to the FormData
         const deleteProductIds = JSON.parse(localStorage.getItem('deletedProductIds')) || [];
         deleteProductIds.forEach(productId => {
             formData.append('deleteProductIds', productId);
@@ -193,6 +177,7 @@ function AdminEditCollectionMenu() {
         try {
             const response = await editCollection(formData).unwrap();
             if (response?.statusCode === 200) {
+                refetch()
                 toast.success('Sifariş uğurla tamamlandı!', {
                     position: 'bottom-right',
                     autoClose: 2500,
@@ -220,7 +205,6 @@ function AdminEditCollectionMenu() {
 
         message.success("Collection updated successfully!");
     };
-
 
     return (
         <section id="adminEditCollectionMenu">
@@ -335,7 +319,6 @@ function AdminEditCollectionMenu() {
                                         )}
                                         </tbody>
                                     </table>
-
                                 </div>
                             </div>
                         </div>
@@ -417,7 +400,7 @@ function AdminEditCollectionMenu() {
                 <AdminCategoryAddProduct
                     selectedProducts={selectedProductIds}
                     onProductSelect={handleProductSelect}
-                    allProducts={collection?.products || []}
+                    allProducts={myProducts || []} // Pass all products instead of collection.products
                 />
             </Modal>
 
@@ -426,7 +409,7 @@ function AdminEditCollectionMenu() {
                 onClose={() => {}}
                 onSave={() => {}}
             />
-            <ToastContainer/>
+            <ToastContainer />
         </section>
     );
 }

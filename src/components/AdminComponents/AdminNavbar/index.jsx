@@ -6,7 +6,13 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router";
 import { FiLogOut } from "react-icons/fi";
-import { useGetStoreByIdQuery, useGetUserQuery } from "../../../service/userApi.js";
+import {
+    useGetAllCategoriesByMarketIdQuery,
+    useGetAllCollectionsByMarketIdQuery,
+    useGetAllProductsByMarketIdQuery,
+    useGetStoreByIdQuery,
+    useGetUserQuery
+} from "../../../service/userApi.js";
 import Cookies from "js-cookie";
 import { MARKET_LOGO } from "../../../../constants.js";
 
@@ -16,22 +22,28 @@ function AdminNavbar() {
     const layerRef = useRef(null);
     const inputWrapperRef = useRef(null);
 
-    const suggestionList = [
+    const { data: getAllProducts } = useGetAllProductsByMarketIdQuery(Cookies.get('chooseMarket'));
+    const products = getAllProducts?.data || [];
+
+    const { data: getAllCategories } = useGetAllCategoriesByMarketIdQuery(Cookies.get('chooseMarket'));
+    const categories = getAllCategories?.data || [];
+
+    const { data: getAllCollections } = useGetAllCollectionsByMarketIdQuery(Cookies.get('chooseMarket'));
+    const collections = getAllCollections?.data || [];
+
+    const staticSuggestions = [
         "Home", "Orders", "Products", "Categories", "Collections",
-        "Analytics", "Discounts", "Customize", "Store", "Settings",
-        "Analytics", "Discounts1", "Customize1", "Store1", "Settings1",
-        "Analytics", "Discounts2", "Customize2", "Store2", "Settings2"
+        "Analytics", "Discounts", "Customize", "Store", "Settings"
     ];
 
     const [searchTerm, setSearchTerm] = useState("");
-    // Varsayılan olarak ilk 6 öğeyi gösteriyoruz
-    const [suggestions, setSuggestions] = useState(suggestionList.slice(0, 6));
+    const [suggestions, setSuggestions] = useState([]);
 
     // Input alanı ve öneri barı dışındaki tıklamalarda öneriyi kapatma
     const handleInputWrapperClickOutside = (event) => {
         if (inputWrapperRef.current && !inputWrapperRef.current.contains(event.target)) {
             setSearchTerm("");
-            setSuggestions(suggestionList.slice(0, 6));
+            setSuggestions([...staticSuggestions.slice(0, 6).map(item => ({ type: 'static', title: item }))]);
             setSuggestionOpen(false);
         }
     };
@@ -53,17 +65,48 @@ function AdminNavbar() {
     }, []);
 
     useEffect(() => {
+        // Combine static suggestions, products, categories, and collections
+        const productSuggestions = products.map(product => ({
+            type: 'product',
+            id: product.id,
+            title: product.title,
+            displayTitle: `${product.title} - Product `
+        }));
+        const categorySuggestions = categories.map(category => ({
+            type: 'category',
+            id: category.id,
+            title: category.name,
+            displayTitle: `${category.name} - Category `
+        }));
+        const collectionSuggestions = collections.map(collection => ({
+            type: 'collection',
+            id: collection.id,
+            title: collection.title,
+            displayTitle: `${collection.title} - Collection`
+        }));
+        const staticSuggestionObjects = staticSuggestions.map(item => ({
+            type: 'static',
+            title: item,
+            displayTitle: item
+        }));
+        const allSuggestions = [
+            ...staticSuggestionObjects,
+            ...productSuggestions,
+            ...categorySuggestions,
+            ...collectionSuggestions
+        ];
+
         if (searchTerm.length > 0) {
-            // Kullanıcı bir şey yazdığında, filtrelenmiş olan tüm eşleşmeleri göster
-            const filtered = suggestionList.filter(item =>
-                item.toLowerCase().includes(searchTerm.toLowerCase())
+            // Filter based on search term (filter on title, not displayTitle)
+            const filtered = allSuggestions.filter(item =>
+                item.title.toLowerCase().includes(searchTerm.toLowerCase())
             );
             setSuggestions(filtered);
         } else {
-            // Arama alanı boşsa sadece ilk 6 öğe göster
-            setSuggestions(suggestionList.slice(0, 6));
+            // Show up to 6 static suggestions when search term is empty
+            setSuggestions(staticSuggestionObjects.slice(0, 6));
         }
-    }, [searchTerm]);
+    }, [searchTerm, products, categories, collections]);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -85,6 +128,22 @@ function AdminNavbar() {
         window.location.href = '/';
     }
 
+    const handleSuggestionClick = (suggestion) => {
+        const marketId = Cookies.get('chooseMarket');
+        if (suggestion.type === 'product') {
+            navigate(`/cp/edit-product/${marketId}/${suggestion.id}`);
+        } else if (suggestion.type === 'category') {
+            navigate(`/cp/edit-category/${marketId}/${suggestion.id}`);
+        } else if (suggestion.type === 'collection') {
+            navigate(`/cp/edit-collection/${marketId}/${suggestion.id}`);
+        } else {
+            navigate(`/cp/${suggestion.title.toLowerCase()}`);
+        }
+        setSearchTerm("");
+        setSuggestions(staticSuggestions.map(item => ({ type: 'static', title: item, displayTitle: item })).slice(0, 6));
+        setSuggestionOpen(false);
+    };
+
     return (
         <section id={"adminNavbar"}>
             <div className={"imageWrapper"}>
@@ -103,9 +162,9 @@ function AdminNavbar() {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     onFocus={() => {
-                        // Input odaklandığında, arama alanı boşsa yalnızca ilk 6 öğeyi göster
+                        // Show static suggestions when input is focused and search term is empty
                         if (searchTerm === "") {
-                            setSuggestions(suggestionList.slice(0, 6));
+                            setSuggestions(staticSuggestions.map(item => ({ type: 'static', title: item, displayTitle: item })).slice(0, 6));
                         }
                         setSuggestionOpen(true);
                     }}
@@ -114,18 +173,13 @@ function AdminNavbar() {
                     <ul className="suggestionList">
                         {suggestions.map((item, index) => (
                             <li
-                                key={index}
-                                onClick={() => {
-                                    navigate(`/cp/${item.toLowerCase()}`);
-                                    setSearchTerm("");
-                                    setSuggestions(suggestionList.slice(0, 6));
-                                    setSuggestionOpen(false);
-                                }}
+                                key={`${item.type}-${item.id || item.title}`}
+                                onClick={() => handleSuggestionClick(item)}
                                 style={{
                                     borderBottom: index < suggestions.length - 1 ? "1px solid #ccc" : "none",
                                 }}
                             >
-                                {item}
+                                {item.displayTitle}
                             </li>
                         ))}
                     </ul>
