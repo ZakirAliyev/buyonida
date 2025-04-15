@@ -2,7 +2,7 @@ import './index.scss'
 import {HiOutlineArrowLongRight} from "react-icons/hi2";
 import {useNavigate} from "react-router-dom";
 
-function MarketTitle({title, category, collection}) {
+function MarketTitle({title, category, collection,palet}) {
 
     const navigate = useNavigate();
 
@@ -16,7 +16,8 @@ function MarketTitle({title, category, collection}) {
                     } else if (collection?.id) {
                         navigate(`collection/${collection?.id}`)
                     }
-                }}>Find out more
+                }}
+                        style={{backgroundColor:palet ? (`${palet[0].buttonBgColor}`) : ("#ffffff"),color:palet ? (`${palet[0].buttonTextColor}`) : ("#000000"),borderColor:palet ? (`${palet[0].buttonBorderColor}`) : ("#000000")}}>Find out more
                     <HiOutlineArrowLongRight/>
                 </button>
             </section>

@@ -108,12 +108,6 @@ function AdminAddCategoryMenu() {
         formData.append("isActive", isActive);
         formData.append("description", description);
 
-        // Loglama
-        console.log("FormData entries:");
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
-        }
-
         setAddLoading(true);
         try {
             const response = await postCreateCategory(formData).unwrap();

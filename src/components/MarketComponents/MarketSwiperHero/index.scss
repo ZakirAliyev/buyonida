@@ -1,6 +1,14 @@
 #marketSwiperHero {
   height: 80vh;
 
+  .bgImage {
+    height: 100% ;
+    width: 100% ;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+
   .swiper {
     width: 100%;
     height: 100%;

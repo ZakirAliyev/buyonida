@@ -8,4 +8,28 @@
   .section {
     padding: 30px;
   }
+  .start-page {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .fade-out {
+    animation: fadeOut 1s ease-in-out forwards;
+  }
+
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      display: none;
+    }
+  }
 }
