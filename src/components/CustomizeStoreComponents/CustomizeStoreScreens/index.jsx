@@ -402,7 +402,7 @@ function CustomizeStoreScreens() {
                             className={`sections pd-8 col-6 clickable ${activeMainTab === "sections" ? "selected" : ""}`}
                             onClick={() => setActiveMainTab("sections")}
                         >
-                            Sections
+                            Sectionsssss
                         </div>
                         <div
                             className={`settings pd-8 col-6 clickable ${activeMainTab === "settings" ? "selected" : ""}`}
