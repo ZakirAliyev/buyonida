@@ -1,8 +1,10 @@
 #marketCollectionPage {
   background-color: #f6f6f6;
 
-  * {
-    font-family: 'Poppins', sans-serif;
+
+  .row{
+    padding: 0 8px !important;
+
   }
 
   .line {
@@ -27,18 +29,24 @@
   .section {
     padding-top: 100px;
     padding-bottom: 30px;
-
+    @media (max-width: 576px) {
+      padding-top: 14px;
+    }
     .titleWrapper {
       padding: 16px;
       display: flex;
       align-items: center;
       gap: 32px;
+      flex-wrap: wrap;
 
       img {
         width: 220px;
         aspect-ratio: 1/1;
         object-fit: cover;
         border-radius: 15px;
+        @media (max-width: 576px) {
+          width: 100%;
+        }
       }
 
       .textWrapper {

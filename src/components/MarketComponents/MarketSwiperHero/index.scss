@@ -7,6 +7,50 @@
     background-size: cover !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;
+    .container{
+      height: 100% ;
+    }
+    .bannerText{
+      height: 100% ;
+      text-align: start;
+      align-content: center;
+      h2{
+        font-weight: 700;
+        font-size: 59.49px;
+        line-height: 100%;
+        margin-bottom: 9px;
+      }
+      p{
+        font-weight: 300;
+        font-size: 20px;
+        line-height: 100%;
+        margin-bottom: 32px;
+      }
+      button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 52px;
+        border-radius: 100px;
+        border: 1.5px solid black;
+        background: transparent;
+        font-weight: 700;
+        font-size: 18.78px;
+        line-height: 28.17px;
+        transition: all .2s ease;
+        font-family: "Poppins", sans-serif;
+        //&:hover {
+        //  background-color: #2F2F2F;
+        //  color: white;
+        //}
+      }
+      @media (max-width: 768px){
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+    }
   }
 
   .swiper {
