@@ -8,6 +8,9 @@ import {
 } from '../../../service/userApi.js';
 import { useLocation } from 'react-router';
 
+/* Swiper Kütüphanesi importları */
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css'; // Temel stiller, gerekirse "swiper/css/navigation" vs. ekleyin
 
 function MarketHomePage() {
     const location = useLocation();
@@ -34,25 +37,29 @@ function MarketHomePage() {
                 id: 'p1',
                 title: 'Transparent-Back Shirt',
                 price: 29.99,
-                imageNames: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=300&fit=crop',
+                imageNames:
+                    'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=300&fit=crop',
             },
             {
                 id: 'p2',
                 title: 'Casual Sneakers',
                 price: 59.99,
-                imageNames: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop',
+                imageNames:
+                    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop',
             },
             {
                 id: 'p3',
                 title: 'Slim-Fit Pants',
                 price: 39.99,
-                imageNames: 'https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=300&h=300&fit=crop',
+                imageNames:
+                    'https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=300&h=300&fit=crop',
             },
             {
                 id: 'p4',
                 title: 'Mesh-Back Top',
                 price: 34.99,
-                imageNames: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=300&h=300&fit=crop',
+                imageNames:
+                    'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=300&h=300&fit=crop',
             },
         ],
     };
@@ -65,25 +72,29 @@ function MarketHomePage() {
                 id: 'c1',
                 title: 'See-Through Blouse',
                 price: 25.99,
-                imageNames: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=300&h=300&fit=crop',
+                imageNames:
+                    'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=300&h=300&fit=crop',
             },
             {
                 id: 'c2',
                 title: 'Running Shoes',
                 price: 49.99,
-                imageNames: 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=300&h=300&fit=crop',
+                imageNames:
+                    'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=300&h=300&fit=crop',
             },
             {
                 id: 'c3',
                 title: 'Chino Pants',
                 price: 45.99,
-                imageNames: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=300&h=300&fit=crop',
+                imageNames:
+                    'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=300&h=300&fit=crop',
             },
             {
                 id: 'c4',
                 title: 'Transparent-Panel Shirt',
                 price: 32.99,
-                imageNames: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=300&h=300&fit=crop',
+                imageNames:
+                    'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=300&h=300&fit=crop',
             },
         ],
     };
@@ -106,14 +117,16 @@ function MarketHomePage() {
     ];
 
     // Use default sections if sections are empty, otherwise use sorted sections
-    const sortedSections = sections.length > 0
-        ? [...sections].sort((a, b) => a.displayOrderId - b.displayOrderId)
-        : defaultSections;
-    console.log(sortedSections)
+    const sortedSections =
+        sections.length > 0
+            ? [...sections].sort((a, b) => a.displayOrderId - b.displayOrderId)
+            : defaultSections;
+    console.log(sortedSections);
+
     return (
         <>
             <section id="marketHomePage">
-                <MarketSwiperHero id={id}/>
+                <MarketSwiperHero id={id} />
                 <div
                     className="section"
                     style={{
@@ -130,17 +143,42 @@ function MarketHomePage() {
                                         categories={section.category}
                                         palet={palet}
                                     />
-                                    <div className="container" key={section.category.id}>
-                                        <div className="row">
-                                            {section.category.products?.map((product) => (
-                                                <MarketCard
-                                                    number={section.displayColumns}
-                                                    key={product.id}
-                                                    product={product}
-                                                    palet={palet}
-                                                />
-                                            ))}
+
+                                    {/* Desktop Grid */}
+                                    <div className="desktop-grid">
+                                        <div
+                                            className="container"
+                                            key={section.category.id}
+                                        >
+                                            <div className="row">
+                                                {section.category.products?.map((product) => (
+                                                    <MarketCard
+                                                        number={section.displayColumns}
+                                                        key={product.id}
+                                                        product={product}
+                                                        palet={palet}
+                                                    />
+                                                ))}
+                                            </div>
                                         </div>
+                                    </div>
+
+                                    {/* Mobile Swiper */}
+                                    <div className="mobile-swiper">
+                                        <Swiper
+                                            spaceBetween={10}
+                                            slidesPerView={2.2}
+                                        >
+                                            {section.category.products?.map((product) => (
+                                                <SwiperSlide key={product.id}>
+                                                    <MarketCard
+                                                        number={section.displayColumns}
+                                                        product={product}
+                                                        palet={palet}
+                                                    />
+                                                </SwiperSlide>
+                                            ))}
+                                        </Swiper>
                                     </div>
                                 </div>
                             );
@@ -153,17 +191,41 @@ function MarketHomePage() {
                                         collections={section.collection}
                                         palet={palet}
                                     />
-                                    <div className="container" key={section.collection.id}>
-                                        <div className="row">
-                                            {section.collection.products?.map((product) => (
-                                                <MarketCard
-                                                    number={section.displayColumns}
-                                                    key={product.id}
-                                                    product={product}
-                                                    palet={palet}
-                                                />
-                                            ))}
+
+                                    <div className="desktop-grid">
+                                        <div
+                                            className="container"
+                                            key={section.collection.id}
+                                        >
+                                            <div className="row">
+                                                {section.collection.products?.map((product) => (
+                                                    <MarketCard
+                                                        number={section.displayColumns}
+                                                        key={product.id}
+                                                        product={product}
+                                                        palet={palet}
+                                                    />
+                                                ))}
+                                            </div>
                                         </div>
+                                    </div>
+
+                                    {/* Mobile Swiper */}
+                                    <div className="mobile-swiper">
+                                        <Swiper
+                                            spaceBetween={10}
+                                            slidesPerView={2.2}
+                                        >
+                                            {section.collection.products?.map((product) => (
+                                                <SwiperSlide key={product.id}>
+                                                    <MarketCard
+                                                        number={section.displayColumns}
+                                                        product={product}
+                                                        palet={palet}
+                                                    />
+                                                </SwiperSlide>
+                                            ))}
+                                        </Swiper>
                                     </div>
                                 </div>
                             );

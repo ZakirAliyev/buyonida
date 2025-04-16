@@ -15,8 +15,13 @@ export default function MarketSwiperHero({id}) {
                 {data && data.map((item)=>(
                     <SwiperSlide>
                         <div className={"bgImage"} style={{background:`linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${BANNER_LOGO + item?.imageName})`}}>
-                            <h2>{item?.title}</h2>
-                            <p>{item?.subtitle}</p>
+                            <div className={"container"}>
+                                <div className={"bannerText"}>
+                                    <h2>{item?.title}</h2>
+                                    <p>{item?.subtitle}</p>
+                                    <button>Shop Now</button>
+                                </div>
+                            </div>
                         </div>
                     </SwiperSlide>
                 ))}

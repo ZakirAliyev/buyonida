@@ -8,6 +8,7 @@ import {
     useGetStoreByNameQuery
 } from "../../../service/userApi.js";
 import {CATEGORY_LOGO, COLLECTION_LOGO} from "../../../../constants.js";
+import MarketCard2 from "../../../components/MarketComponents/MarketCard2/index.jsx";
 
 function MarketCollectionPage() {
 
@@ -40,7 +41,7 @@ function MarketCollectionPage() {
                         {collection?.products &&
                             collection.products.map((product, index) => (
                                 <>
-                                    <MarketCard number={12} product={product}/>
+                                    <MarketCard2 number={5} product={product}/>
                                     {(index + 1) % 5 === 0 && <div className="line"></div>}
                                 </>
                             ))}
@@ -53,7 +54,7 @@ function MarketCollectionPage() {
                                 <FaChevronRight className={"icon"}/>
                             </div>
                             {products && products.slice(0, 4).map((product) => (
-                                <MarketCard number={14} product={product} key={product.id}/>
+                                <MarketCard2 number={5} product={product} key={product.id}/>
                             ))}
                             <div className={"box col-2-60"}>
                                 <FaChevronRight className={"icon"}/>

@@ -1,4 +1,4 @@
-#marketCard {
+#marketCard2 {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border-radius: 15px;
   background-color: white;
@@ -13,10 +13,10 @@
     object-fit: cover;
     background-color: white;
     @media (max-width: 576px) {
-      max-width: 160px;
+      max-width: 100%;
     }
     @media (max-width: 400px) {
-      max-width: 140px;
+      max-width: 100%;
     }
     img {
       width: 100%;
@@ -52,4 +52,5 @@
       }
     }
   }
+
 }

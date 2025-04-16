@@ -1,12 +1,14 @@
 #marketHomePage {
   background-color: #f6f6f6;
 
-  * {
-    font-family: 'Poppins', sans-serif;
-  }
-
   .section {
     padding: 30px;
+    @media (max-width: 576px) {
+      padding: 16px 0 16px 16px;
+    }
+    @media (max-width: 400px) {
+      padding: 16px 0 16px 16px;
+    }
   }
 
   .start-page {
@@ -40,13 +42,18 @@
     flex-wrap: wrap;
   }
 
+  /* Mobilde gizlenecek Swiper, masaüstünde gösterilecek */
+  .desktop-grid .container {
+    /* Masaüstü grid yapısı */
+  }
+
   /* Mobile Swiper */
   .mobile-swiper {
-    display: none; /* Hidden by default */
+    display: none; /* varsayılan olarak gizli (masaüstünde) */
     padding: 10px 0;
   }
 
-  /* Swiper Pagination and Navigation */
+  /* Swiper pagination/navigation vs. isterseniz ekleyebilirsiniz. */
   .mobile-swiper .swiper-pagination {
     position: relative;
     margin-top: 10px;
@@ -57,22 +64,24 @@
     color: #000;
   }
 
+  /* Ürün sliderında slayt genişliğini biraz esnek tutmak için: */
+  .mobile-swiper .swiper-slide {
+    width: auto !important;
+  }
+
   /* Responsive Design */
   @media (max-width: 767px) {
+    /* Masaüstü grid'i kapat */
     .desktop-grid {
-      display: none; /* Hide grid on mobile */
+      display: none;
     }
 
+    /* Mobile Swiper'ı aç */
     .mobile-swiper {
-      display: block; /* Show Swiper on mobile */
+      display: block;
     }
 
-    /* Ensure Swiper slides take appropriate width */
-    .mobile-swiper .swiper-slide {
-      width: auto !important;
-    }
-
-    /* Adjust MarketCard for Swiper */
+    /* Card’ların mobilde tam genişlik (veya hafif padding) alması için: */
     .mobile-swiper .col-12-60,
     .mobile-swiper .col-md-12,
     .mobile-swiper .col-sm-12,
