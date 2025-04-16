@@ -1,0 +1,184 @@
+#adminPoliciesMenu {
+  margin: 25px 0;
+  height: calc(100vh - 130px);
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  .marketLink {
+    color: #20A2FF;
+    font-weight: 600;
+    margin-left: 20px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  h1 {
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+
+  .blackDot {
+    height: 7px;
+    width: 7px;
+    background-color: black;
+    border-radius: 50%;
+  }
+
+  .wrapper {
+    width: 100%;
+    background-color: white;
+    border-radius: 15px;
+    padding: 16px;
+    display: flex;
+    gap: 16px;
+    margin-bottom: 15px;
+
+    .storeLogo {
+      text-align: center;
+      background-color: #FFBB00;
+      border-radius: 10px 10px 0 0;
+      font-size: 12px;
+      padding: 2px 4px 17px 4px;
+      font-weight: bold;
+    }
+
+    img {
+      width: 170px;
+      aspect-ratio: 1/1;
+      margin-top: -15px;
+      border-radius: 15px;
+      object-fit: cover;
+    }
+
+    .inputWrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      input, textarea {
+        width: 100%;
+      }
+
+      .storeNameWrapper {
+        width: 100%;
+
+        .storeName {
+          background-color: #FFBB00;
+          width: max-content;
+          padding: 27px 30px 3px 30px;
+          margin-top: -25px;
+          font-size: 12px;
+          border-radius: 10px;
+          font-weight: bold;
+        }
+
+        input {
+          border: 1px solid black;
+          border-radius: 14px;
+          height: 40px;
+          padding: 0 16px;
+          font-size: 18px;
+        }
+      }
+
+      .storeNameWrapper1 {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+
+        .storeName1 {
+          background-color: #FFBB00;
+          width: max-content;
+          padding: 3px 30px 27px 30px;
+          margin-bottom: -25px;
+          font-size: 12px;
+          border-radius: 10px;
+          font-weight: bold;
+        }
+
+        textarea {
+          border: 1px solid black;
+          border-radius: 20px;
+          padding: 10px 16px;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  .wrapper1 {
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .textWrapper1 {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-weight: 500;
+      font-size: 18px;
+    }
+
+    .rightBar {
+      background-color: #F3F3F3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: max-content;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 18px;
+      gap: 10px;
+    }
+  }
+
+  .row {
+    padding: 0 8px;
+    border-radius: 15px;
+    background-color: white;
+
+    .col-4 {
+      padding: 16px 1px;
+    }
+
+
+    img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
+
+    p {
+      padding: 4px 16px;
+      font-size: 14px;
+      color: #0685B2;
+    }
+
+    .p {
+      color: black;
+      font-size: 12px;
+    }
+
+    button {
+      width: 100%;
+      margin: 0 8px 16px 8px;
+      padding: 8px;
+      background-color: #FFBB00;
+      font-weight: bold;
+      font-size: 17px;
+      border-radius: 10px;
+      border: none;
+    }
+  }
+}

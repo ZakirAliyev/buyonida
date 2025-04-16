@@ -18,6 +18,12 @@ import AdminEditCategoryMenu from "../../../components/AdminComponents/AdminMenu
 import AdminEditProductMenu from "../../../components/AdminComponents/AdminMenus/AdminEditProductMenu/index.jsx";
 import AdminEditCollectionMenu from "../../../components/AdminComponents/AdminMenus/AdminEditCollectionMenu/index.jsx";
 import AdminOrderDetails from "../../../components/AdminComponents/AdminMenus/AdminOrderDetails/index.jsx";
+import AdminGeneralMenu from "../../../components/AdminComponents/AdminMenus/AdminGeneralMenu/index.jsx";
+import AdminBalancePayoutMenu from "../../../components/AdminComponents/AdminMenus/AdminBalancePayoutMenu/index.jsx";
+import AdminPaymentsMenu from "../../../components/AdminComponents/AdminMenus/AdminPaymentsMenu/index.jsx";
+import AdminShippingAndDeliveryMenu
+    from "../../../components/AdminComponents/AdminMenus/AdminShippingAndDeliveryMenu/index.jsx";
+import AdminPoliciesMenu from "../../../components/AdminComponents/AdminMenus/AdminPoliciesMenu/index.jsx";
 
 function AdminHomePage() {
     const url = useLocation();
@@ -106,6 +112,31 @@ function AdminHomePage() {
                     {/^\/cp\/edit-category\/\d+\/\d+$/.test(pathname) && (
                         <div className="container1">
                             <AdminEditCategoryMenu />
+                        </div>
+                    )}
+                    {url.pathname === '/cp/general' && (
+                        <div className="container1">
+                            <AdminGeneralMenu />
+                        </div>
+                    )}
+                    {url.pathname === '/cp/balance-payout' && (
+                        <div className="container1">
+                            <AdminBalancePayoutMenu />
+                        </div>
+                    )}
+                    {url.pathname === '/cp/payments' && (
+                        <div className="container1">
+                            <AdminPaymentsMenu />
+                        </div>
+                    )}
+                    {url.pathname === '/cp/shipping-and-delivery' && (
+                        <div className="container1">
+                            <AdminShippingAndDeliveryMenu/>
+                        </div>
+                    )}
+                    {url.pathname === '/cp/policies' && (
+                        <div className="container1">
+                            <AdminPoliciesMenu/>
                         </div>
                     )}
                 </div>

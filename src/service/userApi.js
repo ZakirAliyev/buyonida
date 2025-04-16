@@ -403,6 +403,13 @@ export const ownerApi = createApi({
                 body: data,
             }),
         }),
+        updateUser: builder.mutation({
+            query: (data) => ({
+                url: `/User/update-user`,
+                method: 'PUT',
+                body: data,
+            }),
+        }),
     }),
 });
 
@@ -467,4 +474,5 @@ export const {
     usePostSectionBannerItemMutation,
     useEditSectionBannerItemMutation,
     useDeleteSectionBannerItemMutation,
+    useUpdateUserMutation,
 } = ownerApi;

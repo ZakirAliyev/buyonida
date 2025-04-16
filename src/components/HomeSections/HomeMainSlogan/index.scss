@@ -1,34 +1,41 @@
-#homeMainSlogan {
-  overflow: hidden;
-  white-space: nowrap;
+.kaplayici {
+
   width: 100%;
-  box-sizing: border-box;
-  background-color: #181818;
-  color: white;
-  transform: rotate(-3deg);
-  font-size: 35px;
-  padding: 15px 0;
-  margin-bottom: 100px;
-  font-weight: 500;
-  position: relative;
+  overflow: hidden;
+  #homeMainSlogan {
 
-  .scrolling-text {
-    display: inline-block;
+    margin-top: 50px;
     white-space: nowrap;
-    animation: scroll 20s linear infinite;
+    width: 110%;
+    box-sizing: border-box;
+    background-color: #181818;
+    color: white;
+    transform: rotate(-3deg);
+    font-size: 35px;
+    padding: 15px 0;
+    margin-bottom: 100px;
+    font-weight: 500;
+    position: relative;
+    left: -5%;
 
-    span {
+    .scrolling-text {
       display: inline-block;
-      padding: 0 50px;
-    }
-  }
+      white-space: nowrap;
+      animation: scroll 20s linear infinite;
 
-  @keyframes scroll {
-    0% {
-      transform: translateX(0%);
+      span {
+        display: inline-block;
+        padding: 0 50px;
+      }
     }
-    100% {
-      transform: translateX(-50%);
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
     }
   }
 }

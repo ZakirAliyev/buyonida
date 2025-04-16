@@ -23,6 +23,7 @@ import MarketProductDetailsPage from "../pages/MarketPages/MarketProductDetailsP
 import MarketCheckoutPage from "../pages/MarketPages/MarketCheckoutPage/index.jsx";
 import CustomizeStorePages from "../pages/CustomizeStorePages/index.jsx";
 import MarketLayout from "../pages/MarketPages/index.jsx";
+import AdminGeneralMenu from "../components/AdminComponents/AdminMenus/AdminGeneralMenu/index.jsx";
 
 export const ROUTES = [
     {
@@ -85,6 +86,26 @@ export const ROUTES = [
                 element: <Navigate to="/cp/home" replace/>
             },
             {
+                path: 'cp/general',
+                element: <AdminHomePage/>
+            },
+            {
+                path: 'cp/balance-payout',
+                element: <AdminHomePage/>
+            },
+            {
+                path: 'cp/payments',
+                element: <AdminHomePage/>
+            },
+            {
+                path: 'cp/shipping-and-delivery',
+                element: <AdminHomePage/>
+            },
+            {
+                path: 'cp/policies',
+                element: <AdminHomePage/>
+            },
+            {
                 path: 'cp/home',
                 element: <AdminHomePage/>
             },
@@ -114,7 +135,7 @@ export const ROUTES = [
             },
             {
                 path: 'cp/settings',
-                element: <AdminHomePage/>
+                element: <Navigate to="/cp/general" replace/>
             },
             {
                 path: 'cp/customize-store',
