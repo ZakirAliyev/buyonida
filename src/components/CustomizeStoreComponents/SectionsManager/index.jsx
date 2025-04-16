@@ -204,7 +204,6 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
                                 className="sections-list"
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
-                                style={{ minHeight: "150px" }}
                             >
                                 {sections.map((section, index) => (
                                     <Draggable key={section.localId} draggableId={section.localId} index={index}>

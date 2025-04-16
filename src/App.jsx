@@ -1,31 +1,23 @@
 import './App.css';
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import {ROUTES} from "./routes/ROUTES.jsx";
-import Cookies from 'js-cookie'
-import {ConfigProvider} from "antd";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ROUTES } from "./routes/ROUTES.jsx";
+import Cookies from 'js-cookie';
+import { ConfigProvider } from "antd";
 
 const routes = createBrowserRouter(ROUTES);
 
 function App() {
-
-    const token = Cookies.get("buyonidaToken");
-    if (!token) {
-        Cookies.set("buyonidaToken", "null");
-    }
-
-    const chooseMarket = Cookies.get("chooseMarket");
-    if (!chooseMarket) {
+    if (!Cookies.get("chooseMarket")) {
         Cookies.set("chooseMarket", "null");
     }
 
-    const uniqueCode = Cookies.get("uniqueCode");
-    if (!uniqueCode) {
+    if (!Cookies.get("uniqueCode")) {
         Cookies.set("uniqueCode", "null");
     }
 
     return (
         <ConfigProvider>
-            <RouterProvider router={routes}/>
+            <RouterProvider router={routes} />
         </ConfigProvider>
     );
 }

@@ -1,10 +1,10 @@
 import './index.scss';
-import {Link, useNavigate} from 'react-router-dom';
-import {IoChevronForward} from 'react-icons/io5';
-import {toast, ToastContainer} from 'react-toastify';
+import { Link, useNavigate } from 'react-router-dom';
+import { IoChevronForward } from 'react-icons/io5';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {useState} from "react";
-import image1 from "/src/assets/sariLogo.png"
+import { useState } from "react";
+import image1 from "/src/assets/sariLogo.png";
 import {
     usePostConfirmLoginOwnerMutation,
     usePostCreateNewConfirmEmailCodeOwnerMutation
@@ -15,7 +15,7 @@ import Cookies from "js-cookie";
 function AdminLoginVerificationForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [otp1, setOtp1] = useState(['', '', '', '']);
-    const [countdownKey, setCountdownKey] = useState(0); // Key to reset Countdown
+    const [countdownKey, setCountdownKey] = useState(0);
     const inputsRef = [];
     const countdownDuration = 5000;
 
@@ -49,24 +49,22 @@ function AdminLoginVerificationForm() {
             onClick={() => {
                 const email = localStorage.getItem('email');
                 postCreateNewConfirmEmailCodeOwner(email).unwrap();
-                setCountdownKey(prevKey => prevKey + 1); // Reset countdown
+                setCountdownKey(prevKey => prevKey + 1);
             }}
-            style={{color: '#0866FF', cursor: 'pointer'}}
+            style={{ color: '#0866FF', cursor: 'pointer' }}
         >
             Kod yenidən göndər!
         </span>
     );
 
-    const renderer = ({minutes, seconds, completed}) => {
+    const renderer = ({ minutes, seconds, completed }) => {
         if (completed) {
-            return <Completionist/>;
+            return <Completionist />;
         }
         return (
-            <span style={{
-                color: 'gray'
-            }}>
+            <span style={{ color: 'gray' }}>
                 Kodu yenidən göndər:
-                <span style={{color: 'black', marginLeft: '10px'}}>
+                <span style={{ color: 'black', marginLeft: '10px' }}>
                     0{minutes}:{seconds}
                 </span>
             </span>
@@ -77,7 +75,7 @@ function AdminLoginVerificationForm() {
         <section id="adminLoginVerificationForm">
             <div className="wrapper">
                 <div className="img">
-                    <img src={image1} alt="Logo"/>
+                    <img src={image1} alt="Logo" />
                 </div>
                 <div className="title">
                     <h2>Mail adresini təstiqlə</h2>
@@ -94,7 +92,7 @@ function AdminLoginVerificationForm() {
                                     value={value}
                                     onChange={(e) => handleChange(index, e.target.value)}
                                     onKeyDown={(e) => handleKeyDown(index, e)}
-                                    style={{textAlign: 'center'}}
+                                    style={{ textAlign: 'center' }}
                                 />
                             </div>
                         ))}
@@ -107,7 +105,7 @@ function AdminLoginVerificationForm() {
                         }}
                     >
                         <Countdown
-                            key={countdownKey} // Reset Countdown with key
+                            key={countdownKey}
                             date={Date.now() + countdownDuration}
                             renderer={renderer}
                         />
@@ -122,7 +120,7 @@ function AdminLoginVerificationForm() {
                             code += otp1[3] * 1;
                             setIsSubmitting(true);
                             try {
-                                const response = await postConfirmLoginOwner({email, code}).unwrap();
+                                const response = await postConfirmLoginOwner({ email, code }).unwrap();
                                 if (response?.statusCode === 200) {
                                     toast.success(`Təstiqləmə uğurlu oldu`, {
                                         position: 'bottom-right',
@@ -134,7 +132,7 @@ function AdminLoginVerificationForm() {
                                         progress: undefined,
                                         theme: 'dark',
                                     });
-                                    Cookies.set('buyonidaToken', response?.data?.token)
+                                    Cookies.set('buyonidaToken', response?.data?.token, { expires: 1 });
                                     navigate('/choose-market');
                                 }
                             } catch (error) {
@@ -174,7 +172,7 @@ function AdminLoginVerificationForm() {
                     <Link to="/public" className="link">Terms</Link>
                 </div>
             </div>
-            <ToastContainer/>
+            <ToastContainer />
         </section>
     );
 }

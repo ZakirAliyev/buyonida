@@ -383,6 +383,26 @@ export const ownerApi = createApi({
             }),
             invalidatesTags: ['FontNameSelect'], // Invalidate store sections after selecting a palette
         }),
+        postSectionBannerItem: builder.mutation({
+            query: (data) => ({
+                url: `/Section/banneritem`,
+                method: 'POST',
+                body: data,
+            }),
+        }),
+        deleteSectionBannerItem: builder.mutation({
+            query: (id) => ({
+                url: `/Section/banneritem/${id}`,
+                method: 'DELETE',
+            }),
+        }),
+        editSectionBannerItem: builder.mutation({
+            query: (data) => ({
+                url: `/Section/banneritem`,
+                method: 'PUT',
+                body: data,
+            }),
+        }),
     }),
 });
 
@@ -444,4 +464,7 @@ export const {
     useSelectPaletteMutation,
     useGetStoreWithSectionsByMarketIdQuery,
     useSelectFontNameMutation,
+    usePostSectionBannerItemMutation,
+    useEditSectionBannerItemMutation,
+    useDeleteSectionBannerItemMutation,
 } = ownerApi;
