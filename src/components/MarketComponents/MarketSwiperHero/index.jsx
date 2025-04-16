@@ -5,8 +5,7 @@ import {useGetStoreWithSectionsQuery} from "../../../service/userApi.js";
 import Cookies from "js-cookie";
 import {BANNER_LOGO} from "../../../../constants.js";
 
-export default function MarketSwiperHero() {
-    const id = Cookies.get("chooseMarket")
+export default function MarketSwiperHero({id}) {
     const {data:getStoreWithSections} = useGetStoreWithSectionsQuery(id)
     const data = getStoreWithSections?.data?.sections[0]?.bannerItems
     console.log(data)

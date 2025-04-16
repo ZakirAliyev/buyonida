@@ -8,6 +8,7 @@
   .section {
     padding: 30px;
   }
+
   .start-page {
     position: absolute;
     width: 100%;
@@ -30,6 +31,59 @@
     100% {
       opacity: 0;
       display: none;
+    }
+  }
+
+  /* Desktop Grid */
+  .desktop-grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  /* Mobile Swiper */
+  .mobile-swiper {
+    display: none; /* Hidden by default */
+    padding: 10px 0;
+  }
+
+  /* Swiper Pagination and Navigation */
+  .mobile-swiper .swiper-pagination {
+    position: relative;
+    margin-top: 10px;
+  }
+
+  .mobile-swiper .swiper-button-next,
+  .mobile-swiper .swiper-button-prev {
+    color: #000;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 767px) {
+    .desktop-grid {
+      display: none; /* Hide grid on mobile */
+    }
+
+    .mobile-swiper {
+      display: block; /* Show Swiper on mobile */
+    }
+
+    /* Ensure Swiper slides take appropriate width */
+    .mobile-swiper .swiper-slide {
+      width: auto !important;
+    }
+
+    /* Adjust MarketCard for Swiper */
+    .mobile-swiper .col-12-60,
+    .mobile-swiper .col-md-12,
+    .mobile-swiper .col-sm-12,
+    .mobile-swiper .col-xs-30-60 {
+      width: 100%;
+      padding: 0 5px;
+    }
+
+    #marketCard {
+      margin: 0 auto;
+      max-width: 100%;
     }
   }
 }

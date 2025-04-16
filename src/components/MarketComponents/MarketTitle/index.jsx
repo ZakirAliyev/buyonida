@@ -17,7 +17,7 @@ function MarketTitle({title, category, collection,palet}) {
                         navigate(`collection/${collection?.id}`)
                     }
                 }}
-                        style={{backgroundColor:palet ? (`${palet[0].buttonBgColor}`) : ("#ffffff"),color:palet ? (`${palet[0].buttonTextColor}`) : ("#000000"),borderColor:palet ? (`${palet[0].buttonBorderColor}`) : ("#000000")}}>Find out more
+                        style={{backgroundColor:palet ? (`${palet[0]?.buttonBgColor}`) : ("#ffffff"),color:palet ? (`${palet[0]?.buttonTextColor}`) : ("#000000"),borderColor:palet ? (`${palet[0]?.buttonBorderColor}`) : ("#000000")}}>Find out more
                     <HiOutlineArrowLongRight/>
                 </button>
             </section>

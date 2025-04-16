@@ -17,23 +17,14 @@ import {toast} from "react-toastify";
 const MarketCart = ({isOpen, onClose,basketItems}) => {
     const navigate = useNavigate();
     const params = useParams();
-
     const marketName = params?.marketName?.substring(1);
-
     const {data: storeData} = useGetStoreByNameQuery(marketName);
     const store = storeData?.data;
     const marketId = store?.id;
-
-
-
-
-
     const [deleteBasketItem] = useDeleteBasketItemMutation();
     const [postBasketCheckout] = usePostBasketCheckoutMutation();
     const [postAddProduct] = usePostAddProductMutation();
-
     const [localBasketItems, setLocalBasketItems] = useState(basketItems);
-
     const subtotal = localBasketItems.reduce(
         (acc, item) => acc + item.price * item.quantity,
         0
