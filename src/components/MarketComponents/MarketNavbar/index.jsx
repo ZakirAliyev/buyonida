@@ -5,14 +5,16 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
     FaShoppingBag,
     FaTimes,
-    FaBars,
     FaChevronDown,
     FaFacebookF,
     FaInstagram,
     FaTwitter,
     FaLinkedinIn,
-    FaYoutube,
+    FaYoutube, FaBars,
 } from 'react-icons/fa';
+
+// Import your custom drawer component
+import MarketNavbarDrawer from '../MarketNavbarDrawer';
 
 import MarketCart from '../MarketCart';
 import {
@@ -243,7 +245,7 @@ function MarketNavbar({ palet }) {
                         </div>
                     </div>
 
-                    {/* ARAMA, SEPET ve BURGER ICON */}
+                    {/* ARAMA, SEPET ve MARKET NAVBAR DRAWER */}
                     <div className="search">
                         <input placeholder="Search" />
                         <div>
@@ -263,13 +265,8 @@ function MarketNavbar({ palet }) {
                                 </sup>
                             )}
                         </div>
-                        <FaBars
-                            className="burger-icon"
-                            onClick={toggleMenu}
-                            style={{
-                                color: palet?.[0]?.navbarTextColor || '#000000',
-                            }}
-                        />
+
+                        <MarketNavbarDrawer palet={palet} logo={store.logoImageName} toggleMenu={toggleMenu} />
                     </div>
                 </nav>
             </div>
@@ -277,7 +274,6 @@ function MarketNavbar({ palet }) {
             {/* SEPET OVERLAY */}
             {isOpen && <div className="overlay" onClick={handleCloseCart}></div>}
 
-            {/* SEPET KOMPONENTİ */}
             <MarketCart basketItems={basketItems} isOpen={isOpen} onClose={handleCloseCart} />
         </section>
     );
