@@ -5,7 +5,7 @@ import { RiDiscountPercentFill, RiPagesLine } from 'react-icons/ri';
 import { AiFillProduct } from 'react-icons/ai';
 import { FaStoreAlt } from 'react-icons/fa';
 import { MdAnalytics, MdOutlinePayments, MdSpaceDashboard } from 'react-icons/md';
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // Added useEffect
 import Cookies from "js-cookie";
 import { IoStorefront } from "react-icons/io5";
 import { BiSolidTruck } from "react-icons/bi";
@@ -13,21 +13,17 @@ import { PiFilesFill } from "react-icons/pi";
 
 function AdminLeftMenu() {
     const location = useLocation();
-    const [openSubmenu, setOpenSubmenu] = useState(null); // Track which submenu is open
+    const [openSubmenu, setOpenSubmenu] = useState(null);
 
-    // Updated isSelected to handle multiple paths and partial matches
     const isSelected = (paths) => {
         if (Array.isArray(paths)) {
-            // Check if any path in the array matches the current pathname
             return paths.includes(location.pathname) ? 'selected' : '';
         } else if (typeof paths === 'string') {
-            // Check if the current pathname starts with the given path
             return location.pathname.startsWith(paths) ? 'selected' : '';
         }
         return '';
     };
 
-    // Define settings-related paths
     const settingsPaths = [
         '/cp/settings',
         '/cp/general',
@@ -37,13 +33,22 @@ function AdminLeftMenu() {
         '/cp/policies'
     ];
 
-    // Check if the current path is a settings-related path
     const isSettingsPage = settingsPaths.includes(location.pathname);
 
-    // Toggle submenu for a specific menu item
     const handleToggleSubmenu = (menu) => {
-        setOpenSubmenu(openSubmenu === menu ? null : menu); // Toggle the clicked submenu, close others
+        setOpenSubmenu(openSubmenu === menu ? null : menu);
     };
+
+    // Automatically open submenu based on current path
+    useEffect(() => {
+        if (['/cp/orders', '/cp/abandoned-checkouts'].includes(location.pathname)) {
+            setOpenSubmenu('orders');
+        } else if (['/cp/products', '/cp/categories', '/cp/collections'].includes(location.pathname)) {
+            setOpenSubmenu('products');
+        } else {
+            setOpenSubmenu(null);
+        }
+    }, [location.pathname]);
 
     return (
         <section id={'adminLeftMenu'}>
@@ -79,7 +84,7 @@ function AdminLeftMenu() {
                         </Link>
                         <div className="menu-item">
                             <div
-                                className={`link ${isSelected(['/cp/orders', '/cp/abandoned-checkouts'])}`} // Highlight if Orders or Abandoned Checkouts is selected
+                                className={`link ${isSelected(['/cp/orders', '/cp/abandoned-checkouts'])}`}
                                 onClick={() => handleToggleSubmenu('orders')}
                             >
                                 <RiPagesLine className={'icon'} />
@@ -88,10 +93,16 @@ function AdminLeftMenu() {
                             <div className={`wrrara ${openSubmenu === 'orders' ? 'open' : ''}`}>
                                 <div className="firt"></div>
                                 <div className="submenu">
-                                    <Link to={'/cp/orders'} className="sublink">
+                                    <Link
+                                        to={'/cp/orders'}
+                                        className={`sublink ${location.pathname === '/cp/orders' ? 'selected' : ''}`}
+                                    >
                                         Orders
                                     </Link>
-                                    <Link to={'/cp/abandoned-checkouts'} className="sublink">
+                                    <Link
+                                        to={'/cp/abandoned-checkouts'}
+                                        className={`sublink ${location.pathname === '/cp/abandoned-checkouts' ? 'selected' : ''}`}
+                                    >
                                         Abandoned checkouts
                                     </Link>
                                 </div>
@@ -99,7 +110,7 @@ function AdminLeftMenu() {
                         </div>
                         <div className="menu-item">
                             <div
-                                className={`link ${isSelected(['/cp/products', '/cp/categories', '/cp/collections'])}`} // Highlight if Products, Categories, or Collections is selected
+                                className={`link ${isSelected(['/cp/products', '/cp/categories', '/cp/collections'])}`}
                                 onClick={() => handleToggleSubmenu('products')}
                             >
                                 <AiFillProduct className={'icon'} />
@@ -108,13 +119,22 @@ function AdminLeftMenu() {
                             <div className={`wrrara ${openSubmenu === 'products' ? 'open' : ''}`}>
                                 <div className="firt"></div>
                                 <div className="submenu">
-                                    <Link to={'/cp/products'} className="sublink">
+                                    <Link
+                                        to={'/cp/products'}
+                                        className={`sublink ${location.pathname === '/cp/products' ? 'selected' : ''}`}
+                                    >
                                         Products
                                     </Link>
-                                    <Link to={'/cp/categories'} className="sublink">
+                                    <Link
+                                        to={'/cp/categories'}
+                                        className={`sublink ${location.pathname === '/cp/categories' ? 'selected' : ''}`}
+                                    >
                                         Categories
                                     </Link>
-                                    <Link to={'/cp/collections'} className="sublink">
+                                    <Link
+                                        to={'/cp/collections'}
+                                        className={`sublink ${location.pathname === '/cp/collections' ? 'selected' : ''}`}
+                                    >
                                         Collections
                                     </Link>
                                 </div>
