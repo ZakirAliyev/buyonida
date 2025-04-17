@@ -7,7 +7,7 @@
   }
 
   .section {
-    padding-top: 50px;
+    padding-top: 150px;
     padding-bottom: 30px;
     @media (max-width: 576px) {
       padding-top: 0;
@@ -33,7 +33,7 @@
           img {
             width: 80px;
             height: 80px;
-            object-fit: cover;
+            object-fit: contain;
             cursor: pointer;
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -41,7 +41,7 @@
             transition: border-color 0.2s ease;
 
             &:hover, &.active {
-              border-color: #FFBB00;
+              border-color: #FFBB00''
             }
           }
 
@@ -208,6 +208,7 @@
           align-items: center;
           border: 1px solid #ccc;
           border-radius: 30px;
+        background: white;
           button {
             height: 45px;
             background-color: #f6f6f6;
@@ -222,7 +223,6 @@
             }
           }
           input {
-            height: 32px;
             width: 50px;
             text-align: center;
             outline: none;
@@ -312,6 +312,7 @@
   }
   .active {
     color: white;
+    background: black;
   }
   /* Custom Swiper Styles */
   .mobile-swiper {
@@ -323,6 +324,26 @@
     .custom-swiper {
       position: relative;
       width: 100%;
+      .custom-swiper-pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 16px;
+        gap: 8px;
+
+        span {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #ccc;
+          cursor: pointer;
+          transition: background 0.2s ease;
+
+          &.active {
+            background: #FFBB00;
+          }
+        }
+      }
+
       &-container {
         display: flex;
       }
@@ -330,13 +351,7 @@
         display: flex;
         justify-content: center;
         margin-top: 16px;
-        &:after {
-          content: '•••';
-          letter-spacing: 4px;
-          color: #ccc;
-          font-size: 24px;
-          line-height: 1;
-        }
+
       }
     }
     .custom-slide {

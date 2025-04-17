@@ -1,0 +1,51 @@
+#marketCard3 {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 15px;
+  background-color: white;
+  overflow: hidden;
+  transition: all .4s ease;
+  border: 1px solid #dadada;
+
+  .img {
+    background-color: white;
+    @media (max-width: 576px) {
+      max-width: 100%;
+    }
+    @media (max-width: 400px) {
+      max-width: 100%;
+    }
+    img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+    }
+  }
+
+  .textWrapper {
+    padding: 8px 16px;
+  transition: all .4s ease;
+    h2 {
+      font-weight: 600;
+      font-size: 14.28px;
+      line-height: 21.41px;
+    }
+
+    h3 {
+      font-weight: 700;
+      font-size: 14.28px;
+      line-height: 21.41px;
+    }
+  }
+
+  &:hover {
+    transform: scale(1.03);
+
+    .textWrapper {
+      background-color: white;
+      h2, h3 {
+        color: black;
+      }
+    }
+  }
+
+}

@@ -20,14 +20,12 @@ function MarketHomePage() {
         .replace(/@/, '');
     const { data: getStoreByName } = useGetStoreByNameQuery(cleanedPath);
     const store = getStoreByName?.data;
-    console.log(store);
     const id = store?.id;
     const { data: getStoreWithSections } = useGetStoreWithSectionsQuery(id);
     const sections = getStoreWithSections?.data?.sections || [];
     const palets = getStoreWithSections?.data?.palets || [];
     const selectedPaletId = getStoreWithSections?.data?.selectedPaletId;
     const palet = palets?.filter((p) => p.id === selectedPaletId);
-
     // Fake data for default sections
     const defaultCategory = {
         id: 'default-category',
@@ -121,8 +119,6 @@ function MarketHomePage() {
         sections.length > 0
             ? [...sections].sort((a, b) => a.displayOrderId - b.displayOrderId)
             : defaultSections;
-    console.log(sortedSections);
-
     return (
         <>
             <section id="marketHomePage">

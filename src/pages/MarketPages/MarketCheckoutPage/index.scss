@@ -1,18 +1,13 @@
 #marketCheckoutPage {
   * {
-    font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
   }
 
   .error {
-    color: red;
+    color: #ff0000;
     font-size: 0.85rem;
     margin-top: 5px;
-  }
-
-
-  h3 {
-    margin: 30px 0;
+    display: block;
   }
 
   .yuxari {
@@ -22,7 +17,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    box-shadow: 0 2px 8px rgba(99, 99, 99, 0.2);
+    background-color: #fff;
 
     img {
       width: 150px;
@@ -30,41 +26,96 @@
   }
 
   .section {
-    .box1 {
-      background-color: #fff;
-      height: calc(100vh - 72px);
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 72px);
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      height: 100%;
+    }
+
+    .box1,
+    .box2 {
+      height: 100%;
       overflow-y: auto;
+    }
+
+    .box1 {
+      background-color: var(--background-color, #fff); /* Fallback */
+      color: var(--text-color, #000); /* Fallback */
+      flex: 0 0 50%;
+      max-width: 50%;
+      padding: 0;
+
+      @media (max-width: 767px) {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
     }
 
     .box2 {
       background-color: #f0f0f0;
-      height: calc(100vh - 72px);
-      overflow-y: auto;
+      flex: 0 0 50%;
+      max-width: 50%;
+      padding: 0;
+
+      @media (max-width: 767px) {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
     }
 
     .container2 {
       padding: 24px;
     }
 
-    /* Soldaki form alanı */
+    /* Left Form Section */
     .left-container {
+      h3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 20px 0 10px;
+        text-transform: uppercase;
+      }
+
       .form-group {
         display: flex;
         flex-direction: column;
         margin-bottom: 16px;
 
-        input, textarea {
-          padding: 8px 12px;
+        input,
+        select,
+        textarea {
+          padding: 10px 12px;
           border: 1px solid #b1b1b1;
           border-radius: 5px;
           outline: none;
-          background-color: #FCFCFC;
+          background-color: #f6f6f6 !important;
           font-size: 14px;
-          resize: vertical;
+          resize: none;
+          width: 100%;
+          color: var(--text-color, #000); /* Fallback */
+          font-family: inherit;
+
+          &::placeholder {
+            color: #888;
+          }
 
           &:focus {
             border-color: #888;
           }
+        }
+
+        select {
+          appearance: none;
+          background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSI3IiB2aWV3Qm94PSIwIDAgMTIgNyI+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTYgNy41TDAtMS41aDEyWiIvPjwvc3ZnPg==") no-repeat right 10px center;
+          background-size: 12px;
+        }
+
+        textarea {
+          resize: vertical;
         }
       }
 
@@ -78,16 +129,18 @@
       }
 
       .pay-now-btn {
-        margin-top: 16px;
+        margin-top: 20px;
         width: 100%;
         padding: 12px 16px;
-        background-color: black;
-        color: white;
-        border: none;
+        background-color: var(--button-bg-color, #000); /* Fallback */
+        color: var(--button-text-color, #fff); /* Fallback */
+        border: 1px solid var(--button-border-color, #000); /* Fallback */
         font-weight: 600;
         cursor: pointer;
         transition: background-color 0.2s ease;
         border-radius: 100px;
+        text-transform: uppercase;
+        font-size: 16px;
 
         &:hover {
           background-color: #333;
@@ -95,44 +148,23 @@
       }
     }
 
-    /* Sağdaki sepet özeti alanı */
+    /* Right Cart Summary Section */
     .right-container {
-      h2 {
-        margin-bottom: 16px;
-      }
-
-      .cart-items {
-        max-height: 400px;
-        overflow-y: auto;
-        margin-bottom: 16px;
-        scrollbar-width: thin;
-        scrollbar-color: black white;
-        padding-right: 16px;
-      }
-
-      .cart-items::-webkit-scrollbar-thumb {
-        background-color: red;
-        border-radius: 10px;
-        border: 2px solid black;
-      }
-
-
       .cart-item {
         margin-bottom: 24px;
 
         .product-block {
           display: flex;
-          border-radius: 8px;
+          align-items: center;
 
           .product-image {
-            width: 100px;
-            height: 100px;
-            background-color: #333; /* placeholder rengi */
+            width: 80px;
+            height: 80px;
+            background-color: #333; /* Placeholder color */
             margin-right: 16px;
             flex-shrink: 0;
-            border-radius: 10px;
+            border-radius: 4px;
             overflow: hidden;
-            margin-bottom: 10px;
 
             img {
               width: 100%;
@@ -145,13 +177,14 @@
             flex: 1;
 
             h4 {
-              margin-bottom: 8px;
               font-size: 16px;
+              margin-bottom: 4px;
             }
 
             p {
-              margin: 4px 0;
+              margin: 2px 0;
               font-size: 14px;
+              color: #666;
             }
           }
 
@@ -168,6 +201,7 @@
         background-color: #fff;
         padding: 16px;
         border-radius: 8px;
+        margin-top: 20px;
 
         .line-item {
           display: flex;
