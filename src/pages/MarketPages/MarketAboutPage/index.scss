@@ -5,12 +5,8 @@
   .section123 {
     padding: 150px 16px;
 
-    @media (max-width: 768px) {
-      padding: 100px 16px 80px 16px;
-    }
-
     @media (max-width: 576px) {
-      padding: 60px 16px 40px 16px;
+      padding: 100px 16px 40px 16px;
     }
 
     .container {
