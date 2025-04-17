@@ -1,237 +1,216 @@
 import './index.scss';
-import {useState} from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
-import {FaBars, FaChevronDown, FaFacebook, FaLinkedin, FaTwitter, FaYoutube} from 'react-icons/fa';
-import {RxCross2} from 'react-icons/rx';
-import {Link, useNavigate, useParams} from 'react-router-dom';
-import image1 from '/src/assets/sariLogo.png';
-import {FaInstagram} from "react-icons/fa6";
-import {MARKET_LOGO} from "../../../../constants.js";
-import {
-    useGetBasketGetOrCreateQuery,
-    useGetStoreByNameQuery,
-    useGetStoreWithSectionsQuery
-} from "../../../service/userApi.js";
-import Cookies from "js-cookie";
+import { FaBars, FaChevronDown, FaFacebook, FaLinkedin, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { RxCross2 } from 'react-icons/rx';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { FaInstagram } from 'react-icons/fa6';
+import { MARKET_LOGO } from '../../../../constants.js';
+import { useGetStoreByNameQuery, useGetStoreWithSectionsQuery } from '../../../service/userApi.js';
 
-export default function MarketNavbarDrawer({logo,palet}) {
+export default function MarketNavbarDrawer({ logo, palet }) {
     const [open, setOpen] = useState(false);
+    const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+    const [isCollectionsOpen, setIsCollectionsOpen] = useState(false);
     const navigate = useNavigate();
-
-    const toggleDrawer = (newOpen) => () => {
-        setOpen(newOpen);
-    };
-
-    const handleNavigate = (path) => {
-        window.scrollTo(0, 0)
-        navigate(path);
-        setOpen(false);
-    };
     const params = useParams();
-    const name = params?.marketName?.substring(1, params.marketName.length);
+    const name = params?.marketName?.substring(1) || 'Zakir magaza';
 
-    const { data: getStoreByName } = useGetStoreByNameQuery(name || 'Zakir magaza');
+    const { data: getStoreByName } = useGetStoreByNameQuery(name);
     const store = getStoreByName?.data;
     const marketId = store?.id;
 
     const { data: getStoreWithSections } = useGetStoreWithSectionsQuery(marketId, { skip: !marketId });
     const sections = getStoreWithSections?.data?.sections || [];
 
-    // Kategorileri ve koleksiyonları al
+    // Categories and collections
     const categories = sections
         .filter((section) => section.sectionType === 'Category')
         .map((section) => section.category)
         .filter(Boolean);
-
     const collections = sections
         .filter((section) => section.sectionType === 'Collection')
         .map((section) => section.collection)
         .filter(Boolean);
 
-    const [isOpen, setIsOpen] = useState(false); // Sepet aç/kapa
-    const [isMenuOpen, setIsMenuOpen] = useState(false); // Mobil menü aç/kapa
-    const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-    const [isCollectionsOpen, setIsCollectionsOpen] = useState(false);
-
-    const uniqueCode = Cookies.get('uniqueCode');
-    const { data: basketData } = useGetBasketGetOrCreateQuery(
-        { marketId, uniqueCode },
-        { skip: !marketId || !uniqueCode }
-    );
-    const basket = basketData?.data;
-    const basketItems = basket?.basketItems || [];
-
-    const handleOpenCart = () => {
-        setIsOpen(true);
-    };
-
-    const handleCloseCart = () => {
-        setIsOpen(false);
-    };
-
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-        setIsCategoriesOpen(false); // Menü tekrar açılınca alt menüleri kapat
-        setIsCollectionsOpen(false);
+    const toggleDrawer = (newOpen) => () => {
+        setOpen(newOpen);
+        if (!newOpen) {
+            setIsCategoriesOpen(false);
+            setIsCollectionsOpen(false);
+        }
     };
 
     const toggleCategories = () => {
-        setIsCategoriesOpen(!isCategoriesOpen);
-        setIsCollectionsOpen(false); // Öteki alt menüyü kapat
+        setIsCategoriesOpen((prev) => !prev);
+        setIsCollectionsOpen(false);
     };
 
     const toggleCollections = () => {
-        setIsCollectionsOpen(!isCollectionsOpen);
+        setIsCollectionsOpen((prev) => !prev);
         setIsCategoriesOpen(false);
     };
 
+    const handleNavigate = (path) => {
+        window.scrollTo(0, 0);
+        navigate(path);
+        setOpen(false);
+        setIsCategoriesOpen(false);
+        setIsCollectionsOpen(false);
+    };
+
     const DrawerList = (
-        <>
-            <div onClick={toggleDrawer(false)} className="asdasd123123">
-                <RxCross2 className="asdasd123"/>
+        <Box
+            sx={{ width: 350 }}
+            role="presentation"
+            id="burgerMenu"
+            style={{
+                backgroundColor: palet?.[0]?.navbarBgColor || '#121212',
+                color: palet?.[0]?.navbarTextColor || '#f9f9f9',
+            }}
+        >
+            <div className="close-icon-wrapper" onClick={toggleDrawer(false)}>
+                <RxCross2 className="close-icon" style={{
+                    backgroundColor: palet?.[0]?.navbarBgColor || '#121212',
+                    color: palet?.[0]?.navbarTextColor || '#f9f9f9',
+                }}/>
             </div>
-            <Box sx={{width: 350}} role="presentation" id="burgerMenu">
-                <div className="wrapper">
-                    <img src={logo ? MARKET_LOGO + logo : ''} alt="Logo"/>
-                    <div className="line"></div>
+            <div className="wrapper">
+                <img src={logo ? MARKET_LOGO + logo : ''} alt="Logo" />
+                <div className="line" style={{ backgroundColor: palet?.[0]?.buttonBorderColor || '#ffcf00' }}></div>
 
-                    <div className="dropdown">
-                        <div
-                            className="link dropdown-toggle"
-                            onClick={toggleCategories}
-                            style={{
-                                color: palet?.[0]?.navbarTextColor || '#000000',
-                            }}
-                        >
-                            CATEGORIES <FaChevronDown className="chevron" />
-                        </div>
-                        <div
-                            className={`dropdown-menu ${isCategoriesOpen ? 'show' : ''}`}
-                            style={{
-                                backgroundColor: palet?.[0]?.navbarBgColor || '#ffffff',
-                                borderColor: palet?.[0]?.buttonBorderColor || '#ffffff',
-                            }}
-                        >
-                            {categories.length > 0 ? (
-                                categories.map((category) => (
-                                    <Link
-                                        key={category.id}
-                                        to={`/${params?.marketName}/category/${category.id}`}
-                                        className="dropdown-item"
-                                        style={{
-                                            color: palet?.[0]?.navbarTextColor || '#ffffff',
-                                        }}
-                                        onClick={() => {
-                                            setIsCategoriesOpen(false);
-                                            setIsMenuOpen(false);
-                                        }}
-                                    >
-                                        {category.name}
-                                    </Link>
-                                ))
-                            ) : (
-                                <div
-                                    className="dropdown-item"
-                                    style={{
-                                        color: palet?.[0]?.navbarTextColor || '#ffffff',
-                                    }}
-                                >
-                                    No Categories
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* COLLECTIONS */}
-                    <div className="dropdown">
-                        <div
-                            className="link dropdown-toggle"
-                            onClick={toggleCollections}
-                            style={{
-                                color: palet?.[0]?.navbarTextColor || '#000000',
-                            }}
-                        >
-                            COLLECTIONS <FaChevronDown className="chevron" />
-                        </div>
-                        <div
-                            className={`dropdown-menu ${isCollectionsOpen ? 'show' : ''}`}
-                            style={{
-                                backgroundColor: palet?.[0]?.navbarBgColor || '#ffffff',
-                                borderColor: palet?.[0]?.buttonBorderColor || '#ffffff',
-                            }}
-                        >
-                            {collections.length > 0 ? (
-                                collections.map((collection) => (
-                                    <Link
-                                        key={collection.id}
-                                        to={`/${params?.marketName}/collection/${collection.id}`}
-                                        className="dropdown-item"
-                                        style={{
-                                            color: palet?.[0]?.navbarTextColor || '#ffffff',
-                                        }}
-                                        onClick={() => {
-                                            setIsCollectionsOpen(false);
-                                            setIsMenuOpen(false);
-                                        }}
-                                    >
-                                        {collection.title}
-                                    </Link>
-                                ))
-                            ) : (
-                                <div
-                                    className="dropdown-item"
-                                    style={{
-                                        color: palet?.[0]?.navbarTextColor || '#ffffff',
-                                    }}
-                                >
-                                    No Collections
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* ABOUT US */}
-                    <Link
-                        to={`/${params.marketName}/about`}
-                        className="link"
+                <div className="dropdown">
+                    <div
+                        className="link dropdown-toggle"
+                        onClick={toggleCategories}
                         style={{
-                            color: palet?.[0]?.navbarTextColor || '#ffffff',
+                            color: palet?.[0]?.navbarTextColor || '#f9f9f9',
                         }}
-                        onClick={() => setIsMenuOpen(false)}
                     >
-                        ABOUT US
-                    </Link>
-                    <div className="line"></div>
-                    <Divider/>
+                        CATEGORIES <FaChevronDown className="chevron" />
+                    </div>
+                    <div
+                        className={`dropdown-menu ${isCategoriesOpen ? 'show' : ''}`}
+                        style={{
+                            backgroundColor: palet?.[0]?.buttonBgColor || '#090909',
+                            borderColor: palet?.[0]?.buttonBorderColor || '#ffffff',
+                        }}
+                    >
+                        {categories.length > 0 ? (
+                            categories.map((category) => (
+                                <Link
+                                    key={category.id}
+                                    to={`/${params?.marketName}/category/${category.id}`}
+                                    className="dropdown-item"
+                                    style={{
+                                        color: palet?.[0]?.buttonTextColor || '#ffffff',
+                                    }}
+                                    onClick={() => handleNavigate(`/${params?.marketName}/category/${category.id}`)}
+                                >
+                                    {category.name}
+                                </Link>
+                            ))
+                        ) : (
+                            <div
+                                className="dropdown-item"
+                                style={{
+                                    color: palet?.[0]?.buttonTextColor || '#ffffff',
+                                }}
+                            >
+                                No Categories
+                            </div>
+                        )}
+                    </div>
                 </div>
-                <div className="links1">
-                    <div className="link1" onClick={() => {
-                        navigate('/')
-                    }}><FaInstagram/></div>
-                    <div className="link1" onClick={() => {
-                        navigate('/')
-                    }}><FaFacebook/></div>
-                    <div className="link1" onClick={() => {
-                        navigate('/')
-                    }}><FaLinkedin/></div>
-                    <div className="link1" onClick={() => {
-                        navigate('/')
-                    }}><FaTwitter/></div>
-                    <div className="link1" onClick={() => {
-                        navigate('/')
-                    }}><FaYoutube/></div>
+
+                <div className="dropdown">
+                    <div
+                        className="link dropdown-toggle"
+                        onClick={toggleCollections}
+                        style={{
+                            color: palet?.[0]?.navbarTextColor || '#f9f9f9',
+                        }}
+                    >
+                        COLLECTIONS <FaChevronDown className="chevron" />
+                    </div>
+                    <div
+                        className={`dropdown-menu ${isCollectionsOpen ? 'show' : ''}`}
+                        style={{
+                            backgroundColor: palet?.[0]?.buttonBgColor || '#090909',
+                            borderColor: palet?.[0]?.buttonBorderColor || '#ffffff',
+                        }}
+                    >
+                        {collections.length > 0 ? (
+                            collections.map((collection) => (
+                                <Link
+                                    key={collection.id}
+                                    to={`/${params?.marketName}/collection/${collection.id}`}
+                                    className="dropdown-item"
+                                    style={{
+                                        color: palet?.[0]?.buttonTextColor || '#ffffff',
+                                    }}
+                                    onClick={() => handleNavigate(`/${params?.marketName}/collection/${collection.id}`)}
+                                >
+                                    {collection.title}
+                                </Link>
+                            ))
+                        ) : (
+                            <div
+                                className="dropdown-item"
+                                style={{
+                                    color: palet?.[0]?.buttonTextColor || '#ffffff',
+                                }}
+                            >
+                                No Collections
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </Box>
-        </>
+
+                <Link
+                    to={`/${params?.marketName}/about`}
+                    className="link"
+                    style={{
+                        color: palet?.[0]?.navbarTextColor || '#f9f9f9',
+                    }}
+                    onClick={() => handleNavigate(`/${params?.marketName}/about`)}
+                >
+                    ABOUT US
+                </Link>
+                <div className="line" style={{ backgroundColor: palet?.[0]?.buttonBorderColor || '#ffcf00' }}></div>
+                <Divider style={{ backgroundColor: palet?.[0]?.buttonBorderColor || '#ffcf00' }} />
+            </div>
+            <div className="links1">
+                <a href="https://instagram.com" target="_blank" rel="noreferrer" className="link1">
+                    <FaInstagram style={{ color: palet?.[0]?.buttonTextColor || '#000000' }} />
+                </a>
+                <a href="https://facebook.com" target="_blank" rel="noreferrer" className="link1">
+                    <FaFacebook style={{ color: palet?.[0]?.buttonTextColor || '#000000' }} />
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="link1">
+                    <FaLinkedin style={{ color: palet?.[0]?.buttonTextColor || '#000000' }} />
+                </a>
+                <a href="https://twitter.com" target="_blank" rel="noreferrer" className="link1">
+                    <FaTwitter style={{ color: palet?.[0]?.buttonTextColor || '#000000' }} />
+                </a>
+                <a href="https://youtube.com" target="_blank" rel="noreferrer" className="link1">
+                    <FaYoutube style={{ color: palet?.[0]?.buttonTextColor || '#000000' }} />
+                </a>
+            </div>
+        </Box>
     );
 
     return (
         <div>
-            <FaBars onClick={toggleDrawer(true)} style={{
-                color: palet?.[0]?.navbarTextColor || '#ffffff', marginTop: '10px'
-            }}/>
+            <FaBars
+                onClick={toggleDrawer(true)}
+                style={{
+                    color: palet?.[0]?.navbarTextColor || '#f9f9f9',
+                    marginTop: '10px',
+                }}
+            />
             <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
                 {DrawerList}
             </Drawer>

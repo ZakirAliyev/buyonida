@@ -1,74 +1,152 @@
-
-.asdasd123123 {
-  background: black;
-
-  svg {
-    margin: 10px 20px;
-    color: white;
-  }
-}
-
-
 #burgerMenu {
-  background-color: black;
-  color: white;
+  background-color: #121212; /* Fallback for palet.navbarBgColor */
+  color: #f9f9f9; /* Fallback for palet.navbarTextColor */
   height: 100vh;
   display: flex;
-  align-items: center;
   flex-direction: column;
   justify-content: space-between;
+  padding: 0;
 
-  .chevron {
-    font-size: 30px;
-    padding-left: 15px;
+  .close-icon-wrapper {
+    background: transparent;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+
+    .close-icon {
+      color: #f9f9f9; /* Matches palet.navbarTextColor */
+      font-size: 24px;
+      cursor: pointer;
+    }
   }
 
   .wrapper {
     display: flex;
     align-items: center;
     flex-direction: column;
-  }
-
-  .links1 {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
-
-    .link1 {
-      background-color: #ffcf00;
-      display: flex;
-      color: black;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-    }
-  }
-
-  .name {
-    font-size: 25px;
-    padding: 10px 0
-  }
-
-  .name1 {
-    font-size:  20px;
-    color: #c6baf8;
+    width: 100%;
+    padding: 0 20px;
   }
 
   .line {
     margin: 20px auto;
     height: 3px;
-    background-color: #ffcf00;
     width: 50px;
-  }
-
-  .burgerMenuIcon {
-    color: white;
+    background-color: #ffcf00; /* Fallback for palet.buttonBorderColor */
   }
 
   img {
-    width: 250px;
-    padding: 32px;
+    width: 200px;
+    padding: 20px 0;
   }
+
+  .link {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 10px 0;
+    text-align: center;
+    width: 100%;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #ffcf00; /* Highlight color for hover */
+    }
+  }
+
+  .dropdown {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 10px 0;
+      width: 100%;
+      cursor: pointer;
+
+      .chevron {
+        font-size: 14px;
+        transition: transform 0.3s ease;
+      }
+
+      &.show .chevron {
+        transform: rotate(180deg);
+      }
+    }
+
+    .dropdown-menu {
+      width: 100%;
+      background-color: #090909; /* Fallback for palet.buttonBgColor */
+      border: 1px solid #ffffff; /* Fallback for palet.buttonBorderColor */
+      border-radius: 8px;
+      margin: 5px 0;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+      display: flex;
+      flex-direction: column;
+
+      &.show {
+        max-height: 300px; /* Adjust based on content */
+        opacity: 1;
+      }
+
+      .dropdown-item {
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 500;
+        text-align: center;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: background-color 0.2s ease;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+  }
+
+  .links1 {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    justify-content: center;
+
+    .link1 {
+      background-color: #ffcf00; /* Consistent with line color */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      transition: transform 0.2s ease;
+
+      svg {
+        font-size: 20px;
+      }
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+.MuiDivider-root {
+  background-color: #ffcf00 !important; /* Fallback for palet.buttonBorderColor */
 }
