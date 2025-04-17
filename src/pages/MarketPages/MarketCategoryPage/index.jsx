@@ -1,5 +1,4 @@
 import './index.scss'
-import MarketCard from "../../../components/MarketComponents/MarketCard/index.jsx";
 import {FaChevronRight} from "react-icons/fa";
 import {useParams} from "react-router-dom";
 import {

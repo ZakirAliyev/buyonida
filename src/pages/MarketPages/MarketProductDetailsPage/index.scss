@@ -10,7 +10,7 @@
     padding-top: 150px;
     padding-bottom: 30px;
     @media (max-width: 576px) {
-      padding-top: 0;
+      padding-top: 100px;
     }
     .container {
       // Container içi düzenlemeler
@@ -41,7 +41,7 @@
             transition: border-color 0.2s ease;
 
             &:hover, &.active {
-              border-color: #FFBB00''
+              border-color: #FFBB00;
             }
           }
 
@@ -313,6 +313,10 @@
   .active {
     color: white;
     background: black;
+
+    @media screen and (max-width: 576px){
+      background: none;
+    }
   }
   /* Custom Swiper Styles */
   .mobile-swiper {

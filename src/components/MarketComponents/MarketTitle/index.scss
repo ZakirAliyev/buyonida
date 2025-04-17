@@ -7,7 +7,12 @@
   h2 {
     font-weight: 600;
     font-size: 25.53px;
-    line-height: 38.3px;
+    line-height: 28.3px;
+
+    @media (max-width: 576px) {
+      font-size: 18px;
+      max-width: 125px;
+    }
   }
 
   button {
@@ -22,6 +27,8 @@
     font-size: 18.78px;
     line-height: 28.17px;
     transition: all .2s ease;
+    width: 160px !important;
+    height: 40px;
 
     &:hover {
       background-color: #2F2F2F;

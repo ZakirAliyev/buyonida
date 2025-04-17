@@ -24,10 +24,21 @@
   .textWrapper {
     padding: 8px 16px;
   transition: all .4s ease;
+    @media (max-width: 576px) {
+      width: 160px;
+    }
+
+    @media (max-width: 400px) {
+      width: 140px;
+    }
     h2 {
       font-weight: 600;
       font-size: 14.28px;
       line-height: 21.41px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
     }
 
     h3 {
