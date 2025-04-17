@@ -6,41 +6,96 @@
   }
 
   .section123 {
-    padding-top: 220px;
-    padding-bottom: 180px;
-    padding-left: 16px;
-    padding-right: 16px;
-    @media (max-width: 576px) {
-      padding-top: 14px;
+    padding: 50px 16px;
+
+    @media (max-width: 768px) {
+      padding: 100px 16px 80px 16px;
     }
+
+    @media (max-width: 576px) {
+      padding: 60px 16px 40px 16px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
     .titleWrapper {
       display: flex;
-      align-items: center;
-      gap: 64px;
+      gap: 50px;
       flex-wrap: wrap;
-      img {
-        width: 300px;
-        aspect-ratio: 1/1;
-        object-fit: contain;
-        filter: brightness(0);
-        border-radius: 20px;
-        @media (max-width: 576px) {
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 30px;
+      }
+
+      .imageWrapper {
+        flex: 0 0 300px;
+
+        @media (max-width: 768px) {
+          flex: 0 0 auto;
           width: 100%;
+          display: flex;
+          justify-content: center;
+        }
+
+        img {
+          width: 300px;
+          aspect-ratio: 1/1;
+          object-fit: contain;
+          border-radius: 20px;
+          border: 1px solid #e4e4e4;
+
+          @media (max-width: 768px) {
+            width: 100%;
+            max-width: 300px;
+          }
+
+          @media (max-width: 576px) {
+            max-width: 100%;
+          }
         }
       }
-    }
 
-    .textWrapper {
-      h2 {
-        font-weight: 600;
-        font-size: 52.9px;
-        line-height: 79.35px;
-      }
+      .textWrapper {
+        flex: 1;
+        min-width: 300px;
 
-      h3 {
-        font-weight: 400;
-        font-size: 15.8px;
-        line-height: 23.71px;
+        @media (max-width: 768px) {
+          width: 100%;
+        }
+
+        h2 {
+          font-weight: 600;
+          font-size: 52.9px;
+          line-height: 79.35px;
+          margin: 0 0 16px 0;
+
+          @media (max-width: 768px) {
+            font-size: 42px;
+            line-height: 63px;
+          }
+
+          @media (max-width: 576px) {
+            font-size: 32px;
+            line-height: 48px;
+          }
+        }
+
+        h3 {
+          font-weight: 400;
+          font-size: 15.8px;
+          line-height: 23.71px;
+          margin: 0;
+
+          @media (max-width: 768px) {
+            font-size: 14px;
+            line-height: 21px;
+          }
+        }
       }
     }
   }

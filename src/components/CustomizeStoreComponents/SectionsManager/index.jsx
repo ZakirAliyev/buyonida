@@ -22,6 +22,7 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
     const [sections, setSections] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [newSectionType, setNewSectionType] = useState("collection");
+    const [newSectionValue, setNewSectionValue] = useState(null);
     const [localIdCounter, setLocalIdCounter] = useState(0);
     const [deletedIds, setDeletedIds] = useState([]);
 
@@ -32,6 +33,21 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
     const collections = getAllCollectionsByMarketId?.data || [];
 
     const { data: storeData } = useGetStoreWithSectionsQuery(Cookies.get("chooseMarket"));
+
+    const combinedOptions = [
+        ...categories.map(cat => ({
+            label: `${cat.name} - Category`,
+            value: `category-${cat.id}`,
+            type: "category",
+            data: cat
+        })),
+        ...collections.map(col => ({
+            label: `${col.title} - Collection`,
+            value: `collection-${col.id}`,
+            type: "collection",
+            data: col
+        }))
+    ];
 
     useEffect(() => {
         if (storeData?.data?.sections) {
@@ -48,6 +64,7 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
                         localId,
                         id: s.id,
                         type: "collection",
+                        value: `collection-${s.collection?.id}`,
                         collection: s.collection?.title || (collections[0]?.title || "Default Collection"),
                         collectionId: s.collection?.id,
                         cardsInRow,
@@ -59,6 +76,7 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
                         localId,
                         id: s.id,
                         type: "category",
+                        value: `category-${s.category?.id}`,
                         category: s.category?.name || (categories[0]?.name || "Default Category"),
                         categoryId: s.category?.id,
                         cardsInRow,
@@ -91,48 +109,38 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
         if (onSectionsChange) onSectionsChange(updatedSections);
     };
 
-    const handleCategoryChange = (index, value) => {
-        const selectedCategory = categories.find((cat) => cat.name === value);
-        setSections((prev) => {
-            const updated = [...prev];
-            updated[index] = {
-                ...updated[index],
-                category: selectedCategory?.name || value,
-                categoryId: selectedCategory?.id,
-                products: selectedCategory?.products || [],
-            };
-            if (onSectionsChange) onSectionsChange(updated);
-            return updated;
-        });
-    };
+    const handleSectionChange = (index, value) => {
+        const selectedOption = combinedOptions.find(opt => opt.value === value);
+        if (!selectedOption) return;
 
-    const handleCollectionChange = (index, value) => {
-        const selectedCollection = collections.find((col) => col.title === value);
         setSections((prev) => {
             const updated = [...prev];
-            updated[index] = {
-                ...updated[index],
-                collection: selectedCollection?.title || value,
-                collectionId: selectedCollection?.id,
-                products: selectedCollection?.products || [],
-            };
-            if (onSectionsChange) onSectionsChange(updated);
-            return updated;
-        });
-    };
+            const section = updated[index];
 
-    const handleSelectChange = (index, field, value) => {
-        if (field === "category") {
-            handleCategoryChange(index, value);
-            return;
-        }
-        if (field === "collection") {
-            handleCollectionChange(index, value);
-            return;
-        }
-        setSections((prev) => {
-            const updated = [...prev];
-            updated[index] = { ...updated[index], [field]: value };
+            if (selectedOption.type === "category") {
+                updated[index] = {
+                    ...section,
+                    type: "category",
+                    value: value,
+                    category: selectedOption.data.name,
+                    categoryId: selectedOption.data.id,
+                    collection: undefined,
+                    collectionId: undefined,
+                    products: selectedOption.data.products || [],
+                };
+            } else {
+                updated[index] = {
+                    ...section,
+                    type: "collection",
+                    value: value,
+                    collection: selectedOption.data.title,
+                    collectionId: selectedOption.data.id,
+                    category: undefined,
+                    categoryId: undefined,
+                    products: selectedOption.data.products || [],
+                };
+            }
+
             if (onSectionsChange) onSectionsChange(updated);
             return updated;
         });
@@ -148,36 +156,35 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
     };
 
     const handleCreateNewSection = () => {
+        if (!newSectionValue) return;
+
+        const selectedOption = combinedOptions.find(opt => opt.value === newSectionValue);
+        if (!selectedOption) return;
+
         const newSection = {
             id: null,
             localId: `temp-${localIdCounter}`,
-            type: newSectionType,
+            type: selectedOption.type,
+            value: newSectionValue,
             cardsInRow: 5,
-            products: [],
+            products: selectedOption.data.products || [],
             displayOrderId: sections.length + 2,
         };
-        setLocalIdCounter((prev) => prev + 1);
-        if (newSectionType === "collection") {
-            if (collections.length > 0) {
-                newSection.collection = collections[0].title;
-                newSection.collectionId = collections[0].id;
-                newSection.products = collections[0].products || [];
-            } else {
-                newSection.collection = "Default Collection";
-            }
+
+        if (selectedOption.type === "category") {
+            newSection.category = selectedOption.data.name;
+            newSection.categoryId = selectedOption.data.id;
         } else {
-            if (categories.length > 0) {
-                newSection.category = categories[0].name;
-                newSection.categoryId = categories[0].id;
-                newSection.products = categories[0].products || [];
-            } else {
-                newSection.category = "Default Category";
-            }
+            newSection.collection = selectedOption.data.title;
+            newSection.collectionId = selectedOption.data.id;
         }
+
+        setLocalIdCounter((prev) => prev + 1);
         const updatedSections = [...sections, newSection];
         setSections(updatedSections);
         if (onSectionsChange) onSectionsChange(updatedSections);
         setIsModalVisible(false);
+        setNewSectionValue(null);
     };
 
     const handleRemoveSection = (index) => {
@@ -243,51 +250,30 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
                                                         </button>
                                                     </div>
                                                     <div className="section-controls">
-                                                        {section.type === "collection" && (
-                                                            <div className="inputWrapper">
-                                                                <div className="label">Selected collection</div>
-                                                                <Select
-                                                                    value={section.collection}
-                                                                    style={{ width: 150 }}
-                                                                    onChange={(value) => handleSelectChange(index, "collection", value)}
-                                                                    options={collections.map((col) => ({
-                                                                        label: col.title,
-                                                                        value: col.title,
-                                                                    }))}
+                                                        <div className="inputWrapper">
+                                                            <div className="label">Selected item</div>
+                                                            <Select
+                                                                value={section.value}
+                                                                style={{ width: 150 }}
+                                                                onChange={(value) => handleSectionChange(index, value)}
+                                                                options={combinedOptions}
+                                                            />
+                                                        </div>
+                                                        <div className="inputWrapper1123 cardsInRowControl">
+                                                            <div className="label cardsInRowLabel">Show cards in a row</div>
+                                                            <div className="rangeContainer">
+                                                                <span>3</span>
+                                                                <input
+                                                                    type="range"
+                                                                    min="3"
+                                                                    max="6"
+                                                                    step="1"
+                                                                    value={section.cardsInRow}
+                                                                    onChange={(e) => handleCardsInRowChange(index, e.target.value)}
                                                                 />
+                                                                <span>6</span>
                                                             </div>
-                                                        )}
-                                                        {section.type === "category" && (
-                                                            <>
-                                                                <div className="label">Selected category</div>
-                                                                <Select
-                                                                    value={section.category}
-                                                                    style={{ width: 150 }}
-                                                                    onChange={(value) => handleSelectChange(index, "category", value)}
-                                                                    options={categories.map((cat) => ({
-                                                                        label: cat.name,
-                                                                        value: cat.name,
-                                                                    }))}
-                                                                />
-                                                            </>
-                                                        )}
-                                                        {(section.type === "collection" || section.type === "category") && (
-                                                            <div className="inputWrapper1123 cardsInRowControl">
-                                                                <div className="label cardsInRowLabel">Show cards in a row</div>
-                                                                <div className="rangeContainer">
-                                                                    <span>3</span>
-                                                                    <input
-                                                                        type="range"
-                                                                        min="3"
-                                                                        max="6"
-                                                                        step="1"
-                                                                        value={section.cardsInRow}
-                                                                        onChange={(e) => handleCardsInRowChange(index, e.target.value)}
-                                                                    />
-                                                                    <span>6</span>
-                                                                </div>
-                                                            </div>
-                                                        )}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -308,19 +294,19 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
                 title="Create a new section"
                 open={isModalVisible}
                 onOk={handleCreateNewSection}
-                onCancel={() => setIsModalVisible(false)}
+                onCancel={() => {
+                    setIsModalVisible(false);
+                    setNewSectionValue(null);
+                }}
                 okText="Create"
                 cancelText="Cancel"
             >
-                <div className="label">Type:</div>
+                <div className="label">Select item:</div>
                 <Select
-                    value={newSectionType}
+                    value={newSectionValue}
                     style={{ width: 150, marginLeft: 8 }}
-                    onChange={(value) => setNewSectionType(value)}
-                    options={[
-                        { label: "Collection", value: "collection" },
-                        { label: "Category", value: "category" },
-                    ]}
+                    onChange={(value) => setNewSectionValue(value)}
+                    options={combinedOptions}
                 />
             </Modal>
         </div>

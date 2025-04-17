@@ -71,10 +71,8 @@
         }
 
         img {
-          border-radius: 10px;
           width: 40px;
-          height: 40px;
-          object-fit: cover;
+          object-fit: contain;
         }
       }
 

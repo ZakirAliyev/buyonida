@@ -410,6 +410,18 @@ export const ownerApi = createApi({
                 body: data,
             }),
         }),
+        fulFillOrder: builder.mutation({
+            query: ({orderId, marketId}) => ({
+                url: `/Order/fulfill/${orderId}?marketId=${marketId}`,
+                method: 'PUT',
+            }),
+        }),
+        refundOrder: builder.mutation({
+            query: ({orderId, marketId}) => ({
+                url: `/Order/cancel/${orderId}?marketId=${marketId}`,
+                method: 'PUT',
+            }),
+        }),
     }),
 });
 
@@ -475,4 +487,6 @@ export const {
     useEditSectionBannerItemMutation,
     useDeleteSectionBannerItemMutation,
     useUpdateUserMutation,
+    useFulFillOrderMutation,
+    useRefundOrderMutation,
 } = ownerApi;

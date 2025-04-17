@@ -27,18 +27,17 @@ function MarketProductDetailsPage() {
         ? decodedMarketName.split('/')[0].substring(1)
         : decodedMarketName.split('/')[0];
     console.log("Cleaned Market Name:", cleanedMarketName);
+    console.log(cleanedMarketName);
 
-    // Mağaza verisini al
     const { data: getStoreByName, isLoading: isStoreLoading, error: storeError } =
-        useGetStoreByNameQuery("Zakir magaza");
+        useGetStoreByNameQuery(cleanedMarketName);
     const store = getStoreByName?.data;
     const marketId = store?.id;
+    console.log(marketId);
     console.log("Market ID:", marketId);
 
-    // Cookies’den uniqueCode al
     const uniqueCode = Cookies.get("uniqueCode");
 
-    // Ürünü ve ürün listesini al (marketId mevcutsa)
     const { data: getProductById, isLoading: isProductLoading } = useGetProductByIdQuery(
         { marketId, id },
         { skip: !marketId }
@@ -311,7 +310,7 @@ function MarketProductDetailsPage() {
             </div>
 
             {/* Products you might like section */}
-            <div className="container" key={product?.id} style={{ margin: "0 auto 70px" }}>
+            <div className="container" key={product?.id} style={{ paddingBottom: 70 }}>
                 <div className="section-header">
                     <h1 style={{ padding: "16px" }}>Products you might like</h1>
                     <div className="desktop-button">

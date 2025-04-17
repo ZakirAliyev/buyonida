@@ -114,6 +114,10 @@ export const ROUTES = [
                 element: <AdminHomePage/>
             },
             {
+                path: 'cp/abandoned-checkouts',
+                element: <AdminHomePage/>
+            },
+            {
                 path: 'cp/order-details/:marketId/:orderId',
                 element: <AdminHomePage/>
             },

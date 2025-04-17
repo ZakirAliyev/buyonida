@@ -518,7 +518,7 @@ function CustomizeStoreScreens() {
                                                 {(getTabData(tab.id)?.image || []).length < 1 && "+ Upload"}
                                             </Upload>
                                         </div>
-                                        {!tab.isNew && (
+                                        {tabs.length > 1 && !tab.isNew && (
                                             <div className="inputWrapper">
                                                 <button
                                                     className="delete-banner-btn"

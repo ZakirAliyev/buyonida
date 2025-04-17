@@ -5,7 +5,6 @@ import {useNavigate} from "react-router-dom";
 function MarketCard({number, product,palet}) {
     const newNumber = 60/number
     const navigate = useNavigate();
-    console.log(product)
     return (
         <div className={`col-${newNumber}-60 col-md-30-60 col-sm-30-60 col-xs-30-60`} style={{padding:"8px"}} onClick={() => {
             navigate(`product/${product?.id}`)

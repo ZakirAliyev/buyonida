@@ -1,26 +1,122 @@
 #cSMarketSwiperHero {
-  height: 80vh;
-  background-color: var(--background-color, #fff); /* Use palette background, fallback to white */
+  background-color: var(--background-color, #fff);
 
-  .swiper {
+  .mySwiper {
     width: 100%;
     height: 100%;
   }
 
-  .swiper-slide {
-    text-align: center;
-    font-size: 18px;
-    background: var(--background-color, #fff); /* Match container background */
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .linkm {
+    background: transparent;
+    padding: 10px 48px;
+    border: 1px solid black;
+    width: max-content;
+    margin-left: 64px;
+    margin-top: 10px;
+    border-radius: 35px;
+    color: black;
+    font-weight: bold;
   }
 
-  .swiper-slide img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .tutle {
+    position: relative;
+    z-index: 999;
+    color: black;
+    font-size: 50px;
+    font-weight: bold;
+    margin-left: 64px;
+  }
+
+  .tutle1 {
+    position: relative;
+    z-index: 999;
+    color: black;
+    font-size: 20px;
+    font-weight: 400;
+    margin-left: 64px;
+  }
+
+  .swiper-slide-with-overlay {
+    position: relative;
+    overflow: hidden;
+
+    .banner-content {
+      position: relative;
+      width: 100%;
+      height: 100%;
+
+      .banner-icons {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+        opacity: 0.5;
+        pointer-events: none;
+        z-index: 1;
+
+        .icon {
+          font-size: 24px;
+        }
+      }
+
+      .banner-text {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 20px;
+        color: #000;
+
+        h1 {
+          font-size: 48px;
+          margin: 0;
+          font-weight: bold;
+        }
+
+        p {
+          font-size: 18px;
+          margin: 10px 0;
+        }
+
+        button {
+          padding: 10px 20px;
+          border-radius: 20px;
+          border: none;
+          cursor: pointer;
+          font-size: 16px;
+          background-color: #fff;
+          color: #000;
+        }
+      }
+
+      .banner-overlay-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 100px;
+        color: #fff;
+        opacity: 0.2;
+        font-weight: bold;
+        z-index: 1;
+        pointer-events: none;
+        text-transform: uppercase;
+      }
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 1;
+      pointer-events: none;
+    }
   }
 }

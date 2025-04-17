@@ -4,6 +4,10 @@
 
   .csplus1 {
     font-size: 22px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
 
     &:hover {
       background-color: #ececec;
@@ -15,20 +19,20 @@
     align-items: center;
     background: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); /* Soft shadow */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 16px;
 
     &:hover {
-      transform: translateY(-2px); /* Slight lift on hover */
+      transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
-    /** Drag Handle */
     > div:first-child {
       padding: 0 12px;
       display: flex;
       align-items: center;
-      color: #6b7280; /* Gray for subtle drag icon */
+      color: #6b7280;
       cursor: grab;
 
       svg {
@@ -36,7 +40,6 @@
       }
     }
 
-    /** Section Content */
     > div:nth-child(2) {
       flex-grow: 1;
       padding: 16px;
@@ -51,25 +54,24 @@
         .section-title {
           font-size: 16px;
           font-weight: 500;
-          color: #374151; /* Darker gray for readability */
+          color: #374151;
         }
 
         .remove-btn {
           background: none;
           border: none;
           font-size: 18px;
-          color: #9ca3af; /* Light gray */
+          color: #9ca3af;
           cursor: pointer;
           padding: 4px;
           transition: color 0.2s ease;
 
           &:hover {
-            color: #ef4444; /* Red for delete action */
+            color: #ef4444;
           }
         }
       }
 
-      /** Controls Section */
       .section-controls {
         display: flex;
         flex-direction: column;
@@ -78,17 +80,15 @@
         .label {
           font-size: 14px;
           font-weight: 500;
-          color: #4b5563; /* Medium gray */
+          color: #4b5563;
           margin-bottom: 4px;
         }
 
-        /** Select Dropdowns */
-        select,
         .ant-select-selector {
           width: 100%;
           max-width: 250px;
           height: 38px;
-          border: 1px solid #d1d5db; /* Light border */
+          border: 1px solid #d1d5db;
           border-radius: 8px;
           padding: 0 12px;
           font-size: 14px;
@@ -98,18 +98,17 @@
 
           &:hover,
           &:focus {
-            border-color: black; /* Blue on interaction */
+            border-color: black;
             outline: none;
           }
         }
 
-        /** Cards in Row Control */
         .cardsInRowControl {
           .rangeContainer {
             display: flex;
             align-items: center;
             gap: 12px;
-            background: #f1f5f9; /* Light slate background */
+            background: #f1f5f9;
             padding: 8px 12px;
             border-radius: 8px;
             border: 1px solid #e5e7eb;
@@ -127,7 +126,7 @@
 
               &::-webkit-slider-runnable-track {
                 height: 6px;
-                background: #d1d5db; /* Gray track */
+                background: #d1d5db;
                 border-radius: 3px;
               }
 
@@ -136,7 +135,7 @@
                 height: 18px;
                 width: 18px;
                 border-radius: 50%;
-                background: black; /* Blue thumb */
+                background: black;
                 margin-top: -6px;
                 cursor: pointer;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -165,30 +164,18 @@
 
   .sections-manager-container {
     border-radius: 8px;
-    background-color: var(--card-bg-color, #fff); /* Palette background */
+    background-color: var(--card-bg-color, #fff);
   }
 
   .sections-manager-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border: 1px solid #d1d5db;
 
     .h3 {
       margin: 0;
-      color: var(--text-color, black); /* Palette text color */
-    }
-
-    button {
-      background: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 8px 12px;
-      cursor: pointer;
-
-      &:hover {
-        opacity: 0.9;
-      }
+      color: var(--text-color, black);
     }
   }
 
@@ -196,162 +183,4 @@
     display: flex;
     flex-direction: column;
   }
-
-  .section-item {
-    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
-    background: var(--card-bg-color, #fff); /* Palette background */
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 16px;
-    display: flex;
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
-
-      .section-title {
-        font-weight: 600;
-        color: var(--text-color, black); /* Palette text color */
-      }
-
-      .remove-btn {
-        background: transparent;
-        border: none;
-        font-size: 1rem;
-        cursor: pointer;
-        color: var(--text-color, #888); /* Palette text color with fallback */
-
-        &:hover {
-          color: #333;
-        }
-      }
-    }
-
-    .section-controls {
-      .cardsInRowControl {
-        .cardsInRowLabel {
-          font-weight: 500;
-          margin-bottom: 8px;
-          display: inline-block;
-          color: var(--text-color, black); /* Palette text color */
-        }
-
-        .rangeContainer {
-          width: max-content;
-          padding: 8px 16px;
-          background-color: #f8f8f8;
-          border-radius: 10px;
-          border: 1px solid #e4e4e4;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-
-          span {
-            font-weight: 500;
-            color: var(--text-color, black); /* Palette text color */
-          }
-
-          input[type="range"] {
-            -webkit-appearance: none;
-            width: 100px;
-            background: transparent;
-
-            &::-webkit-slider-runnable-track {
-              height: 4px;
-              background: repeating-linear-gradient(
-                              to left,
-                              black 4px,
-                              black 0,
-                              transparent 100px,
-                              transparent 100px
-              );
-              border-radius: 2px;
-            }
-
-            &::-moz-range-track {
-              height: 4px;
-              background: repeating-linear-gradient(
-                              to right,
-                              #ccc 0,
-                              #ccc 4px,
-                              transparent 4px,
-                              transparent 8px
-              );
-              border-radius: 2px;
-            }
-
-            &::-webkit-slider-thumb {
-              -webkit-appearance: none;
-              height: 16px;
-              width: 16px;
-              border-radius: 50%;
-              background: #000;
-              margin-top: -6px;
-              cursor: pointer;
-            }
-
-            &::-moz-range-thumb {
-              height: 16px;
-              width: 16px;
-              border-radius: 50%;
-              background: #000;
-              cursor: pointer;
-            }
-          }
-        }
-      }
-
-      .inputWrapper1123 {
-        display: flex;
-        flex-direction: column;
-
-        .label {
-          margin-bottom: 2px;
-          color: var(--text-color, #343A40); /* Palette text color */
-        }
-      }
-
-      .inputWrapper {
-        display: flex;
-        flex-direction: column;
-
-        .label {
-          margin-bottom: 2px;
-          color: var(--text-color, #343A40); /* Palette text color */
-        }
-
-        input, option {
-          border: 1px solid #343A40;
-          height: 30px;
-          border-radius: 4px;
-          margin-bottom: 20px;
-          padding: 0 10px;
-          font-size: 14px;
-          color: var(--text-color, black); /* Palette text color */
-        }
-      }
-
-      select {
-        width: 100%;
-        border: 1px solid #343A40;
-        height: 30px;
-        border-radius: 4px;
-        margin-bottom: 20px;
-        color: var(--text-color, #3C3C3C); /* Palette text color */
-        padding: 0 8px;
-        font-size: 14px;
-
-        option {
-          border: 1px solid #343A40;
-          height: 30px;
-          border-radius: 4px;
-          margin-bottom: 20px;
-          width: 100%;
-          color: var(--text-color, black); /* Palette text color */
-        }
-      }
-    }
-  }
-
 }

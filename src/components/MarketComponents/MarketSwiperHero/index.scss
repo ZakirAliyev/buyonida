@@ -19,12 +19,14 @@
         font-size: 59.49px;
         line-height: 100%;
         margin-bottom: 9px;
+        padding-left: 16px;
       }
       p{
         font-weight: 300;
         font-size: 20px;
         line-height: 100%;
         margin-bottom: 32px;
+        padding-left: 16px;
       }
       button {
         display: flex;
@@ -39,6 +41,7 @@
         line-height: 28.17px;
         transition: all .2s ease;
         font-family: "Poppins", sans-serif;
+        margin-left: 16px;
         //&:hover {
         //  background-color: #2F2F2F;
         //  color: white;

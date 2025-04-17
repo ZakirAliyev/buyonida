@@ -4,7 +4,7 @@ import { IoMdHome, IoMdSettings, IoMdWallet } from 'react-icons/io';
 import { RiDiscountPercentFill, RiPagesLine } from 'react-icons/ri';
 import { AiFillProduct } from 'react-icons/ai';
 import { FaStoreAlt } from 'react-icons/fa';
-import {MdAnalytics, MdOutlinePayments, MdSpaceDashboard} from 'react-icons/md';
+import { MdAnalytics, MdOutlinePayments, MdSpaceDashboard } from 'react-icons/md';
 import { useState } from 'react';
 import Cookies from "js-cookie";
 import { IoStorefront } from "react-icons/io5";
@@ -13,9 +13,19 @@ import { PiFilesFill } from "react-icons/pi";
 
 function AdminLeftMenu() {
     const location = useLocation();
-    const [showSubmenu, setShowSubmenu] = useState(true);
+    const [openSubmenu, setOpenSubmenu] = useState(null); // Track which submenu is open
 
-    const isSelected = (path) => location.pathname === path ? 'selected' : '';
+    // Updated isSelected to handle multiple paths and partial matches
+    const isSelected = (paths) => {
+        if (Array.isArray(paths)) {
+            // Check if any path in the array matches the current pathname
+            return paths.includes(location.pathname) ? 'selected' : '';
+        } else if (typeof paths === 'string') {
+            // Check if the current pathname starts with the given path
+            return location.pathname.startsWith(paths) ? 'selected' : '';
+        }
+        return '';
+    };
 
     // Define settings-related paths
     const settingsPaths = [
@@ -29,6 +39,11 @@ function AdminLeftMenu() {
 
     // Check if the current path is a settings-related path
     const isSettingsPage = settingsPaths.includes(location.pathname);
+
+    // Toggle submenu for a specific menu item
+    const handleToggleSubmenu = (menu) => {
+        setOpenSubmenu(openSubmenu === menu ? null : menu); // Toggle the clicked submenu, close others
+    };
 
     return (
         <section id={'adminLeftMenu'}>
@@ -62,27 +77,49 @@ function AdminLeftMenu() {
                             <IoMdHome className={'icon'} />
                             Home
                         </Link>
-                        <Link to={'/cp/orders'} className={`link ${isSelected('/cp/orders')}`}>
-                            <RiPagesLine className={'icon'} />
-                            Orders
-                        </Link>
-                        <Link to={`/cp/products`} className={`link ${isSelected('/cp/products')} ${isSelected('/cp/categories')} ${isSelected('/cp/collections')}`}>
-                            <AiFillProduct className={'icon'} />
-                            Products
-                        </Link>
-                        {showSubmenu && (
-                            <div className={"wrrara"}>
-                                <div className={"firt"}></div>
-                                <div className='submenu'>
-                                    <Link to={'/cp/categories'} className='sublink'>
+                        <div className="menu-item">
+                            <div
+                                className={`link ${isSelected(['/cp/orders', '/cp/abandoned-checkouts'])}`} // Highlight if Orders or Abandoned Checkouts is selected
+                                onClick={() => handleToggleSubmenu('orders')}
+                            >
+                                <RiPagesLine className={'icon'} />
+                                Orders
+                            </div>
+                            <div className={`wrrara ${openSubmenu === 'orders' ? 'open' : ''}`}>
+                                <div className="firt"></div>
+                                <div className="submenu">
+                                    <Link to={'/cp/orders'} className="sublink">
+                                        Orders
+                                    </Link>
+                                    <Link to={'/cp/abandoned-checkouts'} className="sublink">
+                                        Abandoned checkouts
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="menu-item">
+                            <div
+                                className={`link ${isSelected(['/cp/products', '/cp/categories', '/cp/collections'])}`} // Highlight if Products, Categories, or Collections is selected
+                                onClick={() => handleToggleSubmenu('products')}
+                            >
+                                <AiFillProduct className={'icon'} />
+                                Inventory
+                            </div>
+                            <div className={`wrrara ${openSubmenu === 'products' ? 'open' : ''}`}>
+                                <div className="firt"></div>
+                                <div className="submenu">
+                                    <Link to={'/cp/products'} className="sublink">
+                                        Products
+                                    </Link>
+                                    <Link to={'/cp/categories'} className="sublink">
                                         Categories
                                     </Link>
-                                    <Link to={'/cp/collections'} className='sublink'>
+                                    <Link to={'/cp/collections'} className="sublink">
                                         Collections
                                     </Link>
                                 </div>
                             </div>
-                        )}
+                        </div>
                         <Link to={`/cp/analytics/${Cookies.get('chooseMarket')}`} className={`link ${isSelected('/cp/analytics')}`}>
                             <MdAnalytics className={'icon'} />
                             Analytics

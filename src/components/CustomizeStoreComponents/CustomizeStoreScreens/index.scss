@@ -3,6 +3,15 @@
   height: calc(100vh - 60px);
   font-weight: 500;
 
+  .save-sections-btn {
+    background: transparent;
+    border: 1px solid #cccccc;
+    margin-left: 16px;
+    padding: 2px 16px;
+    border-radius: 5px;
+    margin-bottom: 50px;
+  }
+
   .csplus {
     margin-left: 10px;
     font-size: 20px;

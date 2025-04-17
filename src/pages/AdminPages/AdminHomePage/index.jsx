@@ -24,6 +24,8 @@ import AdminPaymentsMenu from "../../../components/AdminComponents/AdminMenus/Ad
 import AdminShippingAndDeliveryMenu
     from "../../../components/AdminComponents/AdminMenus/AdminShippingAndDeliveryMenu/index.jsx";
 import AdminPoliciesMenu from "../../../components/AdminComponents/AdminMenus/AdminPoliciesMenu/index.jsx";
+import AdminAbandonedCheckoutsMenu
+    from "../../../components/AdminComponents/AdminMenus/AdminAbandonedCheckoutsMenu/index.jsx";
 
 function AdminHomePage() {
     const url = useLocation();
@@ -42,6 +44,11 @@ function AdminHomePage() {
                     {url.pathname === '/cp/orders' && (
                         <div className="container1">
                             <AdminOrdersMenu />
+                        </div>
+                    )}
+                    {url.pathname === '/cp/abandoned-checkouts' && (
+                        <div className="container1">
+                            <AdminAbandonedCheckoutsMenu />
                         </div>
                     )}
                     {/^\/cp\/order-details\/\d+\/\d+$/.test(pathname) && (
