@@ -44,7 +44,6 @@ function AdminShippingAndDeliveryMenu() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Form Data Submitted:", formData);
         handleCloseModal();
     };
 

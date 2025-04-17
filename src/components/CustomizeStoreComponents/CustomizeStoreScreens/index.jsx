@@ -173,11 +173,8 @@ function CustomizeStoreScreens() {
                 }
 
                 if (tab.isNew) {
-                    // Create new banner item
-                    console.log(`CREATE Banner Item (${label}):`, formDataEntries);
                     try {
                         const response = await postSectionBannerItem(formData).unwrap();
-                        console.log(`Create Response for ${label}:`, response);
                         if (response?.statusCode === 201) {
                             message.success(`${label} banner created successfully!`);
                         } else {
@@ -189,11 +186,8 @@ function CustomizeStoreScreens() {
                         continue;
                     }
                 } else {
-                    // Update existing banner item
-                    console.log(`UPDATE Banner Item (${label}):`, formDataEntries);
                     try {
                         const response = await editSectionBannerItem(formData).unwrap();
-                        console.log(`Update Response for ${label}:`, response);
                         if (response?.statusCode === 200) {
                             message.success(`${label} banner updated successfully!`);
                         } else {
@@ -223,9 +217,7 @@ function CustomizeStoreScreens() {
 
     async function handleDeleteBannerItem(tabId, label) {
         try {
-            console.log(`DELETE Banner Item (${label}):`, { Id: tabId });
             const response = await deleteBannerItem(tabId).unwrap();
-            console.log(`Delete Response for ${label}:`, response);
             if (response?.statusCode === 200) {
                 message.success(`${label} banner deleted successfully!`);
                 // Remove the tab from state

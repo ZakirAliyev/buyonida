@@ -1,12 +1,9 @@
 #marketAboutPage {
   background-color: #f6f6f6;
 
-  * {
-    font-family: 'Poppins', sans-serif;
-  }
 
   .section123 {
-    padding: 50px 16px;
+    padding: 150px 16px;
 
     @media (max-width: 768px) {
       padding: 100px 16px 80px 16px;

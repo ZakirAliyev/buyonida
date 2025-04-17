@@ -230,7 +230,7 @@ export default function MarketNavbarDrawer({logo,palet}) {
     return (
         <div>
             <FaBars onClick={toggleDrawer(true)} style={{
-                color: 'black'
+                color: palet?.[0]?.navbarTextColor || '#ffffff', marginTop: '10px'
             }}/>
             <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
                 {DrawerList}

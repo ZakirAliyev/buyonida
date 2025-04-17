@@ -3,6 +3,8 @@ import MarketNavbar from "../../components/MarketComponents/MarketNavbar/index.j
 import MarketFooter from "../../components/MarketComponents/MarketFooter/index.jsx";
 import { useGetStoreByNameQuery, useGetStoreWithSectionsQuery } from "../../service/userApi.js";
 import { useLocation } from "react-router";
+import {PulseLoader} from "react-spinners";
+import logo from "/src/assets/qaraLogo.png"
 
 const MarketLayout = () => {
     const location = useLocation();
@@ -15,12 +17,10 @@ const MarketLayout = () => {
         ? decodedPath.split('/')[1].replace(/^@/, '') // Take the second segment (after "/@") and remove "@"
         : decodedPath.split('/')[1] || ''; // Fallback if no "@" (take second segment if available)
 
-    console.log("Cleaned Path:", cleanedPath);
 
     // Fetch store data by cleaned store name
     const { data: getStoreByName, isLoading: isStoreLoading, error: storeError } = useGetStoreByNameQuery(cleanedPath);
     const store = getStoreByName?.data;
-    console.log("Store:", store);
 
     const id = store?.id;
 
@@ -35,11 +35,13 @@ const MarketLayout = () => {
     const selectedPaletId = getStoreWithSections?.data?.selectedPaletId;
     const palet = palets?.filter((p) => p.id === selectedPaletId);
 
-    console.log("Font:", font);
 
     // Handle loading states for both queries
     if (isStoreLoading || isSectionsLoading) {
-        return <div>Loading...</div>;
+        return <div className={"screenAll"}>
+            <img src={logo} alt={"logo"}/>
+            <PulseLoader size={20}/>
+        </div>;
     }
 
     // Handle error states for both queries

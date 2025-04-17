@@ -8,7 +8,6 @@ import { useGetStoreWithSectionsQuery } from "../../../../service/userApi.js";
 import {Link} from "react-router-dom";
 
 export default function CSMarketSwiperHero({ swipers = [] }) {
-    console.log(swipers);
     const { data: getStoreWithSectionsByMarketId } = useGetStoreWithSectionsQuery(Cookies.get("chooseMarket"));
     const storeWithSections = getStoreWithSectionsByMarketId?.data;
     const selectedPaletId = storeWithSections?.selectedPaletId;

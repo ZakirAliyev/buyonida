@@ -2,7 +2,9 @@
 #marketNavbar {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   padding: 16px;
-
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
   img {
     width: 100%;
   }
@@ -53,10 +55,10 @@
           position: absolute;
           top: 100%;
           left: 0;
-          min-width: 200px;
+          min-width: 150px;
           background-color: #ffffff;
           border: 1px solid #ddd;
-          border-radius: 4px;
+          border-radius: 10px;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
           z-index: 1000;
           opacity: 0;
@@ -65,8 +67,7 @@
           transition: opacity 0.3s ease, transform 0.3s ease;
           display: flex;
           flex-direction: column;
-          padding: 10px 0;
-
+          overflow: hidden;
           &.show {
             opacity: 1;
             transform: translateY(0);
@@ -74,15 +75,12 @@
           }
 
           .dropdown-item {
-            padding: 10px 20px;
+            padding: 10px 10px;
             font-size: 14px;
             font-weight: 500;
             text-decoration: none;
             transition: background-color 0.2s ease;
-
-            &:hover {
-              background-color: #f6f6f6;
-            }
+            border-bottom: 1px solid #ddd;
           }
         }
       }
@@ -263,5 +261,13 @@
         width: 100%;
       }
     }
+  }
+}
+.mobile-only {
+  display: none;
+}
+@media (max-width: 767px) {
+  .mobile-only {
+    display: block;
   }
 }

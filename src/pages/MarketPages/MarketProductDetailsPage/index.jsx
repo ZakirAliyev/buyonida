@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect, useCallback} from "react";
 import "./index.scss";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {
     useGetAllProductsByMarketIdQuery,
     useGetProductByIdQuery,
     useGetStoreByNameQuery,
     usePostAddProductMutation,
-    useGetBasketGetOrCreateQuery,
+    useGetBasketGetOrCreateQuery, useGetStoreWithSectionsQuery, usePostBasketCheckoutMutation,
 } from "../../../service/userApi.js";
 import { PRODUCT_LOGO } from "../../../../constants.js";
 import MarketCard from "../../../components/MarketComponents/MarketCard/index.jsx";
@@ -18,6 +18,7 @@ import {
 import { toast, ToastContainer } from "react-toastify";
 import Cookies from "js-cookie";
 import MarketCard2 from "../../../components/MarketComponents/MarketCard2/index.jsx";
+import MarketCard3 from "../../../components/MarketComponents/MarketCard3/index.jsx";
 
 function MarketProductDetailsPage() {
     // URL parametrelerini al
@@ -26,15 +27,11 @@ function MarketProductDetailsPage() {
     const cleanedMarketName = decodedMarketName.startsWith('@')
         ? decodedMarketName.split('/')[0].substring(1)
         : decodedMarketName.split('/')[0];
-    console.log("Cleaned Market Name:", cleanedMarketName);
-    console.log(cleanedMarketName);
 
     const { data: getStoreByName, isLoading: isStoreLoading, error: storeError } =
         useGetStoreByNameQuery(cleanedMarketName);
     const store = getStoreByName?.data;
     const marketId = store?.id;
-    console.log(marketId);
-    console.log("Market ID:", marketId);
 
     const uniqueCode = Cookies.get("uniqueCode");
 
@@ -66,7 +63,7 @@ function MarketProductDetailsPage() {
 
     // Ürünler kısmındaki mobil slider state
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-    const slideCount = products ? products.slice(0, 5).length : 0;
+    const slideCount = products ? products?.slice(0, 5).length : 0;
 
     // Otomatik ürün slider (Products you might like) timer
     useEffect(() => {
@@ -76,7 +73,11 @@ function MarketProductDetailsPage() {
         }, 4000);
         return () => clearInterval(interval);
     }, [slideCount]);
-
+    const { data: getStoreWithSections } = useGetStoreWithSectionsQuery(marketId, {
+    });
+    const palets = getStoreWithSections?.data?.palets || [];
+    const selectedPaletId = getStoreWithSections?.data?.selectedPaletId;
+    const palet = palets?.filter((p) => p.id === selectedPaletId);
     // Variant seçimi
     const handleVariantChange = (optionName, value) => {
         setSelectedVariants((prev) => ({ ...prev, [optionName]: value }));
@@ -175,19 +176,40 @@ function MarketProductDetailsPage() {
         );
     };
 
-    if (isStoreLoading || isProductLoading || isProductsLoading) {
-        return <div>Loading...</div>;
-    }
-    if (storeError) {
-        return <div>Error loading store: {storeError.message}</div>;
-    }
-    if (!product) {
-        return <div>Product not found</div>;
-    }
+    const navigate = useNavigate();
+    const [postBasketCheckout] = usePostBasketCheckoutMutation();
+
+    const handleYasinCheckPut = useCallback(async (marketId) => {
+        if (!uniqueCode || !marketId) {
+            toast.error("Invalid session or market. Please try again.", {
+                position: "bottom-right",
+                autoClose: 2500,
+                theme: "dark",
+            });
+            return;
+        }
+
+        try {
+            await postBasketCheckout({ uniqueCode, marketId }).unwrap();
+            navigate(`/checkout/${marketId}`);
+        } catch (error) {
+            console.error("Error during checkout:", error);
+            toast.error("Checkout failed. Please try again.", {
+                position: "bottom-right",
+                autoClose: 2500,
+                theme: "dark",
+            });
+        }
+    }, [postBasketCheckout, uniqueCode, marketId, navigate]);
+
+
 
     return (
-        <section id="marketProductDetailsPage">
-            <div className="section">
+        <section id="marketProductDetailsPage" style={{
+            backgroundColor: palet?.[0]?.backgroundColor || '#ffffff',
+            color: palet?.[0]?.textColor || '#000000',
+        }}>
+            <div className="section" >
                 <div className="container">
                     <div className="row">
                         <div className="col-6 col-md-12 col-sm-12 col-xs-12">
@@ -303,14 +325,14 @@ function MarketProductDetailsPage() {
                                 </div>
                                 <button onClick={handleAddToCart}>ADD TO CART</button>
                             </div>
-                            <button>BUY IT NOW</button>
+                            <button onClick={()=> handleYasinCheckPut(marketId)}>BUY IT NOW</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Products you might like section */}
-            <div className="container" key={product?.id} style={{ paddingBottom: 70 }}>
+            <div className="container" key={product?.id} style={{ paddingBottom: 70 }} >
                 <div className="section-header">
                     <h1 style={{ padding: "16px" }}>Products you might like</h1>
                     <div className="desktop-button">
@@ -323,8 +345,8 @@ function MarketProductDetailsPage() {
                 <div className="desktop-grid">
                     <div className="row">
                         {products &&
-                            products.slice(0, 5).map((prod) => (
-                                <MarketCard2 number={5} key={prod.id} product={prod} />
+                            products?.slice(0, 5).map((prod) => (
+                                <MarketCard2 number={5} key={prod.id} product={prod} marketName={cleanedMarketName}/>
                             ))}
                     </div>
                 </div>
@@ -347,16 +369,25 @@ function MarketProductDetailsPage() {
                             }}
                         >
                             {products &&
-                                products.slice(0, 5).map((prod) => (
+                                products?.slice(0, 5).map((prod) => (
                                     <div key={prod.id} className="custom-slide">
-                                        <MarketCard2 number={1} product={prod} />
+                                        <MarketCard3 number={1} product={prod} marketName={cleanedMarketName}/>
                                     </div>
                                 ))}
                         </div>
-                        <div className="custom-swiper-pagination"></div>
+                        <div className="custom-swiper-pagination">
+                            {products?.slice(0, 5).map((_, idx) => (
+                                <span
+                                    key={idx}
+                                    className={currentSlideIndex === idx ? "active" : ""}
+                                    onClick={() => setCurrentSlideIndex(idx)}
+                                />
+                            ))}
+                        </div>
+
                     </div>
                     <div className="mobile-button">
-                        <button>
+                        <button onClick={()=> navigate('/')}>
                             Find out more <HiOutlineArrowLongRight className="icon" />
                         </button>
                     </div>

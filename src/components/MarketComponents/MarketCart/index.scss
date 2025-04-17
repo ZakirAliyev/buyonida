@@ -1,40 +1,33 @@
 #marketCart {
-
   img {
     border-radius: 10px;
     border: 1px solid #ccc;
     width: 100%;
     aspect-ratio: 1/1;
     object-fit: cover;
-
   }
 
   .cart-sidebar {
     position: fixed;
     display: flex;
-    flex-direction: column;justify-content: space-between;
+    flex-direction: column;
     top: 0;
     right: 0;
-    width: 460px; /* Burada genişliyi istədiyiniz kimi tənzimləyə bilərsiniz */
+    max-width: 500px;
+    width: 100%;
     height: 100vh;
     background-color: #fff;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-    transform: translateX(100%); /* Başlanğıcda ekranın sağından kənardadır */
+    transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
     z-index: 9999;
-    overflow-y: auto;
 
     &.open {
-      transform: translateX(0); /* Açıq olduqda içəri sürüşür */
+      transform: translateX(0);
     }
 
-    .close-btn {
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      float: right;
-      color: #333;
+    .cart-header {
+      flex-shrink: 0; /* Prevent header from shrinking */
     }
 
     .cart-title {
@@ -42,16 +35,28 @@
       font-size: 1.4rem;
       font-weight: 600;
       margin-bottom: 20px;
-      padding: 10px 0;
       background-color: #2F2F2F;
       color: white;
-      text-align: center;
       border-bottom-right-radius: 15px;
       border-bottom-left-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
     }
 
     .cart-items {
+      flex: 1; /* Take up remaining space */
+      overflow-y: auto; /* Enable vertical scrolling */
+      max-height: calc(100vh - 300px); /* Adjust based on header and footer height */
       padding: 20px;
+      -ms-overflow-style: none; /* Hide scrollbar in IE/Edge */
+      scrollbar-width: none; /* Hide scrollbar in Firefox */
+
+      &::-webkit-scrollbar {
+        display: none; /* Hide scrollbar in WebKit browsers (Chrome, Safari, Edge) */
+      }
+
       .cart-item {
         display: flex;
         margin-bottom: 20px;
@@ -94,7 +99,8 @@
               align-items: center;
 
               .btnWrapper {
-              border: 1px solid black;
+                border: 1px solid black;
+                overflow: hidden;
                 border-radius: 100px;
                 button {
                   width: 24px;
@@ -115,6 +121,10 @@
           }
         }
       }
+    }
+
+    .cart-footer {
+      flex-shrink: 0; /* Prevent footer from shrinking */
     }
 
     .cart-summary {
@@ -138,7 +148,6 @@
       width: 91%;
       background-color: #333;
       color: #fff;
-      border: none;
       padding: 14px 0;
       font-weight: 600;
       cursor: pointer;
@@ -149,6 +158,11 @@
       gap: 16px;
       font-size: 20px;
       margin: 20px;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
     }
   }
 

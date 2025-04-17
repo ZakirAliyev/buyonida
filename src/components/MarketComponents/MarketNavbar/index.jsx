@@ -1,7 +1,6 @@
-// MarketNavbar.jsx
 import './index.scss';
-import { useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import {useState, useEffect, useRef} from 'react';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {
     FaShoppingBag,
     FaTimes,
@@ -10,78 +9,97 @@ import {
     FaInstagram,
     FaTwitter,
     FaLinkedinIn,
-    FaYoutube, FaBars,
+    FaYoutube,
 } from 'react-icons/fa';
 
-// Import your custom drawer component
 import MarketNavbarDrawer from '../MarketNavbarDrawer';
-
 import MarketCart from '../MarketCart';
 import {
     useGetBasketGetOrCreateQuery,
     useGetStoreByNameQuery,
     useGetStoreWithSectionsQuery,
 } from '../../../service/userApi.js';
-import { MARKET_LOGO } from '../../../../constants.js';
+import {MARKET_LOGO} from '../../../../constants.js';
 import Cookies from 'js-cookie';
 
-function MarketNavbar({ palet }) {
+function MarketNavbar({palet}) {
     const params = useParams();
     const navigate = useNavigate();
-    const name = params?.marketName?.substring(1, params.marketName.length);
+    const name = params?.marketName?.substring(1) || '';
+    console.log(name)
 
-    const { data: getStoreByName } = useGetStoreByNameQuery(name || 'Zakir magaza');
+    const {data: getStoreByName} = useGetStoreByNameQuery(name || 'Zakir magaza');
     const store = getStoreByName?.data;
     const marketId = store?.id;
 
-    const { data: getStoreWithSections } = useGetStoreWithSectionsQuery(marketId, { skip: !marketId });
+    const {data: getStoreWithSections} = useGetStoreWithSectionsQuery(marketId, {skip: !marketId});
     const sections = getStoreWithSections?.data?.sections || [];
 
-    // Kategorileri ve koleksiyonları al
+    // Categories and collections
     const categories = sections
         .filter((section) => section.sectionType === 'Category')
         .map((section) => section.category)
         .filter(Boolean);
-
     const collections = sections
         .filter((section) => section.sectionType === 'Collection')
         .map((section) => section.collection)
         .filter(Boolean);
 
-    const [isOpen, setIsOpen] = useState(false); // Sepet aç/kapa
-    const [isMenuOpen, setIsMenuOpen] = useState(false); // Mobil menü aç/kapa
+    // State
+    const [isOpen, setIsOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
     const [isCollectionsOpen, setIsCollectionsOpen] = useState(false);
 
+    // Refs for outside click
+    const categoriesRef = useRef(null);
+    const collectionsRef = useRef(null);
+
+    // Close dropdowns on outside click
+    useEffect(() => {
+        function handleOutsideClick(e) {
+            if (
+                isCategoriesOpen &&
+                categoriesRef.current &&
+                !categoriesRef.current.contains(e.target)
+            ) {
+                setIsCategoriesOpen(false);
+            }
+            if (
+                isCollectionsOpen &&
+                collectionsRef.current &&
+                !collectionsRef.current.contains(e.target)
+            ) {
+                setIsCollectionsOpen(false);
+            }
+        }
+
+        document.addEventListener('mousedown', handleOutsideClick);
+        return () => document.removeEventListener('mousedown', handleOutsideClick);
+    }, [isCategoriesOpen, isCollectionsOpen]);
+
+    // Basket
     const uniqueCode = Cookies.get('uniqueCode');
-    const { data: basketData } = useGetBasketGetOrCreateQuery(
-        { marketId, uniqueCode },
-        { skip: !marketId || !uniqueCode }
+    const {data: basketData} = useGetBasketGetOrCreateQuery(
+        {marketId, uniqueCode},
+        {skip: !marketId || !uniqueCode}
     );
-    const basket = basketData?.data;
-    const basketItems = basket?.basketItems || [];
+    const basketItems = basketData?.data?.basketItems || [];
 
-    const handleOpenCart = () => {
-        setIsOpen(true);
-    };
-
-    const handleCloseCart = () => {
-        setIsOpen(false);
-    };
-
+    // Handlers
+    const handleOpenCart = () => setIsOpen(true);
+    const handleCloseCart = () => setIsOpen(false);
     const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-        setIsCategoriesOpen(false); // Menü tekrar açılınca alt menüleri kapat
+        setIsMenuOpen((open) => !open);
+        setIsCategoriesOpen(false);
         setIsCollectionsOpen(false);
     };
-
     const toggleCategories = () => {
-        setIsCategoriesOpen(!isCategoriesOpen);
-        setIsCollectionsOpen(false); // Öteki alt menüyü kapat
+        setIsCategoriesOpen((open) => !open);
+        setIsCollectionsOpen(false);
     };
-
     const toggleCollections = () => {
-        setIsCollectionsOpen(!isCollectionsOpen);
+        setIsCollectionsOpen((open) => !open);
         setIsCategoriesOpen(false);
     };
 
@@ -95,21 +113,16 @@ function MarketNavbar({ palet }) {
         >
             <div className="container">
                 <nav>
-                    {/* LOGO */}
-                    <div
-                        className="logo"
-                        onClick={() => {
-                            navigate(`/${params?.marketName || ''}`);
-                        }}
-                    >
+                    {/* Logo */}
+                    <div className="logo" onClick={() => navigate(`/${params?.marketName || ''}`)}>
                         <img
-                            style={{ width: `${store?.logoWidth}px` }}
-                            src={store?.logoImageName ? MARKET_LOGO + store.logoImageName : ''}
+                            style={{width: `${store?.logoWidth}px`}}
+                            src={store?.logoImageName ? MARKET_LOGO + store?.logoImageName : ''}
                             alt="Logo"
                         />
                     </div>
 
-                    {/* LİNKLER / DROPDOWNLAR / SOSYAL İKONLAR */}
+                    {/* Links / dropdowns / social icons */}
                     <div
                         className={`links ${isMenuOpen ? 'active' : ''}`}
                         style={{
@@ -117,17 +130,15 @@ function MarketNavbar({ palet }) {
                             color: palet?.[0]?.navbarTextColor || '#000000',
                         }}
                     >
-                        <FaTimes className="close-icon" onClick={toggleMenu} />
+                        <FaTimes className="close-icon" onClick={toggleMenu}/>
 
-                        <div className="dropdown">
+                        <div className="dropdown" ref={categoriesRef}>
                             <div
                                 className="link dropdown-toggle"
                                 onClick={toggleCategories}
-                                style={{
-                                    color: palet?.[0]?.navbarTextColor || '#000000',
-                                }}
+                                style={{color: palet?.[0]?.navbarTextColor || '#000000'}}
                             >
-                                CATEGORIES <FaChevronDown className="chevron" />
+                                CATEGORIES <FaChevronDown className="chevron"/>
                             </div>
                             <div
                                 className={`dropdown-menu ${isCategoriesOpen ? 'show' : ''}`}
@@ -142,9 +153,7 @@ function MarketNavbar({ palet }) {
                                             key={category.id}
                                             to={`/${params?.marketName}/category/${category.id}`}
                                             className="dropdown-item"
-                                            style={{
-                                                color: palet?.[0]?.navbarTextColor || '#ffffff',
-                                            }}
+                                            style={{color: palet?.[0]?.navbarTextColor || '#000000'}}
                                             onClick={() => {
                                                 setIsCategoriesOpen(false);
                                                 setIsMenuOpen(false);
@@ -154,28 +163,21 @@ function MarketNavbar({ palet }) {
                                         </Link>
                                     ))
                                 ) : (
-                                    <div
-                                        className="dropdown-item"
-                                        style={{
-                                            color: palet?.[0]?.navbarTextColor || '#ffffff',
-                                        }}
-                                    >
+                                    <div className="dropdown-item"
+                                         style={{color: palet?.[0]?.navbarTextColor || '#000000'}}>
                                         No Categories
                                     </div>
                                 )}
                             </div>
                         </div>
 
-                        {/* COLLECTIONS */}
-                        <div className="dropdown">
+                        <div className="dropdown" ref={collectionsRef}>
                             <div
                                 className="link dropdown-toggle"
                                 onClick={toggleCollections}
-                                style={{
-                                    color: palet?.[0]?.navbarTextColor || '#000000',
-                                }}
+                                style={{color: palet?.[0]?.navbarTextColor || '#000000'}}
                             >
-                                COLLECTIONS <FaChevronDown className="chevron" />
+                                COLLECTIONS <FaChevronDown className="chevron"/>
                             </div>
                             <div
                                 className={`dropdown-menu ${isCollectionsOpen ? 'show' : ''}`}
@@ -190,9 +192,7 @@ function MarketNavbar({ palet }) {
                                             key={collection.id}
                                             to={`/${params?.marketName}/collection/${collection.id}`}
                                             className="dropdown-item"
-                                            style={{
-                                                color: palet?.[0]?.navbarTextColor || '#ffffff',
-                                            }}
+                                            style={{color: palet?.[0]?.navbarTextColor || '#000000'}}
                                             onClick={() => {
                                                 setIsCollectionsOpen(false);
                                                 setIsMenuOpen(false);
@@ -202,25 +202,18 @@ function MarketNavbar({ palet }) {
                                         </Link>
                                     ))
                                 ) : (
-                                    <div
-                                        className="dropdown-item"
-                                        style={{
-                                            color: palet?.[0]?.navbarTextColor || '#ffffff',
-                                        }}
-                                    >
+                                    <div className="dropdown-item"
+                                         style={{color: palet?.[0]?.navbarTextColor || '#000000'}}>
                                         No Collections
                                     </div>
                                 )}
                             </div>
                         </div>
 
-                        {/* ABOUT US */}
                         <Link
                             to={`/${params.marketName}/about`}
                             className="link"
-                            style={{
-                                color: palet?.[0]?.navbarTextColor || '#ffffff',
-                            }}
+                            style={{color: palet?.[0]?.navbarTextColor || '#000000'}}
                             onClick={() => setIsMenuOpen(false)}
                         >
                             ABOUT US
@@ -228,53 +221,63 @@ function MarketNavbar({ palet }) {
 
                         <div className="social-icons">
                             <a href="https://instagram.com" target="_blank" rel="noreferrer">
-                                <FaInstagram />
+                                <FaInstagram/>
                             </a>
                             <a href="https://facebook.com" target="_blank" rel="noreferrer">
-                                <FaFacebookF />
+                                <FaFacebookF/>
                             </a>
                             <a href="https://linkedin.com" target="_blank" rel="noreferrer">
-                                <FaLinkedinIn />
+                                <FaLinkedinIn/>
                             </a>
                             <a href="https://twitter.com" target="_blank" rel="noreferrer">
-                                <FaTwitter />
+                                <FaTwitter/>
                             </a>
                             <a href="https://youtube.com" target="_blank" rel="noreferrer">
-                                <FaYoutube />
+                                <FaYoutube/>
                             </a>
                         </div>
                     </div>
 
-                    {/* ARAMA, SEPET ve MARKET NAVBAR DRAWER */}
                     <div className="search">
-                        <input placeholder="Search" />
-                        <div>
+                        <input placeholder="Search"/>
+                        <div style={{
+                            display: 'flex'
+                        }}>
                             <FaShoppingBag
                                 className="icon"
                                 onClick={handleOpenCart}
-                                style={{
-                                    color: palet?.[0]?.navbarTextColor || '#ffffff',
-                                }}
+                                style={{color: palet?.[0]?.navbarTextColor || '#000000'}}
                             />
-                            {basketItems.length > 0 && (
-                                <sup style={{ color: 'black' }}>
-                                    {basketItems.reduce(
-                                        (total, item) => total + (item.quantity || 0),
-                                        0
-                                    )}
-                                </sup>
-                            )}
+                            <div style={{
+                                backgroundColor: 'red',
+                                width: '15px',
+                                height: '15px',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                borderRadius: '50%',
+                                fontSize: '10px',
+                                color: 'white',
+                                position: 'relative',
+                                left: '-5px'
+                            }}>
+                                {basketItems.length}
+                            </div>
                         </div>
 
-                        <MarketNavbarDrawer palet={palet} logo={store.logoImageName} toggleMenu={toggleMenu} />
+                        <div className="mobile-only">
+                            <MarketNavbarDrawer
+                                palet={palet}
+                                logo={store?.logoImageName}
+                                toggleMenu={toggleMenu}
+                            />
+                        </div>
                     </div>
                 </nav>
             </div>
 
-            {/* SEPET OVERLAY */}
             {isOpen && <div className="overlay" onClick={handleCloseCart}></div>}
-
-            <MarketCart basketItems={basketItems} isOpen={isOpen} onClose={handleCloseCart} />
+            <MarketCart palet={palet} basketItems={basketItems} isOpen={isOpen} onClose={handleCloseCart}/>
         </section>
     );
 }
