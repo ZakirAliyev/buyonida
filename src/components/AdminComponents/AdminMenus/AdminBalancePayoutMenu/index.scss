@@ -4,4 +4,254 @@
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
+
+  h2 {
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  .box {
+    margin-top: 25px;
+  }
+
+  .wrapper {
+    width: 100%;
+    background-color: white;
+    flex-direction: column;
+    border-radius: 15px;
+    padding: 32px;
+    display: flex;
+    border: 1px solid #D0D0D0;
+
+    .storeLogo {
+      text-align: center;
+      background-color: #FFBB00;
+      border-radius: 10px 10px 0 0;
+      font-size: 12px;
+      padding: 2px 4px 17px 4px;
+      font-weight: bold;
+    }
+
+    .inputWrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      input, textarea {
+        width: 100%;
+      }
+
+      .storeNameWrapper {
+        width: 100%;
+
+        .storeName {
+          background-color: #FFBB00;
+          width: max-content;
+          padding: 27px 30px 3px 30px;
+          margin-top: -25px;
+          font-size: 12px;
+          border-radius: 10px;
+          font-weight: bold;
+        }
+
+        input {
+          border: 1px solid black;
+          border-radius: 5px;
+          padding: 0 16px;
+          font-size: 18px;
+          height: 40px;
+          width: 100%;
+        }
+      }
+
+      .storeNameWrapper1 {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+
+        .storeName1 {
+          background-color: #FFBB00;
+          width: max-content;
+          padding: 3px 30px 27px 30px;
+          margin-bottom: -25px;
+          font-size: 12px;
+          border-radius: 10px;
+          font-weight: bold;
+        }
+
+        textarea {
+          border: 1px solid black;
+          border-radius: 20px;
+          padding: 10px 16px;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  .asdasdasdasd {
+    border: 1px solid #D0D0D0;
+    border-radius: 10px;
+    overflow: hidden;
+
+    .bozolan {
+      background-color: #F2F2F2;
+      padding: 16px 32px;
+      font-weight: 500;
+    }
+
+    .olan {
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .country-name {
+        font-size: 15px;
+        color: #8A8686;
+      }
+
+      .icon {
+        border-radius: 50%;
+        border: 1px solid #5A5A5A;
+      }
+    }
+
+    .line {
+      width: 100%;
+      height: 1px;
+      background-color: #D0D0D0;
+    }
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .modal-content {
+    overflow: hidden;
+    background: white;
+    border-radius: 15px;
+    width: 1000px;
+    max-width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+    h3 {
+      font-size: 20px;
+      font-weight: 700;
+      padding: 16px 0;
+    }
+
+    .form-group {
+      padding: 0 128px;
+      margin-bottom: 20px;
+
+      label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+
+      select,
+      input,
+      textarea {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #D0D0D0;
+        border-radius: 5px;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+
+      textarea {
+        height: 80px;
+        resize: none;
+      }
+
+      &.price-group {
+        display: flex;
+        align-items: flex-end;
+        gap: 10px;
+
+        div {
+          flex: 1;
+        }
+
+        .free-button {
+          padding: 8px 16px;
+          background: #F2F2F2;
+          border: 1px solid #D0D0D0;
+          border-radius: 5px;
+          font-size: 14px;
+          cursor: pointer;
+          transition: background 0.2s;
+
+          &:hover {
+            background: #E0E0E0;
+          }
+        }
+      }
+
+      .add-conditional {
+        color: #007BFF;
+        font-size: 14px;
+        cursor: pointer;
+        text-decoration: underline;
+
+        &:hover {
+          color: #0056b3;
+        }
+      }
+    }
+
+    .modal-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 0;
+      gap: 10px;
+      border-top: 1px solid #D0D0D0;
+
+      .cancel-button,
+      .done-button {
+        padding: 4px 32px;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .cancel-button {
+        background: #F2F2F2;
+        border: 1px solid #D0D0D0;
+        font-weight: 500;
+
+        &:hover {
+          background: #E0E0E0;
+        }
+      }
+
+      .done-button {
+        background: #FFBB00;
+        color: black;
+
+        &:hover {
+          background: #E0A800;
+        }
+      }
+    }
+  }
 }
