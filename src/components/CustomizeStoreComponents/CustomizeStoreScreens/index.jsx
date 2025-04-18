@@ -525,11 +525,14 @@ function CustomizeStoreScreens() {
                                 ))}
                             </Tabs>
                         </div>
-
-                        <SectionsManager onSectionsChange={setUpdatedSections} onDeletedIdsChange={setDeletedIds} />
-                        <button className="save-sections-btn" onClick={() => handlePutSection(getFinalJson())}>
-                            Save Changes
-                        </button>
+                            <SectionsManager onSectionsChange={setUpdatedSections} onDeletedIdsChange={setDeletedIds} />
+                            <div style={{
+                                padding: '0 16px'
+                            }}>
+                                <button className="save-sections-btn-123" onClick={() => handlePutSection(getFinalJson())}>
+                                    Save Changes
+                                </button>
+                            </div>
                     </div>
                     <CustomizeStoreSettingTab
                         activeMainTab={activeMainTab}

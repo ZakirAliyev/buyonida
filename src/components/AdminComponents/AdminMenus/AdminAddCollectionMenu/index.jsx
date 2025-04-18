@@ -14,12 +14,16 @@ import Cookies from "js-cookie";
 import {PRODUCT_LOGO} from "../../../../../constants.js";
 import {usePostCreateCollectionMutation} from "../../../../service/userApi.js";
 import {toast, ToastContainer} from "react-toastify";
+import {PulseLoader} from "react-spinners";
 
 const {Dragger} = Upload;
 
 function AdminAddCollectionMenu() {
     const navigate = useNavigate();
-
+    const [isActive, setIsActive] = useState(true);
+    const handleStatusToggle = () => {
+        setIsActive((prev) => !prev);
+    };
     // Kolleksiyanın ümumi məlumatları
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -139,12 +143,15 @@ function AdminAddCollectionMenu() {
         localStorage.removeItem('selectedProducts');
     };
 
+    const [loading, setLoading] = useState(false);
+
     // "Save changes" düyməsinə kliklədikdə bütün dataları toplayırıq
     const handleSaveChanges = async () => {
         const formData = new FormData();
         formData.append("title", title);
         formData.append("description", description || "");
         formData.append("marketId", Cookies.get('chooseMarket') || "");
+        formData.append("isActive", isActive);
 
         if (coverFile) {
             formData.append("coverImage", coverFile);
@@ -163,6 +170,7 @@ function AdminAddCollectionMenu() {
         };
         setCollectionData(data);
 
+        setLoading(true);
         try {
             const response = await postCreateCollection(formData).unwrap();
             if (response.statusCode === 201) {
@@ -191,6 +199,7 @@ function AdminAddCollectionMenu() {
                 theme: 'dark',
             });
         }
+        setLoading(false);
     };
 
     return (
@@ -198,7 +207,9 @@ function AdminAddCollectionMenu() {
             <div className="umumi">
                 <div className="abso">
                     <span>Collection status</span>
-                    <button>Active</button>
+                    <button onClick={handleStatusToggle}>
+                        {isActive ? "Active" : "Inactive"}
+                    </button>
                 </div>
                 <div className="lineWrapper">
                     <div className="arrow" onClick={() => navigate(-1)}>
@@ -327,14 +338,14 @@ function AdminAddCollectionMenu() {
                             </div>
                             <div className="line"></div>
                             <div className="textWrapper">
-                                <div className="inputWrapper1" style={{padding: '0'}}>
+                                <div className="inputWrapper1" style={{padding: '0', marginTop: '20px', alignItems: 'center', justifyContent: 'center'}}>
                                     {/* Əgər coverPreview varsa, yəni bir şəkil seçilibsə, onu göstəririk */}
                                     {coverPreview ? (
-                                        <div style={{position: 'relative', width: '100px', height: '100px'}}>
+                                        <div style={{position: 'relative', width: '150px', height: '150px',border: '1px solid #ccc', borderRadius: '10px', cursor: 'pointer'}} >
                                             <img
                                                 src={coverPreview}
                                                 alt="Preview"
-                                                style={{width: '100px', height: '100px', objectFit: 'cover'}}
+                                                style={{width: '150px', height: '150px', objectFit: 'cover'}}
                                             />
                                             <RxCross2
                                                 onClick={handleRemoveCoverImage}
@@ -374,7 +385,9 @@ function AdminAddCollectionMenu() {
 
             {/* "Save changes" düyməsi - bütün məlumatları toplayırıq */}
             <div className="buttin1">
-                <button onClick={handleSaveChanges}>Save changes</button>
+                <button onClick={handleSaveChanges}>{
+                    loading ? <PulseLoader color={"white"} size={8}/> : <>Save changes</>
+                }</button>
             </div>
 
             {/* Toplanan məlumatları ekranda JSON formatında göstərmək üçün nümunə */}

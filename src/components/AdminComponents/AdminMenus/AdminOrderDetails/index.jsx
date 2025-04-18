@@ -13,6 +13,9 @@ import { PRODUCT_LOGO } from "../../../../../constants.js";
 import { toast, ToastContainer } from "react-toastify";
 import { PulseLoader } from "react-spinners";
 import Cookies from "js-cookie";
+import {GiStabbedNote} from "react-icons/gi";
+import {SlNote} from "react-icons/sl";
+import {LuNotebookPen} from "react-icons/lu";
 
 function AdminOrderDetails() {
     const [isRefundModalOpen, setIsRefundModalOpen] = useState(false);
@@ -149,6 +152,21 @@ function AdminOrderDetails() {
                             <p>{orderData.address1}</p>
                             <p>{orderData.address2}</p>
                             <p>{orderData.postCode}</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="card summary-card" style={{
+                    marginBottom: '16px'
+                }}>
+                    <div className="status-wrapper">
+                        <LuNotebookPen/>
+                        <h3 style={{
+                            marginTop:"10px"
+                        }}>Special note</h3>
+                    </div>
+                    <div className="summary-row">
+                        <div className="summary-label">
+                            <span>{orderData?.specialNote}</span>
                         </div>
                     </div>
                 </div>

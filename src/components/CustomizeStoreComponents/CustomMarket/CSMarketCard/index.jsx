@@ -1,11 +1,9 @@
 import './index.scss';
 import { PRODUCT_LOGO } from "../../../../../constants.js";
-import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import {useGetStoreWithSectionsQuery} from "../../../../service/userApi.js";
 
 function CSMarketCard({ number, product }) {
-    const navigate = useNavigate();
     const { data: getStoreWithSectionsByMarketId } = useGetStoreWithSectionsQuery(Cookies.get("chooseMarket"));
     const storeWithSections = getStoreWithSectionsByMarketId?.data;
     const selectedPaletId = storeWithSections?.selectedPaletId;

@@ -3,15 +3,6 @@
   height: calc(100vh - 60px);
   font-weight: 500;
 
-  .save-sections-btn {
-    background: transparent;
-    border: 1px solid #cccccc;
-    margin-left: 16px;
-    padding: 2px 16px;
-    border-radius: 5px;
-    margin-bottom: 50px;
-  }
-
   .csplus {
     margin-left: 10px;
     font-size: 20px;
@@ -190,5 +181,14 @@
         width: 100%;
       }
     }
+  }
+
+  .save-sections-btn-123 {
+    border: 1px solid transparent;
+    padding: 7px 16px;
+    border-radius: 10px;
+    background: #FFBB00;
+    width: 100%;
+    margin-bottom: 20px;
   }
 }

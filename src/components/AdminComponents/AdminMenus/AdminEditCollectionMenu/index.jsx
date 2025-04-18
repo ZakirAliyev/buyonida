@@ -18,6 +18,7 @@ import { COLLECTION_LOGO, PRODUCT_LOGO } from "../../../../../constants.js";
 import { GoDotFill } from "react-icons/go";
 import Cookies from "js-cookie";
 import { toast, ToastContainer } from "react-toastify";
+import {PulseLoader} from "react-spinners";
 
 const { Dragger } = Upload;
 
@@ -136,7 +137,7 @@ function AdminEditCollectionMenu() {
     };
 
     const [editCollection] = useEditCollectionMutation();
-
+    const [loading, setLoading] = useState(false);
     const handleSaveChanges = async () => {
         const newErrors = {};
         if (!title.trim()) {
@@ -174,6 +175,7 @@ function AdminEditCollectionMenu() {
             formData.append('deleteProductIds', productId);
         });
 
+        setLoading(true);
         try {
             const response = await editCollection(formData).unwrap();
             if (response?.statusCode === 200) {
@@ -202,8 +204,8 @@ function AdminEditCollectionMenu() {
                 theme: 'dark',
             });
         }
-
         message.success("Collection updated successfully!");
+        setLoading(false);
     };
 
     return (
@@ -383,7 +385,9 @@ function AdminEditCollectionMenu() {
             </div>
 
             <div className="buttin1">
-                <button onClick={handleSaveChanges}>Save changes</button>
+                <button onClick={handleSaveChanges}>{
+                    loading ? <PulseLoader color={"white"} size={8}/> : <>Save changes</>
+                }</button>
             </div>
 
             <Modal

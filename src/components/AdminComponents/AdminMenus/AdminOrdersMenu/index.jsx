@@ -6,7 +6,10 @@ import Cookies from "js-cookie";
 import { useState } from "react";
 
 function AdminOrdersMenu() {
-    const { data: getOrdersByMarketId } = useGetOrdersByMarketIdQuery(Cookies.get('chooseMarket'));
+    const { data: getOrdersByMarketId, refetch } = useGetOrdersByMarketIdQuery(
+        Cookies.get('chooseMarket'),
+        { refetchOnMountOrArgChange: true } // Refetch on component mount
+    );
     const orders = getOrdersByMarketId?.data || [];
     const [filter, setFilter] = useState("All");
 
@@ -95,16 +98,16 @@ function AdminOrdersMenu() {
                             <td>{order.name} {order.surname}</td>
                             <td>${order.totalPrice.toFixed(2)}</td>
                             <td>
-                                    <span className={order.isPayment ? "paid" : "unpaid"}>
-                                        <GoDotFill className="status-icon" />
-                                        {order.isPayment ? "Paid" : "Unpaid"}
-                                    </span>
+                                <span className={order.isPayment ? "paid" : "unpaid"}>
+                                    <GoDotFill className="status-icon" />
+                                    {order.isPayment ? "Paid" : "Unpaid"}
+                                </span>
                             </td>
                             <td>
-                                    <span className={order.isFulfilled ? "fulfilled" : "unfulfilled"}>
-                                        <GoDotFill className="status-icon" />
-                                        {order.isFulfilled ? "Fulfilled" : "Unfulfilled"}
-                                    </span>
+                                <span className={order.isFulfilled ? "fulfilled" : "unfulfilled"}>
+                                    <GoDotFill className="status-icon" />
+                                    {order.isFulfilled ? "Fulfilled" : "Unfulfilled"}
+                                </span>
                             </td>
                         </tr>
                     ))
