@@ -1,7 +1,7 @@
 import './index.scss';
 
 function HomeMainSlogan() {
-    const spans = Array(4).fill("Main slogan text scrolling");
+    const spans = Array(4).fill("Digitalize trade, cross borders!");
 
     return (
         <div className={"kaplayici"}>

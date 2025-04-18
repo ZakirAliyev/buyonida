@@ -15,7 +15,7 @@ function HomeSectFour() {
                                 </div>
                                 <div className={"right"}>
                                     <h2>Sign up for free</h2>
-                                    <h3>Sign up to Shopier for free and start using right away</h3>
+                                    <h3>Sign up to Buyonida for free and start using right away</h3>
                                 </div>
                             </div>
                             <div className={"title"}>
@@ -24,7 +24,7 @@ function HomeSectFour() {
                                 </div>
                                 <div className={"right"}>
                                     <h2>No monthly fees</h2>
-                                    <h3>Sign up to Shopier for free and start using right away</h3>
+                                    <h3>Sign up to Buyonida for free and start using right away</h3>
                                 </div>
                             </div>
                             <div className={"title"}>
@@ -33,7 +33,7 @@ function HomeSectFour() {
                                 </div>
                                 <div className={"right"}>
                                     <h2>No listing fees</h2>
-                                    <h3>Sign up to Shopier for free and start using right away</h3>
+                                    <h3>There are no listing fees required when listing your products on our platform.</h3>
                                 </div>
                             </div>
                             <div className={"title"}>
@@ -42,7 +42,7 @@ function HomeSectFour() {
                                 </div>
                                 <div className={"right"}>
                                     <h2>No hidden fees</h2>
-                                    <h3>Sign up to Shopier for free and start using right away</h3>
+                                    <h3>There are no hidden fees on our platform; all payment terms are presented in full transparency.</h3>
                                 </div>
                             </div>
                         </div>
@@ -74,19 +74,18 @@ function HomeSectFour() {
                                 Buyonida and start selling your items </h4>
                         </div>
                         <div className={"title1"}>
-                            <h3>Personal or business accounts</h3>
-                            <h4>Either sell as personal or as a business, it is so easy and free to open an account at
-                                Buyonida and start selling your items </h4>
+                            <h3>Board payment options</h3>
+                            <h4>Accept Visa and MasterCard overall the world. To start getting paid
+                                just list your items on Buyonida </h4>
                         </div>
                         <div className={"title1"}>
-                            <h3>Personal or business accounts</h3>
-                            <h4>Either sell as personal or as a business, it is so easy and free to open an account at
-                                Buyonida and start selling your items </h4>
+                            <h3>Settlements every Wednesday</h3>
+                            <h4>For the fulfilled orders, your money is transferred to your bank
+                                account on every Wednesday. </h4>
                         </div>
                         <div className={"title1"}>
-                            <h3>Personal or business accounts</h3>
-                            <h4>Either sell as personal or as a business, it is so easy and free to open an account at
-                                Buyonida and start selling your items </h4>
+                            <h3>Create Your Market From Scratch – Fully Customize</h3>
+                            <h4>Build your market from scratch and fully customize every detail to uniquely reflect your brand identity. </h4>
                         </div>
                     </Col>
                 </Row>
