@@ -9,6 +9,10 @@
     height: 40px;
   }
 
+  .drawer {
+    display: none; /* Hidden by default */
+  }
+
   ul {
     display: flex;
     align-items: center;
@@ -33,9 +37,13 @@
     }
   }
 
-  @media screen and (max-width: 992px){
+  @media screen and (max-width: 992px) {
     ul {
-      display: none;
+      display: none; /* Hide nav links on mobile */
+    }
+
+    .drawer {
+      display: block; /* Show drawer on mobile */
     }
 
     img {

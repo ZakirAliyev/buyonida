@@ -16,7 +16,7 @@ function HomeSectTwo() {
                         <h3 className={"success"}>successful brands</h3>
                         <h4>Sell your products all around the world without paying any extra fees. Join our community of
                             over 7000 users in Europe</h4>
-                        <Link to={'/public'} className={"link"}>Get Started</Link>
+                        <Link to={'/register'} className={"link"}>Get Started</Link>
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12} xl={12} className={"col"}>
                         <Row className={"row"}>

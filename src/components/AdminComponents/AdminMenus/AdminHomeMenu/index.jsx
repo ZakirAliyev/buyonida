@@ -32,18 +32,7 @@ function AdminHomeMenu() {
     return (
         <section id="adminHomeMenu">
             <h1>Let's start to setup!</h1>
-            <div className="wrapper wrapper1" style={{
-                height: '60px'
-            }}>
-                <div className="textWrapper1">
-                    <div className="blackDot"></div>
-                    <span>
-                        Your market link:
-                        <Link to={`${BASE_URL}@${store?.name}`}
-                              className={"marketLink"}>{`${BASE_URL}@${store?.name}`}</Link>
-                    </span>
-                </div>
-            </div>
+
             {/*<div className="wrapper">*/}
             {/*    <div>*/}
             {/*        <div className="storeLogo">Store Logo</div>*/}

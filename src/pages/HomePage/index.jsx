@@ -15,7 +15,7 @@ function HomePage() {
             <HomeBanner/>
             <HomeSectOne/>
             <HomeMainSlogan/>
-            <HomeSectTwo/>
+            {/*<HomeSectTwo/>*/}
             <HomeSectThree/>
             <HomeSectFour/>
             <HomeFooter/>
