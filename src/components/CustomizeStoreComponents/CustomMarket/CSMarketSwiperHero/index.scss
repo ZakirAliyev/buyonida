@@ -9,19 +9,21 @@
   .linkm {
     background: transparent;
     padding: 10px 48px;
-    border: 1px solid black;
+    border: 1px solid #f4f4f4;
     width: max-content;
     margin-left: 64px;
     margin-top: 10px;
     border-radius: 35px;
-    color: black;
+    color: #ffffff;
     font-weight: bold;
+    position: relative;
+    z-index: 1;
   }
 
   .tutle {
     position: relative;
     z-index: 999;
-    color: black;
+    color: white;
     font-size: 50px;
     font-weight: bold;
     margin-left: 64px;
@@ -30,7 +32,7 @@
   .tutle1 {
     position: relative;
     z-index: 999;
-    color: black;
+    color: white;
     font-size: 20px;
     font-weight: 400;
     margin-left: 64px;

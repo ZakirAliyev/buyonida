@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { HiOutlinePlusSm } from "react-icons/hi";
-import { Modal, Select } from "antd";
+import { Select } from "antd";
 import "./index.scss";
 import { PiDotsSixVerticalBold } from "react-icons/pi";
 import {
@@ -18,10 +18,74 @@ const reorder = (list, startIndex, endIndex) => {
     return result;
 };
 
+// Custom Modal Component
+const CustomModal = ({ isVisible, onClose, onConfirm, sectionType, setSectionType, sectionValue, setSectionValue, options }) => {
+    if (!isVisible) return null;
+
+    // Filter options based on selected sectionType
+    const filteredOptions = sectionType
+        ? options.filter(opt => opt.type === sectionType)
+        : [];
+
+    return (
+        <div className="custom-modal-overlay">
+            <div className="custom-modal">
+                <div className="custom-modal-header">
+                    <button className="custom-modal-close" style={{
+                        visibility: 'hidden',
+                    }}>✕</button>
+                    <h3>Add New Section</h3>
+                    <button className="custom-modal-close" onClick={onClose}>✕</button>
+                </div>
+                <div className="custom-modal-body">
+                    <div className="inputWrapper">
+                        <div className="label">Section Type</div>
+                        <Select
+                            value={sectionType}
+                            style={{ width: '100%' }}
+                            onChange={(value) => {
+                                setSectionType(value);
+                                setSectionValue(null);
+                            }}
+                            options={[
+                                { value: 'collection', label: 'Collection' },
+                                { value: 'category', label: 'Category' }
+                            ]}
+                            placeholder="Select a type"
+                            allowClear
+                        />
+                    </div>
+                    <div className="inputWrapper">
+                        <div className="label">Select Item</div>
+                        <Select
+                            value={sectionValue}
+                            style={{ width: '100%' }}
+                            onChange={(value) => setSectionValue(value)}
+                            options={filteredOptions}
+                            placeholder="Select an item"
+                            disabled={!sectionType} // Disable until sectionType is selected
+                        />
+                    </div>
+                </div>
+                <div className="custom-modal-footer">
+                    <button className="custom-modal-button cancel" onClick={onClose}>Cancel</button>
+                    <button
+                        className="custom-modal-button confirm"
+                        onClick={onConfirm}
+                        disabled={!sectionValue}
+                    >
+                        Add Section
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
     const [sections, setSections] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [newSectionType, setNewSectionType] = useState("collection");
+    const [newSectionType, setNewSectionType] = useState(null); // Changed to null for no default selection
     const [newSectionValue, setNewSectionValue] = useState(null);
     const [localIdCounter, setLocalIdCounter] = useState(0);
     const [deletedIds, setDeletedIds] = useState([]);
@@ -185,6 +249,7 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
         if (onSectionsChange) onSectionsChange(updatedSections);
         setIsModalVisible(false);
         setNewSectionValue(null);
+        setNewSectionType(null); // Reset section type after adding
     };
 
     const handleRemoveSection = (index) => {
@@ -290,25 +355,20 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
                     <HiOutlinePlusSm className="csplus1" onClick={() => setIsModalVisible(true)} />
                 </div>
             </div>
-            <Modal
-                title="Create a new section"
-                open={isModalVisible}
-                onOk={handleCreateNewSection}
-                onCancel={() => {
+            <CustomModal
+                isVisible={isModalVisible}
+                onClose={() => {
                     setIsModalVisible(false);
                     setNewSectionValue(null);
+                    setNewSectionType(null); // Reset section type on close
                 }}
-                okText="Create"
-                cancelText="Cancel"
-            >
-                <div className="label">Select item:</div>
-                <Select
-                    value={newSectionValue}
-                    style={{ width: 150, marginLeft: 8 }}
-                    onChange={(value) => setNewSectionValue(value)}
-                    options={combinedOptions}
-                />
-            </Modal>
+                onConfirm={handleCreateNewSection}
+                sectionType={newSectionType}
+                setSectionType={setNewSectionType}
+                sectionValue={newSectionValue}
+                setSectionValue={setNewSectionValue}
+                options={combinedOptions}
+            />
         </div>
     );
 }

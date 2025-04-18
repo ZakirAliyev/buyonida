@@ -17,6 +17,7 @@ import { BASE_URL } from '../../../../../constants.js';
 import { useGetStoreByIdQuery } from '../../../../service/userApi.js';
 import Cookies from 'js-cookie';
 import { MdContentCopy } from 'react-icons/md';
+import {message} from "antd";
 
 function AdminCustomizeStoreMenu() {
     const navigate = useNavigate();
@@ -27,11 +28,10 @@ function AdminCustomizeStoreMenu() {
         const link = `${BASE_URL}@${store?.name}`;
         navigator.clipboard.writeText(link)
             .then(() => {
-                alert('Store link copied to clipboard!');
+                message.success('Copied!');
             })
             .catch((err) => {
-                console.error('Failed to copy link:', err);
-                alert('Failed to copy link.');
+                message.success(`${err}`);
             });
     };
 
@@ -65,7 +65,9 @@ function AdminCustomizeStoreMenu() {
                             Customize
                         </button>
                         <button className={'gotoMarket'}>
-                            <Link to={`${BASE_URL}@${store?.name}`}>Go to store</Link>
+                            <Link to={`${BASE_URL}@${store?.name}`} style={{
+                                color: 'black',
+                            }}>Go to store</Link>
                         </button>
                         <button className={'copy'} onClick={handleCopyLink}>
                             <MdContentCopy />

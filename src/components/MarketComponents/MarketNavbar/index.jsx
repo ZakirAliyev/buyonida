@@ -16,6 +16,7 @@ import {
 import MarketNavbarDrawer from '../MarketNavbarDrawer';
 import MarketCart from '../MarketCart';
 import {
+    useGetAllCategoriesByMarketIdQuery, useGetAllCollectionsByMarketIdQuery,
     useGetBasketGetOrCreateQuery,
     useGetStoreByNameQuery,
     useGetStoreWithSectionsQuery,
@@ -35,6 +36,12 @@ function MarketNavbar({ palet }) {
 
     const { data: getStoreWithSections } = useGetStoreWithSectionsQuery(marketId, { skip: !marketId });
     const sections = getStoreWithSections?.data?.sections || [];
+
+    const {data: getAllCategoriesByMarketId} = useGetAllCategoriesByMarketIdQuery(marketId);
+    const categ = getAllCategoriesByMarketId?.data
+
+    const {data: getAllCollectionsByMarketId} = useGetAllCollectionsByMarketIdQuery(marketId);
+    const colle = getAllCollectionsByMarketId?.data
 
     // Categories and collections
     const categories = sections
@@ -181,10 +188,12 @@ function MarketNavbar({ palet }) {
                                 style={{
                                     backgroundColor: palet?.[0]?.navbarBgColor || '#ffffff',
                                     borderColor: palet?.[0]?.buttonBorderColor || '#ffffff',
+                                    maxHeight: '180px',
+                                    overflowY: 'auto',
                                 }}
                             >
-                                {categories.length > 0 ? (
-                                    categories.map((category) => (
+                                {categ?.length > 0 ? (
+                                    categ?.map((category) => (
                                         <Link
                                             key={category.id}
                                             to={`/${params?.marketName}/category/${category.id}`}
@@ -224,8 +233,8 @@ function MarketNavbar({ palet }) {
                                     borderColor: palet?.[0]?.buttonBorderColor || '#ffffff',
                                 }}
                             >
-                                {collections.length > 0 ? (
-                                    collections.map((collection) => (
+                                {colle?.length > 0 ? (
+                                    colle?.map((collection) => (
                                         <Link
                                             key={collection.id}
                                             to={`/${params?.marketName}/collection/${collection.id}`}

@@ -12,6 +12,10 @@ function AdminShippingAndDeliveryMenu() {
         customDescription: '',
         price: '0.00',
     });
+    // Eklenen state: Mevcut oranları saklamak için
+    const [rates, setRates] = useState([
+        { name: "Standart", price: "Free" }
+    ]);
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -35,16 +39,22 @@ function AdminShippingAndDeliveryMenu() {
         }));
     };
 
-    const handleSetFree = () => {
-        setFormData((prev) => ({
-            ...prev,
-            price: '0.00',
-        }));
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
+        // Form submit edildiğinde oranları güncelle
+        setRates((prev) => [
+            ...prev,
+            { name: formData.customRateName || "Custom", price: formData.price }
+        ]);
         handleCloseModal();
+    };
+
+    // Yeni işlev: Input olmadan direkt "Free" oran ekler
+    const handleAddFreeRate = () => {
+        setRates((prev) => [
+            ...prev,
+            { name: "Free Shipping", price: "0.00" }
+        ]);
     };
 
     return (
@@ -52,40 +62,43 @@ function AdminShippingAndDeliveryMenu() {
             <h2>Shipping and Delivery</h2>
             <div className={"box wrapper"}>
                 <div className={"asdasdasdasd"}>
-                    <div className={"bozolan"}>
-                        Fulfillment location
-                    </div>
+                    <div className={"bozolan"}>Fulfillment location</div>
                     <div className={"olan"}>
                         <div>Shop Location</div>
                         <div className={"country-name"}>Azerbaijan</div>
                     </div>
-                    <div className={"bozolan"}>
-                        Shipping zones
-                    </div>
+                    <div className={"bozolan"}>Shipping zones</div>
                     <div className={"olan"}>
                         <img src={aze} alt={"Image"} />
                         <div>Domestic</div>
-                        <GoDotFill style={{
-                            color: "#ccc",
-                            fontSize: "10px",
-                        }} />
+                        <GoDotFill style={{ color: "#ccc", fontSize: "10px" }} />
                         <div>Azerbaijan</div>
                     </div>
                     <div className={"line"}></div>
-                    <div className={"olan"} style={{
-                        justifyContent: "space-between"
-                    }}>
-                        Standart
-                        <div style={{
-                            background: '#AFFEBF',
-                            padding: "2px 24px",
-                            borderRadius: "15px",
-                        }}>Free</div>
-                    </div>
-                    <div className={"line"}></div>
+                    {/* Mevcut oranları göster */}
+                    {rates.map((rate, index) => (
+                        <div key={index}>
+                            <div className={"olan"} style={{ justifyContent: "space-between" }}>
+                                {rate.name}
+                                <div style={{
+                                    background: rate.price === "0.00" || rate.price === "Free" ? '#AFFEBF' : '#f0f0f0',
+                                    padding: "2px 24px",
+                                    borderRadius: "15px",
+                                }}>
+                                    {rate.price === "0.00" || rate.price === "Free" ? "Free" : `${rate.price}`}
+                                </div>
+                            </div>
+                            <div className={"line"}></div>
+                        </div>
+                    ))}
                     <div className={"olan"} onClick={handleOpenModal} style={{ cursor: 'pointer' }}>
                         <FiPlus className="icon" />
                         Add rate
+                    </div>
+                    {/* Yeni eklenen buton: Input olmadan oran ekler */}
+                    <div className={"olan"} onClick={handleAddFreeRate} style={{ cursor: 'pointer' }}>
+                        <FiPlus className="icon" />
+                        Add Free Rate
                     </div>
                 </div>
             </div>
@@ -102,25 +115,15 @@ function AdminShippingAndDeliveryMenu() {
                         }}><h3>Add rate</h3></div>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
-                                <label style={{
-                                    marginTop: '20px'
-                                }}>Rate type</label>
-                                <select
-                                    name="rateType"
-                                    value={formData.rateType}
-                                    onChange={handleChange}
-                                >
+                                <label style={{ marginTop: '20px' }}>Rate type</label>
+                                <select name="rateType" value={formData.rateType} onChange={handleChange}>
                                     <option value="flat">Use flat rate</option>
                                     <option value="custom">Custom</option>
                                 </select>
                             </div>
                             <div className="form-group">
                                 <label>Shipping rate</label>
-                                <select
-                                    name="rateType"
-                                    value={formData.rateType}
-                                    onChange={handleChange}
-                                >
+                                <select name="rateType" value={formData.rateType} onChange={handleChange}>
                                     <option value="custom">Custom</option>
                                     <option value="flat">Use flat rate</option>
                                 </select>
@@ -156,16 +159,10 @@ function AdminShippingAndDeliveryMenu() {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <span className="add-conditional">
-                                    Add conditional pricing
-                                </span>
+                                <span className="add-conditional">Add conditional pricing</span>
                             </div>
                             <div className="modal-actions">
-                                <button
-                                    type="button"
-                                    className="cancel-button"
-                                    onClick={handleCloseModal}
-                                >
+                                <button type="button" className="cancel-button" onClick={handleCloseModal}>
                                     Cancel
                                 </button>
                                 <button type="submit" className="done-button">

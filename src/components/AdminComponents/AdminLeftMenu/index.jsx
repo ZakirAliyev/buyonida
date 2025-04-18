@@ -88,7 +88,7 @@ function AdminLeftMenu() {
                                 onClick={() => handleToggleSubmenu('orders')}
                             >
                                 <RiPagesLine className={'icon'} />
-                                Orders
+                                Orderspace
                             </div>
                             <div className={`wrrara ${openSubmenu === 'orders' ? 'open' : ''}`}>
                                 <div className="firt"></div>

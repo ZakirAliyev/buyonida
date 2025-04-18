@@ -2,6 +2,148 @@
   margin: 16px;
   border-radius: 10px;
 
+  // Custom Modal Styles
+  .custom-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); // Semi-transparent backdrop
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; // Ensure modal is above other content
+  }
+
+  .custom-modal {
+    background: #fff;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 800px; // Limit modal width
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    // Responsive adjustments
+    @media (max-width: 600px) {
+      max-width: 90%;
+    }
+  }
+
+  .custom-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    border-bottom: 1px solid #e8e8e8; // Subtle divider
+    background: #f1f1f1;
+    h3 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .custom-modal-close {
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      color: #666;
+      transition: color 0.2s;
+
+      &:hover {
+        color: #333;
+      }
+    }
+  }
+
+  .custom-modal-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px; // Space between input fields
+    align-items: center;
+    justify-content: center;
+    margin: 50px 0;
+
+    .inputWrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 500px;
+
+      .label {
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+      }
+
+      // Style Ant Design Select to match the modal
+      .ant-select {
+        width: 100%;
+        .ant-select-selector {
+          border-radius: 4px;
+          border: 1px solid #d9d9d9;
+          height: 32px;
+          display: flex;
+          align-items: center;
+
+          &:hover {
+            border-color: #40a9ff;
+          }
+        }
+      }
+    }
+  }
+
+  .custom-modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e8e8e8;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+
+    .custom-modal-button {
+      padding: 4px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s;
+
+      &.cancel {
+        background: #f5f5f5;
+        border: 1px solid black;
+        color: #333;
+
+        &:hover {
+          background: #e8e8e8;
+        }
+      }
+
+      &.confirm {
+        background: #ffc312;
+        border: 1px solid #ffc312;
+        color: black;
+
+        &:hover {
+          background: rgba(255, 195, 18, 0.7);
+          border-color: rgba(255, 195, 18, 0.73);
+        }
+
+        &:disabled {
+          background: #d9d9d9;
+          border-color: #d9d9d9;
+          color: #999;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
   .csplus1 {
     font-size: 22px;
     cursor: pointer;
@@ -85,9 +227,9 @@
         }
 
         .ant-select-selector {
-          width: 100%;
-          max-width: 250px;
           height: 38px;
+          max-width: 300px;
+          width: 100%;
           border: 1px solid #d1d5db;
           border-radius: 8px;
           padding: 0 12px;
@@ -112,6 +254,7 @@
             padding: 8px 12px;
             border-radius: 8px;
             border: 1px solid #e5e7eb;
+            width: max-content;
 
             span {
               font-size: 14px;
