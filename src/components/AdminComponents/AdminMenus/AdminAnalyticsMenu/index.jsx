@@ -60,8 +60,8 @@ const ChartComponent = () => {
     const [endDate, setEndDate] = useState(getFormattedDate(today));
     const [startDate, setStartDate] = useState(getFormattedDate(threeDaysAgo));
     const [filteredData, setFilteredData] = useState([]);
-    const [startOpen, setStartOpen] = useState(false); // State for start date picker
-    const [endOpen, setEndOpen] = useState(false); // State for end date picker
+    const [startOpen, setStartOpen] = useState(false);
+    const [endOpen, setEndOpen] = useState(false);
     const marketId = Cookies.get('chooseMarket');
     const { data: getAdminDashboard } = useGetAdminDashboardQuery({
         startDate,
@@ -88,6 +88,38 @@ const ChartComponent = () => {
 
         setFilteredData(filtered);
     }, [dashboardData, startDate, endDate]);
+
+    // Prevent mouse wheel from changing date picker
+    useEffect(() => {
+        const handleWheel = (e) => {
+            console.log('Wheel event blocked on DatePicker panel'); // Debugging
+            e.preventDefault();
+        };
+
+        const attachListeners = () => {
+            const datePickers = document.querySelectorAll('.ant-picker-panel');
+            datePickers.forEach((picker, index) => {
+                console.log(`Attaching wheel listener to picker ${index}`); // Debugging
+                picker.addEventListener('wheel', handleWheel, { passive: false });
+            });
+        };
+
+        const detachListeners = () => {
+            const datePickers = document.querySelectorAll('.ant-picker-panel');
+            datePickers.forEach((picker, index) => {
+                console.log(`Detaching wheel listener from picker ${index}`); // Debugging
+                picker.removeEventListener('wheel', handleWheel);
+            });
+        };
+
+        // Delay attachment to ensure DOM is updated
+        const timeoutId = setTimeout(attachListeners, 100);
+
+        return () => {
+            clearTimeout(timeoutId);
+            detachListeners();
+        };
+    }, [startOpen, endOpen]);
 
     const chartLabels = filteredData.length
         ? filteredData.map((item) =>
@@ -238,9 +270,10 @@ const ChartComponent = () => {
                     onChange={(date, dateString) => setStartDate(dateString)}
                     open={startOpen}
                     onOpenChange={(open) => setStartOpen(open)}
-                    onFocus={() => setStartOpen(true)} // Open only on click/focus
-                    onBlur={() => setStartOpen(false)} // Close on blur
-                    getPopupContainer={(trigger) => trigger.parentNode} // Ensure popup stays within parent
+                    onFocus={() => setStartOpen(true)}
+                    onBlur={() => setStartOpen(false)}
+                    getPopupContainer={(trigger) => trigger.parentNode}
+                    onPanelChange={(value, mode) => console.log('Start Date panel changed:', value, mode)} // Debugging
                 />
                 <DatePicker
                     placeholder="Bitiş Tarihi"
@@ -248,9 +281,10 @@ const ChartComponent = () => {
                     onChange={(date, dateString) => setEndDate(dateString)}
                     open={endOpen}
                     onOpenChange={(open) => setEndOpen(open)}
-                    onFocus={() => setEndOpen(true)} // Open only on click/focus
-                    onBlur={() => setEndOpen(false)} // Close on blur
-                    getPopupContainer={(trigger) => trigger.parentNode} // Ensure popup stays within parent
+                    onFocus={() => setEndOpen(true)}
+                    onBlur={() => setEndOpen(false)}
+                    getPopupContainer={(trigger) => trigger.parentNode}
+                    onPanelChange={(value, mode) => console.log('End Date panel changed:', value, mode)} // Debugging
                 />
             </Box>
             <div className="row">

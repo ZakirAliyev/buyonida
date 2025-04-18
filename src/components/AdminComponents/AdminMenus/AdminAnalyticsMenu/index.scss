@@ -38,7 +38,6 @@
     }
   }
 
-
   .wrapper {
     width: 100%;
     border-radius: 17px;
@@ -47,6 +46,29 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+  }
 
+  /* Prevent scroll events from affecting DatePicker popup */
+  .ant-picker-panel {
+    pointer-events: auto;
+    overflow: hidden;
+  }
+
+  .ant-picker-panel .ant-picker-content {
+    overflow: hidden;
+  }
+
+  .ant-picker-year-panel,
+  .ant-picker-month-panel {
+    overflow: hidden;
+    /* Ensure year/month cells don't respond to scroll */
+    .ant-picker-cell {
+      pointer-events: auto;
+    }
+  }
+
+  /* Additional fix for year panel scrolling */
+  .ant-picker-year-panel .ant-picker-year-panel-table {
+    overflow: hidden;
   }
 }
