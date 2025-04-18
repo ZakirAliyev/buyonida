@@ -169,7 +169,7 @@ function AdminAddProductMenu() {
     return (
         <section id="adminAddProductMenu">
             <div className="umumi">
-                <div className="abso">
+                <div className="absoAdd">
                     <span>Product status</span>
                     <button onClick={() => setStatus(!status)}>{status ? "Active" : "Passive"}</button>
                 </div>

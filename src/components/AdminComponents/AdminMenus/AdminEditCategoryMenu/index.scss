@@ -4,6 +4,12 @@
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  .imageWrapper{
+    img{
+      aspect-ratio: 1/.8;
+      object-fit: cover;
+    }
+  }
 
   table {
     width: 100%;
@@ -145,7 +151,7 @@
       font-weight: 500;
       top: 85px;
       width: max-content;
-      right: -647px;
+      right: -649px;
       background-color: #2F2F2F;
       color: white;
       padding: 8px 40px 32px;
@@ -160,6 +166,7 @@
         background-color: #FFBB00;
         color: white;
         border-radius: 10px;
+        width: 130px;
       }
     }
 
