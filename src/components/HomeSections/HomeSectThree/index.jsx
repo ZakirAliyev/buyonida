@@ -1,7 +1,7 @@
 import './index.scss';
 import {Col, Row} from 'antd';
 import {Link} from "react-router-dom";
-
+import image from "/src/assets/Image2.png"
 function HomeSectThree() {
     return (
         <section id="homeSectThree">
@@ -12,7 +12,7 @@ function HomeSectThree() {
                         <h3>You can create your own store and start</h3>
                         <h4>selling immediately!</h4>
                         <div className="img">
-                            <img src="https://images3.alphacoders.com/135/1350069.jpeg" alt="Image"/>
+                            <img src={image} alt="Image"/>
                         </div>
                     </Col>
                     <Col className="col col1" xs={24} sm={24} md={12} lg={12} xl={12}>
