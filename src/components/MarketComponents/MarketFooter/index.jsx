@@ -1,14 +1,18 @@
 import './index.scss'
-import image1 from "/src/assets/sariLogo.png"
+import {MARKET_LOGO} from "../../../../constants.js";
 
-function MarketFooter({palet}) {
+function MarketFooter({palet,store}) {
     console.log(palet);
     return (
         <section id={"marketFooter"} style={{backgroundColor:palet ? (palet[0]?.footerBgColor):("#000000"),color:palet ? (`${palet[0]?.footerTextColor}`) : ("#ffffff")}}>
             <div className={"container"}>
                 <div className={"row"}>
                     <div className={"box col-15-60 col-md-30-60 col-sm-60-60 col-xs-60-60"}>
-                        <img src={image1} alt={"Image"}/>
+                        <img
+                            style={{ width: `${store?.logoWidth}px` }}
+                            src={store?.logoImageName ? MARKET_LOGO + store?.logoImageName : ''}
+                            alt="Logo"
+                        />
                     </div>
                     <div className={"col-15-60 col-md-30-60 col-sm-60-60 col-xs-60-60"}>
                         <h3>Pages</h3>

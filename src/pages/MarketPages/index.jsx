@@ -57,7 +57,7 @@ const MarketLayout = () => {
         <div style={{ fontFamily: font || 'inherit' }}>
             <MarketNavbar palet={palet} />
             <Outlet />
-            <MarketFooter palet={palet} />
+            <MarketFooter palet={palet}  store={store}/>
         </div>
     );
 };

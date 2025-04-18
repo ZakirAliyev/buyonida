@@ -1,15 +1,16 @@
 import './index.scss';
-import { useState } from "react";
-import { AiFillCloseCircle } from "react-icons/ai";
-import { FiPlus } from "react-icons/fi";
-import Cookies from "js-cookie";
-import { usePostCreateCategoryMutation } from "../../../service/userApi.js";
-import { toast } from "react-toastify";
-import { PulseLoader } from "react-spinners";
+import { useState } from 'react';
+import { AiFillCloseCircle } from 'react-icons/ai';
+import { FiPlus } from 'react-icons/fi';
+import Cookies from 'js-cookie';
+import { usePostCreateCategoryMutation } from '../../../service/userApi.js';
+import { toast } from 'react-toastify';
+import { PulseLoader } from 'react-spinners';
+import {FaX} from "react-icons/fa6";
 
 function CategoryModal({ isOpen, onClose, onSave }) {
-    const [categoryName, setCategoryName] = useState("");
-    const [categoryDescription, setCategoryDescription] = useState("");
+    const [categoryName, setCategoryName] = useState('');
+    const [categoryDescription, setCategoryDescription] = useState('');
     const [categoryImage, setCategoryImage] = useState(null);
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +18,7 @@ function CategoryModal({ isOpen, onClose, onSave }) {
     const handleImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             setCategoryImage(e.target.files[0]);
-            setErrors((prev) => ({ ...prev, categoryImage: "" }));
+            setErrors((prev) => ({ ...prev, categoryImage: '' }));
         }
     };
 
@@ -28,13 +29,13 @@ function CategoryModal({ isOpen, onClose, onSave }) {
     const validateFields = () => {
         let newErrors = {};
         if (!categoryName.trim()) {
-            newErrors.categoryName = "Required";
+            newErrors.categoryName = 'Required';
         }
         if (!categoryDescription.trim()) {
-            newErrors.categoryDescription = "Required";
+            newErrors.categoryDescription = 'Required';
         }
         if (!categoryImage) {
-            newErrors.categoryImage = "Required";
+            newErrors.categoryImage = 'Required';
         }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -47,18 +48,18 @@ function CategoryModal({ isOpen, onClose, onSave }) {
 
         setIsLoading(true);
         const formData = new FormData();
-        formData.append("name", categoryName);
-        formData.append("description", categoryDescription);
+        formData.append('name', categoryName);
+        formData.append('description', categoryDescription);
         if (categoryImage) {
-            formData.append("imageFile", categoryImage);
+            formData.append('imageFile', categoryImage);
         }
-        formData.append("isActive", true);
-        formData.append("marketId", Cookies.get("chooseMarket"));
+        formData.append('isActive', true);
+        formData.append('marketId', Cookies.get('chooseMarket'));
 
         try {
             const response = await postCreateCategory(formData).unwrap();
             if (response.statusCode === 200 || response.statusCode === 201) {
-                toast.success("Category created successfully!", {
+                toast.success('Category created successfully!', {
                     position: 'bottom-right',
                     autoClose: 2500,
                     hideProgressBar: false,
@@ -68,15 +69,13 @@ function CategoryModal({ isOpen, onClose, onSave }) {
                     progress: undefined,
                     theme: 'dark',
                 });
-                // Parent'tan gelen onSave callback'i refetch işlemi için tetikler.
                 if (onSave) {
                     onSave();
                 }
-                // Modal kapatılır.
                 onClose();
             }
         } catch (e) {
-            toast.error("Error creating category!", {
+            toast.error('Error creating category!', {
                 position: 'bottom-right',
                 autoClose: 2500,
                 hideProgressBar: false,
@@ -93,9 +92,9 @@ function CategoryModal({ isOpen, onClose, onSave }) {
 
     const handleBlur = (field, value) => {
         if (!value.trim()) {
-            setErrors((prev) => ({ ...prev, [field]: "Required" }));
+            setErrors((prev) => ({ ...prev, [field]: 'Required' }));
         } else {
-            setErrors((prev) => ({ ...prev, [field]: "" }));
+            setErrors((prev) => ({ ...prev, [field]: '' }));
         }
     };
 
@@ -117,7 +116,7 @@ function CategoryModal({ isOpen, onClose, onSave }) {
                                         type="text"
                                         value={categoryName}
                                         onChange={(e) => setCategoryName(e.target.value)}
-                                        onBlur={() => handleBlur("categoryName", categoryName)}
+                                        onBlur={() => handleBlur('categoryName', categoryName)}
                                         required
                                     />
                                     {errors.categoryName && (
@@ -130,7 +129,7 @@ function CategoryModal({ isOpen, onClose, onSave }) {
                                         rows={6}
                                         value={categoryDescription}
                                         onChange={(e) => setCategoryDescription(e.target.value)}
-                                        onBlur={() => handleBlur("categoryDescription", categoryDescription)}
+                                        onBlur={() => handleBlur('categoryDescription', categoryDescription)}
                                         required
                                     />
                                     {errors.categoryDescription && (
@@ -150,7 +149,7 @@ function CategoryModal({ isOpen, onClose, onSave }) {
                                                     width: '100%',
                                                     height: '100%',
                                                     objectFit: 'cover',
-                                                    borderRadius: '10px'
+                                                    borderRadius: '10px',
                                                 }}
                                             />
                                             <button
@@ -164,24 +163,36 @@ function CategoryModal({ isOpen, onClose, onSave }) {
                                                     background: 'rgba(0,0,0,0.5)',
                                                     border: 'none',
                                                     borderRadius: '50%',
-                                                    width: '20px',
-                                                    height: '20px',
+                                                    width: '25px',
+                                                    height: '25px',
                                                     color: 'white',
-                                                    cursor: 'pointer'
+                                                    cursor: 'pointer',
+                                                    display:"flex",
+                                                    alignItems:"center",
+                                                    justifyContent:"center",
                                                 }}
                                             >
-                                                X
+                                                <FaX/>
                                             </button>
                                         </div>
                                     ) : (
-                                        <input type="file" onChange={handleImageChange} required />
+                                        <label className="custom-file-upload">
+                                            <input
+                                                type="file"
+                                                onChange={handleImageChange}
+                                                style={{ display: 'none' }}
+                                                accept="image/*"
+                                                required
+                                            />
+                                            <FiPlus className="plus-icon" />
+                                        </label>
                                     )}
                                 </div>
                                 {errors.categoryImage && (
                                     <span className="error-text">{errors.categoryImage}</span>
                                 )}
                                 <button className="button" onClick={handleSave} disabled={isLoading}>
-                                    {isLoading ? <PulseLoader size={10} color="#ffffff" /> : "Save category"}
+                                    {isLoading ? <PulseLoader size={10} color="#ffffff" /> : 'Save category'}
                                 </button>
                                 <button className="button1" onClick={onClose} disabled={isLoading}>
                                     Discard category

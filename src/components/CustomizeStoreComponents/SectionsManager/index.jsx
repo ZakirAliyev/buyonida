@@ -285,7 +285,7 @@ function SectionsManager({ onSectionsChange, onDeletedIdsChange }) {
                         )}
                     </Droppable>
                 </DragDropContext>
-                <div className="sections-manager-header section-item" style={{ padding: "16px" }}>
+                <div className="sections-manager-header section-item" style={{ padding: "16px" }} onClick={() => setIsModalVisible(true)}>
                     <div className="h3">Add a section</div>
                     <HiOutlinePlusSm className="csplus1" onClick={() => setIsModalVisible(true)} />
                 </div>

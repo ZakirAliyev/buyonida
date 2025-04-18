@@ -1,5 +1,5 @@
-import {useState, useRef, useEffect} from "react";
-import {Line} from "react-chartjs-2";
+import { useState, useRef, useEffect } from 'react';
+import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -9,14 +9,14 @@ import {
     Title,
     Tooltip,
     Legend,
-} from "chart.js";
-import Box from "@mui/material/Box";
-import {DatePicker} from "antd";
-import moment from "moment";
-import "./index.scss";
-import {useGetAdminDashboardQuery} from "../../../../service/userApi.js";
-import Cookies from "js-cookie";
-import {FaManatSign} from "react-icons/fa6";
+} from 'chart.js';
+import Box from '@mui/material/Box';
+import { DatePicker } from 'antd';
+import moment from 'moment';
+import './index.scss';
+import { useGetAdminDashboardQuery } from '../../../../service/userApi.js';
+import Cookies from 'js-cookie';
+import { FaManatSign } from 'react-icons/fa6';
 
 ChartJS.register(
     CategoryScale,
@@ -28,32 +28,30 @@ ChartJS.register(
     Legend
 );
 
-const ChartWithGradient = ({data, options, refSetter}) => {
+const ChartWithGradient = ({ data, options, refSetter }) => {
     const chartRef = useRef(null);
 
     useEffect(() => {
         if (!chartRef.current) return;
-        // React-Chartjs-2 v4+ kullanımında chart instance direkt chartRef.current içinde
         const chart = chartRef.current.$context?.chart || chartRef.current;
         if (!chart) return;
 
         const ctx = chart.ctx;
         const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, "rgba(250, 217, 97, 0.4)");
-        gradient.addColorStop(1, "rgba(250, 217, 97, 0)");
+        gradient.addColorStop(0, 'rgba(250, 217, 97, 0.4)');
+        gradient.addColorStop(1, 'rgba(250, 217, 97, 0)');
 
         chart.data.datasets[0].backgroundColor = gradient;
         chart.update();
 
-        // İsteğe bağlı dışarıya chart instance göndermek için
         if (refSetter) refSetter(chart);
     }, [data, refSetter]);
 
-    return <Line ref={chartRef} data={data} options={options}/>;
+    return <Line ref={chartRef} data={data} options={options} />;
 };
 
 const ChartComponent = () => {
-    const getFormattedDate = (date) => date.toISOString().split("T")[0];
+    const getFormattedDate = (date) => date.toISOString().split('T')[0];
 
     const today = new Date();
     const threeDaysAgo = new Date(today);
@@ -62,8 +60,10 @@ const ChartComponent = () => {
     const [endDate, setEndDate] = useState(getFormattedDate(today));
     const [startDate, setStartDate] = useState(getFormattedDate(threeDaysAgo));
     const [filteredData, setFilteredData] = useState([]);
-    const marketId = Cookies.get("chooseMarket");
-    const {data: getAdminDashboard} = useGetAdminDashboardQuery({
+    const [startOpen, setStartOpen] = useState(false); // State for start date picker
+    const [endOpen, setEndOpen] = useState(false); // State for end date picker
+    const marketId = Cookies.get('chooseMarket');
+    const { data: getAdminDashboard } = useGetAdminDashboardQuery({
         startDate,
         endDate,
         marketId,
@@ -89,83 +89,72 @@ const ChartComponent = () => {
         setFilteredData(filtered);
     }, [dashboardData, startDate, endDate]);
 
-    // Etiketler: tarih bilgisi
     const chartLabels = filteredData.length
         ? filteredData.map((item) =>
-            new Date(item.date).toLocaleDateString("tr-TR")
+            new Date(item.date).toLocaleDateString('tr-TR')
         )
-        : ["Veri Yok"];
+        : ['Veri Yok'];
 
-    // 1. Grafik için: Günlük satışlar
     const chartSalesData = filteredData.length
         ? filteredData.map((item) => item.totalSales)
         : [0];
-
-    // 2. Grafik için: Her günün averageOrderValue değeri
     const averageDataArray = filteredData.length
         ? filteredData.map((item) => item.averageOrderValue)
         : [0];
-
-    // 3. Grafik için: Her günün totalOrders değeri
     const ordersDataArray = filteredData.length
         ? filteredData.map((item) => item.totalOrders)
         : [0];
-
-    // 4. Grafik için: Her günün returningCustomerRate değeri
     const returningDataArray = filteredData.length
         ? filteredData.map((item) => item.returningCustomerRate)
         : [0];
 
-    // 1. Grafik: Satışlar
     const salesData = {
         labels: chartLabels,
         datasets: [
             {
-                label: "Satışlar",
+                label: 'Satışlar',
                 data: chartSalesData,
-                borderColor: "#FAD961",
-                pointBorderColor: "#FAD961",
-                pointBackgroundColor: "#ffffff",
+                borderColor: '#FAD961',
+                pointBorderColor: '#FAD961',
+                pointBackgroundColor: '#ffffff',
                 borderWidth: 2,
                 pointRadius: 4,
                 pointHoverRadius: 6,
                 tension: 0.4,
-                backgroundColor: "#f38b4a",
-                fill: true
+                backgroundColor: '#f38b4a',
+                fill: true,
             },
         ],
     };
 
-    // 2. Grafik: Ortalama Sipariş Değeri
     const averageData = {
         labels: chartLabels,
         datasets: [
             {
-                label: "Ortalama Sipariş Değeri",
+                label: 'Ortalama Sipariş Değeri',
                 data: averageDataArray,
-                borderColor: "#4287f5",
-                pointBorderColor: "#4287f5",
-                pointBackgroundColor: "#ffffff",
+                borderColor: '#4287f5',
+                pointBorderColor: '#4287f5',
+                pointBackgroundColor: '#ffffff',
                 borderWidth: 2,
                 pointRadius: 4,
                 pointHoverRadius: 6,
                 tension: 0.4,
                 fill: true,
-                backgroundColor: "rgba(66, 135, 245, 0.2)",
+                backgroundColor: 'rgba(66, 135, 245, 0.2)',
             },
         ],
     };
 
-    // 3. Grafik: Toplam Sipariş (totalOrders)
     const ordersData = {
         labels: chartLabels,
         datasets: [
             {
-                label: "Toplam Sipariş",
+                label: 'Toplam Sipariş',
                 data: ordersDataArray,
-                borderColor: "#34a853",
-                pointBorderColor: "#34a853",
-                pointBackgroundColor: "#ffffff",
+                borderColor: '#34a853',
+                pointBorderColor: '#34a853',
+                pointBackgroundColor: '#ffffff',
                 borderWidth: 2,
                 pointRadius: 4,
                 pointHoverRadius: 6,
@@ -176,22 +165,21 @@ const ChartComponent = () => {
         ],
     };
 
-    // 4. Grafik: Tekrar Eden Müşteri Oranı
     const returningData = {
         labels: chartLabels,
         datasets: [
             {
-                label: "Tekrar Eden Müşteri Oranı",
+                label: 'Tekrar Eden Müşteri Oranı',
                 data: returningDataArray,
-                borderColor: "#f54242",
-                pointBorderColor: "#f54242",
-                pointBackgroundColor: "#ffffff",
+                borderColor: '#f54242',
+                pointBorderColor: '#f54242',
+                pointBackgroundColor: '#ffffff',
                 borderWidth: 2,
                 pointRadius: 4,
                 pointHoverRadius: 6,
                 tension: 0.4,
                 fill: true,
-                backgroundColor: "rgba(245, 66, 66, 0.2)",
+                backgroundColor: 'rgba(245, 66, 66, 0.2)',
             },
         ],
     };
@@ -204,9 +192,9 @@ const ChartComponent = () => {
                 display: false,
             },
             tooltip: {
-                backgroundColor: "#333",
-                titleColor: "#fff",
-                bodyColor: "#fff",
+                backgroundColor: '#333',
+                titleColor: '#fff',
+                bodyColor: '#fff',
                 cornerRadius: 8,
                 padding: 8,
             },
@@ -217,7 +205,7 @@ const ChartComponent = () => {
                     display: false,
                 },
                 ticks: {
-                    color: "#666",
+                    color: '#666',
                     font: {
                         size: 12,
                     },
@@ -225,15 +213,15 @@ const ChartComponent = () => {
             },
             y: {
                 grid: {
-                    color: "rgba(0,0,0,0.05)",
+                    color: 'rgba(0,0,0,0.05)',
                 },
                 ticks: {
-                    color: "#666",
+                    color: '#666',
                     font: {
                         size: 12,
                     },
                 },
-                min: 0
+                min: 0,
             },
         },
     };
@@ -241,62 +229,70 @@ const ChartComponent = () => {
     return (
         <section id="adminAnalyticsMenu">
             <div className="textWrapper">
-                <h2 style={{padding: '0 16px'}}>Analytics</h2>
+                <h2 style={{ padding: '0 16px' }}>Analytics</h2>
             </div>
-            {/* Tarih seçiciler */}
-            <Box style={{padding: '0 16px 0 16px'}} sx={{display: "flex", gap: 2, marginBottom: 2}}>
+            <Box style={{ padding: '0 16px 0 16px' }} sx={{ display: 'flex', gap: 2, marginBottom: 2 }}>
                 <DatePicker
                     placeholder="Başlangıç Tarihi"
-                    value={startDate ? moment(startDate, "YYYY-MM-DD") : null}
+                    value={startDate ? moment(startDate, 'YYYY-MM-DD') : null}
                     onChange={(date, dateString) => setStartDate(dateString)}
+                    open={startOpen}
+                    onOpenChange={(open) => setStartOpen(open)}
+                    onFocus={() => setStartOpen(true)} // Open only on click/focus
+                    onBlur={() => setStartOpen(false)} // Close on blur
+                    getPopupContainer={(trigger) => trigger.parentNode} // Ensure popup stays within parent
                 />
                 <DatePicker
                     placeholder="Bitiş Tarihi"
-                    value={endDate ? moment(endDate, "YYYY-MM-DD") : null}
+                    value={endDate ? moment(endDate, 'YYYY-MM-DD') : null}
                     onChange={(date, dateString) => setEndDate(dateString)}
+                    open={endOpen}
+                    onOpenChange={(open) => setEndOpen(open)}
+                    onFocus={() => setEndOpen(true)} // Open only on click/focus
+                    onBlur={() => setEndOpen(false)} // Close on blur
+                    getPopupContainer={(trigger) => trigger.parentNode} // Ensure popup stays within parent
                 />
             </Box>
-            {/* Grafiklerin düzeni */}
             <div className="row">
-                {/* 1. Grafik: Satışlar */}
                 <div className="pd0 col-6">
                     <div className="wrapper">
                         <div className="chartContainer">
                             <h5>Total sales</h5>
-                            <h2>{dashboardData?.totalSales} <FaManatSign className={"icon"}/></h2>
-                            <ChartWithGradient data={salesData} options={options}/>
+                            <h2>
+                                {dashboardData?.totalSales} <FaManatSign className="icon" />
+                            </h2>
+                            <ChartWithGradient data={salesData} options={options} />
                         </div>
                     </div>
                 </div>
-                {/* 2. Grafik: Ortalama Sipariş Değeri */}
                 <div className="pd0 col-6">
                     <div className="wrapper">
                         <div className="chartContainer">
                             <h5>Average order value</h5>
-                            <h2>{dashboardData?.averageOrderValue} <FaManatSign className={"icon"}/></h2>
-                            <ChartWithGradient data={averageData} options={options}/>
+                            <h2>
+                                {dashboardData?.averageOrderValue} <FaManatSign className="icon" />
+                            </h2>
+                            <ChartWithGradient data={averageData} options={options} />
                         </div>
                     </div>
                 </div>
             </div>
             <div className="row">
-                {/* 3. Grafik: Toplam Sipariş (totalOrders) */}
                 <div className="pd0 col-6">
                     <div className="wrapper">
                         <div className="chartContainer">
                             <h5>Total orders</h5>
                             <h2>{dashboardData?.totalOrders}</h2>
-                            <ChartWithGradient data={ordersData} options={options}/>
+                            <ChartWithGradient data={ordersData} options={options} />
                         </div>
                     </div>
                 </div>
-                {/* 4. Grafik: Tekrar Eden Müşteri Oranı */}
                 <div className="pd0 col-6">
                     <div className="wrapper">
                         <div className="chartContainer">
                             <h5>Returning customer rate</h5>
                             <h2>{dashboardData?.returningCustomerRate} %</h2>
-                            <ChartWithGradient data={returningData} options={options}/>
+                            <ChartWithGradient data={returningData} options={options} />
                         </div>
                     </div>
                 </div>

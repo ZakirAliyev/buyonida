@@ -49,6 +49,12 @@
     display: flex;
     align-items: center;
     justify-content: end;
+    gap: 10px;
     padding: 0 16px;
+    a{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }

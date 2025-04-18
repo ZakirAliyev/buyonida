@@ -3,10 +3,15 @@ import { FiMonitor } from "react-icons/fi";
 import { RxExit } from "react-icons/rx";
 import { HiOutlineHome } from "react-icons/hi";
 import { GoChevronDown } from "react-icons/go";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {LuEarth} from "react-icons/lu";
+import {BASE_URL} from "../../../../constants.js";
+import {useGetStoreByIdQuery} from "../../../service/userApi.js";
+import Cookies from "js-cookie";
 
 function CustomizeStorePageNavbar() {
-
+    const { data: getStoreById } = useGetStoreByIdQuery(Cookies.get('chooseMarket'));
+    const store = getStoreById?.data;
     const navigate = useNavigate();
 
     return (
@@ -27,6 +32,7 @@ function CustomizeStorePageNavbar() {
                 <GoChevronDown className={"icon"} />
             </div>
             <div className={"end"}>
+                <Link to={`${BASE_URL}@${store?.name}`}> <LuEarth /></Link>
                 <FiMonitor />
             </div>
         </section>
