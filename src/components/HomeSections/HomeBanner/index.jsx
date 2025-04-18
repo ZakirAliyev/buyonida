@@ -35,8 +35,8 @@ function HomeBanner() {
                         got you covered.</h4>
                 </div>
                 <div className={"linkWrapper"}>
-                    <Link to={'/public'} className={"link"}>
-                        Get Started
+                    <Link to={'/register'} className={"link"}>
+                        Get start for free
                     </Link>
                 </div>
                 <h6>Get Started. Start for free. No credit card required.</h6>
