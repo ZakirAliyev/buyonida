@@ -67,7 +67,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 32px 150px;
+      padding: 32px 50px 32px 78px;
 
       .first {
         display: flex;
@@ -100,14 +100,28 @@
           }
         }
       }
-      button {
-        background-color: #333;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        height: 40px;
-        padding: 0 15px;
+      .buttonContainer{
+        display: flex;
+        gap: 16px;
+        button {
+          background-color: #333;
+          color: white;
+          border: none;
+          border-radius: 10px;
+          height: 40px;
+          padding: 0 15px;
+        }
+        .gotoMarket,.copy{
+          border: 1px solid #333333;
+          background: transparent;
+          color: #333333;
+          font-family: "Space Grotesk";
+          font-weight: 500;
+          font-size: 15px;
+          line-height: 100%;
+        }
       }
+
     }
   }
 

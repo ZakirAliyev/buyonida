@@ -38,7 +38,7 @@ function HomeSectThree() {
                     </Col>
                 </Row>
                 <div className={"linkDiv"}>
-                    <Link to={'/public'} className={"link"}>Get Started</Link>
+                    <Link to={'/register'} className={"link"}>Get Started</Link>
                 </div>
             </div>
         </section>
