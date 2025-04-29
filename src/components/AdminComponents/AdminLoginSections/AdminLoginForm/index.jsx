@@ -21,6 +21,9 @@ function AdminLoginForm() {
     const handleGoogleLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
             try {
+                // Log the ID token to the console
+                console.log('Google ID Token:', tokenResponse.id_token);
+
                 // Fetch user info from Google API
                 const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
                     headers: {
@@ -28,7 +31,6 @@ function AdminLoginForm() {
                     },
                 });
 
-                // Assuming your backend has an endpoint to handle Google login
                 const response = await postLogin({
                     email: userInfo.data.email,
                     googleToken: tokenResponse.access_token,
