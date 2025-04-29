@@ -427,6 +427,7 @@ export const ownerApi = createApi({
                 url: `/User/login-google`,
                 method: 'POST',
                 body: data,
+                headers: { 'Content-Type': 'application/json' },
             }),
         }),
     }),
