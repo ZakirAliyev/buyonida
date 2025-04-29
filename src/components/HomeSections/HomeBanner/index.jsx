@@ -29,8 +29,16 @@ function HomeBanner() {
                     </div>
                 </div>
                 <h2>Create a website without limits</h2>
-                <div className={"h4"}>
-                    <h4>Build and scale with confidence. From a powerful website builder to advanced business solutions
+                <div className={"h4"} style={{
+                    flexDirection: "column",
+                    textAlign: "center",
+                    alignItems: "center"
+                }}>
+                    <h4>Build and scale with confidence.</h4>
+                    <h4 style={{
+                        maxWidth: "650px",
+                        width: "100%"
+                    }}>From a powerful website builder to advanced business solutions
                         – we've
                         got you covered.</h4>
                 </div>

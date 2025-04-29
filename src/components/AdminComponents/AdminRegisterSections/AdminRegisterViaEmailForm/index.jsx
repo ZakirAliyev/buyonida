@@ -246,15 +246,9 @@ function AdminRegisterViaEmailForm() {
                     </h4>
                 </div>
                 <div className="links">
-                    <Link to="/public" className="link">
-                        Help
-                    </Link>
-                    <Link to="/public" className="link">
-                        Privacy
-                    </Link>
-                    <Link to="/public" className="link">
-                        Terms
-                    </Link>
+                    <Link to={'/help'} className={"link"}>Help</Link>
+                    <Link to={'/privacy'} className={"link"}>Privacy</Link>
+                    <Link to={'/terms'} className={"link"}>Terms</Link>
                 </div>
             </div>
             <ToastContainer/>

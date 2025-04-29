@@ -24,6 +24,10 @@ import MarketCheckoutPage from "../pages/MarketPages/MarketCheckoutPage/index.js
 import CustomizeStorePages from "../pages/CustomizeStorePages/index.jsx";
 import MarketLayout from "../pages/MarketPages/index.jsx";
 import AdminGeneralMenu from "../components/AdminComponents/AdminMenus/AdminGeneralMenu/index.jsx";
+import SuccessComponent from "../components/PaymentComponents/SuccessComponent/index.jsx";
+import FailedComponent from "../components/PaymentComponents/FailedComponent/index.jsx";
+import TermsOfServicePage from "../pages/LegalPages/TermsOfServicePage/index.jsx";
+import PrivacyPolicyPage from "../pages/LegalPages/PrivacyPolicyPage/index.jsx";
 
 export const ROUTES = [
     {
@@ -35,7 +39,6 @@ export const ROUTES = [
                 index: true,
                 element: <HomePage/>
             },
-            // Authentication and account-related routes
             {
                 path: 'login',
                 element: <AdminLoginPage/>
@@ -185,7 +188,6 @@ export const ROUTES = [
                 path: 'cp/edit-product/:marketId/:id',
                 element: <AdminHomePage/>
             },
-            // Nested market routes
             {
                 path: ':marketName',
                 element: <MarketLayout/>,
@@ -212,7 +214,14 @@ export const ROUTES = [
                     }
                 ]
             },
-            // Other standalone routes
+            {
+                path: 'success',
+                element: <SuccessComponent/>
+            },
+            {
+                path: 'failed',
+                element: <FailedComponent/>
+            },
             {
                 path: 'checkout/:marketId',
                 element: <MarketCheckoutPage/>
@@ -221,7 +230,18 @@ export const ROUTES = [
                 path: 'customize-store-page',
                 element: <CustomizeStorePages/>
             },
-            // Catch-all route
+            {
+                path: 'help',
+                element: <NotFoundPage/>
+            },
+            {
+                path: 'privacy',
+                element: <PrivacyPolicyPage/>
+            },
+            {
+                path: 'terms',
+                element: <TermsOfServicePage/>
+            },
             {
                 path: '*',
                 element: <NotFoundPage/>

@@ -28,7 +28,6 @@ function MarketNavbar({ palet }) {
     const params = useParams();
     const navigate = useNavigate();
     const name = params?.marketName?.substring(1) || '';
-    console.log(name);
 
     const { data: getStoreByName } = useGetStoreByNameQuery(name || 'Zakir magaza');
     const store = getStoreByName?.data;

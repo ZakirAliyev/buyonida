@@ -1,20 +1,74 @@
-import './index.scss'
-import {Link, useNavigate} from "react-router-dom";
-import {IoChevronForwardOutline, IoEyeOffOutline, IoEyeOutline} from "react-icons/io5";
-import {useFormik} from "formik";
-import {toast, ToastContainer} from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css'
-import {PulseLoader} from "react-spinners";
-import {useState} from "react";
+import './index.scss';
+import { Link, useNavigate } from "react-router-dom";
+import { IoChevronForwardOutline, IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { useFormik } from "formik";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { PulseLoader } from "react-spinners";
+import { useState } from "react";
 import * as Yup from "yup";
-import image1 from "/src/assets/sariLogo.png"
-import {usePostLoginOwnerMutation} from "../../../../service/userApi.js";
+import image1 from "/src/assets/sariLogo.png";
+import { usePostLoginOwnerMutation } from "../../../../service/userApi.js";
+import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 function AdminLoginForm() {
-
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [postLogin] = usePostLoginOwnerMutation()
+    const [postLogin] = usePostLoginOwnerMutation();
     const navigate = useNavigate();
+
+    // Google Login Handler
+    const handleGoogleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            try {
+                // Fetch user info from Google API
+                const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: {
+                        Authorization: `Bearer ${tokenResponse.access_token}`,
+                    },
+                });
+
+                // Assuming your backend has an endpoint to handle Google login
+                const response = await postLogin({
+                    email: userInfo.data.email,
+                    googleToken: tokenResponse.access_token,
+                }).unwrap();
+
+                toast.success(`${response?.message || 'Google login successful'}`, {
+                    position: 'bottom-right',
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: 'dark',
+                    onClose: () => navigate('/login-verification'),
+                });
+                localStorage.setItem('loginEmail', userInfo.data.email);
+            } catch (e) {
+                toast.error(`${e?.data?.message || 'Google login failed'}`, {
+                    position: 'bottom-right',
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: 'dark',
+                });
+            }
+        },
+        onError: () => {
+            toast.error('Google login failed', {
+                position: 'bottom-right',
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: 'dark',
+            });
+        },
+    });
 
     function handleClick() {
         formik.validateForm().then((errors) => {
@@ -33,7 +87,6 @@ function AdminLoginForm() {
                             closeOnClick: true,
                             pauseOnHover: true,
                             draggable: true,
-                            progress: undefined,
                             theme: 'dark',
                         });
                     }
@@ -55,7 +108,7 @@ function AdminLoginForm() {
             email: '',
             password: '',
         },
-        onSubmit: async (values, {resetForm}) => {
+        onSubmit: async (values, { resetForm }) => {
             setIsSubmitting(true);
             try {
                 const response = await postLogin(values).unwrap();
@@ -66,9 +119,8 @@ function AdminLoginForm() {
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
-                    progress: undefined,
                     theme: 'dark',
-                    onClose: () => navigate('/login-verification') // Toast bitdikdən sonra yönləndir
+                    onClose: () => navigate('/login-verification'),
                 });
                 resetForm();
                 localStorage.setItem('loginEmail', values.email);
@@ -80,15 +132,12 @@ function AdminLoginForm() {
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
-                    progress: undefined,
                     theme: 'dark',
                 });
             }
-
-
             setIsSubmitting(false);
         },
-        validationSchema: SignupSchema
+        validationSchema: SignupSchema,
     });
 
     const [showPassword, setShowPassword] = useState(false);
@@ -97,7 +146,7 @@ function AdminLoginForm() {
         <section id={"adminLoginForm"}>
             <div className={"wrapper"}>
                 <div className={"img"}>
-                    <img src={image1} alt={"Logo"}/>
+                    <img src={image1} alt={"Logo"} />
                 </div>
                 <div className={"title"}>
                     <h2>Log in</h2>
@@ -111,17 +160,13 @@ function AdminLoginForm() {
                         value={formik.values.email}
                     />
                     <label>Password</label>
-                    <div style={{
-                        position: 'relative',
-                    }}>
+                    <div style={{ position: 'relative' }}>
                         <input
                             type={showPassword ? 'text' : 'password'}
                             name="password"
                             onChange={formik.handleChange}
                             value={formik.values.password}
-                            style={{
-                                width: '100%'
-                            }}
+                            style={{ width: '100%' }}
                         />
                         <div
                             type="button"
@@ -131,14 +176,14 @@ function AdminLoginForm() {
                                 right: '15px',
                                 top: '15px',
                                 margin: 0,
-                                cursor: 'pointer'
+                                cursor: 'pointer',
                             }}
                         >
-                            {showPassword ? <IoEyeOffOutline style={{
-                                fontSize: '20px',
-                            }}/> : <IoEyeOutline style={{
-                                fontSize: '20px'
-                            }}/>}
+                            {showPassword ? (
+                                <IoEyeOffOutline style={{ fontSize: '20px' }} />
+                            ) : (
+                                <IoEyeOutline style={{ fontSize: '20px' }} />
+                            )}
                         </div>
                     </div>
                     <Link to={`/forgot-pass`} className={"forgotPass"}>
@@ -160,30 +205,44 @@ function AdminLoginForm() {
                 </div>
                 <div className={"options"}>
                     <div className={"option"}>
-                        <img src={"https://download.logo.wine/logo/Apple_Inc./Apple_Inc.-Logo.wine.png"} alt={"Image"}/>
+                        <img
+                            src={"https://download.logo.wine/logo/Apple_Inc./Apple_Inc.-Logo.wine.png"}
+                            alt={"Apple"}
+                        />
                     </div>
                     <div className={"option option1"}>
-                        <img src={"https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png"}
-                             alt={"Image"}/>
+                        <img
+                            src={"https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png"}
+                            alt={"Facebook"}
+                        />
                     </div>
-                    <div className={"option"}>
-                        <img src={"https://pngimg.com/d/google_PNG19635.png"} alt={"Image"}/>
+                    <div className={"option"} onClick={handleGoogleLogin} style={{ cursor: 'pointer' }}>
+                        <img
+                            src={"https://pngimg.com/d/google_PNG19635.png"}
+                            alt={"Google"}
+                        />
                     </div>
                 </div>
                 <nav>
                     New to Buyonida
                     <Link to={`/register`} className={"link"}>Get Started</Link>
-                    <IoChevronForwardOutline className={"link"}/>
+                    <IoChevronForwardOutline className={"link"} />
                 </nav>
                 <div className={"links"}>
-                    <Link to={'/public'} className={"link"}>Help</Link>
-                    <Link to={'/public'} className={"link"}>Privacy</Link>
-                    <Link to={'/public'} className={"link"}>Terms</Link>
+                    <Link to={'/help'} className={"link"}>Help</Link>
+                    <Link to={'/privacy'} className={"link"}>Privacy</Link>
+                    <Link to={'/terms'} className={"link"}>Terms</Link>
                 </div>
             </div>
-            <ToastContainer/>
+            <ToastContainer />
         </section>
     );
 }
 
-export default AdminLoginForm;
+export default function WrappedAdminLoginForm() {
+    return (
+        <GoogleOAuthProvider clientId="563103512847-4s3ft6rout2th0qgkt8p45r269sq0qqs.apps.googleusercontent.com">
+            <AdminLoginForm />
+        </GoogleOAuthProvider>
+    );
+}

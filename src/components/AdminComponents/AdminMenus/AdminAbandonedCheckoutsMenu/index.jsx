@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useGetOrdersByMarketIdQuery } from "../../../../service/userApi.js";
 import Cookies from "js-cookie";
 import { useState } from "react";
-import noOrdersImage from "/src/assets/static.png"; // Placeholder for your 300x300 image
+import noOrdersImage from "/src/assets/mistatik.png"; // Placeholder for your 300x300 image
 
 function AdminAbandonedCheckoutsMenu() {
     const { data: getOrdersByMarketId } = useGetOrdersByMarketIdQuery(Cookies.get('chooseMarket'));

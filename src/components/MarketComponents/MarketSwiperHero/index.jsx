@@ -33,7 +33,6 @@ export default function MarketSwiperHero({ id }) {
         const navbarEl = document.getElementById("marketNavbar");
         if (navbarEl) {
             const height = navbarEl.offsetHeight;
-            console.log(`Height of #marketNavbar: ${height}px`);
             setNavHeight(height);
             return true;
         } else {

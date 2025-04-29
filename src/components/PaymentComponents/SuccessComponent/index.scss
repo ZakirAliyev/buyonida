@@ -1,0 +1,93 @@
+#successComponent {
+  padding: 175px 16px 120px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  opacity: 0;
+  animation: fadeInSection 0.8s ease-out forwards;
+
+  * {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  // Görsel: pop-in + sürekli float
+  img {
+    width: 200px;
+    animation:
+            popIn 0.6s ease-out forwards 0.2s,
+            float 4s ease-in-out infinite 1.2s;
+  }
+
+  // Başlık: fadeInUp + sürekli hafif scale pulsate (veya float)
+  h4 {
+    font-weight: 500;
+    margin-top: 20px;
+    opacity: 0;
+    animation:
+            fadeInUp 0.6s ease-out forwards 0.4s,
+            float 4.5s ease-in-out infinite 1.5s;
+  }
+
+  p {
+    color: #797979;
+    max-width: 550px;
+    text-align: center;
+    margin-top: 20px;
+    opacity: 0;
+    animation:
+            fadeInUp 0.6s ease-out forwards 0.6s,
+            float 5s ease-in-out infinite 1.8s;
+  }
+
+  button {
+    margin-top: 20px;
+    max-width: 500px;
+    width: 100%;
+    background: black;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    animation:
+            fadeInUp 0.6s ease-out forwards 0.8s,
+            float 4.2s ease-in-out infinite 2s;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
+/* Animasyon tanımları */
+@keyframes fadeInSection {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0.5); }
+  60%  { opacity: 1; transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Sürekli hafif oynama efekti */
+@keyframes float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}

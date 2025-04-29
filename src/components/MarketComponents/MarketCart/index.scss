@@ -1,3 +1,8 @@
+/* Prevent body scrolling when cart is open */
+body.no-scroll {
+  overflow: hidden;
+}
+
 #marketCart {
   img {
     border-radius: 10px;
@@ -21,6 +26,7 @@
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
     z-index: 9999;
+    overflow: hidden; /* Prevent sidebar from scrolling */
 
     &.open {
       transform: translateX(0);
@@ -35,7 +41,7 @@
       font-size: 1.4rem;
       font-weight: 600;
       margin-bottom: 20px;
-      background-color: #2F2F2F;
+      background-color: #2f2f2f;
       color: white;
       border-bottom-right-radius: 15px;
       border-bottom-left-radius: 15px;
@@ -48,13 +54,13 @@
     .cart-items {
       flex: 1; /* Take up remaining space */
       overflow-y: auto; /* Enable vertical scrolling */
-      max-height: calc(100vh - 300px); /* Adjust based on header and footer height */
+      max-height: calc(100vh - 250px); /* Adjust based on header (~100px) and footer (~150px) height */
       padding: 20px;
       -ms-overflow-style: none; /* Hide scrollbar in IE/Edge */
       scrollbar-width: none; /* Hide scrollbar in Firefox */
 
       &::-webkit-scrollbar {
-        display: none; /* Hide scrollbar in WebKit browsers (Chrome, Safari, Edge) */
+        display: none; /* Hide scrollbar in WebKit browsers */
       }
 
       .cart-item {
@@ -102,6 +108,7 @@
                 border: 1px solid black;
                 overflow: hidden;
                 border-radius: 100px;
+
                 button {
                   width: 24px;
                   height: 24px;

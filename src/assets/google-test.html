@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Google ID Token Test</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <h2>Google Sign-In Test</h2>
+    <div id="g_id_onload"
+         data-client_id="563103512847-4s3ft6rout2th0qgkt8p45r269sq0qqs.apps.googleusercontent.com"
+      
+         data-auto_prompt="false"
+         data-callback="handleCredentialResponse">
+    </div>
+    <div class="g_id_signin" data-type="standard"></div>
+
+    <script>
+    function handleCredentialResponse(response) {
+      // response.credential → gerçek ID Token (JWT)
+      console.log("Google ID Token:", response.credential);
+      alert("ID Token alındı, konsola bakın ve kopyalayın.");
+    }
+    </script>
+</body>
+</html>

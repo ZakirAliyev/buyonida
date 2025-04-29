@@ -2,7 +2,6 @@ import './index.scss'
 import {MARKET_LOGO} from "../../../../constants.js";
 
 function MarketFooter({palet,store}) {
-    console.log(palet);
     return (
         <section id={"marketFooter"} style={{backgroundColor:palet ? (palet[0]?.footerBgColor):("#000000"),color:palet ? (`${palet[0]?.footerTextColor}`) : ("#ffffff")}}>
             <div className={"container"}>

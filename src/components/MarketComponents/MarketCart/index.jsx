@@ -74,12 +74,24 @@ const MarketCart = ({ isOpen, onClose, basketItems: initialBasketItems }) => {
         }
     }, [basketItems]);
 
-    // Refetch basket data when cart opens, but only if the query has started
+    // Refetch basket data when cart opens
     useEffect(() => {
         if (isOpen && !isBasketUninitialized && uniqueCode && marketId) {
             refetch();
         }
     }, [isOpen, refetch, isBasketUninitialized, uniqueCode, marketId]);
+
+    // Disable body scroll when cart is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.classList.add("no-scroll");
+        } else {
+            document.body.classList.remove("no-scroll");
+        }
+        return () => {
+            document.body.classList.remove("no-scroll");
+        };
+    }, [isOpen]);
 
     // Calculate subtotal
     const subtotal = localBasketItems.reduce(
@@ -91,7 +103,6 @@ const MarketCart = ({ isOpen, onClose, basketItems: initialBasketItems }) => {
     const updateQuantity = useCallback(async (item, change) => {
         if (item.quantity === 1 && change < 0) return;
 
-        // Optimistic UI update
         setLocalBasketItems((prevItems) =>
             prevItems.map((it) =>
                 it.id === item.id ? { ...it, quantity: it.quantity + change } : it
@@ -111,7 +122,7 @@ const MarketCart = ({ isOpen, onClose, basketItems: initialBasketItems }) => {
                     }))
                     : [],
             }).unwrap();
-            refetch(); // Ensure basket is in sync
+            refetch();
         } catch (error) {
             console.error("Error updating quantity:", error);
             toast.error("Failed to update quantity!", {
@@ -119,13 +130,12 @@ const MarketCart = ({ isOpen, onClose, basketItems: initialBasketItems }) => {
                 autoClose: 2500,
                 theme: "dark",
             });
-            refetch(); // Revert to server state
+            refetch();
         }
     }, [postAddProduct, uniqueCode, marketId, refetch]);
 
     // Remove item from basket
     const handleRemoveItem = useCallback(async (item) => {
-        // Optimistic UI update
         setLocalBasketItems((prevItems) => prevItems.filter((it) => it.id !== item.id));
 
         try {
@@ -190,9 +200,9 @@ const MarketCart = ({ isOpen, onClose, basketItems: initialBasketItems }) => {
             >
                 <div className="cart-header">
                     <h2 className="cart-title">
-                        <FaX style={{visibility: 'hidden'}}/>
+                        <FaX style={{ visibility: "hidden" }} />
                         YOUR SHOPPING BAG
-                        <FaX style={{fontSize: '12px'}} onClick={onClose}/>
+                        <FaX style={{ fontSize: "12px" }} onClick={onClose} />
                     </h2>
                     <Fingerprint />
                 </div>
@@ -201,10 +211,10 @@ const MarketCart = ({ isOpen, onClose, basketItems: initialBasketItems }) => {
                         localBasketItems.map((item) => (
                             <div className="cart-item" key={item.id}>
                                 <img
-                                    src={`${PRODUCT_LOGO}${item.product?.imageNames?.[0] || ''}`}
-                                    alt={item.product?.title || 'Product Image'}
+                                    src={`${PRODUCT_LOGO}${item.product?.imageNames?.[0] || ""}`}
+                                    alt={item.product?.title || "Product Image"}
                                     className="cart-item-image"
-                                    onError={(e) => (e.target.src = "/fallback-image.png")} // Fallback image
+                                    onError={(e) => (e.target.src = "/fallback-image.png")}
                                 />
                                 <div className="cart-item-info">
                                     <div
@@ -214,7 +224,7 @@ const MarketCart = ({ isOpen, onClose, basketItems: initialBasketItems }) => {
                                             justifyContent: "space-between",
                                         }}
                                     >
-                                        <h3>{item.product?.title || 'Unknown Product'}</h3>
+                                        <h3>{item.product?.title || "Unknown Product"}</h3>
                                         <button
                                             className="delete-btn"
                                             onClick={() => handleRemoveItem(item)}

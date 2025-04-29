@@ -11,7 +11,7 @@ function MarketCard({number, product,palet}) {
         }}>
             <section id={"marketCard"} style={{backgroundColor:palet ? (`${palet[0]?.cardBgColor}`) : ("#ffffff"),color:palet ? (`${palet[0]?.cardTextColor}`) : ("#000000")}}>
                    <div className={"img"}>
-                       <img src={product?.imageNames.includes('https://images.unsplash.com') ? (product?.imageNames) : (PRODUCT_LOGO + product?.imageNames[0])} alt={"Image"}/>
+                       <img src={product?.imageNames.includes('https://i.ibb.co/p6HWZzQs/Line-2.png') ? (product?.imageNames) : (PRODUCT_LOGO + product?.imageNames[0])} alt={"Image"}/>
                    </div>
                 <div className={"textWrapper"}>
                 <h2>{product?.title}</h2>

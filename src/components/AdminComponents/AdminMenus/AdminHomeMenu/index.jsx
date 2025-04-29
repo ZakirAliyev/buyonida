@@ -3,12 +3,12 @@ import {IoMdSettings} from "react-icons/io";
 import {FaStoreAlt} from "react-icons/fa";
 import {AiFillProduct} from "react-icons/ai";
 import {useState, useEffect} from "react";
-import image1 from "/src/assets/bg.jpg";
-import image2 from "/src/assets/miniPhoto.png";
+import image1 from "/src/assets/art1.png";
+import image2 from "/src/assets/art2.png";
+import image3 from "/src/assets/art3.png";
 import {useGetAllProductsByMarketIdQuery, useGetStoreByIdQuery} from "../../../../service/userApi.js";
 import Cookies from "js-cookie";
-import {BASE_URL, MARKET_LOGO} from "../../../../../constants.js";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 function AdminHomeMenu() {
     const {data: getStoreById} = useGetStoreByIdQuery(Cookies.get('chooseMarket'));
@@ -98,7 +98,7 @@ function AdminHomeMenu() {
             </div>
             <div className="row">
                 <div className="col-4">
-                    <img src={image2} alt="Image"/>
+                    <img src={image1} alt="Image"/>
                     <p>How to customize your store in 10 steps</p>
                     <p className="p">In this tutorial you can customize your store in an easy way.</p>
                 </div>
@@ -108,7 +108,7 @@ function AdminHomeMenu() {
                     <p className="p">In this tutorial you can customize your store in an easy way.</p>
                 </div>
                 <div className="col-4">
-                    <img src={image2} alt="Image"/>
+                    <img src={image3} alt="Image"/>
                     <p>How to customize your store in 10 steps</p>
                     <p className="p">In this tutorial you can customize your store in an easy way.</p>
                 </div>

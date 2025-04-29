@@ -7,6 +7,7 @@ import CSMarketCard from "../CustomMarket/CSMarketCard/index.jsx";
 import { useEffect } from "react";
 import { useGetStoreWithSectionsQuery } from "../../../service/userApi.js"; // Adjust the import path
 import Cookies from "js-cookie";
+import CustomizeStoreMarketFooter from "../CustomizeStoreMarketFooter/index.jsx";
 
 function CustomizeStoreMarketHomePage({ swipers, sections, customLogo, customLogoWidth }) {
     const { data: getStoreWithSectionsByMarketId } = useGetStoreWithSectionsQuery(Cookies.get("chooseMarket"));
@@ -84,7 +85,7 @@ function CustomizeStoreMarketHomePage({ swipers, sections, customLogo, customLog
                     </div>
                 ))}
             </div>
-            <MarketFooter />
+            <CustomizeStoreMarketFooter customLogo={customLogo} customLogoWidth={customLogoWidth}/>
         </section>
     );
 }

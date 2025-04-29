@@ -89,7 +89,7 @@ export default function MarketNavbarDrawer({ logo, palet }) {
                             color: palet?.[0]?.navbarTextColor || '#f9f9f9',
                         }}
                     >
-                        CATEGORIES <FaChevronDown className="chevron" />
+                        CATEGORIES <FaChevronDown className="chevron123" />
                     </div>
                     <div
                         className={`dropdown-menu ${isCategoriesOpen ? 'show' : ''}`}
@@ -133,7 +133,10 @@ export default function MarketNavbarDrawer({ logo, palet }) {
                             color: palet?.[0]?.navbarTextColor || '#f9f9f9',
                         }}
                     >
-                        COLLECTIONS <FaChevronDown className="chevron" />
+                        COLLECTIONS <FaChevronDown className="chevron123" style={{
+                            color: palet?.[0]?.buttonTextColor || '#ffffff',
+                        zIndex: 9
+                    }}/>
                     </div>
                     <div
                         className={`dropdown-menu ${isCollectionsOpen ? 'show' : ''}`}

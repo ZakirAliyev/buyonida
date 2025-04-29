@@ -92,7 +92,6 @@ const ChartComponent = () => {
     // Prevent mouse wheel from changing date picker
     useEffect(() => {
         const handleWheel = (e) => {
-            console.log('Wheel event blocked on DatePicker panel'); // Debugging
             e.preventDefault();
         };
 

@@ -4,7 +4,10 @@
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
-
+  h2 {
+    font-size: 24px;
+    font-weight: 500;
+  }
   .kapu {
     display: flex;
     align-items: center;

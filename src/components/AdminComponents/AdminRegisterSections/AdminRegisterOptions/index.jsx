@@ -52,9 +52,9 @@ function AdminRegisterOptions() {
                     </h4>
                     <h4>
                         <span>By proceeding, you agree to the</span>
-                        <Link to={'/public'} className={"link"}>Terms and Conditions</Link>
+                        <Link to={'/terms'} className={"link"}>Terms and Conditions</Link>
                         <span>and</span>
-                        <Link to={'/public'} className={"link"}> Privacy Policy</Link>
+                        <Link to={'/privacy'} className={"link"}> Privacy Policy</Link>
                     </h4>
                 </div>
             </div>
