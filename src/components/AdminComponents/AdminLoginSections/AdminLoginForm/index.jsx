@@ -19,38 +19,27 @@ function AdminLoginForm() {
 
 
     const handleGoogleLogin = useGoogleLogin({
-        onSuccess: async (tokenResponse) => {
+        onSuccess: async (credentialResponse) => {
             try {
-                // Log the ID token to the console
-                console.log('Google ID Token:', tokenResponse.id_token);
 
-                // Log the access token for reference (optional)
-                console.log('Google Access Token:', tokenResponse.access_token);
+                console.log(credentialResponse)
 
-                // Fetch user info from Google API using access token
-                const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-                    headers: {
-                        Authorization: `Bearer ${tokenResponse.access_token}`,
-                    },
-                });
-
-                // Assuming your backend has an endpoint to handle Google login
-                const response = await postLogin({
-                    email: userInfo.data.email,
-                    googleIdToken: tokenResponse.id_token, // Send ID token to backend
-                }).unwrap();
-
-                toast.success(`${response?.message || 'Google login successful'}`, {
-                    position: 'bottom-right',
-                    autoClose: 2500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    theme: 'dark',
-                    onClose: () => navigate('/login-verification'),
-                });
-                localStorage.setItem('loginEmail', userInfo.data.email);
+                // const response = await postLogin({
+                //     email: userInfo.data.email,
+                //     googleIdToken: tokenResponse.id_token, // Send ID token to backend
+                // }).unwrap();
+                //
+                // toast.success(`${response?.message || 'Google login successful'}`, {
+                //     position: 'bottom-right',
+                //     autoClose: 2500,
+                //     hideProgressBar: false,
+                //     closeOnClick: true,
+                //     pauseOnHover: true,
+                //     draggable: true,
+                //     theme: 'dark',
+                //     onClose: () => navigate('/login-verification'),
+                // });
+                // localStorage.setItem('loginEmail', userInfo.data.email);
             } catch (e) {
                 toast.error(`${e?.data?.message || 'Google login failed'}`, {
                     position: 'bottom-right',
