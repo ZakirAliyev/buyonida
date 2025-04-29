@@ -9,12 +9,65 @@ import { useState } from "react";
 import * as Yup from "yup";
 import image1 from "/src/assets/sariLogo.png";
 import { usePostLoginOwnerMutation } from "../../../../service/userApi.js";
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 function AdminLoginForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [postLogin] = usePostLoginOwnerMutation();
     const navigate = useNavigate();
+
+    // Google Login Handler
+    const handleGoogleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            try {
+                console.log('Google ID Token:', tokenResponse.credential);
+                const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: {
+                        Authorization: `Bearer ${tokenResponse.access_token}`,
+                    },
+                });
+
+                const response = await postLogin({
+                    email: userInfo.data.email,
+                    googleToken: tokenResponse.access_token,
+                }).unwrap();
+
+                toast.success(`${response?.message || 'Google login successful'}`, {
+                    position: 'bottom-right',
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: 'dark',
+                    onClose: () => navigate('/login-verification'),
+                });
+                localStorage.setItem('loginEmail', userInfo.data.email);
+            } catch (e) {
+                toast.error(`${e?.data?.message || 'Google login failed'}`, {
+                    position: 'bottom-right',
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: 'dark',
+                });
+            }
+        },
+        onError: () => {
+            toast.error('Google login failed', {
+                position: 'bottom-right',
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: 'dark',
+            });
+        },
+    });
 
     function handleClick() {
         formik.validateForm().then((errors) => {
@@ -162,52 +215,10 @@ function AdminLoginForm() {
                             alt={"Facebook"}
                         />
                     </div>
-                    <div className={"option"} style={{ cursor: 'pointer' }}>
-                        <GoogleLogin
-                            onSuccess={async (credentialResponse) => {
-                                try {
-                                    console.log(credentialResponse.credential);
-                                    // Uncomment and adjust the following if backend integration is needed
-                                    // const response = await postLogin({
-                                    //     email: userInfo.data.email,
-                                    //     googleIdToken: credentialResponse.credential, // Send ID token to backend
-                                    // }).unwrap();
-                                    //
-                                    // toast.success(`${response?.message || 'Google login successful'}`, {
-                                    //     position: 'bottom-right',
-                                    //     autoClose: 2500,
-                                    //     hideProgressBar: false,
-                                    //     closeOnClick: true,
-                                    //     pauseOnHover: true,
-                                    //     draggable: true,
-                                    //     theme: 'dark',
-                                    //     onClose: () => navigate('/login-verification'),
-                                    // });
-                                    // localStorage.setItem('loginEmail', userInfo.data.email);
-                                } catch (e) {
-                                    toast.error(`${e?.data?.message || 'Google login failed'}`, {
-                                        position: 'bottom-right',
-                                        autoClose: 2500,
-                                        hideProgressBar: false,
-                                        closeOnClick: true,
-                                        pauseOnHover: true,
-                                        draggable: true,
-                                        theme: 'dark',
-                                    });
-                                }
-                            }}
-                            onError={() => {
-                                toast.error('Google login failed', {
-                                    position: 'bottom-right',
-                                    autoClose: 2500,
-                                    hideProgressBar: false,
-                                    closeOnClick: true,
-                                    pauseOnHover: true,
-                                    draggable: true,
-                                    theme: 'dark',
-                                });
-                            }}
-                            scope="openid email profile"
+                    <div className={"option"} onClick={handleGoogleLogin} style={{ cursor: 'pointer' }}>
+                        <img
+                            src={"https://pngimg.com/d/google_PNG19635.png"}
+                            alt={"Google"}
                         />
                     </div>
                 </div>
