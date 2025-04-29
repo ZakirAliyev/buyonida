@@ -422,6 +422,13 @@ export const ownerApi = createApi({
                 method: 'PUT',
             }),
         }),
+        postGoogleLogin: builder.mutation({
+            query: (data) => ({
+                url: `/User/login-google`,
+                method: 'POST',
+                body: data,
+            }),
+        }),
     }),
 });
 
@@ -489,4 +496,5 @@ export const {
     useUpdateUserMutation,
     useFulFillOrderMutation,
     useRefundOrderMutation,
+    usePostGoogleLoginMutation,
 } = ownerApi;
