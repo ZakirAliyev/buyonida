@@ -91,7 +91,7 @@ function AdminLoginForm() {
         }
 
         try {
-            const response = await postGoogleLogin(idToken).unwrap();
+            const response = await postGoogleLogin({idToken}).unwrap();
             Cookies.set('buyonidaToken', response?.data?.token, { expires: 1 });
             toast.success(`${response?.message || 'Google login successful'}`, {
                 position: 'bottom-right',
