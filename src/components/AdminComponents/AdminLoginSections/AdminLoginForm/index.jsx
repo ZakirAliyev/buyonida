@@ -166,7 +166,7 @@ function AdminLoginForm() {
                         <GoogleLogin
                             onSuccess={async (credentialResponse) => {
                                 try {
-                                    console.log(credentialResponse);
+                                    console.log(credentialResponse.credential);
                                     // Uncomment and adjust the following if backend integration is needed
                                     // const response = await postLogin({
                                     //     email: userInfo.data.email,
