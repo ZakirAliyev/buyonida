@@ -17,23 +17,27 @@ function AdminLoginForm() {
     const [postLogin] = usePostLoginOwnerMutation();
     const navigate = useNavigate();
 
-    // Google Login Handler
+
     const handleGoogleLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
             try {
                 // Log the ID token to the console
                 console.log('Google ID Token:', tokenResponse.id_token);
 
-                // Fetch user info from Google API
+                // Log the access token for reference (optional)
+                console.log('Google Access Token:', tokenResponse.access_token);
+
+                // Fetch user info from Google API using access token
                 const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
                     headers: {
                         Authorization: `Bearer ${tokenResponse.access_token}`,
                     },
                 });
 
+                // Assuming your backend has an endpoint to handle Google login
                 const response = await postLogin({
                     email: userInfo.data.email,
-                    googleToken: tokenResponse.access_token,
+                    googleIdToken: tokenResponse.id_token, // Send ID token to backend
                 }).unwrap();
 
                 toast.success(`${response?.message || 'Google login successful'}`, {
@@ -70,6 +74,7 @@ function AdminLoginForm() {
                 theme: 'dark',
             });
         },
+        scope: 'openid email profile', // Ensure ID token is included
     });
 
     function handleClick() {
