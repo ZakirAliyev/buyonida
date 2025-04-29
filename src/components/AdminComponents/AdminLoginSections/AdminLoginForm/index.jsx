@@ -101,7 +101,7 @@ function AdminLoginForm() {
                 pauseOnHover: true,
                 draggable: true,
                 theme: 'dark',
-                onClose: () => navigate('/cp'),
+                onClose: () => navigate('/choose-market'),
             });
         } catch (e) {
             toast.error(`${e?.data?.message || 'Google login failed'}`, {
