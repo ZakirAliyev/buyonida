@@ -8,8 +8,8 @@ import { PulseLoader } from "react-spinners";
 import { useState } from "react";
 import * as Yup from "yup";
 import image1 from "/src/assets/sariLogo.png";
-import {usePostGoogleLoginMutation, usePostLoginOwnerMutation} from "../../../../service/userApi.js";
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { usePostGoogleLoginMutation, usePostLoginOwnerMutation } from "../../../../service/userApi.js";
+import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import Cookies from "js-cookie";
 
 function AdminLoginForm() {
@@ -81,40 +81,49 @@ function AdminLoginForm() {
         });
     }
 
-    const [postGoogleLogin] = usePostGoogleLoginMutation()
+    const [postGoogleLogin] = usePostGoogleLoginMutation();
 
-    async function handleGoogleLoginSuccess(credentialResponse) {
-        const idToken = credentialResponse.credential;
-        if (!idToken) {
-            toast.error('Google ID token not found', { theme: 'dark' });
-            return;
-        }
+    const googleLogin = useGoogleLogin({
+        onSuccess: async (credentialResponse) => {
+            console.log("Encoded JWT ID token: ", credentialResponse.access_token);
+            const idToken = credentialResponse.access_token;
+            if (!idToken) {
+                toast.error('Google ID token not found', { theme: 'dark' });
+                return;
+            }
 
-        try {
-            const response = await postGoogleLogin({idToken}).unwrap();
-            Cookies.set('buyonidaToken', response?.data?.token, { expires: 1 });
-            toast.success(`${response?.message || 'Google login successful'}`, {
-                position: 'bottom-right',
-                autoClose: 2500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: 'dark',
-                onClose: () => navigate('/choose-market'),
-            });
-        } catch (e) {
-            toast.error(`${e?.data?.message || 'Google login failed'}`, {
-                position: 'bottom-right',
-                autoClose: 2500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: 'dark',
-            });
-        }
-    }
+            setIsSubmitting(true);
+            try {
+                const response = await postGoogleLogin({ idToken }).unwrap();
+                Cookies.set('buyonidaToken', response?.data?.token, { expires: 1 });
+                toast.success(`${response?.message || 'Google login successful'}`, {
+                    position: 'bottom-right',
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: 'dark',
+                    onClose: () => navigate('/choose-market'),
+                });
+            } catch (e) {
+                toast.error(`${e?.data?.message || 'Google login failed'}`, {
+                    position: 'bottom-right',
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: 'dark',
+                });
+            }
+            setIsSubmitting(false);
+        },
+        onError: () => {
+            toast.error('Google login failed', { theme: 'dark' });
+        },
+        scope: 'openid email profile',
+    });
 
     return (
         <section id={"adminLoginForm"}>
@@ -178,18 +187,16 @@ function AdminLoginForm() {
                 </div>
 
                 <div className={"options"}>
-                    <div className={"option"}>
-                        <img src="https://download.logo.wine/logo/Apple_Inc./Apple_Inc.-Logo.wine.png" alt="Apple" />
-                    </div>
-                    <div className={"option option1"}>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png" alt="Facebook" />
-                    </div>
-                    <div className={"option"} style={{ cursor: 'pointer' }}>
-                        <GoogleLogin
-                            onSuccess={handleGoogleLoginSuccess}
-                            onError={() => toast.error('Google login failed', { theme: 'dark' })}
-                            scope="openid email profile"
+                    <div className={"option option1"} style={{ cursor: 'pointer' }} onClick={() => googleLogin()}>
+                        <img
+                            src="https://pngimg.com/d/google_PNG19635.png"
+                            alt="Google"
+                            style={{ height: '25px' }}
                         />
+                        <span style={{
+                            marginLeft: '10px',
+                            fontWeight: '600',
+                        }}>Sign in with Google</span>
                     </div>
                 </div>
 

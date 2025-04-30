@@ -1,97 +1,356 @@
 import './index.scss';
+import {useEffect, useState} from "react";
 
 function TermsOfService() {
+    const [activeSection, setActiveSection] = useState('');
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const sections = document.querySelectorAll('.content h2[id]');
+            let currentSection = '';
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= sectionTop - 120) { // 120: offset ayarı
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            setActiveSection(currentSection);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
         <section id="termsOfService">
             <div className="privacyBanner">
+                <div style={{
+                    color: '#dcdcdc',
+                    fontSize: '18px',
+                    fontWeight: '700',
+                    marginBottom: '15px'
+                }}>Updated March 2, 2023</div>
                 Terms of Service
+                <div style={{
+                    color: '#999999',
+                    fontSize: '18px',
+                    fontWeight: '400',
+                    marginTop: '15px'
+                }}>How Shopify handles your data</div>
             </div>
             <div className="container5">
                 <div className="row">
                     <div className="col-3">
                         <div className="sidebar">
+                            <h3 className="sidebar-title">Table of Contents</h3>
                             <ul className="sidebar-nav">
-                                <li><a href="#section1">1. Account Terms</a></li>
-                                <li><a href="#section2">2. Account Activation</a></li>
-                                <li><a href="#section3">3. Shopify Rights</a></li>
-                                <li><a href="#section4">4. Your Responsibilities</a></li>
-                                <li><a href="#section5">5. Payment of Fees</a></li>
-                                <li><a href="#section6">6. Intellectual Property and Your Materials</a></li>
-                                <li><a href="#section7">7. Additional Services</a></li>
-                                <li><a href="#section8">8. Termination and Suspension</a></li>
-                                <li><a href="#section9">9. Limitation of Liability and Indemnification</a></li>
-                                <li><a href="#section10">10. General Conditions</a></li>
+                                <li><a href="#section1" className={activeSection === 'section1' ? 'active' : ''}>1.
+                                    Personal Information We Collect</a></li>
+                                <li><a href="#section2" className={activeSection === 'section2' ? 'active' : ''}>2. How
+                                    We Use Personal Information</a></li>
+                                <li><a href="#section3" className={activeSection === 'section3' ? 'active' : ''}>3. How
+                                    We Share Personal Information</a></li>
+                                <li><a href="#section4" className={activeSection === 'section4' ? 'active' : ''}>4. Your
+                                    Privacy Rights and Choices</a></li>
+                                <li><a href="#section5" className={activeSection === 'section5' ? 'active' : ''}>5.
+                                    Retention of Personal Information</a></li>
+                                <li><a href="#section6" className={activeSection === 'section6' ? 'active' : ''}>6.
+                                    Children's Privacy</a></li>
+                                <li><a href="#section7" className={activeSection === 'section7' ? 'active' : ''}>7.
+                                    Security</a></li>
+                                <li><a href="#section8" className={activeSection === 'section8' ? 'active' : ''}>8.
+                                    International Data Transfers</a></li>
+                                <li><a href="#section9" className={activeSection === 'section9' ? 'active' : ''}>9.
+                                    Updates to This Privacy Policy</a></li>
+                                <li><a href="#section10" className={activeSection === 'section10' ? 'active' : ''}>10.
+                                    Contact Us</a></li>
                             </ul>
                         </div>
                     </div>
                     <div className="col-9">
                         <div className="content">
-                            <h2 id="section1">1. Account Terms</h2>
-                            <p>To access and use the Services, you must register for a Shopify account (“Account”). To complete your Account registration, you must provide us with your full legal name, business address, phone number, a valid email address, and any other information indicated as required. Shopify may reject your application for an Account, or cancel an existing Account, for any reason, at our sole discretion.</p>
-                            <p>You must be: (i) at least 19 years old; or (ii) if between 13 and 19 years old, you may only use the Services under the supervision of a parent or legal guardian who agrees to be bound by these Terms of Service; or (iii) the age of majority in your jurisdiction (if older than 19), to use the Services. You confirm that you are receiving the Services for the purpose of carrying on a business activity and not for any personal, household, or family purpose.</p>
-                            <p>You acknowledge that Shopify will use the email address you provide on opening an Account or as updated by you from time to time as the primary method for communication with you. You must monitor the primary Account email address you provide to Shopify and your primary Account email address must be capable of both sending and receiving messages.</p>
-                            <p>You are responsible for keeping your password secure. Shopify cannot and will not be liable for any loss or damage from your failure to maintain the security of your Account and password. You are responsible for all activity and content such as photos, images, videos, graphics, written content, audio files, code, information, or data uploaded, collected, generated, stored, displayed, distributed, transmitted, or exhibited on or in connection with your Account (“Materials”).</p>
-                            <p>A breach or violation of any term in the Terms of Service, including the Acceptable Use Policy, as determined in the sole discretion of Shopify may result in an immediate termination of your Services.</p>[](https://www.shopify.com/legal/terms?shpxid=222dd762-CA08-48FF-E4D4-FF926B8FFCAD)
+                            <h2 id="section1">1. Personal Information We Collect</h2>
+                            <p>We collect information about you in three primary ways: information you provide, data
+                                collected automatically, and information from other sources.</p>
+                            <h3>Information You Provide</h3>
+                            <p>When you sign up for Shopify, use our services, or interact with us, you may provide
+                                personal information such as:</p>
+                            <ul>
+                                <li><strong>Contact Information</strong>: Name, email address, phone number, billing and
+                                    shipping addresses.
+                                </li>
+                                <li><strong>Account Information</strong>: Username, password, and other account-related
+                                    details.
+                                </li>
+                                <li><strong>Payment Information</strong>: Credit card details, bank account information,
+                                    or other payment methods used for transactions.
+                                </li>
+                                <li><strong>Business Information</strong>: Store name, business type, tax identification
+                                    numbers, and other details about your business.
+                                </li>
+                                <li><strong>Content</strong>: Information you upload or provide, such as product
+                                    descriptions, customer data, or communications with Shopify Support.
+                                </li>
+                            </ul>
+                            <h3>Information Collected Automatically</h3>
+                            <p>When you use our services, we collect certain information automatically, including:</p>
+                            <ul>
+                                <li><strong>Device and Usage Data</strong>: IP address, browser type, operating system,
+                                    device identifiers, pages visited, links clicked, and time spent on our platform.
+                                </li>
+                                <li><strong>Location Data</strong>: Approximate location based on your IP address or
+                                    other geolocation data.
+                                </li>
+                                <li><strong>Cookies and Tracking Technologies</strong>: Data collected via cookies, web
+                                    beacons, and similar technologies to analyze usage and personalize your experience,
+                                    as described in our <a href="https://www.shopify.com/legal/cookies">Cookie
+                                        Policy</a>.
+                                </li>
+                            </ul>
+                            <h3>Information from Other Sources</h3>
+                            <p>We may receive information about you from third parties, such as:</p>
+                            <ul>
+                                <li><strong>Partners</strong>: Payment processors, app developers, or marketing partners
+                                    who provide data to enhance our services.
+                                </li>
+                                <li><strong>Public Sources</strong>: Information available publicly, such as business
+                                    details from government registries or social media.
+                                </li>
+                                <li><strong>Other Users</strong>: Data provided by customers or other users interacting
+                                    with your store, such as customer reviews or inquiries.
+                                </li>
+                            </ul>
 
-                            <h2 id="section2">2. Account Activation</h2>
-                            <h3>2.1 Store Owner</h3>
-                            <p>The person signing up for the Service by opening an Account will be the contracting party (“Store Owner”) for the purposes of our Terms of Service and will be the person who is authorized to use any corresponding Account we may provide to the Store Owner in connection with the Service. If you are signing up for the Services on behalf of your employer, your employer will be the Store Owner. You must provide your full legal name, a valid email address, and any other information requested to complete the sign-up process.</p>
-                            <p>If you sign up for an Account on behalf of your employer, then you represent and warrant that you have the authority to bind your employer to our Terms of Service. Upon completion of sign-up for the Service, if you have been enrolled in Shopify Payments, Shopify will also create a Google Pay account on your behalf.</p>[](https://www.shopify.com/legal/terms?shpxid=222dd762-CA08-48FF-E4D4-FF926B8FFCAD)
-                            <h3>2.2 Staff Accounts</h3>
-                            <p>Based on your Shopify pricing plan, you can create one or more staff accounts (“Staff Accounts”) allowing other people to access the Account. With Staff Accounts, the Store Owner can set permissions and let other people work in their Account while determining the level of access by Staff Accounts to specific business information.</p>
-                            <p>The Store Owner is responsible and liable for the acts, omissions, and defaults arising from the use of Staff Accounts in the performance of obligations under these Terms of Service as if they were the Store Owner’s own acts, omissions, or defaults.</p>
-                            <h3>2.3 Domain Names</h3>
-                            <p>Upon purchasing a domain name through Shopify, domain registration will be preset to automatically renew each year so long as your Shopify Account remains active. You acknowledge that it is your responsibility to deactivate the auto-renewal function should you choose to do so.</p>
+                            <h2 id="section2">2. How We Use Personal Information</h2>
+                            <p>We use your personal information to provide, maintain, and improve our services, and to
+                                comply with legal obligations. The primary purposes include:</p>
+                            <ul>
+                                <li><strong>Service Delivery</strong>: Process transactions, manage your account,
+                                    provide customer support, and enable features like order fulfillment and store
+                                    management.
+                                </li>
+                                <li><strong>Personalization</strong>: Tailor your experience by recommending products,
+                                    features, or content based on your preferences and usage.
+                                </li>
+                                <li><strong>Communication</strong>: Send transactional emails (e.g., order
+                                    confirmations), respond to inquiries, and provide updates about your account or our
+                                    services.
+                                </li>
+                                <li><strong>Marketing</strong>: With your consent, send promotional emails, newsletters,
+                                    or ads about Shopify products, services, or partner offerings.
+                                </li>
+                                <li><strong>Analytics and Improvement</strong>: Analyze usage trends, conduct research,
+                                    and enhance our platform’s functionality, security, and performance.
+                                </li>
+                                <li><strong>Fraud Prevention and Security</strong>: Detect and prevent fraud, abuse, or
+                                    security risks to protect you, other users, and Shopify.
+                                </li>
+                                <li><strong>Legal Compliance</strong>: Comply with applicable laws, regulations, or
+                                    legal processes, such as tax reporting or responding to subpoenas.
+                                </li>
+                            </ul>
+                            <p>We process your data based on the following legal grounds:</p>
+                            <ul>
+                                <li><strong>Contractual Necessity</strong>: To fulfill our contract with you (e.g.,
+                                    providing services you’ve signed up for).
+                                </li>
+                                <li><strong>Legitimate Interests</strong>: To operate our business, improve services,
+                                    prevent fraud, and maintain customer relationships.
+                                </li>
+                                <li><strong>Consent</strong>: For specific purposes like marketing, where you’ve given
+                                    explicit permission.
+                                </li>
+                                <li><strong>Legal Obligation</strong>: To meet regulatory or legal requirements.</li>
+                            </ul>
+                            <p>We may use anonymized or aggregated data that does not identify you for purposes like
+                                analytics, reporting, or improving our services.</p>
 
-                            <h2 id="section3">3. Shopify Rights</h2>
-                            <p>We reserve the right to provide our Services to your competitors and make no promise of exclusivity in any particular market segment. You further acknowledge and agree that Shopify employees and contractors may also be Shopify customers/merchants and that they may compete with you, although they may not use your Confidential Information in doing so.</p>
-                            <p>In the event of a dispute regarding Account ownership, we reserve the right to request documentation to determine or confirm Account ownership. Documentation may include, but is not limited to, a scanned copy of your business license, government-issued photo ID, the last four digits of the credit card on file, or confirmation of your status as an employee of an entity.</p>
-                            <p>Shopify reserves the right to determine, in our sole discretion, the rightful Account ownership and transfer an Account to the rightful Store Owner. If we are unable to reasonably determine the rightful Store Owner, Shopify reserves the right to temporarily disable an Account until resolution has been determined between the disputing parties.</p>
-                            <p>Shopify reserves the right to modify or terminate the Services for any reason, without notice, at any time. Shopify reserves the right to refuse service to anyone for any reason at any time.</p>[](https://www.shopify.com/legal/terms?shpxid=222dd762-CA08-48FF-E4D4-FF926B8FFCAD)
+                            <h2 id="section3">3. How We Share Personal Information</h2>
+                            <p>We share your personal information with third parties only as necessary to provide our
+                                services, comply with legal obligations, or protect our rights. The main scenarios
+                                include:</p>
+                            <h3>Service Providers</h3>
+                            <p>We share data with trusted vendors who help us operate our platform, such as:</p>
+                            <ul>
+                                <li><strong>Payment Processors</strong>: To process transactions securely.</li>
+                                <li><strong>Hosting Providers</strong>: To store and manage data on secure servers.</li>
+                                <li><strong>Analytics Providers</strong>: To analyze usage and improve our services.
+                                </li>
+                                <li><strong>Marketing Partners</strong>: To deliver targeted ads or promotional content,
+                                    with your consent.
+                                </li>
+                                <li><strong>Logistics Partners</strong>: To facilitate shipping and order fulfillment.
+                                </li>
+                            </ul>
+                            <h3>Legal and Compliance Purposes</h3>
+                            <p>We may share data to:</p>
+                            <ul>
+                                <li>Comply with applicable laws, regulations, or valid legal processes (e.g., subpoenas,
+                                    court orders).
+                                </li>
+                                <li>Enforce or investigate potential violations of our <a
+                                    href="https://www.shopify.com/legal/terms">Terms of Service</a> or other policies.
+                                </li>
+                                <li>Detect, prevent, or address fraud, abuse, or security issues.</li>
+                                <li>Meet corporate and social responsibility commitments.</li>
+                                <li>Protect the rights, property, or safety of Shopify, our users, or the public.</li>
+                                <li>Resolve disputes or enforce agreements.</li>
+                            </ul>
+                            <h3>Business Transfers</h3>
+                            <p>We may share personal data during negotiations or completion of a merger, acquisition,
+                                sale, restructuring, or change in control involving Shopify’s business or assets. Your
+                                data may be transferred to prospective or actual acquirers under strict confidentiality
+                                agreements.</p>
+                            <h3>With Your Consent</h3>
+                            <p>We may share your data with third parties when you explicitly consent, such as when you
+                                install a third-party app from the Shopify App Store that requires access to your
+                                store’s data.</p>
 
-                            <h2 id="section4">4. Your Responsibilities</h2>
-                            <p>You acknowledge and agree to use the Services in compliance with Shopify’s Acceptable Use Policy, found at https://www.shopify.com/legal/aup. You will comply with all applicable laws, rules, and regulations in your use of the Services and in the operation of your Store.</p>
-                            <p>You agree not to reproduce, duplicate, copy, sell, resell, or exploit any portion of the Service, use of the Service, or access to the Service without the express written permission by Shopify.</p>
-                            <p>You will not purchase search engine or other pay-per-click keywords (such as Google Ads), or domain names that use Shopify or Shopify trademarks and/or variations and misspellings thereof.</p>
-                            <p>You understand that your Materials (not including credit card information), may be transferred unencrypted and involve (a) transmissions over various networks; and (b) changes to conform and adapt to technical requirements of connecting networks or devices. Credit card information is always encrypted during transfer over networks.</p>[](https://www.shopify.com/legal/terms?shpxid=222dd762-CA08-48FF-E4D4-FF926B8FFCAD)
+                            <h2 id="section4">4. Your Privacy Rights and Choices</h2>
+                            <p>You have several rights and choices regarding your personal information, depending on
+                                your location and applicable laws.</p>
+                            <h3>Access and Correction</h3>
+                            <p>You can access and update much of your personal information directly through your Shopify
+                                admin dashboard. For data you cannot access or correct, submit a request via our <a
+                                    href="https://www.shopify.com/legal/privacy/request">online portal</a>.</p>
+                            <h3>Privacy Rights</h3>
+                            <p>You may have the right to:</p>
+                            <ul>
+                                <li><strong>Access</strong>: Request a copy of the personal data we hold about you.</li>
+                                <li><strong>Correction</strong>: Request corrections to inaccurate or incomplete data.
+                                </li>
+                                <li><strong>Deletion</strong>: Request deletion of your data, subject to legal retention
+                                    requirements.
+                                </li>
+                                <li><strong>Portability</strong>: Receive your data in a structured, machine-readable
+                                    format or have it transferred to another provider.
+                                </li>
+                                <li><strong>Restriction</strong>: Request that we limit the processing of your data in
+                                    certain circumstances.
+                                </li>
+                                <li><strong>Objection</strong>: Object to processing based on legitimate interests,
+                                    including for marketing purposes.
+                                </li>
+                            </ul>
+                            <p>We will not charge you more or provide a different level of service for exercising these
+                                rights. To submit a request, use our <a
+                                    href="https://www.shopify.com/legal/privacy/request">online portal</a> or contact us
+                                as described in Section 10.</p>
+                            <h3>Communication Preferences</h3>
+                            <p>You can opt out of marketing communications by clicking the “unsubscribe” link in emails,
+                                updating your preferences in your Shopify account, or contacting us. You cannot opt out
+                                of transactional emails (e.g., order confirmations) necessary for providing our
+                                services.</p>
+                            <h3>Cookies and Tracking</h3>
+                            <p>You can manage cookies and tracking technologies through your browser settings or our
+                                cookie consent tool, as described in our <a
+                                    href="https://www.shopify.com/legal/cookies">Cookie Policy</a>.</p>
 
-                            <h2 id="section5">5. Payment of Fees</h2>
-                            <p>You will pay the fees applicable to your subscription to Online Services and/or POS Services (“Subscription Fees”) and any other applicable fees, including but not limited to fees relating to the processing of transactions under your Account (“Transaction Fees”), and any fees relating to your purchase of any products or services such as apps, domain names, or Third-Party Services (“Additional Fees”). Together, the Subscription Fees, Transaction Fees, and Additional Fees are referred to as the “Fees”.</p>
-                            <p>You must keep a valid payment method on file with us to pay for all incurred and recurring Fees. Shopify will charge applicable Fees to any valid payment method that you authorize (“Authorized Payment Method”), and Shopify will continue to charge the Authorized Payment Method for applicable Fees until the Services are terminated, and any and all outstanding Fees have been paid in full.</p>
-                            <p>Subscription Fees are paid in advance and will be billed in 30-day intervals (each such date, a “Billing Date”). Transaction Fees and Additional Fees will be charged from time to time at Shopify’s discretion. You will be charged on each Billing Date for all outstanding Fees that have not previously been charged.</p>
-                            <p>If we are not able to process payment of Fees using an Authorized Payment Method, we will make a second attempt to process payment using any Authorized Payment Method 3 days later. If the second attempt is not successful, we will make a final attempt 3 days following the second attempt. If our final attempt is not successful, we may suspend and revoke access to your Account and the Services.</p>[](https://www.shopify.com/legal/terms?shpxid=222dd762-CA08-48FF-E4D4-FF926B8FFCAD)
+                            <h2 id="section5">5. Retention of Personal Information</h2>
+                            <p>We retain personal data only as long as necessary to fulfill the purposes for which it
+                                was collected, including:</p>
+                            <ul>
+                                <li>Providing and improving our services.</li>
+                                <li>Complying with legal, tax, or accounting requirements.</li>
+                                <li>Ensuring security and preventing fraud.</li>
+                            </ul>
+                            <p>If you close your Shopify store or stop using our services, we retain your data for two
+                                years before deleting or anonymizing it, unless a longer retention period is required by
+                                law (e.g., for tax or audit purposes).</p>
+                            <p>Retention periods are determined based on:</p>
+                            <ul>
+                                <li>The amount, nature, and sensitivity of the data.</li>
+                                <li>The potential risk of harm from unauthorized use or disclosure.</li>
+                                <li>The purposes for which we process the data.</li>
+                                <li>Applicable legal requirements.</li>
+                            </ul>
+                            <p>When data is no longer needed, we securely delete or anonymize it to prevent
+                                identification.</p>
 
-                            <h2 id="section6">6. Intellectual Property and Your Materials</h2>
-                            <h3>6.1 Your Materials</h3>
-                            <p>We do not claim ownership of the Materials you provide to Shopify; however, you grant Shopify a non-exclusive, royalty-free, worldwide license to use, store, display, reproduce, modify, create derivative works, perform, and distribute your Materials solely for the purposes of operating, developing, providing, and improving the Services.</p>
-                            <p>You represent and warrant that you either own the Materials or have the necessary permissions and rights to use and authorize Shopify to use the Materials as described in these Terms of Service.</p>
-                            <h3>6.2 Shopify Intellectual Property</h3>
-                            <p>The Services, including all software, technology, designs, and content provided by Shopify, are owned by Shopify or its licensors and are protected by intellectual property laws. You may not use Shopify’s trademarks, logos, domain names, or other brand features without express written permission from Shopify.</p>
-                            <p>You retain ownership of your own Materials, but other users may view content you post on your Store. You are solely responsible for the accuracy, quality, and legality of your Materials.</p>[](https://www.privacypolicies.com/blog/ecommerce-terms-conditions/)
+                            <h2 id="section6">6. Children's Privacy</h2>
+                            <p>Our services are not intended for children under 13 years of age (or older, as required
+                                by applicable law, such as 16 in some jurisdictions). We do not knowingly collect
+                                personal information from children under 13.</p>
+                            <p>If we learn that we have collected personal data from a child under 13 without parental
+                                consent, we will promptly delete it. If you believe we have such data, please contact us
+                                immediately as described in Section 10.</p>
 
-                            <h2 id="section7">7. Additional Services</h2>
-                            <h3>7.1 Shopify Payments</h3>
-                            <p>Upon completion of sign-up for the Service, if you have been enrolled in Shopify Payments, you agree to the Shopify Payments Terms of Service, found at https://www.shopify.com/legal/terms-payments.</p>
-                            <h3>7.2 Apple Pay and Google Pay</h3>
-                            <p>By using Apple Pay on your Store, you are agreeing to be bound by the Apple Pay Platform Web Merchant Terms and Conditions, as they may be amended by Apple from time to time, found at https://www.shopify.com/legal/apple-pay. Your continued use of Apple Pay on your Store after amendments are posted constitutes your agreement to, and acceptance of, the amended terms.</p>[](https://www.shopify.com/legal/terms?shpxid=222dd762-CA08-48FF-E4D4-FF926B8FFCAD)
-                            <h3>7.3 Third-Party Services</h3>
-                            <p>Shopify may from time to time recommend, provide you with access to, or enable third-party software, applications, products, services, or website links (collectively, “Third-Party Services”) for your consideration or use. Such Third-Party Services are made available only as a convenience, and your purchase, access, or use of any such Third-Party Services is solely between you and the applicable third-party service provider.</p>
-                            <p>Shopify has no control over and is not responsible for Third-Party Services, including their content, functionality, or data practices. You are responsible for reviewing and agreeing to the terms and conditions of any Third-Party Services.</p>[](https://www.shopify.com/legal/terms?shpxid=222dd762-CA08-48FF-E4D4-FF926B8FFCAD)
+                            <h2 id="section7">7. Security</h2>
+                            <p>We implement industry-standard technical and organizational measures to protect your
+                                personal information from unauthorized access, use, disclosure, alteration, or
+                                destruction. These measures include:</p>
+                            <ul>
+                                <li><strong>Encryption</strong>: Securing data during transmission and storage.</li>
+                                <li><strong>Access Controls</strong>: Limiting access to personal data to authorized
+                                    personnel only.
+                                </li>
+                                <li><strong>Secure Infrastructure</strong>: Using trusted cloud providers with robust
+                                    security protocols.
+                                </li>
+                                <li><strong>Regular Audits</strong>: Monitoring and testing our systems to identify and
+                                    address vulnerabilities.
+                                </li>
+                            </ul>
+                            <p>Despite our efforts, no system can be completely secure. We cannot guarantee absolute
+                                security, but we are committed to protecting your data and responding promptly to any
+                                incidents.</p>
 
-                            <h2 id="section8">8. Termination and Suspension</h2>
-                            <p>You may cancel your Account and terminate the Terms of Service at any time by contacting Shopify Support and then following the specific instructions indicated to you in Shopify’s response.</p>
-                            <p>Without limiting any other remedies, we may suspend or terminate your Account or the Terms of Service for any reason, including if: (i) you violate, or we believe you are about to violate, the Terms of Service or Acceptable Use Policy; (ii) you fail to pay the Fees when due; (iii) your actions may cause legal liability for Shopify or other users; or (iv) we are required to do so by law.</p>
-                            <p>Upon termination, your right to use the Services will immediately cease, and any outstanding Fees will become due. Shopify will retain store information for two years before beginning the deletion process, unless otherwise required by law.</p>[](https://www.shopify.com/legal/privacy)
+                            <h2 id="section8">8. International Data Transfers</h2>
+                            <p>As a global company, your personal information may be transferred to and processed in
+                                countries other than your own, including Canada, the United States, the European
+                                Economic Area (EEA), and other regions where Shopify or its service providers
+                                operate.</p>
+                            <p>Data protection laws vary by country, and some jurisdictions may offer different levels
+                                of protection. We ensure appropriate safeguards are in place, such as:</p>
+                            <ul>
+                                <li><strong>Standard Contractual Clauses</strong>: Legally binding agreements approved
+                                    by the European Commission to protect data transferred outside the EEA.
+                                </li>
+                                <li><strong>Data Protection Agreements</strong>: Contracts with service providers to
+                                    ensure compliance with applicable laws.
+                                </li>
+                                <li><strong>Adequacy Decisions</strong>: Relying on jurisdictions recognized as
+                                    providing adequate data protection by the EU or other authorities.
+                                </li>
+                            </ul>
+                            <p>For more details on our data transfer practices, contact us as described in Section
+                                10.</p>
 
-                            <h2 id="section9">9. Limitation of Liability and Indemnification</h2>
-                            <p>You expressly understand and agree that, to the extent permitted by applicable laws, Shopify and its affiliates, officers, directors, employees, and agents will not be liable for any indirect, incidental, special, consequential, or exemplary damages, including damages for loss of profits, goodwill, use, data, or other intangible losses arising out of or in connection with the Services.</p>
-                            <p>You agree to indemnify and hold Shopify and its affiliates, officers, directors, employees, and agents harmless from any and all claims, demands, losses, liabilities, and expenses (including attorneys’ fees), arising out of or in connection with: (i) your use of the Services; (ii) your breach or violation of any of these Terms of Service; (iii) Shopify’s use of your Materials; or (iv) your violation of the rights of any third party, including Third-Party Services.</p>[](https://www.shopify.com/legal/terms?shpxid=222dd762-CA08-48FF-E4D4-FF926B8FFCAD)
+                            <h2 id="section9">9. Updates to This Privacy Policy</h2>
+                            <p>We may update this Privacy Policy from time to time to reflect changes in our practices,
+                                legal requirements, or industry standards. We will notify you of material changes
+                                by:</p>
+                            <ul>
+                                <li>Posting the updated policy on our website with a revised “Last Updated” date.</li>
+                                <li>Sending an email or in-platform notification, where required by law.</li>
+                            </ul>
+                            <p>Your continued use of our services after the updated policy takes effect constitutes your
+                                acceptance of the changes. We encourage you to review this policy periodically.</p>
 
-                            <h2 id="section10">10. General Conditions</h2>
-                            <p>The Terms of Service may be available in languages other than English. To the extent of any inconsistencies or conflicts between these English Terms of Service and Shopify’s Terms of Service available in another language, the most current English version of the Terms of Service at https://www.shopify.com/legal/aup will prevail. Any disputes arising out of these Terms of Service will be resolved in English unless otherwise determined by Shopify or as required by applicable law.</p>
-                            <p>Shopify will be permitted to assign these Terms of Service without notice to you or consent from you. You will have no right to assign or otherwise transfer the Terms of Service, or any of your rights or obligations hereunder, to any third party without Shopify’s prior written consent.</p>
-                            <p>All legal notices or demands to or upon Shopify must be made in writing and sent to Shopify via email to contract_notices@shopify.com or by mail to Shopify Inc., 151 O’Connor Street, Ground Floor, Ottawa, ON, K2P 2L8, Attn: General Counsel.</p>
-                            <p>The Terms of Service constitute the entire agreement between you and Shopify and govern your use of the Services, superseding any prior agreements between you and Shopify. If any provision of the Terms of Service is held by a court of competent jurisdiction to be contrary to law, such provision will be changed and interpreted to best accomplish the objectives of the original provision to the fullest extent allowed by law, and the remaining provisions will remain in full force and effect.</p>[](https://www.shopify.com/legal/terms?shpxid=222dd762-CA08-48FF-E4D4-FF926B8FFCAD)
+                            <h2 id="section10">10. Contact Us</h2>
+                            <p>If you have questions about this Privacy Policy or how we handle your personal
+                                information, please contact us via:</p>
+                            <ul>
+                                <li><strong>Online</strong>: Shopify Support through our <a
+                                    href="https://www.shopify.com/contact">contact page</a> or the <a
+                                    href="https://www.shopify.com/legal/privacy/request">data request portal</a>.
+                                </li>
+                                <li><strong>Mail</strong>: Shopify Inc., 151 O'Connor Street, Ground Floor, Ottawa, ON
+                                    K2P 2L8, Canada.
+                                </li>
+                            </ul>
+                            <p>For users in the EEA, UK, or Switzerland, the data controller responsible for your
+                                personal data is:</p>
+                            <p><strong>Shopify International Ltd.</strong><br/>
+                                2nd Floor, 1-2 Victoria Buildings, Haddington Road, Dublin 4, D04 XN32, Ireland.</p>
+                            <p>You may also contact our Data Protection Officer at <a
+                                href="mailto:privacy@shopify.com">privacy@shopify.com</a>.</p>
+                            <p>If you are in the EEA or UK and have unresolved concerns, you have the right to lodge a
+                                complaint with your local data protection authority. For example, in the EU, contact the
+                                supervisory authority in your country of residence; in the UK, contact the Information
+                                Commissioner’s Office (ICO).</p>
                         </div>
                     </div>
                 </div>

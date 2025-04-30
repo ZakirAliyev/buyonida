@@ -1,8 +1,8 @@
 #homeFooter {
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
   background-color: #1A1A1A;
-  padding: 64px 0;
+  padding: 16px 0;
 
   h3, h4 {
     color: white;
@@ -18,8 +18,8 @@
   }
 
   @media screen and (max-width: 992px) {
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
     background-color: #1A1A1A;
     padding: 32px 16px;
 

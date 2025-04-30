@@ -144,6 +144,10 @@
 
       .link {
         color: #2F2F2F;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }
