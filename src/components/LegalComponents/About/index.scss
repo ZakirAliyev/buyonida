@@ -4,6 +4,10 @@
     font-family: 'Space Grotesk', sans-serif;
   }
 
+  .p0 {
+    padding: 0;
+  }
+
   .box {
     display: flex;
     align-items: center;
@@ -59,10 +63,11 @@
     margin: 50px 0;
 
     h2 {
-      margin-left: 16px;
+      margin:0 16px;
       font-size: 32px;
       font-weight: 500;
     }
+
     h3 {
       font-weight: 400;
       color: #333333;
@@ -75,10 +80,11 @@
     margin: 50px 0;
 
     h2 {
-      margin-left: 16px;
+      margin:0 16px;
       font-size: 32px;
       font-weight: 500;
     }
+
     h3 {
       font-weight: 400;
       color: #333333;
@@ -110,18 +116,21 @@
       text-align: center;
     }
 
-   .h2 {
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     h2 {
-       margin-left: 16px;
-       font-size: 32px;
-       font-weight: 500;
-       text-align: center;
-       max-width: 715px;
-     }
-   }
+    .h2 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      h2 {
+        margin:0 16px;
+        font-size: 32px;
+        font-weight: 500;
+        text-align: center;
+        max-width: 715px;
+        width: 100%;
+      }
+    }
+
     h3 {
       font-weight: 400;
       color: #333333;
@@ -148,30 +157,36 @@
   }
 
   @media screen and (max-width: 992px) {
-    .aboutBanner {
-      height: 45vh;
+    h2 {
+      font-size: 25px !important;
+    }
 
-      h2 {
-        font-size: 30px;
-      }
+    p {
+      font-size: 14px !important;
+    }
+  }
 
-      p {
-        font-size: 15px;
-      }
+  @media screen and (max-width: 768px) {
+    .zakir {
+      display: none;
+    }
+
+    .box {
+      padding: 8px;
+    }
+
+    .imageWrapper {
+      padding: 0 8px  ;
     }
   }
 
   @media screen and (max-width: 400px) {
-    .aboutBanner {
-      height: 45vh;
+    h2 {
+      font-size: 20px !important;
+    }
 
-      h2 {
-        font-size: 25px;
-      }
-
-      p {
-        font-size: 12px;
-      }
+    p {
+      font-size: 12px !important;
     }
   }
 }

@@ -12,16 +12,16 @@ function About() {
             <div className={"container"}>
                 <div className={"imageWrapper"}>
                     <div className={"row"}>
-                        <div className={"box col-3 col-md-3 col-sm-3 col-xs-3"}>
+                        <div className={"box col-3 col-md-3 col-sm-4 col-xs-4"}>
                             <img src={image1} alt={"Image"}/>
                         </div>
-                        <div className={"box pad col-3 col-md-3 col-sm-3 col-xs-3"}>
+                        <div className={"box pad col-3 col-md-3 col-sm-4 col-xs-4"}>
                             <img src={image1} alt={"Image"}/>
                         </div>
-                        <div className={"box col-3 col-md-3 col-sm-3 col-xs-3"}>
+                        <div className={"box col-3 col-md-3 col-sm-4 col-xs-4"}>
                             <img src={image1} alt={"Image"}/>
                         </div>
-                        <div className={"box pad col-3 col-md-3 col-sm-3 col-xs-3"}>
+                        <div className={"box pad col-3 col-md-3 col-sm-4 col-xs-4 zakir"}>
                             <img src={image1} alt={"Image"}/>
                         </div>
                     </div>
@@ -44,11 +44,9 @@ function About() {
                 <div className={"textWrapper1"}>
                     <div className={"row"}>
                         <div className={"col-5 col-md-5 col-sm-12 col-xs-12"}>
-                            <div className={"col-12"}>
-                                <img src={image1} alt={"Image"}/>
-                            </div>
+                            <img src={image1} alt={"Image"}/>
                         </div>
-                        <div className={"col-7 col-md-7 col-sm-12 col-xs-12"}>
+                        <div className={"p0 col-7 col-md-7 col-sm-12 col-xs-12"}>
                             <h2>What Makes Buyonida Unique and Why Our Clients Trust Us</h2>
                             <div className={"row"}>
                                 <div className={"col-12 col-md-12 col-sm-12 col-xs-12"}>
