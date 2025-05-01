@@ -1,7 +1,7 @@
 import './index.scss';
 import { Link, useNavigate } from "react-router-dom";
 import image1 from "/src/assets/sariLogo.png";
-import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { usePostGoogleLoginMutation } from "../../../../service/userApi.js";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,46 +19,44 @@ function AdminRegisterOptions() {
         }
     }
 
-    const googleLogin = useGoogleLogin({
-        onSuccess: async (credentialResponse) => {
-            const idToken = credentialResponse?.credential;
-            if (!idToken) {
-                toast.error('Google ID token not found', { theme: 'dark' });
-                return;
-            }
+    const handleGoogleSuccess = async (credentialResponse) => {
+        const idToken = credentialResponse.credential;
+        if (!idToken) {
+            toast.error('Google ID token not found', { theme: 'dark' });
+            return;
+        }
 
-            setIsSubmitting(true);
-            try {
-                const response = await postGoogleLogin({ idToken }).unwrap();
-                Cookies.set('buyonidaToken', response?.data?.token, { expires: 1 });
-                toast.success(`${response?.message || 'Google registration successful'}`, {
-                    position: 'bottom-right',
-                    autoClose: 2500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    theme: 'dark',
-                    onClose: () => navigate('/choose-market'),
-                });
-            } catch (e) {
-                toast.error(`${e?.data?.message || 'Google registration failed'}`, {
-                    position: 'bottom-right',
-                    autoClose: 2500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    theme: 'dark',
-                });
-            }
-            setIsSubmitting(false);
-        },
-        onError: () => {
-            toast.error('Google registration failed', { theme: 'dark' });
-        },
-        scope: 'openid email profile',
-    });
+        setIsSubmitting(true);
+        try {
+            const response = await postGoogleLogin({ idToken }).unwrap();
+            Cookies.set('buyonidaToken', response?.data?.token, { expires: 1 });
+            toast.success(`${response?.message || 'Google registration successful'}`, {
+                position: 'bottom-right',
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: 'dark',
+                onClose: () => navigate('/choose-market'),
+            });
+        } catch (e) {
+            toast.error(`${e?.data?.message || 'Google registration failed'}`, {
+                position: 'bottom-right',
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: 'dark',
+            });
+        }
+        setIsSubmitting(false);
+    };
+
+    const handleGoogleError = () => {
+        toast.error('Google registration failed', { theme: 'dark' });
+    };
 
     return (
         <section id={"adminRegisterOptions"}>
@@ -74,33 +72,15 @@ function AdminRegisterOptions() {
                     <div className={"option"} onClick={() => handleClick("email")}>
                         <img
                             src={"https://static.vecteezy.com/system/resources/thumbnails/018/886/508/small_2x/email-line-icon-png.png"}
-                            alt={"Image"} />
+                            alt={"Email"} />
                         <span>Sign up with Email</span>
                     </div>
-                    <div className={"option"} style={{ cursor: 'pointer' }}>
-                        <button
-                            onClick={() => googleLogin()}
-                            disabled={isSubmitting}
-                            className={"option"}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                padding: '0',
-                                margin: '0',
-                                border: 'none',
-                                borderRadius: '4px',
-                                width: '100%',
-                                cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                            }}
-                        >
-                            <img
-                                src={"https://pngimg.com/d/google_PNG19635.png"}
-                                alt={"Google"}
-                            />
-                            <span>Sign up with Google</span>
-                        </button>
-                    </div>
+                        <GoogleLogin
+                            onSuccess={handleGoogleSuccess}
+                            onError={handleGoogleError}
+                            width="100%"
+                            useOneTap
+                        />
                 </div>
                 <div className={"title1"}>
                     <h4 className={"h4"}>

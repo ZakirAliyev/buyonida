@@ -101,7 +101,7 @@ function AdminLoginForm() {
                 pauseOnHover: true,
                 draggable: true,
                 theme: 'dark',
-                onClose: () => navigate('/cp'),
+                onClose: () => navigate('/choose-market'),
             });
         } catch (e) {
             toast.error(`${e?.data?.message || 'Google login failed'}`, {
@@ -177,13 +177,6 @@ function AdminLoginForm() {
                     <div className={"line"}></div>
                 </div>
 
-                <div className={"options"}>
-                    <div className={"option"}>
-                        <img src="https://download.logo.wine/logo/Apple_Inc./Apple_Inc.-Logo.wine.png" alt="Apple" />
-                    </div>
-                    <div className={"option option1"}>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png" alt="Facebook" />
-                    </div>
                     <div className={"option"} style={{ cursor: 'pointer' }}>
                         <GoogleLogin
                             onSuccess={handleGoogleLoginSuccess}
@@ -191,7 +184,6 @@ function AdminLoginForm() {
                             scope="openid email profile"
                         />
                     </div>
-                </div>
 
                 <nav>
                     New to Buyonida
