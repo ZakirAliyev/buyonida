@@ -85,8 +85,7 @@ function AdminLoginForm() {
 
     const googleLogin = useGoogleLogin({
         onSuccess: async (credentialResponse) => {
-            console.log("Encoded JWT ID token: ", credentialResponse.access_token);
-            const idToken = credentialResponse.access_token;
+            const idToken = credentialResponse.credential;
             if (!idToken) {
                 toast.error('Google ID token not found', { theme: 'dark' });
                 return;

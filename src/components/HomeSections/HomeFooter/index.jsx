@@ -45,11 +45,11 @@ function HomeFooter() {
                         navigate('/terms')
                     }}>Terms of Services</div>
                     <div className={"col-3 col-md-3 col-sm-6 col-xs-6"} onClick={()=> {
-                        navigate('/')
-                    }}>Human Resources Policy</div>
+                        navigate('/about')
+                    }}>About us</div>
                     <div className={"col-3 col-md-3 col-sm-6 col-xs-6"} onClick={()=> {
-                        navigate('/')
-                    }}>Environmental and Social Policy</div>
+                        navigate('/contact')
+                    }}>Contact us</div>
                 </div>
                 <div style={{
                     textAlign: 'center',
