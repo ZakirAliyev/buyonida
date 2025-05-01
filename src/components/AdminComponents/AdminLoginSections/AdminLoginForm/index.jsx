@@ -86,10 +86,13 @@ function AdminLoginForm() {
     const googleLogin = useGoogleLogin({
         onSuccess: async (credentialResponse) => {
             const idToken = credentialResponse?.credential;
-            if (!idToken) {
-                toast.error('Google ID token not found', { theme: 'dark' });
-                return;
-            }
+            console.log("1", credentialResponse);
+            console.log("2", credentialResponse?.credential);
+            console.log("3", credentialResponse?.credentials);
+            // if (!idToken) {
+            //     toast.error('Google ID token not found', { theme: 'dark' });
+            //     return;
+            // }
 
             setIsSubmitting(true);
             try {
