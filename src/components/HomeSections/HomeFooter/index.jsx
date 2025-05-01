@@ -1,7 +1,11 @@
 import './index.scss'
 import image1 from "/src/assets/sariLogo.png"
+import {useNavigate} from "react-router-dom";
 
 function HomeFooter() {
+
+    const navigate = useNavigate();
+
     return (
         <section id={'homeFooter'}>
             <div className={"container"}>
@@ -34,10 +38,18 @@ function HomeFooter() {
                     color: 'white',
                     margin: '10px 0 30px',
                 }}>
-                    <div className={"col-3 col-md-3 col-sm-6 col-xs-6"}>Privacy Policy</div>
-                    <div className={"col-3 col-md-3 col-sm-6 col-xs-6"}>Terms of Services</div>
-                    <div className={"col-3 col-md-3 col-sm-6 col-xs-6"}>Human Resources Policy</div>
-                    <div className={"col-3 col-md-3 col-sm-6 col-xs-6"}>Environmental and Social Policy</div>
+                    <div className={"col-3 col-md-3 col-sm-6 col-xs-6"} onClick={()=> {
+                        navigate('/privacy')
+                    }}>Privacy Policy</div>
+                    <div className={"col-3 col-md-3 col-sm-6 col-xs-6"} onClick={()=> {
+                        navigate('/terms')
+                    }}>Terms of Services</div>
+                    <div className={"col-3 col-md-3 col-sm-6 col-xs-6"} onClick={()=> {
+                        navigate('/')
+                    }}>Human Resources Policy</div>
+                    <div className={"col-3 col-md-3 col-sm-6 col-xs-6"} onClick={()=> {
+                        navigate('/')
+                    }}>Environmental and Social Policy</div>
                 </div>
                 <div style={{
                     textAlign: 'center',

@@ -11,12 +11,22 @@
     margin-top: 50px;
   }
 
+  .content {
+    ul {
+      padding-left: 24px;
+      li {
+        list-style-type: circle !important;
+      }
+    }
+  }
+
   .col-9, .col-3 {
     padding: 0 4px;
   }
 
   .row {
     padding: 0 16px;
+    margin-bottom: 50px;
   }
 
   .sidebar-title {
