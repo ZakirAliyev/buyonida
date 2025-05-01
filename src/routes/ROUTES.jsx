@@ -28,6 +28,8 @@ import SuccessComponent from "../components/PaymentComponents/SuccessComponent/i
 import FailedComponent from "../components/PaymentComponents/FailedComponent/index.jsx";
 import TermsOfServicePage from "../pages/LegalPages/TermsOfServicePage/index.jsx";
 import PrivacyPolicyPage from "../pages/LegalPages/PrivacyPolicyPage/index.jsx";
+import AboutPage from "../pages/LegalPages/AboutPage/index.jsx";
+import ContactPage from "../pages/LegalPages/ContactPage/index.jsx";
 
 export const ROUTES = [
     {
@@ -241,6 +243,14 @@ export const ROUTES = [
             {
                 path: 'terms',
                 element: <TermsOfServicePage/>
+            },
+            {
+                path: 'about',
+                element: <AboutPage/>
+            },
+            {
+                path: 'contact',
+                element: <ContactPage/>
             },
             {
                 path: '*',
