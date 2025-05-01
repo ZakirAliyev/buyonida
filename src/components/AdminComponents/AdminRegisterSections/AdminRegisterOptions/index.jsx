@@ -21,7 +21,7 @@ function AdminRegisterOptions() {
 
     const googleLogin = useGoogleLogin({
         onSuccess: async (credentialResponse) => {
-            const idToken = credentialResponse.credential;
+            const idToken = credentialResponse?.credential;
             if (!idToken) {
                 toast.error('Google ID token not found', { theme: 'dark' });
                 return;
