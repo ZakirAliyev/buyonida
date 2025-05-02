@@ -440,6 +440,16 @@ export const ownerApi = createApi({
                 url: `/Blog/get-blog/${id}`,
             }),
         }),
+        getAllTutorials: builder.query({
+            query: () => ({
+                url: `/Tutorial/get-all-tutorials`,
+            }),
+        }),
+        getTutorialById: builder.query({
+            query: (id) => ({
+                url: `/Tutorial/get-tutorial/${id}`,
+            }),
+        }),
     }),
 });
 
@@ -510,4 +520,6 @@ export const {
     usePostGoogleLoginMutation,
     useGetAllBlogsQuery,
     useGetBlogByIdQuery,
+    useGetAllTutorialsQuery,
+    useGetTutorialByIdQuery,
 } = ownerApi;

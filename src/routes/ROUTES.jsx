@@ -31,6 +31,7 @@ import AboutPage from "../pages/LegalPages/AboutPage/index.jsx";
 import ContactPage from "../pages/LegalPages/ContactPage/index.jsx";
 import BlogPage from "../pages/LegalPages/BlogPage/index.jsx";
 import BlogDetailsPage from "../pages/LegalPages/BlogDetailsPage/index.jsx";
+import VideoPage from "../pages/LegalPages/VideoPage/index.jsx";
 
 export const ROUTES = [
     {
@@ -260,6 +261,10 @@ export const ROUTES = [
             {
                 path: 'blogs/:id',
                 element: <BlogDetailsPage/>
+            },
+            {
+                path: 'tutorials',
+                element: <VideoPage/>
             },
             {
                 path: '*',
