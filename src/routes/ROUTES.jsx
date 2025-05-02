@@ -23,13 +23,14 @@ import MarketProductDetailsPage from "../pages/MarketPages/MarketProductDetailsP
 import MarketCheckoutPage from "../pages/MarketPages/MarketCheckoutPage/index.jsx";
 import CustomizeStorePages from "../pages/CustomizeStorePages/index.jsx";
 import MarketLayout from "../pages/MarketPages/index.jsx";
-import AdminGeneralMenu from "../components/AdminComponents/AdminMenus/AdminGeneralMenu/index.jsx";
 import SuccessComponent from "../components/PaymentComponents/SuccessComponent/index.jsx";
 import FailedComponent from "../components/PaymentComponents/FailedComponent/index.jsx";
 import TermsOfServicePage from "../pages/LegalPages/TermsOfServicePage/index.jsx";
 import PrivacyPolicyPage from "../pages/LegalPages/PrivacyPolicyPage/index.jsx";
 import AboutPage from "../pages/LegalPages/AboutPage/index.jsx";
 import ContactPage from "../pages/LegalPages/ContactPage/index.jsx";
+import BlogPage from "../pages/LegalPages/BlogPage/index.jsx";
+import BlogDetailsPage from "../pages/LegalPages/BlogDetailsPage/index.jsx";
 
 export const ROUTES = [
     {
@@ -251,6 +252,14 @@ export const ROUTES = [
             {
                 path: 'contact',
                 element: <ContactPage/>
+            },
+            {
+                path: 'blogs',
+                element: <BlogPage/>
+            },
+            {
+                path: 'blogs/:id',
+                element: <BlogDetailsPage/>
             },
             {
                 path: '*',

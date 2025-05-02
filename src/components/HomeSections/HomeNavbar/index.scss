@@ -2,20 +2,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1A1A1A;
   padding: 12px 24px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 950;
-
+  background: white;
+  color: black;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   * {
     font-family: "Space Grotesk", sans-serif;
   }
 
+  .zakir {
+    font-size: 20px;
+  }
+
   img {
-    height: 40px;
+    width: 150px;
   }
 
   .drawer {
@@ -29,12 +34,12 @@
     color: white;
 
     .link {
-      color: white;
+      color: black;
     }
 
     .logInBtn {
       text-decoration: underline;
-      color: white;
+      color: black;
     }
 
     .signUpBtn {

@@ -430,6 +430,16 @@ export const ownerApi = createApi({
                 headers: { 'Content-Type': 'application/json' },
             }),
         }),
+        getAllBlogs: builder.query({
+            query: () => ({
+                url: `/Blog/get-all-blogs`,
+            }),
+        }),
+        getBlogById: builder.query({
+            query: (id) => ({
+                url: `/Blog/get-blog/${id}`,
+            }),
+        }),
     }),
 });
 
@@ -498,4 +508,6 @@ export const {
     useFulFillOrderMutation,
     useRefundOrderMutation,
     usePostGoogleLoginMutation,
+    useGetAllBlogsQuery,
+    useGetBlogByIdQuery,
 } = ownerApi;

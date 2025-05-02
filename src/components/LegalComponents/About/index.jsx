@@ -1,5 +1,9 @@
 import './index.scss'
-import image1 from "/src/assets/aboutImage.png"
+import image1 from "/src/assets/about1.png"
+import image3 from "/src/assets/about2.png"
+import image4 from "/src/assets/about3.png"
+import image5 from "/src/assets/about4.png"
+import image6 from "/src/assets/about6.png"
 import image2 from "/src/assets/aboutSeyisi.png"
 
 function About() {
@@ -16,13 +20,13 @@ function About() {
                             <img src={image1} alt={"Image"}/>
                         </div>
                         <div className={"box pad col-3 col-md-3 col-sm-4 col-xs-4"}>
-                            <img src={image1} alt={"Image"}/>
+                            <img src={image3} alt={"Image"}/>
                         </div>
                         <div className={"box col-3 col-md-3 col-sm-4 col-xs-4"}>
-                            <img src={image1} alt={"Image"}/>
+                            <img src={image4} alt={"Image"}/>
                         </div>
                         <div className={"box pad col-3 col-md-3 col-sm-4 col-xs-4 zakir"}>
-                            <img src={image1} alt={"Image"}/>
+                            <img src={image5} alt={"Image"}/>
                         </div>
                     </div>
                 </div>
@@ -31,7 +35,7 @@ function About() {
                     <div className={"row"}>
                         <div className={"col-6 col-md-6 col-sm-12 col-xs-12"}>
                             <h3>At Buyonida, we are more than just a team — we are a collective of innovators, creators,
-                                and dreamers committed to building exceptional Shopify experiences. Our journey began
+                                and dreamers committed to building exceptional Buyonida experiences. Our journey began
                                 with a simple idea: to empower businesses to thrive in the digital world through
                                 beautiful, functional, and effective online stores.</h3>
                         </div>
@@ -44,7 +48,7 @@ function About() {
                 <div className={"textWrapper1"}>
                     <div className={"row"}>
                         <div className={"col-5 col-md-5 col-sm-12 col-xs-12"}>
-                            <img src={image1} alt={"Image"}/>
+                            <img src={image6} alt={"Image"}/>
                         </div>
                         <div className={"p0 col-7 col-md-7 col-sm-12 col-xs-12"}>
                             <h2>What Makes Buyonida Unique and Why Our Clients Trust Us</h2>

@@ -1,8 +1,8 @@
 import './index.scss'
 import {FaLocationDot, FaPhone} from "react-icons/fa6";
 import {IoIosMailOpen, IoLogoWhatsapp} from "react-icons/io";
-import {FaFacebook, FaTiktok, FaWhatsapp} from "react-icons/fa";
-import {AiFillInstagram, AiFillTikTok, AiOutlineTikTok} from "react-icons/ai";
+import {FaFacebook} from "react-icons/fa";
+import {AiFillInstagram, AiFillTikTok} from "react-icons/ai";
 
 function Contact() {
     return (
@@ -34,7 +34,7 @@ function Contact() {
                                     </div>
                                     <div className={"textWrapper"}>
                                         <h4>Phone</h4>
-                                        <h5>+994 (12) 345 67 89</h5>
+                                        <h5>+994 (10) 265 59 90</h5>
                                     </div>
                                 </div>
                                 <div className={"location"}>
@@ -86,7 +86,7 @@ function Contact() {
                             <div className={"row"}>
                                 <div className={"box col-12"}>
                                     <label>Number</label>
-                                    <input placeholder={"+994 55 643 25 88"}/>
+                                    <input placeholder={"+994 XX XXX XX XX"}/>
                                 </div>
                             </div>
                             <div className={"row"}>
@@ -104,8 +104,10 @@ function Contact() {
                     </div>
                 </div>
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.8883477172208!2d49.85573917679546!3d40.411324171440626!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x403063aa515792e5%3A0xda413cf31449a17a!2sAK%C4%B0AB%20MMC!5e0!3m2!1str!2saz!4v1746024730012!5m2!1str!2saz"
-                    style={{border: 0}} allowFullScreen="" loading="lazy"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.892233203415!2d49.8580676!3d40.4112381!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d0027d3cbe7%3A0xa174ef828ee6652!2sBuyonida!5e0!3m2!1str!2saz!4v1746183795479!5m2!1str!2saz"
+                    style={{
+                        border:0
+                    }} allowFullScreen="" loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </section>

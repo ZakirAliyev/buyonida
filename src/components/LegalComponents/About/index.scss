@@ -53,8 +53,9 @@
 
     .pad {
       img {
-        aspect-ratio: 16/12;
-        object-fit: cover;
+        padding: 15px;
+        object-fit: contain;
+        border-radius: 30px;
       }
     }
   }
@@ -94,7 +95,7 @@
 
     img {
       width: 100%;
-      aspect-ratio: 16/9;
+      aspect-ratio: 16/11;
       object-fit: cover;
       border-radius: 20px;
     }
@@ -167,6 +168,13 @@
   }
 
   @media screen and (max-width: 768px) {
+    .aboutBanner {
+      height: 40vh;
+    }
+
+    .imageWrapper {
+      margin-top: -100px;
+    }
     .zakir {
       display: none;
     }
@@ -185,6 +193,9 @@
       font-size: 20px !important;
     }
 
+    .imageWrapper {
+      margin-top: -75px;
+    }
     p {
       font-size: 12px !important;
     }

@@ -5,4 +5,5 @@ export const SECTOR_LOGO = 'https://buyonidafiles1.blob.core.windows.net/sectori
 export const USER_LOGO = 'https://buyonidafiles1.blob.core.windows.net/userprofilphotos/';
 export const COLLECTION_LOGO = 'https://buyonidafiles1.blob.core.windows.net/collectionimages/';
 export const BANNER_LOGO = 'https://buyonidafiles1.blob.core.windows.net/bannerimages/'
+export const BLOG_CARD_IMAGE = 'https://buyonidafiles1.blob.core.windows.net/blogimages/'
 export const BASE_URL = 'https://buyonida.com/'
