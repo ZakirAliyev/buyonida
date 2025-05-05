@@ -19,6 +19,7 @@ import { toast, ToastContainer } from "react-toastify";
 import Cookies from "js-cookie";
 import MarketCard2 from "../../../components/MarketComponents/MarketCard2/index.jsx";
 import MarketCard3 from "../../../components/MarketComponents/MarketCard3/index.jsx";
+import {Helmet} from "react-helmet-async";
 
 function MarketProductDetailsPage() {
     // URL parametrelerini al
@@ -209,6 +210,10 @@ function MarketProductDetailsPage() {
             backgroundColor: palet?.[0]?.backgroundColor || '#ffffff',
             color: palet?.[0]?.textColor || '#000000',
         }}>
+            <Helmet>
+                <title>{'Product Details Page'}</title>
+                <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
+            </Helmet>
             <div className="section" >
                 <div className="container">
                     <div className="row">

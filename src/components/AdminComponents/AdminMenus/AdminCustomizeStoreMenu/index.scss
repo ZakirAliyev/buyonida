@@ -6,6 +6,69 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 
+  .cameraWrapper {
+    display: flex;
+    margin: 0 10px;
+
+    .text {
+      padding-top: 1px;
+      font-size: 8px;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+  }
+
+  .camera {
+    width: 100px;
+    height: 20px;
+    background: black;
+    margin: 0 auto;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .focus {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #6a6a6a;
+      margin-bottom: 5px;
+    }
+  }
+
+  .camera1 {
+    width: 60px;
+    border-radius: 100px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+
+    .focus {
+      width: 5px;
+      height:5px;
+      border-radius: 50%;
+      background: #6a6a6a;
+      margin-bottom: 0;
+      margin-right: 10px;
+    }
+  }
+
+  .cameraWrapper1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin:  5px 20px;
+    background: #ffffff;
+
+    .text {
+      margin: 0;
+      font-size: 10px;
+    }
+  }
+
   .asd123 {
     width: 200px;
   }
@@ -35,10 +98,13 @@
       padding-top: 50px;
 
       .box {
-        width: 800px;
-        border: 10px solid black;
+        width: 700px;
+        height: 500px;
+        overflow: hidden;
+        border: 8px solid black;
         border-bottom: 0;
         border-radius: 10px 10px 0 0;
+        background: white;
 
         img {
           width: 100%;
@@ -46,10 +112,13 @@
       }
 
       .box1 {
-        width: 250px;
-        border: 10px solid black;
+        width: 275px;
+        height: 450px;
+        border: 8px solid black;
         border-bottom: 0;
-        border-radius: 15px 15px 0 0;
+        border-radius: 40px 40px 0 0;
+        overflow: hidden;
+        background: #ffffff;
 
         img {
           width: 100%;

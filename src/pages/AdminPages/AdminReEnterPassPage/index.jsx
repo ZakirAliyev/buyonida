@@ -8,6 +8,7 @@ import Countdown from "react-countdown";
 import { usePostResetPasswordMutation } from "../../../service/userApi.js";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {Helmet} from "react-helmet-async";
 
 function AdminReEnterPassPage() {
     const location = useLocation();
@@ -115,6 +116,10 @@ function AdminReEnterPassPage() {
 
     return (
         <section id="adminReEnterPassPage">
+            <Helmet>
+                <title>{'Re-enter Password Page'}</title>
+                <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
+            </Helmet>
             <div className="wrapper">
                 <div className="img">
                     <img src={image1} alt="Logo" />

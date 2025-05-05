@@ -15,6 +15,7 @@ import { useMediaQuery } from 'react-responsive';
 import MarketCard3 from '../../../components/MarketComponents/MarketCard3/index.jsx';
 import { useRef } from 'react';
 import 'swiper/css';
+import {Helmet} from "react-helmet-async";
 
 function MarketCollectionPage() {
     const params = useParams();
@@ -55,6 +56,10 @@ function MarketCollectionPage() {
 
     return (
         <section id={'marketCollectionPage'}>
+            <Helmet>
+                <title>{'Collection Page'}</title>
+                <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
+            </Helmet>
             <div
                 className={'section'}
                 style={{

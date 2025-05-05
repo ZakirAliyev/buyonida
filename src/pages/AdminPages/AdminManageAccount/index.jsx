@@ -9,6 +9,7 @@ import { USER_LOGO } from "../../../../constants.js";
 import Cookies from "js-cookie";
 import {toast, ToastContainer} from "react-toastify";
 import {PulseLoader} from "react-spinners";
+import {Helmet} from "react-helmet-async";
 
 function AdminManageAccount() {
     const navigate = useNavigate();
@@ -135,6 +136,10 @@ function AdminManageAccount() {
 
     return (
         <>
+            <Helmet>
+                <title>{'Manage Account Page'}</title>
+                <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
+            </Helmet>
             <AdminNavbar />
             <section id="adminManageAccount">
                 <div className="container">

@@ -10,7 +10,8 @@ import { useLocation } from 'react-router';
 
 /* Swiper Kütüphanesi importları */
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css'; // Temel stiller, gerekirse "swiper/css/navigation" vs. ekleyin
+import 'swiper/css';
+import {Helmet} from "react-helmet-async"; // Temel stiller, gerekirse "swiper/css/navigation" vs. ekleyin
 
 function MarketHomePage() {
     const location = useLocation();
@@ -129,6 +130,10 @@ function MarketHomePage() {
 
     return (
         <>
+            <Helmet>
+                <title>{'Market Page'}</title>
+                <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
+            </Helmet>
             <section id="marketHomePage">
                 <MarketSwiperHero id={id} />
                 <div

@@ -2,10 +2,15 @@ import './index.scss'
 import image1 from "../../../assets/sariLogo.png";
 import {Link} from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css'
+import {Helmet} from "react-helmet-async";
 
 function AdminSuccessPage() {
     return (
         <section id={"adminSuccessPage"}>
+            <Helmet>
+                <title>{'Success!'}</title>
+                <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
+            </Helmet>
             <div className={"wrapper"}>
                 <div className={"img"}>
                     <img src={image1} alt={"Logo"}/>

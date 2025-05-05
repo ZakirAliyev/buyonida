@@ -10,6 +10,7 @@ import {
 import Cookies from "js-cookie";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import {Helmet} from "react-helmet-async";
 
 function MarketCheckoutPage() {
     const navigate = useNavigate();
@@ -146,6 +147,10 @@ function MarketCheckoutPage() {
 
     return (
         <section id="marketCheckoutPage">
+            <Helmet>
+                <title>{'Market Checkout Page'}</title>
+                <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
+            </Helmet>
             {/* Top Logo Section */}
             <div className="yuxari">
                 <img src={image1} alt="Logo" />

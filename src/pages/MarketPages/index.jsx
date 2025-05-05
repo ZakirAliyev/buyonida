@@ -5,27 +5,25 @@ import { useGetStoreByNameQuery, useGetStoreWithSectionsQuery } from "../../serv
 import { useLocation } from "react-router";
 import { PulseLoader } from "react-spinners";
 import logo from "/src/assets/qaraLogo.png";
+import { Helmet } from "react-helmet-async";
+import {MARKET_FAVICON} from "../../../constants.js";
 
 const MarketLayout = () => {
     const location = useLocation();
 
-    // Decode the pathname to handle URL-encoded characters (e.g., %20 -> space)
     const decodedPath = decodeURIComponent(location.pathname);
-
-    // Extract the store name: take the part after '@' and before the next '/'
     const cleanedPath = decodedPath.startsWith('/@')
-        ? decodedPath.split('/')[1].replace(/^@/, '') // Take the second segment (after "/@") and remove "@"
-        : decodedPath.split('/')[1] || ''; // Fallback if no "@" (take second segment if available)
+        ? decodedPath.split('/')[1].replace(/^@/, '')
+        : decodedPath.split('/')[1] || '';
 
-    // Fetch store data by cleaned store name
     const { data: getStoreByName, isLoading: isStoreLoading, error: storeError } = useGetStoreByNameQuery(cleanedPath);
     const store = getStoreByName?.data;
+    console.log(store);
 
     const id = store?.id;
 
-    // Fetch store sections and other data using the store ID
     const { data: getStoreWithSections, isLoading: isSectionsLoading, isError: isSectionsError } = useGetStoreWithSectionsQuery(id, {
-        skip: !id, // Skip this query until id is available
+        skip: !id,
     });
 
     const font = getStoreWithSections?.data?.fontName;
@@ -34,7 +32,6 @@ const MarketLayout = () => {
     const selectedPaletId = getStoreWithSections?.data?.selectedPaletId;
     const palet = palets?.filter((p) => p.id === selectedPaletId);
 
-    // Determine screen width for responsive loader sizes
     const screenWidth = window.innerWidth;
     let imgWidth, loaderSize;
 
@@ -49,7 +46,8 @@ const MarketLayout = () => {
         loaderSize = 20;
     }
 
-    // Handle loading states for both queries
+    const capitalize = (str) => str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+
     if (isStoreLoading || isSectionsLoading) {
         return (
             <div
@@ -74,7 +72,6 @@ const MarketLayout = () => {
         );
     }
 
-    // Handle error states for both queries
     if (storeError) {
         return <div>Error loading store: {storeError.message}</div>;
     }
@@ -85,6 +82,10 @@ const MarketLayout = () => {
 
     return (
         <div style={{ fontFamily: font || "inherit" }}>
+            <Helmet>
+                <title>{capitalize(store?.name) || 'Store'}</title>
+                <link rel="icon" href={MARKET_FAVICON + store?.faviconName || '/src/assets/favicon-32x32.png'} />
+            </Helmet>
             <MarketNavbar palet={palet} />
             <Outlet />
             <MarketFooter palet={palet} store={store} />

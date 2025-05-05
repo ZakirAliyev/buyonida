@@ -227,7 +227,9 @@ function AdminNavbar() {
                                 <span>Help Center</span>
                             </div>
                             <div className={"box"}>
-                                <span>Tutorials</span>
+                                <span onClick={()=> {
+                                    navigate('/tutorials');
+                                }}>Tutorials</span>
                             </div>
                             <div className={"box"}>
                                 <span>Get help to build</span>
@@ -255,10 +257,10 @@ function AdminNavbar() {
                             <div className={"box logOut"} style={{
                                 justifyContent: 'space-between'
                             }}>
-                                <span style={{ fontWeight: '500' }}>Log out</span>
+                                <span onClick={handleLogOut} style={{ fontWeight: '500' }}>Log out</span>
                                 <FiLogOut style={{
                                     rotate: '180deg',
-                                    fontWeight: '500'
+                                    fontWeight: '400'
                                 }} />
                             </div>
                         </div>
@@ -268,7 +270,9 @@ function AdminNavbar() {
                                 <span>Help Center</span>
                             </div>
                             <div className={"box"}>
-                                <span>Tutorials</span>
+                                <span onClick={()=> {
+                                    navigate('/tutorials');
+                                }}>Tutorials</span>
                             </div>
                             <div className={"box"}>
                                 <span>Get help to build</span>

@@ -67,13 +67,11 @@ function MarketNavbar({ palet }) {
     // Close dropdowns and search on outside click
     useEffect(() => {
         function handleOutsideClick(e) {
-            console.log('Outside click detected');
             if (
                 isCategoriesOpen &&
                 categoriesRef.current &&
                 !categoriesRef.current.contains(e.target)
             ) {
-                console.log('Closing categories');
                 setIsCategoriesOpen(false);
             }
             if (
@@ -81,7 +79,6 @@ function MarketNavbar({ palet }) {
                 collectionsRef.current &&
                 !collectionsRef.current.contains(e.target)
             ) {
-                console.log('Closing collections');
                 setIsCollectionsOpen(false);
             }
             if (
@@ -89,14 +86,12 @@ function MarketNavbar({ palet }) {
                 searchRef.current &&
                 !searchRef.current.contains(e.target)
             ) {
-                console.log('Closing search sidebar');
                 setIsSearchOpen(false);
             }
         }
 
         document.addEventListener('mousedown', handleOutsideClick);
         return () => {
-            console.log('Removing outside click listener');
             document.removeEventListener('mousedown', handleOutsideClick);
         };
     }, [isCategoriesOpen, isCollectionsOpen, isSearchOpen]);
@@ -111,34 +106,28 @@ function MarketNavbar({ palet }) {
 
     // Handlers
     const handleOpenCart = () => {
-        console.log('Opening cart');
         setIsOpen(true);
     };
     const handleCloseCart = () => {
-        console.log('Closing cart');
         setIsOpen(false);
     };
     const toggleMenu = () => {
-        console.log('Toggling menu:', !isMenuOpen);
         setIsMenuOpen((open) => !open);
         setIsCategoriesOpen(false);
         setIsCollectionsOpen(false);
         setIsSearchOpen(false);
     };
     const toggleCategories = () => {
-        console.log('Toggling categories:', !isCategoriesOpen);
         setIsCategoriesOpen((open) => !open);
         setIsCollectionsOpen(false);
         setIsSearchOpen(false);
     };
     const toggleCollections = () => {
-        console.log('Toggling collections:', !isCollectionsOpen);
         setIsCollectionsOpen((open) => !open);
         setIsCategoriesOpen(false);
         setIsSearchOpen(false);
     };
     const toggleSearch = () => {
-        console.log('Toggling search:', !isSearchOpen);
         setIsSearchOpen((open) => !open);
         setIsCategoriesOpen(false);
         setIsCollectionsOpen(false);

@@ -7,7 +7,6 @@ function CustomizeStoreMarketFooter({customLogo, customLogoWidth}) {
 
     const {data: getStoreWithSections} = useGetStoreWithSectionsQuery(Cookies.get('chooseMarket'))
     const store = getStoreWithSections?.data
-    console.log(store?.logoImageName)
     return (
         <section id={"customizeStoreMarketFooter"}>
             <div className={"container"}>

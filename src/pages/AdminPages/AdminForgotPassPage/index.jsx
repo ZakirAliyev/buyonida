@@ -7,6 +7,7 @@ import { useState } from "react";
 import { usePostForgotPasswordMutation } from "../../../service/userApi.js";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {Helmet} from "react-helmet-async";
 
 function AdminForgotPass() {
     const navigate = useNavigate();
@@ -44,6 +45,10 @@ function AdminForgotPass() {
 
     return (
         <section id="adminForgotPass">
+            <Helmet>
+                <title>{'Forgot Password Page'}</title>
+                <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
+            </Helmet>
             <div className="wrapper">
                 <div className="img">
                     <img src={image1} alt="Logo" />

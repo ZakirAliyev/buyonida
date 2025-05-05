@@ -35,241 +35,82 @@ import VideoPage from "../pages/LegalPages/VideoPage/index.jsx";
 
 export const ROUTES = [
     {
-        path: '/',
-        element: <AdminMain/>,
+        path: "/",
+        element: <AdminMain />,
         children: [
-            // Index route
+            { index: true, element: <HomePage /> },
+            { path: "login", element: <AdminLoginPage /> },
+            { path: "register", element: <AdminRegisterPage /> },
+            { path: "reg-via-email", element: <AdminRegisterViaEmailPage /> },
+            { path: "email-verification", element: <AdminEmailVerificationPage /> },
+            { path: "login-verification", element: <AdminLoginVerificationPage /> },
+            { path: "forgot-pass", element: <AdminForgotPassPage /> },
+            { path: "re-enter-pass", element: <AdminReEnterPassPage /> },
+
+            { path: "choose-market", element: <AdminChooseMarketPage /> },
+            { path: "create-market", element: <AdminCreateMaketPage /> },
+            { path: "create-market-finish", element: <AdminCreateMaketFinishPage /> },
+
+            { path: "success", element: <SuccessComponent /> },
+            { path: "failed", element: <FailedComponent /> },
+            { path: "success-page", element: <AdminSuccessPage /> },
+
             {
-                index: true,
-                element: <HomePage/>
-            },
-            {
-                path: 'login',
-                element: <AdminLoginPage/>
-            },
-            {
-                path: 'register',
-                element: <AdminRegisterPage/>
-            },
-            {
-                path: 'reg-via-email',
-                element: <AdminRegisterViaEmailPage/>
-            },
-            {
-                path: 'email-verification',
-                element: <AdminEmailVerificationPage/>
-            },
-            {
-                path: 'login-verification',
-                element: <AdminLoginVerificationPage/>
-            },
-            {
-                path: 'choose-market',
-                element: <AdminChooseMarketPage/>
-            },
-            {
-                path: 'forgot-pass',
-                element: <AdminForgotPassPage/>
-            },
-            {
-                path: 're-enter-pass',
-                element: <AdminReEnterPassPage/>
-            },
-            {
-                path: 'success-page',
-                element: <AdminSuccessPage/>
-            },
-            {
-                path: 'create-market',
-                element: <AdminCreateMaketPage/>
-            },
-            {
-                path: 'create-market-finish',
-                element: <AdminCreateMaketFinishPage/>
-            },
-            // Admin control panel routes
-            {
-                path: 'cp',
-                element: <Navigate to="/cp/home" replace/>
-            },
-            {
-                path: 'cp/general',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/balance-payout',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/payments',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/shipping-and-delivery',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/policies',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/home',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/orders',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/abandoned-checkouts',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/order-details/:marketId/:orderId',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/products',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/customers',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/content',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/analytics/:marketId',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/settings',
-                element: <Navigate to="/cp/general" replace/>
-            },
-            {
-                path: 'cp/customize-store',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/discounts',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/collections',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/add-collection',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/edit-collection/:marketId/:id',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/categories',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/add-category',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/edit-category/:marketId/:id',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/manage-account',
-                element: <AdminManageAccount/>
-            },
-            {
-                path: 'cp/add-product',
-                element: <AdminHomePage/>
-            },
-            {
-                path: 'cp/edit-product/:marketId/:id',
-                element: <AdminHomePage/>
-            },
-            {
-                path: ':marketName',
-                element: <MarketLayout/>,
+                path: "cp",
                 children: [
-                    {
-                        index: true,
-                        element: <MarketHomePage/>
-                    },
-                    {
-                        path: 'category/:id',
-                        element: <MarketCategoryPage/>
-                    },
-                    {
-                        path: 'collection/:id',
-                        element: <MarketCollectionPage/>
-                    },
-                    {
-                        path: 'product/:id',
-                        element: <MarketProductDetailsPage/>
-                    },
-                    {
-                        path: 'about',
-                        element: <MarketAboutPage/>
-                    }
-                ]
+                    { index: true, element: <Navigate to="/cp/home" replace /> },
+                    { path: "home", element: <AdminHomePage /> },
+                    { path: "general", element: <AdminHomePage /> },
+                    { path: "balance-payout", element: <AdminHomePage /> },
+                    { path: "payments", element: <AdminHomePage /> },
+                    { path: "shipping-and-delivery", element: <AdminHomePage /> },
+                    { path: "policies", element: <AdminHomePage /> },
+                    { path: "orders", element: <AdminHomePage /> },
+                    { path: "abandoned-checkouts", element: <AdminHomePage /> },
+                    { path: "order-details/:marketId/:orderId", element: <AdminHomePage /> },
+                    { path: "products", element: <AdminHomePage /> },
+                    { path: "customers", element: <AdminHomePage /> },
+                    { path: "content", element: <AdminHomePage /> },
+                    { path: "analytics/:marketId", element: <AdminHomePage /> },
+                    { path: "customize-store", element: <AdminHomePage /> },
+                    { path: "discounts", element: <AdminHomePage /> },
+                    { path: "collections", element: <AdminHomePage /> },
+                    { path: "add-collection", element: <AdminHomePage /> },
+                    { path: "edit-collection/:marketId/:id", element: <AdminHomePage /> },
+                    { path: "categories", element: <AdminHomePage /> },
+                    { path: "add-category", element: <AdminHomePage /> },
+                    { path: "edit-category/:marketId/:id", element: <AdminHomePage /> },
+                    { path: "add-product", element: <AdminHomePage /> },
+                    { path: "edit-product/:marketId/:id", element: <AdminHomePage /> },
+                    { path: "manage-account", element: <AdminManageAccount /> },
+                    { path: "settings", element: <Navigate to="/cp/general" replace /> },
+                ],
             },
+
             {
-                path: 'success',
-                element: <SuccessComponent/>
+                path: ":marketName",
+                element: <MarketLayout />,
+                children: [
+                    { index: true, element: <MarketHomePage /> },
+                    { path: "category/:id", element: <MarketCategoryPage /> },
+                    { path: "collection/:id", element: <MarketCollectionPage /> },
+                    { path: "product/:id", element: <MarketProductDetailsPage /> },
+                    { path: "about", element: <MarketAboutPage /> },
+                    { path: "checkout", element: <MarketCheckoutPage /> },
+                ],
             },
-            {
-                path: 'failed',
-                element: <FailedComponent/>
-            },
-            {
-                path: 'checkout/:marketId',
-                element: <MarketCheckoutPage/>
-            },
-            {
-                path: 'customize-store-page',
-                element: <CustomizeStorePages/>
-            },
-            {
-                path: 'help',
-                element: <NotFoundPage/>
-            },
-            {
-                path: 'privacy',
-                element: <PrivacyPolicyPage/>
-            },
-            {
-                path: 'terms',
-                element: <TermsOfServicePage/>
-            },
-            {
-                path: 'about',
-                element: <AboutPage/>
-            },
-            {
-                path: 'contact',
-                element: <ContactPage/>
-            },
-            {
-                path: 'blogs',
-                element: <BlogPage/>
-            },
-            {
-                path: 'blogs/:id',
-                element: <BlogDetailsPage/>
-            },
-            {
-                path: 'tutorials',
-                element: <VideoPage/>
-            },
-            {
-                path: '*',
-                element: <NotFoundPage/>
-            }
-        ]
-    }
+
+            { path: "privacy", element: <PrivacyPolicyPage /> },
+            { path: "terms", element: <TermsOfServicePage /> },
+            { path: "about", element: <AboutPage /> },
+            { path: "contact", element: <ContactPage /> },
+            { path: "blogs", element: <BlogPage /> },
+            { path: "blogs/:id", element: <BlogDetailsPage /> },
+            { path: "tutorials", element: <VideoPage /> },
+
+            { path: "customize-store-page", element: <CustomizeStorePages /> },
+
+            { path: "*", element: <NotFoundPage /> },
+        ],
+    },
 ];

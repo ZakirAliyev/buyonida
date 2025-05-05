@@ -26,12 +26,17 @@ import AdminShippingAndDeliveryMenu
 import AdminPoliciesMenu from "../../../components/AdminComponents/AdminMenus/AdminPoliciesMenu/index.jsx";
 import AdminAbandonedCheckoutsMenu
     from "../../../components/AdminComponents/AdminMenus/AdminAbandonedCheckoutsMenu/index.jsx";
+import {Helmet} from "react-helmet-async";
 
 function AdminHomePage() {
     const url = useLocation();
     const pathname = url.pathname;
     return (
         <section id="adminHomePage">
+            <Helmet>
+                <title>{'Admin Page'}</title>
+                <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
+            </Helmet>
             <AdminNavbar />
             <div className="wrapper">
                 <AdminLeftMenu />

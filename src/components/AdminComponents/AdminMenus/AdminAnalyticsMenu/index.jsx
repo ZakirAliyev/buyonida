@@ -11,12 +11,14 @@ import {
     Legend,
 } from 'chart.js';
 import Box from '@mui/material/Box';
-import { DatePicker } from 'antd';
+import 'rsuite/dist/rsuite.min.css';
+import { DatePicker } from 'rsuite';
 import moment from 'moment';
 import './index.scss';
 import { useGetAdminDashboardQuery } from '../../../../service/userApi.js';
 import Cookies from 'js-cookie';
 import { FaManatSign } from 'react-icons/fa6';
+import 'rsuite/dist/rsuite-no-reset.min.css';
 
 ChartJS.register(
     CategoryScale,
@@ -54,14 +56,16 @@ const ChartComponent = () => {
     const getFormattedDate = (date) => date.toISOString().split('T')[0];
 
     const today = new Date();
-    const threeDaysAgo = new Date(today);
-    threeDaysAgo.setDate(today.getDate() - 7);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
 
-    const [endDate, setEndDate] = useState(getFormattedDate(today));
-    const [startDate, setStartDate] = useState(getFormattedDate(threeDaysAgo));
+    const sevenDaysAgo = new Date(today);
+    sevenDaysAgo.setDate(today.getDate() - 7);
+
+    const [startDate, setStartDate] = useState(getFormattedDate(sevenDaysAgo));
+    const [endDate, setEndDate] = useState(getFormattedDate(tomorrow));
     const [filteredData, setFilteredData] = useState([]);
-    const [startOpen, setStartOpen] = useState(false);
-    const [endOpen, setEndOpen] = useState(false);
+
     const marketId = Cookies.get('chooseMarket');
     const { data: getAdminDashboard } = useGetAdminDashboardQuery({
         startDate,
@@ -88,37 +92,6 @@ const ChartComponent = () => {
 
         setFilteredData(filtered);
     }, [dashboardData, startDate, endDate]);
-
-    // Prevent mouse wheel from changing date picker
-    useEffect(() => {
-        const handleWheel = (e) => {
-            e.preventDefault();
-        };
-
-        const attachListeners = () => {
-            const datePickers = document.querySelectorAll('.ant-picker-panel');
-            datePickers.forEach((picker, index) => {
-                console.log(`Attaching wheel listener to picker ${index}`); // Debugging
-                picker.addEventListener('wheel', handleWheel, { passive: false });
-            });
-        };
-
-        const detachListeners = () => {
-            const datePickers = document.querySelectorAll('.ant-picker-panel');
-            datePickers.forEach((picker, index) => {
-                console.log(`Detaching wheel listener from picker ${index}`); // Debugging
-                picker.removeEventListener('wheel', handleWheel);
-            });
-        };
-
-        // Delay attachment to ensure DOM is updated
-        const timeoutId = setTimeout(attachListeners, 100);
-
-        return () => {
-            clearTimeout(timeoutId);
-            detachListeners();
-        };
-    }, [startOpen, endOpen]);
 
     const chartLabels = filteredData.length
         ? filteredData.map((item) =>
@@ -262,29 +235,32 @@ const ChartComponent = () => {
             <div className="textWrapper">
                 <h2 style={{ padding: '0 16px' }}>Analytics</h2>
             </div>
-            <Box style={{ padding: '0 16px 0 16px' }} sx={{ display: 'flex', gap: 2, marginBottom: 2 }}>
-                <DatePicker
-                    placeholder="Başlangıç Tarihi"
-                    value={startDate ? moment(startDate, 'YYYY-MM-DD') : null}
-                    onChange={(date, dateString) => setStartDate(dateString)}
-                    open={startOpen}
-                    onOpenChange={(open) => setStartOpen(open)}
-                    onFocus={() => setStartOpen(true)}
-                    onBlur={() => setStartOpen(false)}
-                    getPopupContainer={(trigger) => trigger.parentNode}
-                    onPanelChange={(value, mode) => console.log('Start Date panel changed:', value, mode)} // Debugging
-                />
-                <DatePicker
-                    placeholder="Bitiş Tarihi"
-                    value={endDate ? moment(endDate, 'YYYY-MM-DD') : null}
-                    onChange={(date, dateString) => setEndDate(dateString)}
-                    open={endOpen}
-                    onOpenChange={(open) => setEndOpen(open)}
-                    onFocus={() => setEndOpen(true)}
-                    onBlur={() => setEndOpen(false)}
-                    getPopupContainer={(trigger) => trigger.parentNode}
-                    onPanelChange={(value, mode) => console.log('End Date panel changed:', value, mode)} // Debugging
-                />
+            <Box style={{ padding: '0 16px', margin: '0' }}>
+                <div style={{
+                    display: 'flex',
+                    gap: '16px',
+                }}>
+                    <div>
+                        <DatePicker
+                            value={startDate ? new Date(startDate) : null}
+                            onChange={(value) => {
+                                if (value) setStartDate(getFormattedDate(value));
+                            }}
+                            format="yyyy-MM-dd"
+                            oneTap
+                        />
+                    </div>
+                    <div>
+                        <DatePicker
+                            value={endDate ? new Date(endDate) : null}
+                            onChange={(value) => {
+                                if (value) setEndDate(getFormattedDate(value));
+                            }}
+                            format="yyyy-MM-dd"
+                            oneTap
+                        />
+                    </div>
+                </div>
             </Box>
             <div className="row">
                 <div className="pd0 col-6">

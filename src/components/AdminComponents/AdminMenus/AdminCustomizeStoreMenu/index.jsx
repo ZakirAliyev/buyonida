@@ -1,23 +1,15 @@
 import './index.scss';
 import image1 from '/src/assets/theme.png';
 import image2 from '/src/assets/theme1.png';
-import HomeNavbar from '../../../HomeSections/HomeNavbar/index.jsx';
-import HomeBanner from '../../../HomeSections/HomeBanner/index.jsx';
-import HomeSectOne from '../../../HomeSections/HomeSectOne/index.jsx';
-import HomeSectTwo from '../../../HomeSections/HomeSectTwo/index.jsx';
-import HomeSectThree from '../../../HomeSections/HomeSectThree/index.jsx';
-import HomeSectFour from '../../../HomeSections/HomeSectFour/index.jsx';
-import HomeMainSlogan from '../../../HomeSections/HomeMainSlogan/index.jsx';
-import HomeFooter from '../../../HomeSections/HomeFooter/index.jsx';
-import MarketNavbar from '../../../MarketComponents/MarketNavbar/index.jsx';
-import MarketHomePage from '../../../../pages/MarketPages/MarketHomePage/index.jsx';
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../../../../../constants.js';
 import { useGetStoreByIdQuery } from '../../../../service/userApi.js';
 import Cookies from 'js-cookie';
 import { MdContentCopy } from 'react-icons/md';
 import {message} from "antd";
+import {FaApple} from "react-icons/fa6";
+import { FaPlay, FaKeyboard, FaBatteryHalf, FaWifi, FaSearch, FaUserCircle, FaClock } from "react-icons/fa";
+
 
 function AdminCustomizeStoreMenu() {
     const navigate = useNavigate();
@@ -41,9 +33,35 @@ function AdminCustomizeStoreMenu() {
             <div className={'wrapper'}>
                 <div className={'imageWrapper'}>
                     <div className={'box'}>
+                        <div className={"cameraWrapper"}>
+                            <div className={"text"}><FaApple/></div>
+                            <div className={"text"}>Edit</div>
+                            <div className={"text"}>View</div>
+                            <div className={"text"}>History</div>
+                            <div className={"text"}>Bookmarks</div>
+
+                            <div className={"camera"}>
+                                <div className={"focus"}></div>
+                            </div>
+                            <div className="text"><FaPlay /></div>
+                            <div className="text"><FaKeyboard /></div>
+                            <div className="text"><FaBatteryHalf /></div>
+                            <div className="text"><FaWifi /></div>
+                            <div className="text"><FaSearch /></div>
+                            <div className="text"><FaUserCircle /></div>
+                            <div className="text"><FaClock /></div>
+                            <div className={"text"}>09:41</div>
+                        </div>
                         <img src={image1} alt={'background'} />
                     </div>
                     <div className={'box1'}>
+                        <div className={"cameraWrapper cameraWrapper1"}>
+                            <div className={"text"}>SIM 1</div>
+                            <div className={"camera camera1"}>
+                                <div className={"focus"}></div>
+                            </div>
+                            <div className={"text"}>09:41</div>
+                        </div>
                         <img src={image2} alt={'background'} />
                     </div>
                 </div>
@@ -65,9 +83,15 @@ function AdminCustomizeStoreMenu() {
                             Customize
                         </button>
                         <button className={'gotoMarket'}>
-                            <Link to={`${BASE_URL}@${store?.name}`} style={{
-                                color: 'black',
-                            }}>Go to store</Link>
+                            <a
+                                href={`${BASE_URL}@${store?.name}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ color: 'black' }}
+                            >
+                                Go to store
+                            </a>
+
                         </button>
                         <button className={'copy'} onClick={handleCopyLink}>
                             <MdContentCopy />

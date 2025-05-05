@@ -9,6 +9,7 @@ import image1 from '/src/assets/sariLogo.png';
 import {usePostCreateMarketMutation} from "../../../service/userApi.js";
 import {FaArrowLeft} from "react-icons/fa";
 import {PulseLoader} from "react-spinners";
+import {Helmet} from "react-helmet-async";
 
 function AdminCreateMaketFinishPage() {
     const [description, setDescription] = useState('');
@@ -89,6 +90,10 @@ function AdminCreateMaketFinishPage() {
 
     return (
         <section id="adminCreateMaketPage">
+            <Helmet>
+                <title>{'Create Market Page'}</title>
+                <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
+            </Helmet>
             <div className="wrapper">
                 <div className="img">
                     <img src={image1} alt="Logo"/>

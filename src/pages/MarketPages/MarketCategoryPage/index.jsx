@@ -13,6 +13,7 @@ import { useMediaQuery } from 'react-responsive';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useRef } from 'react';
 import 'swiper/css';
+import {Helmet} from "react-helmet-async";
 
 function MarketCategoryPage() {
     const params = useParams();
@@ -54,6 +55,10 @@ function MarketCategoryPage() {
 
     return (
         <section id={'marketCategoryPage'}>
+            <Helmet>
+                <title>{'Category Page'}</title>
+                <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
+            </Helmet>
             <div
                 className={'section'}
                 style={{

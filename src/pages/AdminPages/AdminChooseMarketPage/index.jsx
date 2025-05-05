@@ -6,6 +6,7 @@ import image2 from "/src/assets/sariLogo.png";
 import {useGetAllStoresQuery} from "../../../service/userApi.js";
 import {MARKET_LOGO} from "../../../../constants.js";
 import Cookies from "js-cookie";
+import {Helmet} from "react-helmet-async";
 
 function AdminChooseMarketPage() {
 
@@ -22,6 +23,10 @@ function AdminChooseMarketPage() {
 
     return (
         <section id={"adminChooseMarketPage"}>
+            <Helmet>
+                <title>{'Choose Market Page'}</title>
+                <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
+            </Helmet>
             <div className={"wrapper"}>
                 <div className="img">
                     <img src={image2} alt="Logo"/>
@@ -47,7 +52,7 @@ function AdminChooseMarketPage() {
                     ) : (
                         <></>
                     )}
-                    {stores.length < 3 && (
+                    {stores.length < 10 && (
                         <div className={"newBox"} onClick={() => {
                             navigate('/create-market')
                         }}>

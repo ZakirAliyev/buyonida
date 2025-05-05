@@ -150,19 +150,16 @@ function AdminBalancePayoutMenu() {
 
     const handleDateSubmit = (e) => {
         e.preventDefault();
-        console.log('Date submitted:', dateFormData.date);
         handleCloseDateModal();
     };
 
     const handleAmountSubmit = (e) => {
         e.preventDefault();
-        console.log('Amount submitted:', amountFormData.amount);
         handleCloseAmountModal();
     };
 
     const handleStatusSubmit = (e) => {
         e.preventDefault();
-        console.log('Status submitted:', statusFormData.status);
         handleCloseStatusModal();
     };
 
@@ -175,7 +172,6 @@ function AdminBalancePayoutMenu() {
 
     const handleExportSubmit = (e) => {
         e.preventDefault();
-        console.log('Exporting payouts with date range:', exportDateRange);
         handleCloseExportModal();
     };
 

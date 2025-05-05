@@ -73,6 +73,7 @@
         img {
           width: 40px;
           object-fit: contain;
+          aspect-ratio: 1/1;
         }
       }
 
@@ -82,7 +83,7 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
-        margin: 15px 0;
+        margin: 10px 0;
         background-color: #F8F8F8;
         height: 50px;
         transition: all .2s ease;

@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import image1 from "/src/assets/sariLogo.png";
 import { useGetAllSectorsQuery } from "../../../service/userApi.js";
 import { SECTOR_LOGO } from "../../../../constants.js";
+import {Helmet} from "react-helmet-async";
 
 function AdminCreateMaketPage() {
     const [marketName, setMarketName] = useState('');
@@ -43,6 +44,10 @@ function AdminCreateMaketPage() {
 
     return (
         <section id="adminCreateMaketPage">
+            <Helmet>
+                <title>{'Create Market Page'}</title>
+                <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
+            </Helmet>
             <div className="wrapper">
                 <div className="img">
                     <img src={image1} alt="Logo" />

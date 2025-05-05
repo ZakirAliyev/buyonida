@@ -5,6 +5,104 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 
+  .first {
+    background: white !important;
+
+    &:hover {
+      background: white !important;
+    }
+  }
+
+  .filterButton {
+    &:hover {
+      background: black;
+    }
+  }
+
+  .sort-dropdown,
+  .filter-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    width: 250px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .dropdown-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .dropdown-section h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+  }
+
+  .dropdown-section input[type="range"] {
+    width: 100%;
+    accent-color: #FFBB00;
+  }
+
+  .dropdown-section span {
+    font-size: 12px;
+    color: #666;
+    align-self: flex-end;
+  }
+
+  .dropdown-section label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+  }
+
+  .dropdown-section input[type="checkbox"],
+  .dropdown-section input[type="radio"] {
+    accent-color: #FFBB00;
+  }
+
+  .apply-btn {
+    background-color: #FFBB00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 0;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .apply-btn:hover {
+    background-color: #FFBB00;
+  }
+
+  .filterButton {
+    background-color: transparent;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    transition: all .2s ease;
+
+    &:hover {
+      background: #ddd;
+    }
+  }
+
   .deleteWrapper {
     align-items: center;
     justify-content: center;
@@ -127,8 +225,6 @@
     border-collapse: collapse;
     background-color: white;
     margin-top: 25px;
-    border: 1px solid white;
-    overflow: hidden;
     border-radius: 15px;
 
     .image {
