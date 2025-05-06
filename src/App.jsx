@@ -1,10 +1,9 @@
-import './App.css';
+import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ROUTES } from "./routes/ROUTES.jsx";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import { ConfigProvider } from "antd";
-import {HelmetProvider} from "react-helmet-async";
-
+import { HelmetProvider } from "react-helmet-async";
 const routes = createBrowserRouter(ROUTES);
 
 function App() {
@@ -17,11 +16,11 @@ function App() {
     }
 
     return (
-       <HelmetProvider>
-           <ConfigProvider>
-               <RouterProvider router={routes} />
-           </ConfigProvider>
-       </HelmetProvider>
+        <HelmetProvider>
+            <ConfigProvider>
+                <RouterProvider router={routes} />
+            </ConfigProvider>
+        </HelmetProvider>
     );
 }
 

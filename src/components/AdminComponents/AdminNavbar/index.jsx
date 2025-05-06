@@ -117,6 +117,7 @@ function AdminNavbar() {
     const { data: getStore } = useGetUserQuery();
     const user = getStore?.data;
 
+    console.log(user);
     function handleLogOut() {
         const cookies = document.cookie.split(';');
         cookies.forEach(cookie => {

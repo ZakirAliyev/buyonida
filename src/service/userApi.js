@@ -450,6 +450,14 @@ export const ownerApi = createApi({
                 url: `/Tutorial/get-tutorial/${id}`,
             }),
         }),
+        postMarketCardStart: builder.mutation({
+            query: (data) => ({
+                url: `/MarketCard/start`,
+                method: 'POST',
+                body: data,
+                headers: { 'Content-Type': 'application/json' },
+            }),
+        }),
     }),
 });
 
@@ -522,4 +530,5 @@ export const {
     useGetBlogByIdQuery,
     useGetAllTutorialsQuery,
     useGetTutorialByIdQuery,
+    usePostMarketCardStartMutation,
 } = ownerApi;
