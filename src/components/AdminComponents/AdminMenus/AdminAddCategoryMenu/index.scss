@@ -170,16 +170,18 @@
       z-index: 0;
       font-weight: 500;
       top: 85px;
-      width: max-content;
-      right: -650px;
+      right: -600px;
       background-color: #2F2F2F;
       color: white;
-      padding: 8px 40px 32px;
+      padding: 8px 30px 32px;
       border-top-left-radius: 30px;
       border-top-right-radius: 30px;
       display: flex;
       align-items: center;
       gap: 16px;
+      width: 400px;
+      align-items: center;
+      justify-content: space-between;
 
       button {
         padding: 4px 32px;

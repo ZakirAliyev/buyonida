@@ -1,8 +1,12 @@
+import { useTranslation } from "react-i18next";
 import './index.scss';
-
-function BlogPreview({ blog }) {
-    return (
-        <div className={"preview-card"}>
+function BlogPreview({
+  blog
+}) {
+  const {
+    t
+  } = useTranslation();
+  return <div className={"preview-card"}>
             <img src={blog.image} alt={blog.title} />
             <div className={"preview-content"}>
                 <h4>{blog.title}</h4>
@@ -10,13 +14,11 @@ function BlogPreview({ blog }) {
                 <div className={"preview-details"}>
                     <span>{blog.date}</span>
                     <div>
-                        <span>👀 {blog.views}</span>
-                        <span>❤️ {blog.likes}</span>
+                        <span>{t("")}{blog.views}</span>
+                        <span>{t("")}{blog.likes}</span>
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        </div>;
 }
-
 export default BlogPreview;

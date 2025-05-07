@@ -1,17 +1,17 @@
-import './index.scss'
+import { useTranslation } from "react-i18next";
+import './index.scss';
 import AdminRegisterViaEmailForm from "../../../components/AdminComponents/AdminRegisterSections/AdminRegisterViaEmailForm/index.jsx";
-import {Helmet} from "react-helmet-async";
-
+import { Helmet } from "react-helmet-async";
 function AdminRegisterViaEmailPage() {
-    return (
-        <section id={"adminRegisterViaEmailPage"}>
+  const {
+    t
+  } = useTranslation();
+  return <section id={"adminRegisterViaEmailPage"}>
             <Helmet>
                 <title>{'Admin Register Page'}</title>
                 <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
             </Helmet>
-            <AdminRegisterViaEmailForm/>
-        </section>
-    );
+            <AdminRegisterViaEmailForm />
+        </section>;
 }
-
 export default AdminRegisterViaEmailPage;

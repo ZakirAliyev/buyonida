@@ -146,16 +146,18 @@
       z-index: 0;
       font-weight: 500;
       top: 85px;
-      width: max-content;
-      right: -640px;
+      right: -600px;
       background-color: #2F2F2F;
       color: white;
-      padding: 8px 40px 32px;
+      padding: 8px 30px 32px;
       border-top-left-radius: 30px;
       border-top-right-radius: 30px;
       display: flex;
       align-items: center;
       gap: 16px;
+      width: 400px;
+      align-items: center;
+      justify-content: space-between;
 
       button {
         padding: 4px 32px;
@@ -256,6 +258,7 @@
         .errorInput {
           background-color: #FFE0E0;
           border: 1px solid #EB5454;
+          overflow: hidden;
         }
 
 
@@ -297,7 +300,6 @@
     }
 
     .codeEditor {
-      background-color: #fcfcfc;
     }
 
     .ql-editor {

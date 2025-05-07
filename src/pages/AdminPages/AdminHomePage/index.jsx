@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import './index.scss';
 import AdminLeftMenu from "../../../components/AdminComponents/AdminLeftMenu/index.jsx";
 import AdminNavbar from "../../../components/AdminComponents/AdminNavbar/index.jsx";
@@ -21,18 +22,17 @@ import AdminOrderDetails from "../../../components/AdminComponents/AdminMenus/Ad
 import AdminGeneralMenu from "../../../components/AdminComponents/AdminMenus/AdminGeneralMenu/index.jsx";
 import AdminBalancePayoutMenu from "../../../components/AdminComponents/AdminMenus/AdminBalancePayoutMenu/index.jsx";
 import AdminPaymentsMenu from "../../../components/AdminComponents/AdminMenus/AdminPaymentsMenu/index.jsx";
-import AdminShippingAndDeliveryMenu
-    from "../../../components/AdminComponents/AdminMenus/AdminShippingAndDeliveryMenu/index.jsx";
+import AdminShippingAndDeliveryMenu from "../../../components/AdminComponents/AdminMenus/AdminShippingAndDeliveryMenu/index.jsx";
 import AdminPoliciesMenu from "../../../components/AdminComponents/AdminMenus/AdminPoliciesMenu/index.jsx";
-import AdminAbandonedCheckoutsMenu
-    from "../../../components/AdminComponents/AdminMenus/AdminAbandonedCheckoutsMenu/index.jsx";
-import {Helmet} from "react-helmet-async";
-
+import AdminAbandonedCheckoutsMenu from "../../../components/AdminComponents/AdminMenus/AdminAbandonedCheckoutsMenu/index.jsx";
+import { Helmet } from "react-helmet-async";
 function AdminHomePage() {
-    const url = useLocation();
-    const pathname = url.pathname;
-    return (
-        <section id="adminHomePage">
+  const {
+    t
+  } = useTranslation();
+  const url = useLocation();
+  const pathname = url.pathname;
+  return <section id="adminHomePage">
             <Helmet>
                 <title>{'Admin Page'}</title>
                 <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
@@ -41,120 +41,74 @@ function AdminHomePage() {
             <div className="wrapper">
                 <AdminLeftMenu />
                 <div className="adminWrapper">
-                    {url.pathname === '/cp/home' && (
-                        <div className="container1">
+                    {url.pathname === '/cp/home' && <div className="container1">
                             <AdminHomeMenu />
-                        </div>
-                    )}
-                    {url.pathname === '/cp/orders' && (
-                        <div className="container1">
+                        </div>}
+                    {url.pathname === '/cp/orders' && <div className="container1">
                             <AdminOrdersMenu />
-                        </div>
-                    )}
-                    {url.pathname === '/cp/abandoned-checkouts' && (
-                        <div className="container1">
+                        </div>}
+                    {url.pathname === '/cp/abandoned-checkouts' && <div className="container1">
                             <AdminAbandonedCheckoutsMenu />
-                        </div>
-                    )}
-                    {/^\/cp\/order-details\/\d+\/\d+$/.test(pathname) && (
-                        <div className="container1">
+                        </div>}
+                    {/^\/cp\/order-details\/\d+\/\d+$/.test(pathname) && <div className="container1">
                             <AdminOrderDetails />
-                        </div>
-                    )}
-                    {url.pathname === '/cp/products' && (
-                        <div className="container1">
+                        </div>}
+                    {url.pathname === '/cp/products' && <div className="container1">
                             <AdminProductsMenu />
-                        </div>
-                    )}
-                    {/^\/cp\/analytics\/\d+$/.test(pathname) && (
-                        <div className="container3">
+                        </div>}
+                    {/^\/cp\/analytics\/\d+$/.test(pathname) && <div className="container3">
                             <AdminAnalyticsMenu />
-                        </div>
-                    )}
-                    {url.pathname === '/cp/customize-store' && (
-                        <div className="container4">
+                        </div>}
+                    {url.pathname === '/cp/customize-store' && <div className="container4">
                             <AdminCustomizeStoreMenu />
-                        </div>
-                    )}
-                    {url.pathname === '/cp/discounts' && (
-                        <div className="container1">
+                        </div>}
+                    {url.pathname === '/cp/discounts' && <div className="container1">
                             <AdminDiscountsMenu />
-                        </div>
-                    )}
-                    {url.pathname === '/cp/settings' && (
-                        <div className="container1">
+                        </div>}
+                    {url.pathname === '/cp/settings' && <div className="container1">
                             <AdminSettingsMenu />
-                        </div>
-                    )}
-                    {url.pathname === '/cp/add-product' && (
-                        <div className="container1">
+                        </div>}
+                    {url.pathname === '/cp/add-product' && <div className="container1">
                             <AdminAddProductMenu />
-                        </div>
-                    )}
-                    {/^\/cp\/edit-product\/\d+\/\d+$/.test(pathname) && (
-                        <div className="container1">
+                        </div>}
+                    {/^\/cp\/edit-product\/\d+\/\d+$/.test(pathname) && <div className="container1">
                             <AdminEditProductMenu />
-                        </div>
-                    )}
-                    {url.pathname === '/cp/collections' && (
-                        <div className="container1">
+                        </div>}
+                    {url.pathname === '/cp/collections' && <div className="container1">
                             <AdminCollectionsMenu />
-                        </div>
-                    )}
-                    {url.pathname === '/cp/add-collection' && (
-                        <div className="container1">
+                        </div>}
+                    {url.pathname === '/cp/add-collection' && <div className="container1">
                             <AdminAddCollectionMenu />
-                        </div>
-                    )}
-                    {/^\/cp\/edit-collection\/\d+\/\d+$/.test(pathname) && (
-                        <div className="container1">
+                        </div>}
+                    {/^\/cp\/edit-collection\/\d+\/\d+$/.test(pathname) && <div className="container1">
                             <AdminEditCollectionMenu />
-                        </div>
-                    )}
-                    {url.pathname === '/cp/categories' && (
-                        <div className="container1">
+                        </div>}
+                    {url.pathname === '/cp/categories' && <div className="container1">
                             <AdminCategoriesMenu />
-                        </div>
-                    )}
-                    {url.pathname === '/cp/add-category' && (
-                        <div className="container1">
+                        </div>}
+                    {url.pathname === '/cp/add-category' && <div className="container1">
                             <AdminAddCategoryMenu />
-                        </div>
-                    )}
-                    {/^\/cp\/edit-category\/\d+\/\d+$/.test(pathname) && (
-                        <div className="container1">
+                        </div>}
+                    {/^\/cp\/edit-category\/\d+\/\d+$/.test(pathname) && <div className="container1">
                             <AdminEditCategoryMenu />
-                        </div>
-                    )}
-                    {url.pathname === '/cp/general' && (
-                        <div className="container1">
+                        </div>}
+                    {url.pathname === '/cp/general' && <div className="container1">
                             <AdminGeneralMenu />
-                        </div>
-                    )}
-                    {url.pathname === '/cp/balance-payout' && (
-                        <div className="container1">
+                        </div>}
+                    {url.pathname === '/cp/balance-payout' && <div className="container1">
                             <AdminBalancePayoutMenu />
-                        </div>
-                    )}
-                    {url.pathname === '/cp/payments' && (
-                        <div className="container1">
+                        </div>}
+                    {url.pathname === '/cp/payments' && <div className="container1">
                             <AdminPaymentsMenu />
-                        </div>
-                    )}
-                    {url.pathname === '/cp/shipping-and-delivery' && (
-                        <div className="container1">
-                            <AdminShippingAndDeliveryMenu/>
-                        </div>
-                    )}
-                    {url.pathname === '/cp/policies' && (
-                        <div className="container1">
-                            <AdminPoliciesMenu/>
-                        </div>
-                    )}
+                        </div>}
+                    {url.pathname === '/cp/shipping-and-delivery' && <div className="container1">
+                            <AdminShippingAndDeliveryMenu />
+                        </div>}
+                    {url.pathname === '/cp/policies' && <div className="container1">
+                            <AdminPoliciesMenu />
+                        </div>}
                 </div>
             </div>
-        </section>
-    );
+        </section>;
 }
-
 export default AdminHomePage;

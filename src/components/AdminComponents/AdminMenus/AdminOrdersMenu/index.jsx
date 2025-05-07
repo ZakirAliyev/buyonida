@@ -1,65 +1,44 @@
+import { useTranslation } from "react-i18next";
 import './index.scss';
 import { GoDotFill } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { useGetOrdersByMarketIdQuery } from "../../../../service/userApi.js";
 import Cookies from "js-cookie";
 import { useState } from "react";
-
 function AdminOrdersMenu() {
-    const { data: getOrdersByMarketId, refetch } = useGetOrdersByMarketIdQuery(
-        Cookies.get('chooseMarket'),
-        { refetchOnMountOrArgChange: true } // Refetch on component mount
-    );
-    const orders = getOrdersByMarketId?.data || [];
-    const [filter, setFilter] = useState("All");
+  const {
+    t
+  } = useTranslation();
+  const {
+    data: getOrdersByMarketId,
+    refetch
+  } = useGetOrdersByMarketIdQuery(Cookies.get('chooseMarket'), {
+    refetchOnMountOrArgChange: true
+  } // Refetch on component mount
+  );
+  const orders = getOrdersByMarketId?.data || [];
+  const [filter, setFilter] = useState("All");
+  const navigate = useNavigate();
+  const handleRowClick = orderId => {
+    navigate(`/cp/order-details/${Cookies.get('chooseMarket')}/${orderId}`);
+  };
+  const handleFilterChange = filterType => {
+    setFilter(filterType);
+  };
 
-    const navigate = useNavigate();
-
-    const handleRowClick = (orderId) => {
-        navigate(`/cp/order-details/${Cookies.get('chooseMarket')}/${orderId}`);
-    };
-
-    const handleFilterChange = (filterType) => {
-        setFilter(filterType);
-    };
-
-    // Filter orders based on the selected filter
-    const filteredOrders = filter === "Unfulfilled"
-        ? orders.filter(order => !order.isFulfilled)
-        : orders;
-
-    return (
-        <section id="adminOrdersMenu">
-            <h1>Orders</h1>
+  // Filter orders based on the selected filter
+  const filteredOrders = filter === "Unfulfilled" ? orders.filter(order => !order.isFulfilled) : orders;
+  return <section id="adminOrdersMenu">
+            <h1>{t("orders")}</h1>
             <table>
                 <thead>
                 <tr className="filter-row">
                     <th colSpan="7">
                         <div className="filter-buttons">
-                            <button
-                                className={filter === "All" ? "selected" : ""}
-                                onClick={() => handleFilterChange("All")}
-                            >
-                                All orders
-                            </button>
-                            <button
-                                className={filter === "Unfulfilled" ? "selected" : ""}
-                                onClick={() => handleFilterChange("Unfulfilled")}
-                            >
-                                Unfulfilled
-                            </button>
-                            <button
-                                className={filter === "Open" ? "selected" : ""}
-                                onClick={() => handleFilterChange("Open")}
-                            >
-                                Open
-                            </button>
-                            <button
-                                className={filter === "Closed" ? "selected" : ""}
-                                onClick={() => handleFilterChange("Closed")}
-                            >
-                                Closed
-                            </button>
+                            <button className={filter === "All" ? "selected" : ""} onClick={() => handleFilterChange("All")}>{t("all_orders")}</button>
+                            <button className={filter === "Unfulfilled" ? "selected" : ""} onClick={() => handleFilterChange("Unfulfilled")}>{t("unfulfilled")}</button>
+                            <button className={filter === "Open" ? "selected" : ""} onClick={() => handleFilterChange("Open")}>{t("open")}</button>
+                            <button className={filter === "Closed" ? "selected" : ""} onClick={() => handleFilterChange("Closed")}>{t("closed")}</button>
                         </div>
                     </th>
                 </tr>
@@ -67,36 +46,30 @@ function AdminOrdersMenu() {
                     <th className="checkbox-column">
                         <input type="checkbox" />
                     </th>
-                    <th>Order</th>
-                    <th>Date</th>
-                    <th>Customer</th>
-                    <th>Total</th>
-                    <th>Payment status</th>
-                    <th>Fulfillment status</th>
+                    <th>{t("order")}</th>
+                    <th>{t("date")}</th>
+                    <th>{t("customer")}</th>
+                    <th>{t("total")}</th>
+                    <th>{t("payment_status")}</th>
+                    <th>{t("fulfillment_status")}</th>
                 </tr>
                 </thead>
                 <tbody>
-                {filteredOrders.length > 0 ? (
-                    filteredOrders.map((order) => (
-                        <tr
-                            key={order.id}
-                            className="data-row"
-                            onClick={() => handleRowClick(order.id)}
-                        >
+                {filteredOrders.length > 0 ? filteredOrders.map(order => <tr key={order.id} className="data-row" onClick={() => handleRowClick(order.id)}>
                             <td className="checkbox-column">
                                 <input type="checkbox" />
                             </td>
-                            <td>#{order.id}</td>
+                            <td>{t("")}{order.id}</td>
                             <td>{new Date(order.createdDate).toLocaleString('en-US', {
-                                day: 'numeric',
-                                month: 'short',
-                                year: 'numeric',
-                                hour: 'numeric',
-                                minute: 'numeric',
-                                hour12: true
-                            })}</td>
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric',
+              hour12: true
+            })}</td>
                             <td>{order.name} {order.surname}</td>
-                            <td>${order.totalPrice.toFixed(2)}</td>
+                            <td>{t("")}{order.totalPrice.toFixed(2)}</td>
                             <td>
                                 <span className={order.isPayment ? "paid" : "unpaid"}>
                                     <GoDotFill className="status-icon" />
@@ -109,21 +82,13 @@ function AdminOrdersMenu() {
                                     {order.isFulfilled ? "Fulfilled" : "Unfulfilled"}
                                 </span>
                             </td>
-                        </tr>
-                    ))
-                ) : (
-                    <tr>
+                        </tr>) : <tr>
                         <td colSpan="7" className="no-orders">
-                            {filter === "Unfulfilled"
-                                ? "There are no unfulfilled orders."
-                                : "You don't have an order yet."}
+                            {filter === "Unfulfilled" ? "There are no unfulfilled orders." : "You don't have an order yet."}
                         </td>
-                    </tr>
-                )}
+                    </tr>}
                 </tbody>
             </table>
-        </section>
-    );
+        </section>;
 }
-
 export default AdminOrdersMenu;

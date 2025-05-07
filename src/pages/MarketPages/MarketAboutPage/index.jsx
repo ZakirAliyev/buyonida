@@ -1,31 +1,37 @@
+import { useTranslation } from "react-i18next";
 import './index.scss';
 import { useParams } from "react-router-dom";
-import {useGetStoreByNameQuery, useGetStoreWithSectionsQuery} from "../../../service/userApi.js";
+import { useGetStoreByNameQuery, useGetStoreWithSectionsQuery } from "../../../service/userApi.js";
 import { MARKET_LOGO } from "../../../../constants.js";
-import {Helmet} from "react-helmet-async";
-
+import { Helmet } from "react-helmet-async";
 function MarketAboutPage() {
-    const params = useParams();
-    const marketName = params.marketName.substring(1, params.marketName.length);
-
-    const { data: getStoreByName } = useGetStoreByNameQuery(marketName);
-    const store = getStoreByName?.data;
-    const marketId = store?.id
-    const { data: getStoreWithSections, isLoading: isSectionsLoading, isError: isSectionsError } = useGetStoreWithSectionsQuery(marketId, {
-    });
-    const palets = getStoreWithSections?.data?.palets || [];
-    const selectedPaletId = getStoreWithSections?.data?.selectedPaletId;
-    const palet = palets?.filter((p) => p.id === selectedPaletId);
-    return (
-        <section id="marketAboutPage">
+  const {
+    t
+  } = useTranslation();
+  const params = useParams();
+  const marketName = params.marketName.substring(1, params.marketName.length);
+  const {
+    data: getStoreByName
+  } = useGetStoreByNameQuery(marketName);
+  const store = getStoreByName?.data;
+  const marketId = store?.id;
+  const {
+    data: getStoreWithSections,
+    isLoading: isSectionsLoading,
+    isError: isSectionsError
+  } = useGetStoreWithSectionsQuery(marketId, {});
+  const palets = getStoreWithSections?.data?.palets || [];
+  const selectedPaletId = getStoreWithSections?.data?.selectedPaletId;
+  const palet = palets?.filter(p => p.id === selectedPaletId);
+  return <section id="marketAboutPage">
             <Helmet>
                 <title>{'Market About Page'}</title>
                 <link rel="icon" href={'/src/assets/favicon-32x32.png'} />
             </Helmet>
             <div className="section123" style={{
-                backgroundColor: palet?.[0]?.backgroundColor || '#ffffff',
-                color: palet?.[0]?.textColor || '#000000',
-            }}>
+      backgroundColor: palet?.[0]?.backgroundColor || '#ffffff',
+      color: palet?.[0]?.textColor || '#000000'
+    }}>
                 <div className="container">
                     <div className="titleWrapper">
                         <div className="imageWrapper">
@@ -38,8 +44,6 @@ function MarketAboutPage() {
                     </div>
                 </div>
             </div>
-        </section>
-    );
+        </section>;
 }
-
 export default MarketAboutPage;

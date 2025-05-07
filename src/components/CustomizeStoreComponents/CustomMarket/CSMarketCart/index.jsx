@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import "./index.scss";
 // import {useEffect, useState} from "react";
 // import {FaRegTrashAlt, FaShoppingBag} from "react-icons/fa";
@@ -14,117 +15,122 @@ import "./index.scss";
 // import {PRODUCT_LOGO} from "../../../../constants.js";
 // import {toast} from "react-toastify";
 
-const CSMarketCart = ({isOpen, onClose}) => {
-    // const navigate = useNavigate();
-    // const params = useParams();
-    //
-    // const marketName = params?.marketName?.substring(1);
-    //
-    // const {data: storeData} = useGetStoreByNameQuery(marketName);
-    // const store = storeData?.data;
-    // const marketId = store?.id;
-    //
-    // // Get uniqueCode from Cookies
-    // const uniqueCode = Cookies.get("uniqueCode");
-    //
-    // const {data: basketData, refetch} = useGetBasketGetOrCreateQuery({
-    //     marketId,
-    //     uniqueCode
-    // });
-    // const basket = basketData?.data;
-    // const basketItems = basket?.basketItems || [];
-    //
-    // const [deleteBasketItem] = useDeleteBasketItemMutation();
-    // const [postBasketCheckout] = usePostBasketCheckoutMutation();
-    // const [postAddProduct] = usePostAddProductMutation();
-    //
-    // const [localBasketItems, setLocalBasketItems] = useState(basketItems);
-    //
-    // const subtotal = localBasketItems.reduce(
-    //     (acc, item) => acc + item.price * item.quantity,
-    //     0
-    // );
-    //
-    // async function updateQuantity(item, change) {
-    //     if (item.quantity === 1 && change < 0) return;
-    //
-    //     setLocalBasketItems(prevItems =>
-    //         prevItems.map(it => {
-    //             if (it.id === item.id) {
-    //                 return {...it, quantity: it.quantity + change};
-    //             }
-    //             return it;
-    //         })
-    //     );
-    //
-    //     try {
-    //         await postAddProduct({
-    //             uniqueCode: uniqueCode,
-    //             productId: item.productId,
-    //             quantity: change,
-    //             marketId: marketId,
-    //             selectedOptions: item.basketItemOptions
-    //                 ? item.basketItemOptions.map(option => ({
-    //                     productOptionId: option.productOptionId,
-    //                     optionValueId: option.optionValueId
-    //                 }))
-    //                 : []
-    //         }).unwrap();
-    //     } catch (error) {
-    //         console.error("Error updating quantity:", error);
-    //         refetch();
-    //     }
-    // }
-    //
-    // async function handleRemoveItem(item) {
-    //     setLocalBasketItems(prevItems => prevItems.filter(it => it.id !== item.id));
-    //
-    //     try {
-    //         await deleteBasketItem({
-    //             basketItemId: item.id,
-    //             marketId: marketId,
-    //             uniqueCode: uniqueCode
-    //         }).unwrap();
-    //         toast.success("Məhsul səbətdən silindi!", {
-    //             position: "bottom-right",
-    //             autoClose: 2500,
-    //             theme: "dark"
-    //         });
-    //         refetch();
-    //     } catch (error) {
-    //         console.error("Error removing item:", error);
-    //         toast.error("Məhsul silinirken xəta baş verdi!", {
-    //             position: "bottom-right",
-    //             autoClose: 2500,
-    //             theme: "dark"
-    //         });
-    //         refetch();
-    //     }
-    // }
-    //
-    // const handleYasinCheckPut = async (marketId) => {
-    //     try {
-    //         const uniqueCodeFromCookie = Cookies.get("uniqueCode");
-    //         const response = await postBasketCheckout({
-    //             uniqueCode: uniqueCodeFromCookie, marketId
-    //         }).unwrap();
-    //         toast.success("Checkout completed successfully!", {
-    //             position: "bottom-right",
-    //             autoClose: 2500,
-    //             theme: "dark"
-    //         });
-    //     } catch (error) {
-    //         console.error("Error during checkout:", error);
-    //         toast.error("Xəta baş verdi! Zəhmət olmasa yenidən cəhd edin.", {
-    //             position: "bottom-right",
-    //             autoClose: 2500,
-    //             theme: "dark"
-    //         });
-    //     }
-    // };
+const CSMarketCart = ({
+  isOpen,
+  onClose
+}) => {
+  const {
+    t
+  } = useTranslation();
+  // const navigate = useNavigate();
+  // const params = useParams();
+  //
+  // const marketName = params?.marketName?.substring(1);
+  //
+  // const {data: storeData} = useGetStoreByNameQuery(marketName);
+  // const store = storeData?.data;
+  // const marketId = store?.id;
+  //
+  // // Get uniqueCode from Cookies
+  // const uniqueCode = Cookies.get("uniqueCode");
+  //
+  // const {data: basketData, refetch} = useGetBasketGetOrCreateQuery({
+  //     marketId,
+  //     uniqueCode
+  // });
+  // const basket = basketData?.data;
+  // const basketItems = basket?.basketItems || [];
+  //
+  // const [deleteBasketItem] = useDeleteBasketItemMutation();
+  // const [postBasketCheckout] = usePostBasketCheckoutMutation();
+  // const [postAddProduct] = usePostAddProductMutation();
+  //
+  // const [localBasketItems, setLocalBasketItems] = useState(basketItems);
+  //
+  // const subtotal = localBasketItems.reduce(
+  //     (acc, item) => acc + item.price * item.quantity,
+  //     0
+  // );
+  //
+  // async function updateQuantity(item, change) {
+  //     if (item.quantity === 1 && change < 0) return;
+  //
+  //     setLocalBasketItems(prevItems =>
+  //         prevItems.map(it => {
+  //             if (it.id === item.id) {
+  //                 return {...it, quantity: it.quantity + change};
+  //             }
+  //             return it;
+  //         })
+  //     );
+  //
+  //     try {
+  //         await postAddProduct({
+  //             uniqueCode: uniqueCode,
+  //             productId: item.productId,
+  //             quantity: change,
+  //             marketId: marketId,
+  //             selectedOptions: item.basketItemOptions
+  //                 ? item.basketItemOptions.map(option => ({
+  //                     productOptionId: option.productOptionId,
+  //                     optionValueId: option.optionValueId
+  //                 }))
+  //                 : []
+  //         }).unwrap();
+  //     } catch (error) {
+  //         console.error("Error updating quantity:", error);
+  //         refetch();
+  //     }
+  // }
+  //
+  // async function handleRemoveItem(item) {
+  //     setLocalBasketItems(prevItems => prevItems.filter(it => it.id !== item.id));
+  //
+  //     try {
+  //         await deleteBasketItem({
+  //             basketItemId: item.id,
+  //             marketId: marketId,
+  //             uniqueCode: uniqueCode
+  //         }).unwrap();
+  //         toast.success("Məhsul səbətdən silindi!", {
+  //             position: "bottom-right",
+  //             autoClose: 2500,
+  //             theme: "dark"
+  //         });
+  //         refetch();
+  //     } catch (error) {
+  //         console.error("Error removing item:", error);
+  //         toast.error("Məhsul silinirken xəta baş verdi!", {
+  //             position: "bottom-right",
+  //             autoClose: 2500,
+  //             theme: "dark"
+  //         });
+  //         refetch();
+  //     }
+  // }
+  //
+  // const handleYasinCheckPut = async (marketId) => {
+  //     try {
+  //         const uniqueCodeFromCookie = Cookies.get("uniqueCode");
+  //         const response = await postBasketCheckout({
+  //             uniqueCode: uniqueCodeFromCookie, marketId
+  //         }).unwrap();
+  //         toast.success("Checkout completed successfully!", {
+  //             position: "bottom-right",
+  //             autoClose: 2500,
+  //             theme: "dark"
+  //         });
+  //     } catch (error) {
+  //         console.error("Error during checkout:", error);
+  //         toast.error("Xəta baş verdi! Zəhmət olmasa yenidən cəhd edin.", {
+  //             position: "bottom-right",
+  //             autoClose: 2500,
+  //             theme: "dark"
+  //         });
+  //     }
+  // };
 
-    return (
-        <section id="csMarketCart">
+  return <section id="csMarketCart">
             {/*<div className={`cart-sidebar ${isOpen ? "open" : ""}`}>*/}
             {/*    <div>*/}
             {/*        <h2 className="cart-title">YOUR SHOPPING BAG</h2>*/}
@@ -218,8 +224,6 @@ const CSMarketCart = ({isOpen, onClose}) => {
             {/*        <FaShoppingBag/> CHECKOUT SECURELY*/}
             {/*    </button>*/}
             {/*</div>*/}
-        </section>
-    );
+        </section>;
 };
-
 export default CSMarketCart;

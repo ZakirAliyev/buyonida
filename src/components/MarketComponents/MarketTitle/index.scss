@@ -9,8 +9,8 @@
     font-size: 25.53px;
     line-height: 28.3px;
 
-    @media (max-width: 576px) {
-      font-size: 18px;
+    @media (max-width: 992px) {
+      font-size: 16px;
       max-width: 125px;
     }
   }
@@ -27,12 +27,25 @@
     font-size: 18.78px;
     line-height: 28.17px;
     transition: all .2s ease;
-    width: 160px !important;
     height: 40px;
 
     &:hover {
       background-color: #2F2F2F;
       color: white;
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+    button {
+      height: 40px;
+      font-size: 12px;
+      width: max-content;
+      padding: 4px 16px;
+
+      &:hover {
+        background-color: #2F2F2F;
+        color: white;
+      }
     }
   }
 }

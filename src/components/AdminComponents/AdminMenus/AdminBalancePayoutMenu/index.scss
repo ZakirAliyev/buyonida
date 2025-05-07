@@ -145,11 +145,28 @@
     border: 1px solid #D0D0D0;
     border-radius: 10px;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #F2F2F2;
 
     .bozolan {
       background-color: #F2F2F2;
       padding: 16px 32px;
       font-weight: 500;
+    }
+
+    button {
+      margin-right: 16px;
+      padding: 2px 32px;
+      border: 1px solid #ddd;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      background: white;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 30px;
     }
 
     .olan {
