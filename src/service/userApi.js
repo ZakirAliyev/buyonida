@@ -552,6 +552,16 @@ export const ownerApi = createApi({
           'Content-Type': 'application/json'
         }
       })
+    }),
+    postMetaPixelId: builder.mutation({
+      query: data => ({
+        url: `/Market/add-facebook-id`,
+        method: 'POST',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
     })
   })
 });
@@ -626,4 +636,5 @@ export const {
   useGetTutorialByIdQuery,
   usePostMarketCardStartMutation,
   usePostPaymentStartMutation,
+  usePostMetaPixelIdMutation,
 } = ownerApi;

@@ -716,5 +716,11 @@
   "card_registration_successful": "Kart Qeydiyyatı Uğurla Tamamlandı",
   "your_card_has_been_successfully_registered_you_can_now_use_it_for_payments": "Kartınız uğurla qeydiyyatdan keçdi. İndi onu ödənişlər üçün istifadə edə bilərsiniz.",
   "your_business_card_is_ready" : "Biznes kartınız artıq hazırdır!",
-  "change": "Dəyişdir"
+  "change": "Dəyişdir",
+  "analytics_integration": "Analitika İnteqrasiyası",
+  "you_can_integrate_analytics_systems_from_major_companies_like_meta,_google,_and_others_here_to_boost_your_sales": "Siz burada satışlarınızı artırmaq üçün Meta, Google və digər böyük şirkətlərin analitika sistemlərini inteqrasiya edə bilərsiniz",
+  "add_or_change_integration": "İnteqrasiya əlavə edin və ya dəyişdirin",
+  "no_add_yet": "Hələ əlavə edilməyib",
+  "enter_pixel_id": "Pixel ID daxil edin",
+  "add_meta_pixel": "Meta Pixel əlavə edin"
 }

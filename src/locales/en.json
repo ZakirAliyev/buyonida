@@ -716,5 +716,11 @@
   "card_registration_successful": "Card Registration Successful",
   "your_card_has_been_successfully_registered_you_can_now_use_it_for_payments":"Your card has been successfully registered. You can now use it for payments.",
   "your_business_card_is_ready" : "Your business card is ready!",
-  "change": "Change"
+  "change": "Change",
+  "analytics_integration": "Analytics Integration",
+  "you_can_integrate_analytics_systems_from_major_companies_like_meta,_google,_and_others_here_to_boost_your_sales": "You can integrate analytics systems from major companies like Meta, Google, and others here to boost your sales",
+  "add_or_change_integration": "Add or change integration",
+  "no_add_yet": "No add yet",
+  "enter_pixel_id": "Enter Pixel ID",
+  "add_meta_pixel": "Add Meta Pixel"
 }

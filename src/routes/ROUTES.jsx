@@ -109,6 +109,9 @@ export const ROUTES = [{
             path: "policies",
             element: <AdminHomePage/>
         }, {
+            path: "analytics-integration",
+            element: <AdminHomePage/>
+        }, {
             path: "orders",
             element: <AdminHomePage/>
         }, {
