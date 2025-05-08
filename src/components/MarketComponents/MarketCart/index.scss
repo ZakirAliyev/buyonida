@@ -98,6 +98,9 @@ body.no-scroll {
               font-size: 1rem;
               font-weight: 600;
               margin-right: 10px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
             }
 
             .quantity {
@@ -108,6 +111,10 @@ body.no-scroll {
                 border: 1px solid black;
                 overflow: hidden;
                 border-radius: 100px;
+                background: #F6F6F6;
+                display: flex;
+                align-items: center;
+                justify-content: center;
 
                 button {
                   width: 24px;
@@ -122,6 +129,7 @@ body.no-scroll {
                   text-align: center;
                   margin: 0 5px;
                   border: none;
+                  background: #F6F6F6;
                 }
               }
             }

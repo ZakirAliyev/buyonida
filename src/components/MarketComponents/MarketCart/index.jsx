@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import "./index.scss";
 import { useEffect, useState, useCallback } from "react";
 import { FaRegTrashAlt, FaShoppingBag } from "react-icons/fa";
-import { FaX } from "react-icons/fa6";
+import {FaManatSign, FaX} from "react-icons/fa6";
 import Fingerprint from "../../Fingerprint/index.jsx";
 import { useDeleteBasketItemMutation, useGetBasketGetOrCreateQuery, useGetStoreByNameQuery, useGetStoreWithSectionsQuery, usePostAddProductMutation, usePostBasketCheckoutMutation } from "../../../service/userApi.js";
 import Cookies from "js-cookie";
@@ -169,7 +169,7 @@ const MarketCart = ({
         uniqueCode,
         marketId
       }).unwrap();
-      navigate(`/checkout/${marketId}`);
+      navigate(`/@${marketName}/checkout/${marketId}`);
     } catch (error) {
       console.error("Error during checkout:", error);
       toast.error("Checkout failed. Please try again.", {
@@ -214,10 +214,13 @@ const MarketCart = ({
                                         </button>
                                     </div>
                                     {item.basketItemOptions?.length > 0 ? item.basketItemOptions.map((option, idx) => <p key={idx}>
-                                                {option.productOptionName}{t("")}{option.optionValue}
+                                                {option.productOptionName}: {option.optionValue}
                                             </p>) : <p>{t("no_options_selected")}</p>}
                                     <div className="cart-item-footer">
-                                        <span className="price">{t("")}{(item.price || 0).toFixed(2)}</span>
+                                        <span className="price"><FaManatSign style={{
+                                          marginBottom: '5px',
+                                          marginRight: '5px'
+                                        }}/>{(item.price || 0).toFixed(2)}</span>
                                         <div className="quantity">
                                             <span style={{
                   fontSize: "14px",
@@ -228,13 +231,13 @@ const MarketCart = ({
                     backgroundColor: selectedPalette.buttonBgColor,
                     color: selectedPalette.buttonTextColor,
                     borderColor: selectedPalette.buttonBorderColor
-                  }}>{t("")}</button>
+                  }}>+</button>
                                                 <input type="text" value={item.quantity || 0} readOnly />
                                                 <button onClick={() => updateQuantity(item, 1)} style={{
                     backgroundColor: selectedPalette.buttonBgColor,
                     color: selectedPalette.buttonTextColor,
                     borderColor: selectedPalette.buttonBorderColor
-                  }}>{t("")}</button>
+                  }}>-</button>
                                             </div>
                                         </div>
                                     </div>

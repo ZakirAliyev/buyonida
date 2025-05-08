@@ -41,7 +41,6 @@
   "terms": "Terms",
   "kod_yenid_n_g_nd_r": "Kod yenidən göndər!",
   "kodu_yenid_n_g_nd_r": "Kodu yenidən göndər:",
-  "": "+",
   "mail_adresini_t_stiql": "Mail adresini təstiqlə",
   "mail_adresin_g_nd_ril_n_kodu_daxil_et_v_hesab_n_t_stiql": "Mail adresinə göndərilən kodu daxil et və hesabını təstiqlə",
   "kodu_t_stiql": "Kodu təstiqlə",
@@ -715,5 +714,7 @@
   "add_your_business_card": "Add your business card",
   "add": "Add",
   "card_registration_successful": "Card Registration Successful",
-  "your_card_has_been_successfully_registered_you_can_now_use_it_for_payments":"Your card has been successfully registered. You can now use it for payments."
+  "your_card_has_been_successfully_registered_you_can_now_use_it_for_payments":"Your card has been successfully registered. You can now use it for payments.",
+  "your_business_card_is_ready" : "Your business card is ready!",
+  "change": "Change"
 }

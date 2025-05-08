@@ -267,9 +267,9 @@ function MarketProductDetailsPage() {
                                     </div>)}
                             <div className="allWrapper">
                                 <div className="incDecWrapper">
-                                    <button onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}>{t("")}</button>
+                                    <button onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}>-</button>
                                     <input type="number" value={quantity} onChange={e => setQuantity(Number(e.target.value))} min="1" readOnly />
-                                    <button onClick={() => setQuantity(quantity + 1)}>{t("")}</button>
+                                    <button onClick={() => setQuantity(quantity + 1)}>+</button>
                                 </div>
                                 <button onClick={handleAddToCart}>{t("add_to_cart")}</button>
                             </div>

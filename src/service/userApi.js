@@ -542,6 +542,16 @@ export const ownerApi = createApi({
           'Content-Type': 'application/json'
         }
       })
+    }),
+    postPaymentStart: builder.mutation({
+      query: data => ({
+        url: `/Payment/start`,
+        method: 'POST',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
     })
   })
 });
@@ -614,5 +624,6 @@ export const {
   useGetBlogByIdQuery,
   useGetAllTutorialsQuery,
   useGetTutorialByIdQuery,
-  usePostMarketCardStartMutation
+  usePostMarketCardStartMutation,
+  usePostPaymentStartMutation,
 } = ownerApi;

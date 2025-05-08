@@ -268,7 +268,10 @@ function AdminBalancePayoutMenu() {
                 </div>
             ) : (
                 <div className={"asdasdasdasd"}>
-                    salam
+                    <div className={"bozolan"}>{t("your_business_card_is_ready")}</div>
+                    <button onClick={() => handleAddCard()}>
+                        {loading ? <PulseLoader size={10} color={"gray"}/> : <div>{t("change")}</div>}
+                    </button>
                 </div>
             )}
         </div>

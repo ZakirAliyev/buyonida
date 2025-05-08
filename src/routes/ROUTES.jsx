@@ -77,10 +77,10 @@ export const ROUTES = [{
         path: "card-failed",
         element: <FailedComponent/>
     }, {
-        path: "payment-success",
+        path: "success",
         element: <SuccessComponent/>
     }, {
-        path: "payment-failed",
+        path: "failed",
         element: <FailedComponent/>
     }, {
         path: "success-page",
@@ -185,7 +185,7 @@ export const ROUTES = [{
             path: "about",
             element: <MarketAboutPage/>
         }, {
-            path: "checkout",
+            path: "checkout/:id",
             element: <MarketCheckoutPage/>
         }]
     }, {

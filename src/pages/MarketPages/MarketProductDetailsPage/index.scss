@@ -12,6 +12,7 @@
     @media (max-width: 576px) {
       padding-top: 100px;
     }
+
     .container {
       // Container içi düzenlemeler
     }
@@ -58,9 +59,11 @@
             justify-content: center;
             cursor: pointer;
             z-index: 1;
+
             &.prev {
               top: 0;
             }
+
             &.next {
               bottom: 0;
             }
@@ -161,54 +164,64 @@
       @media (max-width: 576px) {
         padding: 16px;
       }
+
       h2 {
         font-size: 24px;
         font-weight: 600;
         margin-bottom: 10px;
       }
+
       h3 {
         font-size: 20px;
         color: #333;
         margin-bottom: 10px;
       }
+
       h4 {
         font-size: 16px;
         color: #555;
         line-height: 1.4;
         margin-bottom: 15px;
       }
+
       h5 {
         font-size: 14px;
         font-weight: 600;
         margin-bottom: 5px;
       }
+
       .variantWrapper {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
         margin-bottom: 10px;
+
         div {
           padding: 6px 12px;
           border: 1px solid #ccc;
           border-radius: 4px;
           cursor: pointer;
           transition: background-color 0.2s ease;
+
           &:hover {
             background-color: #e6e6e6;
           }
         }
       }
+
       .allWrapper {
         display: flex;
         align-items: center;
         gap: 15px;
         margin-top: 20px;
+
         .incDecWrapper {
           display: flex;
           align-items: center;
           border: 1px solid #ccc;
           border-radius: 30px;
-        background: white;
+          background: #F6F6F6;
+
           button {
             height: 45px;
             background-color: #f6f6f6;
@@ -218,10 +231,12 @@
             align-items: center;
             justify-content: center;
             color: black;
+
             &:hover {
               background-color: #e6e6e6;
             }
           }
+
           input {
             width: 50px;
             text-align: center;
@@ -231,6 +246,7 @@
             padding-left: 15px;
           }
         }
+
         button {
           padding: 10px 20px;
           border: none;
@@ -241,11 +257,13 @@
           transition: opacity 0.2s ease;
           width: 100%;
           font-weight: 600;
+
           &:hover {
             opacity: 0.8;
           }
         }
       }
+
       > button:last-of-type {
         padding: 10px 20px;
         border: none;
@@ -257,6 +275,7 @@
         margin-top: 10px;
         border-radius: 100px;
         font-weight: 600;
+
         &:hover {
           opacity: 0.8;
         }
@@ -269,22 +288,26 @@
     font-size: 19.93px;
     line-height: 29.9px;
   }
+
   .span2 {
     text-decoration: line-through;
     color: #a8a8a8;
     font-size: 15px;
     margin-left: 5px;
   }
+
   h2 {
     font-weight: 600;
     font-size: 39.28px;
     line-height: 58.92px;
   }
+
   .section-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
+
   .desktop-button button,
   .mobile-button button {
     background-color: #f6f6f6;
@@ -296,28 +319,33 @@
     justify-content: center;
     gap: 10px;
     margin: 16px;
+
     .icon {
       font-size: 20px;
     }
   }
+
   .optVal {
     background-color: #f6f6f6;
     padding: 4px 16px;
     border-radius: 5px;
     border: 1px solid #ccc;
     transition: all 0.2s ease;
+
     &:hover {
       background-color: #e6e6e6;
     }
   }
+
   .active {
     color: white;
     background: black;
 
-    @media screen and (max-width: 576px){
+    @media screen and (max-width: 576px) {
       background: none;
     }
   }
+
   /* Custom Swiper Styles */
   .mobile-swiper {
     display: none;
@@ -325,9 +353,11 @@
     overflow: hidden;
     width: 100%;
     padding: 0 16px;
+
     .custom-swiper {
       position: relative;
       width: 100%;
+
       .custom-swiper-pagination {
         display: flex;
         justify-content: center;
@@ -351,6 +381,7 @@
       &-container {
         display: flex;
       }
+
       &-pagination {
         display: flex;
         justify-content: center;
@@ -358,17 +389,20 @@
 
       }
     }
+
     .custom-slide {
       flex: 0 0 100%;
       scroll-snap-align: start;
       margin-right: 0;
     }
+
     .mobile-button {
       width: 100%;
       display: flex;
       justify-content: center;
       margin-top: 20px;
     }
+
     .custom-swiper-buttons {
       position: absolute;
       top: 35%;
@@ -378,6 +412,7 @@
       display: flex;
       justify-content: space-between;
       pointer-events: none;
+
       button {
         pointer-events: all;
         background: rgba(255, 255, 255);
@@ -391,21 +426,25 @@
         justify-content: center;
         margin: 0 8px;
         transition: background-color 0.2s ease;
+
         &:hover {
           background-color: #eee;
         }
+
         svg {
           pointer-events: none;
         }
       }
     }
   }
+
   @media (max-width: 767px) {
     .desktop-grid {
       display: none;
     }
     .mobile-swiper {
       display: block;
+
       .custom-slide {
         flex: 0 0 100%;
       }
@@ -418,6 +457,7 @@
         .desktop-image-gallery {
           display: none;
         }
+
         .mobile-image-carousel {
           display: block;
         }

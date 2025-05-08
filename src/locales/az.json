@@ -41,7 +41,6 @@
   "terms": "Şərtlər",
   "kod_yenid_n_g_nd_r": "Kodu yenidən göndər!",
   "kodu_yenid_n_g_nd_r": "Kodu yenidən göndər:",
-  "": "+",
   "mail_adresini_t_stiql": "E-poçt ünvanını təsdiqlə",
   "mail_adresin_g_nd_ril_n_kodu_daxil_et_v_hesab_n_t_stiql": "E-poçt ünvanına göndərilən kodu daxil et və hesabını təsdiqlə",
   "kodu_t_stiql": "Kodu təsdiqlə",
@@ -715,5 +714,7 @@
   "add_your_business_card": "Biznes kartınızı əlavə edin",
   "add": "Əlavə et",
   "card_registration_successful": "Kart Qeydiyyatı Uğurla Tamamlandı",
-  "your_card_has_been_successfully_registered_you_can_now_use_it_for_payments": "Kartınız uğurla qeydiyyatdan keçdi. İndi onu ödənişlər üçün istifadə edə bilərsiniz."
+  "your_card_has_been_successfully_registered_you_can_now_use_it_for_payments": "Kartınız uğurla qeydiyyatdan keçdi. İndi onu ödənişlər üçün istifadə edə bilərsiniz.",
+  "your_business_card_is_ready" : "Biznes kartınız artıq hazırdır!",
+  "change": "Dəyişdir"
 }
